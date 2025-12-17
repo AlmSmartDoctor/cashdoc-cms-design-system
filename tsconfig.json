@@ -22,6 +22,7 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Paths */
+    "ignoreDeprecations": "6.0", // baseUrl deprecation 방지
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
@@ -31,6 +32,6 @@
     "declaration": true,
     "outDir": "dist"
   },
-  "include": ["src"],
+  "include": ["src", "src/global.d.ts"],
   "exclude": ["node_modules", "dist", "storybook-static"]
 }

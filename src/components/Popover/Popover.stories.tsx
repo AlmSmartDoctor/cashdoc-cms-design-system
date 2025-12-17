@@ -10,7 +10,7 @@ const meta: Meta<typeof Popover> = {
     docs: {
       description: {
         component:
-          "Cms Design System의 팝오버 컴포넌트입니다. Radix UI Popover를 기반으로 만들어졌습니다.",
+          "CMS Design System의 팝오버 컴포넌트입니다. Radix UI Popover를 기반으로 만들어졌습니다.",
       },
     },
   },

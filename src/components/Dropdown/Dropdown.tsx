@@ -1,27 +1,38 @@
-import { cn } from '@/utils/cn';
-import { cva, VariantProps } from 'class-variance-authority';
-import { useState, useRef, useEffect, forwardRef, KeyboardEvent } from 'react';
+import { cn } from "@/utils/cn";
+import { cva, VariantProps } from "class-variance-authority";
+import { useState, useRef, useEffect, forwardRef, KeyboardEvent } from "react";
 
 export const dropdownTriggerVariants = cva(
-  'flex items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-colors outline-none focus:ring-2 focus:ring-offset-2',
+  cn(
+    "flex items-center justify-between",
+    "rounded-lg px-4 py-2.5",
+    "text-sm font-medium",
+    "outline-none",
+    "focus:ring-2 focus:ring-offset-2",
+    "transition-all"
+  ),
   {
     variants: {
       variant: {
-        default:
-          'bg-default text-foreground border border-grayscale02 hover:bg-grayscale01',
-        outline:
-          'border border-grayscale02 bg-transparent hover:bg-grayscale01',
-        ghost: 'hover:bg-grayscale01 hover:text-foreground',
+        default: cn(
+          "bg-default text-black border border-cms-outline",
+          "hover:bg-cms-gray-200"
+        ),
+        outline: cn(
+          "border border-cms-outline bg-transparent",
+          "hover:bg-cms-gray-200"
+        ),
+        ghost: "hover:bg-cms-gray-200 hover:text-black",
       },
       size: {
-        sm: 'px-3 py-2 text-xs',
-        default: 'px-4 py-2.5 text-sm',
-        lg: 'px-6 py-3 text-base',
+        sm: "px-3 py-2 text-xs",
+        default: "px-4 py-2.5 text-sm",
+        lg: "px-6 py-3 text-base",
       },
     },
     defaultVariants: {
-      variant: 'default',
-      size: 'default',
+      variant: "default",
+      size: "default",
     },
   }
 );
@@ -62,8 +73,8 @@ const ChevronDownIcon = ({
     viewBox="0 0 10 6"
     fill="none"
     className={cn(
-      'transition-transform duration-200',
-      isOpen && 'rotate-180',
+      "transition-transform duration-200",
+      isOpen && "rotate-180",
       className
     )}
   >
@@ -100,7 +111,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     {
       options,
       value,
-      placeholder = '선택하세요',
+      placeholder = "선택하세요",
       onValueChange,
       disabled = false,
       className,
@@ -116,7 +127,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     ref
   ) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState("");
     const [selectedValues, setSelectedValues] = useState<string[]>(
       multiple ? (value ? [value] : []) : []
     );
@@ -138,7 +149,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     const handleToggle = () => {
       if (!disabled) {
         setIsOpen(!isOpen);
-        setSearchTerm('');
+        setSearchTerm("");
       }
     };
 
@@ -151,7 +162,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
           : [...selectedValues, option.value];
 
         setSelectedValues(newSelectedValues);
-        onValueChange?.(newSelectedValues.join(','));
+        onValueChange?.(newSelectedValues.join(","));
       } else {
         onValueChange?.(option.value);
         setIsOpen(false);
@@ -162,16 +173,16 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       e.stopPropagation();
       if (multiple) {
         setSelectedValues([]);
-        onValueChange?.('');
+        onValueChange?.("");
       } else {
-        onValueChange?.('');
+        onValueChange?.("");
       }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setIsOpen(false);
-      } else if (e.key === 'Enter' || e.key === ' ') {
+      } else if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         handleToggle();
       }
@@ -188,9 +199,9 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         }
       };
 
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
       return () =>
-        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
     // 드롭다운이 열릴 때 검색 입력창에 포커스
@@ -207,7 +218,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
           type="button"
           className={cn(
             dropdownTriggerVariants({ variant, size }),
-            disabled && 'opacity-50 cursor-not-allowed',
+            disabled && "opacity-50 cursor-not-allowed",
             className
           )}
           onClick={handleToggle}
@@ -219,8 +230,8 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         >
           <span
             className={cn(
-              'truncate flex-1 text-left',
-              !selectedOption && !multiple && 'text-grayscale03'
+              "truncate flex-1 text-left",
+              !selectedOption && !multiple && "text-cms-gray-400"
             )}
           >
             {selectedLabel}
@@ -230,7 +241,10 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
             {clearable && (value || selectedValues.length > 0) && (
               <button
                 type="button"
-                className="p-1 rounded text-grayscale03 hover:text-foreground transition-colors"
+                className={cn(
+                  "p-1 rounded text-cms-gray-400 transition-colors",
+                  "hover:text-cms-black"
+                )}
                 onClick={handleClear}
                 aria-label="선택 취소"
               >
@@ -239,7 +253,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
             )}
             <ChevronDownIcon
               isOpen={isOpen}
-              className="w-4 h-4 text-grayscale03"
+              className="w-4 h-4 text-cms-gray-400"
             />
           </div>
         </button>
@@ -247,28 +261,35 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         {isOpen && (
           <div
             className={cn(
-              'absolute z-50 mt-1 w-full rounded-lg border border-grayscale02 bg-white shadow-lg py-1',
+              "absolute z-50 mt-1 py-1 w-full",
+              "rounded-lg border border-cms-gray-400",
+              "bg-white shadow-lg",
               dropdownClassName
             )}
             style={{ maxHeight: `${maxHeight}px` }}
           >
             {searchable && (
-              <div className="px-3 py-2 border-b border-grayscale02">
+              <div className="px-3 py-2 border-b border-cms-gray-400">
                 <input
                   ref={searchInputRef}
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="검색..."
-                  className="w-full px-2 py-1 text-sm border border-grayscale02 rounded outline-none focus:ring-1 focus:ring-foreground"
+                  className={cn(
+                    "w-full px-2 py-1 text-sm",
+                    "rounded outline-none",
+                    "border border-cms-gray-400",
+                    "focus:ring-1 focus:ring-cms-black"
+                  )}
                 />
               </div>
             )}
 
             <div className="max-h-48 overflow-y-auto">
               {filteredOptions.length === 0 ? (
-                <div className="px-3 py-2 text-sm text-grayscale03 text-center">
-                  {searchTerm ? '검색 결과가 없습니다' : '옵션이 없습니다'}
+                <div className="px-3 py-2 text-sm text-cms-gray-400 text-center">
+                  {searchTerm ? "검색 결과가 없습니다" : "옵션이 없습니다"}
                 </div>
               ) : (
                 filteredOptions.map((option) => {
@@ -281,11 +302,14 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                       key={option.value}
                       type="button"
                       className={cn(
-                        'w-full px-3 py-2 text-left text-sm transition-colors flex items-center justify-between gap-2',
+                        "flex items-center justify-between gap-2",
+                        "w-full px-3 py-2 ",
+                        "text-left text-sm",
+                        "transition-colors",
                         option.disabled
-                          ? 'text-grayscale03 cursor-not-allowed'
-                          : 'text-foreground hover:bg-grayscale01 cursor-pointer',
-                        isSelected && 'bg-grayscale02 font-medium'
+                          ? "text-cms-gray-400 cursor-not-allowed"
+                          : "text-cms-black hover:bg-cms-gray-200 cursor-pointer",
+                        isSelected && "bg-cms-gray-400 font-medium"
                       )}
                       onClick={() => handleOptionClick(option)}
                       disabled={option.disabled}
@@ -298,7 +322,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                           height="16"
                           viewBox="0 0 16 16"
                           fill="none"
-                          className="w-4 h-4 text-foreground flex-shrink-0"
+                          className="w-4 h-4 text-black shrink-0"
                         >
                           <path
                             d="M13.5 4.5L6 12L2.5 8.5"
@@ -321,4 +345,4 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
   }
 );
 
-Dropdown.displayName = 'Dropdown';
+Dropdown.displayName = "Dropdown";

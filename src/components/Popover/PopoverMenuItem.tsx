@@ -6,16 +6,16 @@ import { ButtonHTMLAttributes, forwardRef } from "react";
 
 const popoverMenuItemVariants = cva(
   cn(
-    "flex w-full items-center gap-3 rounded-xl px-4 py-3",
-    "text-base font-medium transition-colors",
-    "hover:bg-cms-bg03 active:bg-cms-bg04",
+    "flex w-full items-center gap-3 rounded-md px-3 py-2",
+    "text-sm font-medium transition-colors",
+    "hover:bg-cms-gray-200 active:bg-cms-gray-300",
     "disabled:pointer-events-none disabled:opacity-50"
   ),
   {
     variants: {
       variant: {
         default: "text-cms-foreground",
-        destructive: "text-red-600 hover:text-red-700",
+        destructive: "text-cms-red-400 hover:text-cms-red-500",
       },
     },
     defaultVariants: {
@@ -39,7 +39,7 @@ const PopoverMenuItem = forwardRef<HTMLButtonElement, PopoverMenuItemProps>(
         className={cn(popoverMenuItemVariants({ variant }), className)}
         {...props}
       >
-        {icon && <span className="flex-shrink-0">{icon}</span>}
+        {icon && <span className="shrink-0">{icon}</span>}
         {children}
       </button>
     );

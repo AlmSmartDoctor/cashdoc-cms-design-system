@@ -1,8 +1,8 @@
-import { cn } from '@/utils/cn';
-import { useState, forwardRef } from 'react';
-import { Dropdown, DropdownProps } from './Dropdown';
+import { cn } from "@/utils/cn";
+import { useState, forwardRef } from "react";
+import { Dropdown, DropdownProps } from "./Dropdown";
 
-export interface ComboboxProps extends Omit<DropdownProps, 'searchable'> {
+export interface ComboboxProps extends Omit<DropdownProps, "searchable"> {
   loading?: boolean;
   createable?: boolean;
   onCreateOption?: (value: string) => void;
@@ -13,7 +13,7 @@ export const Combobox = forwardRef<HTMLButtonElement, ComboboxProps>(
     { options, loading = false, createable = false, onCreateOption, ...props },
     ref
   ) => {
-    const [searchTerm] = useState('');
+    const [searchTerm] = useState("");
 
     const filteredOptions = options.filter((option) =>
       option.label.toLowerCase().includes(searchTerm.toLowerCase())
@@ -43,10 +43,10 @@ export const Combobox = forwardRef<HTMLButtonElement, ComboboxProps>(
         {...props}
         options={optionsWithCreate}
         searchable={true}
-        dropdownClassName={cn(loading && 'opacity-75', props.dropdownClassName)}
+        dropdownClassName={cn(loading && "opacity-75", props.dropdownClassName)}
         onValueChange={(value) => {
-          if (value.startsWith('__create__')) {
-            const createValue = value.replace('__create__', '');
+          if (value.startsWith("__create__")) {
+            const createValue = value.replace("__create__", "");
             onCreateOption?.(createValue);
           } else {
             props.onValueChange?.(value);
@@ -57,4 +57,4 @@ export const Combobox = forwardRef<HTMLButtonElement, ComboboxProps>(
   }
 );
 
-Combobox.displayName = 'Combobox';
+Combobox.displayName = "Combobox";
