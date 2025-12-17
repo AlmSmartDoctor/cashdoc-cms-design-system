@@ -245,7 +245,7 @@ const D = (e) => {
   // I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
   Gr.test(e) && !Xr.test(e)
 ), wn = () => !1, oo = (e) => Yr.test(e), so = (e) => Kr.test(e), io = () => {
-  const e = D("colors"), t = D("spacing"), n = D("blur"), r = D("brightness"), o = D("borderColor"), s = D("borderRadius"), a = D("borderSpacing"), i = D("borderWidth"), u = D("contrast"), c = D("grayscale"), l = D("hueRotate"), d = D("invert"), m = D("gap"), h = D("gradientColorStops"), b = D("gradientColorStopPositions"), p = D("inset"), g = D("margin"), v = D("opacity"), y = D("padding"), w = D("saturate"), x = D("scale"), C = D("sepia"), P = D("skew"), S = D("space"), k = D("translate"), T = () => ["auto", "contain", "none"], M = () => ["auto", "hidden", "clip", "visible", "scroll"], z = () => ["auto", O, t], R = () => [O, t], _ = () => ["", Q, ne], A = () => ["auto", ge, O], I = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], L = () => ["solid", "dashed", "dotted", "double", "none"], F = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], N = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], W = () => ["", "0", O], j = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], $ = () => [ge, O];
+  const e = D("colors"), t = D("spacing"), n = D("blur"), r = D("brightness"), o = D("borderColor"), s = D("borderRadius"), a = D("borderSpacing"), i = D("borderWidth"), u = D("contrast"), c = D("grayscale"), l = D("hueRotate"), d = D("invert"), m = D("gap"), h = D("gradientColorStops"), b = D("gradientColorStopPositions"), p = D("inset"), g = D("margin"), v = D("opacity"), y = D("padding"), w = D("saturate"), x = D("scale"), C = D("sepia"), P = D("skew"), S = D("space"), k = D("translate"), T = () => ["auto", "contain", "none"], M = () => ["auto", "hidden", "clip", "visible", "scroll"], $ = () => ["auto", O, t], R = () => [O, t], _ = () => ["", Q, ne], A = () => ["auto", ge, O], I = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"], L = () => ["solid", "dashed", "dotted", "double", "none"], F = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"], N = () => ["start", "end", "center", "between", "around", "evenly", "stretch"], W = () => ["", "0", O], j = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"], B = () => [ge, O];
   return {
     cacheSize: 500,
     separator: ":",
@@ -253,26 +253,26 @@ const D = (e) => {
       colors: [Oe],
       spacing: [Q, ne],
       blur: ["none", "", re, O],
-      brightness: $(),
+      brightness: B(),
       borderColor: [e],
       borderRadius: ["none", "", "full", re, O],
       borderSpacing: R(),
       borderWidth: _(),
-      contrast: $(),
+      contrast: B(),
       grayscale: W(),
-      hueRotate: $(),
+      hueRotate: B(),
       invert: W(),
       gap: R(),
       gradientColorStops: [e],
       gradientColorStopPositions: [Zr, ne],
-      inset: z(),
-      margin: z(),
-      opacity: $(),
+      inset: $(),
+      margin: $(),
+      opacity: B(),
       padding: R(),
-      saturate: $(),
-      scale: $(),
+      saturate: B(),
+      scale: B(),
       sepia: W(),
-      skew: $(),
+      skew: B(),
       space: R(),
       translate: R()
     },
@@ -498,7 +498,7 @@ const D = (e) => {
        * @see https://tailwindcss.com/docs/flex-basis
        */
       basis: [{
-        basis: z()
+        basis: $()
       }],
       /**
        * Flex Direction
@@ -1847,7 +1847,7 @@ const D = (e) => {
        * @see https://tailwindcss.com/docs/transition-duration
        */
       duration: [{
-        duration: $()
+        duration: B()
       }],
       /**
        * Transition Timing Function
@@ -1861,7 +1861,7 @@ const D = (e) => {
        * @see https://tailwindcss.com/docs/transition-delay
        */
       delay: [{
-        delay: $()
+        delay: B()
       }],
       /**
        * Animation
@@ -2274,7 +2274,7 @@ const D = (e) => {
     }
   };
 }, ao = /* @__PURE__ */ jr(io);
-function B(...e) {
+function z(...e) {
   return ao(hn(e));
 }
 const $t = (e) => typeof e == "boolean" ? `${e}` : e === 0 ? "0" : e, Bt = hn, vt = (e, t) => (n) => {
@@ -2307,21 +2307,34 @@ const $t = (e) => typeof e == "boolean" ? `${e}` : e === 0 ? "0" : e, Bt = hn, v
   }, []);
   return Bt(e, a, u, n == null ? void 0 : n.class, n == null ? void 0 : n.className);
 }, co = vt(
-  "inline-flex items-center justify-center gap-2 rounded-lg text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  z(
+    "inline-flex items-center justify-center gap-2",
+    "rounded-md ring-offset-white",
+    "text-sm font-medium",
+    "focus-visible:outline-none focus-visible:ring-2",
+    "focus-visible:ring-slate-950 focus-visible:ring-offset-2",
+    "disabled:pointer-events-none disabled:opacity-60",
+    "transition-colors cursor-pointer"
+  ),
   {
     variants: {
       variant: {
-        primary: "bg-blue-500 text-white hover:bg-blue-600",
-        default: "bg-cms-foreground text-cms-reverse hover:bg-cms-grayscale03",
-        secondary: "bg-cms-grayscale02 text-cms-foreground hover:bg-cms-foreground hover:text-cms-reverse",
-        outline: "border border-cms-grayscale02 bg-transparent hover:bg-cms-foreground hover:text-cms-reverse",
-        ghost: "hover:bg-cms-grayscale02 hover:text-cms-foreground",
-        link: "text-cms-foreground underline-offset-4 hover:underline"
+        default: "bg-cms-gray-850 text-cms-white hover:bg-cms-gray-750",
+        secondary: z(
+          "bg-cms-gray-300 text-cms-black",
+          "hover:bg-cms-gray-200 hover:text-cms-gray-800"
+        ),
+        outline: z(
+          "border border-cms-gray-400 bg-transparent",
+          "hover:bg-cms-gray-200 hover:text-cms-gray-900"
+        ),
+        ghost: "hover:bg-cms-gray-200 hover:text-cms-gray-800",
+        link: "text-cms-black underline-offset-4 hover:underline"
       },
       size: {
         default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-4",
-        lg: "h-11 rounded-md px-8",
+        sm: "h-8 rounded-sm px-3",
+        lg: "h-11 rounded-sm px-8",
         icon: "h-10 w-10"
       }
     },
@@ -2334,7 +2347,7 @@ const $t = (e) => typeof e == "boolean" ? `${e}` : e === 0 ? "0" : e, Bt = hn, v
   ({ className: e, variant: t, size: n, ...r }, o) => /* @__PURE__ */ E(
     "button",
     {
-      className: B(co({ variant: t, size: n, className: e })),
+      className: z(co({ variant: t, size: n, className: e })),
       ref: o,
       ...r
     }
@@ -2350,22 +2363,35 @@ function Aa({ size: e = "lg", className: t }) {
   return /* @__PURE__ */ E("div", { className: "flex items-center justify-center", children: /* @__PURE__ */ E(
     "div",
     {
-      className: B(
+      className: z(
         uo[e],
-        "animate-spin rounded-full border-2 border-grayscale03 border-b-transparent",
+        "animate-spin rounded-full border-2 border-cms-gray-500 border-b-transparent",
         t
       )
     }
   ) });
 }
 const fo = vt(
-  "flex items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-colors outline-none focus:ring-2 focus:ring-offset-2",
+  z(
+    "flex items-center justify-between",
+    "rounded-lg px-4 py-2.5",
+    "text-sm font-medium",
+    "outline-none",
+    "focus:ring-2 focus:ring-offset-2",
+    "transition-all"
+  ),
   {
     variants: {
       variant: {
-        default: "bg-default text-foreground border border-grayscale02 hover:bg-grayscale01",
-        outline: "border border-grayscale02 bg-transparent hover:bg-grayscale01",
-        ghost: "hover:bg-grayscale01 hover:text-foreground"
+        default: z(
+          "bg-default text-black border border-cms-outline",
+          "hover:bg-cms-gray-200"
+        ),
+        outline: z(
+          "border border-cms-outline bg-transparent",
+          "hover:bg-cms-gray-200"
+        ),
+        ghost: "hover:bg-cms-gray-200 hover:text-black"
       },
       size: {
         sm: "px-3 py-2 text-xs",
@@ -2389,7 +2415,7 @@ const fo = vt(
     height: "6",
     viewBox: "0 0 10 6",
     fill: "none",
-    className: B(
+    className: z(
       "transition-transform duration-200",
       t && "rotate-180",
       e
@@ -2447,7 +2473,7 @@ const fo = vt(
       (A) => A.label.toLowerCase().includes(v.toLowerCase())
     ), M = () => {
       o || (g(!p), y(""));
-    }, z = (A) => {
+    }, $ = (A) => {
       if (!A.disabled)
         if (d) {
           const I = w.includes(A.value) ? w.filter((L) => L !== A.value) : [...w, A.value];
@@ -2472,7 +2498,7 @@ const fo = vt(
         {
           ref: b,
           type: "button",
-          className: B(
+          className: z(
             fo({ variant: i, size: u }),
             o && "opacity-50 cursor-not-allowed",
             s
@@ -2487,9 +2513,9 @@ const fo = vt(
             /* @__PURE__ */ E(
               "span",
               {
-                className: B(
+                className: z(
                   "truncate flex-1 text-left",
-                  !S && !d && "text-grayscale03"
+                  !S && !d && "text-cms-gray-400"
                 ),
                 children: k
               }
@@ -2499,7 +2525,10 @@ const fo = vt(
                 "button",
                 {
                   type: "button",
-                  className: "p-1 rounded text-grayscale03 hover:text-foreground transition-colors",
+                  className: z(
+                    "p-1 rounded text-cms-gray-400 transition-colors",
+                    "hover:text-cms-black"
+                  ),
                   onClick: R,
                   "aria-label": "선택 취소",
                   children: /* @__PURE__ */ E(mo, { className: "w-3 h-3" })
@@ -2509,7 +2538,7 @@ const fo = vt(
                 po,
                 {
                   isOpen: p,
-                  className: "w-4 h-4 text-grayscale03"
+                  className: "w-4 h-4 text-cms-gray-400"
                 }
               )
             ] })
@@ -2519,13 +2548,15 @@ const fo = vt(
       p && /* @__PURE__ */ se(
         "div",
         {
-          className: B(
-            "absolute z-50 mt-1 w-full rounded-lg border border-grayscale02 bg-white shadow-lg py-1",
+          className: z(
+            "absolute z-50 mt-1 py-1 w-full",
+            "rounded-lg border border-cms-gray-400",
+            "bg-white shadow-lg",
             a
           ),
           style: { maxHeight: `${m}px` },
           children: [
-            c && /* @__PURE__ */ E("div", { className: "px-3 py-2 border-b border-grayscale02", children: /* @__PURE__ */ E(
+            c && /* @__PURE__ */ E("div", { className: "px-3 py-2 border-b border-cms-gray-400", children: /* @__PURE__ */ E(
               "input",
               {
                 ref: P,
@@ -2533,21 +2564,29 @@ const fo = vt(
                 value: v,
                 onChange: (A) => y(A.target.value),
                 placeholder: "검색...",
-                className: "w-full px-2 py-1 text-sm border border-grayscale02 rounded outline-none focus:ring-1 focus:ring-foreground"
+                className: z(
+                  "w-full px-2 py-1 text-sm",
+                  "rounded outline-none",
+                  "border border-cms-gray-400",
+                  "focus:ring-1 focus:ring-cms-black"
+                )
               }
             ) }),
-            /* @__PURE__ */ E("div", { className: "max-h-48 overflow-y-auto", children: T.length === 0 ? /* @__PURE__ */ E("div", { className: "px-3 py-2 text-sm text-grayscale03 text-center", children: v ? "검색 결과가 없습니다" : "옵션이 없습니다" }) : T.map((A) => {
+            /* @__PURE__ */ E("div", { className: "max-h-48 overflow-y-auto", children: T.length === 0 ? /* @__PURE__ */ E("div", { className: "px-3 py-2 text-sm text-cms-gray-400 text-center", children: v ? "검색 결과가 없습니다" : "옵션이 없습니다" }) : T.map((A) => {
               const I = d ? w.includes(A.value) : t === A.value;
               return /* @__PURE__ */ se(
                 "button",
                 {
                   type: "button",
-                  className: B(
-                    "w-full px-3 py-2 text-left text-sm transition-colors flex items-center justify-between gap-2",
-                    A.disabled ? "text-grayscale03 cursor-not-allowed" : "text-foreground hover:bg-grayscale01 cursor-pointer",
-                    I && "bg-grayscale02 font-medium"
+                  className: z(
+                    "flex items-center justify-between gap-2",
+                    "w-full px-3 py-2 ",
+                    "text-left text-sm",
+                    "transition-colors",
+                    A.disabled ? "text-cms-gray-400 cursor-not-allowed" : "text-cms-black hover:bg-cms-gray-200 cursor-pointer",
+                    I && "bg-cms-gray-400 font-medium"
                   ),
-                  onClick: () => z(A),
+                  onClick: () => $(A),
                   disabled: A.disabled,
                   children: [
                     /* @__PURE__ */ E("span", { className: "truncate", children: A.label }),
@@ -2559,7 +2598,7 @@ const fo = vt(
                         height: "16",
                         viewBox: "0 0 16 16",
                         fill: "none",
-                        className: "w-4 h-4 text-foreground flex-shrink-0",
+                        className: "w-4 h-4 text-black shrink-0",
                         children: /* @__PURE__ */ E(
                           "path",
                           {
@@ -2585,25 +2624,25 @@ const fo = vt(
 );
 bt.displayName = "Dropdown";
 const ho = Ce(
-  ({ label: e, helperText: t, error: n, required: r, className: o, ...s }, a) => /* @__PURE__ */ se("div", { className: B("space-y-1", o), children: [
-    e && /* @__PURE__ */ se("label", { className: "block text-sm font-medium text-foreground", children: [
+  ({ label: e, helperText: t, error: n, required: r, className: o, ...s }, a) => /* @__PURE__ */ se("div", { className: z("space-y-1", o), children: [
+    e && /* @__PURE__ */ se("label", { className: "block text-sm font-medium text-cms-black", children: [
       e,
-      r && /* @__PURE__ */ E("span", { className: "text-red-500 ml-1", children: "*" })
+      r && /* @__PURE__ */ E("span", { className: "text-cms-red-500 ml-1", children: "*" })
     ] }),
     /* @__PURE__ */ E(
       bt,
       {
         ref: a,
         ...s,
-        className: B(n && "border-red-500 focus:ring-red-500")
+        className: z(n && "border-cms-red-500 focus:ring-cms-red-500")
       }
     ),
     (t || n) && /* @__PURE__ */ E(
       "p",
       {
-        className: B(
+        className: z(
           "text-xs",
-          n ? "text-red-500" : "text-grayscale03"
+          n ? "text-cms-red-500" : "text-cms-gray-400"
         ),
         children: n || t
       }
@@ -2634,7 +2673,7 @@ const go = Ce(
         ...o,
         options: c,
         searchable: !0,
-        dropdownClassName: B(t && "opacity-75", o.dropdownClassName),
+        dropdownClassName: z(t && "opacity-75", o.dropdownClassName),
         onValueChange: (l) => {
           var d;
           if (l.startsWith("__create__")) {
@@ -3391,7 +3430,7 @@ const ns = (e) => ({
     }, h = xt(o), b = wt(h), p = await a.getDimensions(c), g = h === "y", v = g ? "top" : "left", y = g ? "bottom" : "right", w = g ? "clientHeight" : "clientWidth", x = s.reference[b] + s.reference[h] - m[h] - s.floating[b], C = m[h] - s.reference[h], P = await (a.getOffsetParent == null ? void 0 : a.getOffsetParent(c));
     let S = P ? P[w] : 0;
     (!S || !await (a.isElement == null ? void 0 : a.isElement(P))) && (S = i.floating[w] || s.floating[b]);
-    const k = x / 2 - C / 2, T = S / 2 - p[b] / 2 - 1, M = ce(d[v], T), z = ce(d[y], T), R = M, _ = S - p[b] - z, A = S / 2 - p[b] / 2 + k, I = ft(R, A, _), L = !u.arrow && Se(o) != null && A !== I && s.reference[b] / 2 - (A < R ? M : z) - p[b] / 2 < 0, F = L ? A < R ? A - R : A - _ : 0;
+    const k = x / 2 - C / 2, T = S / 2 - p[b] / 2 - 1, M = ce(d[v], T), $ = ce(d[y], T), R = M, _ = S - p[b] - $, A = S / 2 - p[b] / 2 + k, I = ft(R, A, _), L = !u.arrow && Se(o) != null && A !== I && s.reference[b] / 2 - (A < R ? M : $) - p[b] / 2 < 0, F = L ? A < R ? A - R : A - _ : 0;
     return {
       [h]: m[h] + F,
       data: {
@@ -3440,8 +3479,8 @@ const ns = (e) => ({
         placement: o,
         overflows: T
       }], !T.every((A) => A <= 0)) {
-        var z, R;
-        const A = (((z = s.flip) == null ? void 0 : z.index) || 0) + 1, I = S[A];
+        var $, R;
+        const A = ((($ = s.flip) == null ? void 0 : $.index) || 0) + 1, I = S[A];
         if (I && (!(d === "alignment" ? y !== Y(I) : !1) || // We leave the current main axis only if every placement on that axis
         // overflows the main axis.
         M.every((N) => Y(N.placement) === y ? N.overflows[0] > 0 : !0)))
@@ -3710,8 +3749,8 @@ const is = function(e) {
       const y = p - l.top - l.bottom, w = b - l.left - l.right, x = ce(p - l[g], y), C = ce(b - l[v], w), P = !t.middlewareData.shift;
       let S = x, k = C;
       if ((n = t.middlewareData.shift) != null && n.enabled.x && (k = w), (r = t.middlewareData.shift) != null && r.enabled.y && (S = y), P && !m) {
-        const M = V(l.left, 0), z = V(l.right, 0), R = V(l.top, 0), _ = V(l.bottom, 0);
-        h ? k = b - 2 * (M !== 0 || z !== 0 ? M + z : V(l.left, l.right)) : S = p - 2 * (R !== 0 || _ !== 0 ? R + _ : V(l.top, l.bottom));
+        const M = V(l.left, 0), $ = V(l.right, 0), R = V(l.top, 0), _ = V(l.bottom, 0);
+        h ? k = b - 2 * (M !== 0 || $ !== 0 ? M + $ : V(l.left, l.right)) : S = p - 2 * (R !== 0 || _ !== 0 ? R + _ : V(l.top, l.bottom));
       }
       await u({
         ...t,
@@ -4299,7 +4338,7 @@ function Us(e) {
     N !== P.current && (P.current = N, p(N));
   }, []), w = f.useCallback((N) => {
     N !== S.current && (S.current = N, v(N));
-  }, []), x = s || b, C = a || g, P = f.useRef(null), S = f.useRef(null), k = f.useRef(l), T = u != null, M = st(u), z = st(o), R = st(c), _ = f.useCallback(() => {
+  }, []), x = s || b, C = a || g, P = f.useRef(null), S = f.useRef(null), k = f.useRef(l), T = u != null, M = st(u), $ = st(o), R = st(c), _ = f.useCallback(() => {
     if (!P.current || !S.current)
       return;
     const N = {
@@ -4307,7 +4346,7 @@ function Us(e) {
       strategy: n,
       middleware: m
     };
-    z.current && (N.platform = z.current), js(P.current, S.current, N).then((W) => {
+    $.current && (N.platform = $.current), js(P.current, S.current, N).then((W) => {
       const j = {
         ...W,
         // The floating element's position may be recomputed while it's closed
@@ -4320,7 +4359,7 @@ function Us(e) {
         d(j);
       }));
     });
-  }, [m, t, n, z, R]);
+  }, [m, t, n, $, R]);
   Be(() => {
     c === !1 && k.current.isPositioned && (k.current.isPositioned = !1, d((N) => ({
       ...N,
@@ -4489,9 +4528,9 @@ var Pt = "PopperContent", [oi, si] = Bn(Pt), Xn = f.forwardRef(
       updatePositionStrategy: h = "optimized",
       onPlaced: b,
       ...p
-    } = e, g = Vn(Pt, n), [v, y] = f.useState(null), w = ue(t, (Pe) => y(Pe)), [x, C] = f.useState(null), P = ni(x), S = (P == null ? void 0 : P.width) ?? 0, k = (P == null ? void 0 : P.height) ?? 0, T = r + (s !== "center" ? "-" + s : ""), M = typeof l == "number" ? l : { top: 0, right: 0, bottom: 0, left: 0, ...l }, z = Array.isArray(c) ? c : [c], R = z.length > 0, _ = {
+    } = e, g = Vn(Pt, n), [v, y] = f.useState(null), w = ue(t, (Pe) => y(Pe)), [x, C] = f.useState(null), P = ni(x), S = (P == null ? void 0 : P.width) ?? 0, k = (P == null ? void 0 : P.height) ?? 0, T = r + (s !== "center" ? "-" + s : ""), M = typeof l == "number" ? l : { top: 0, right: 0, bottom: 0, left: 0, ...l }, $ = Array.isArray(c) ? c : [c], R = $.length > 0, _ = {
       padding: M,
-      boundary: z.filter(ai),
+      boundary: $.filter(ai),
       // with `strategy: 'fixed'`, this is the only way to get it to respect boundaries
       altBoundary: R
     }, { refs: A, floatingStyles: I, placement: L, isPositioned: F, middlewareData: N } = Us({
@@ -4524,10 +4563,10 @@ var Pt = "PopperContent", [oi, si] = Bn(Pt), Xn = f.forwardRef(
         ci({ arrowWidth: S, arrowHeight: k }),
         m && Qs({ strategy: "referenceHidden", ..._ })
       ]
-    }), [W, j] = Zn(L), $ = ye(b);
+    }), [W, j] = Zn(L), B = ye(b);
     ae(() => {
-      F && ($ == null || $());
-    }, [F, $]);
+      F && (B == null || B());
+    }, [F, B]);
     const yr = (Nt = N.arrow) == null ? void 0 : Nt.x, wr = (kt = N.arrow) == null ? void 0 : kt.y, xr = ((Mt = N.arrow) == null ? void 0 : Mt.centerOffset) !== 0, [Cr, Er] = f.useState();
     return ae(() => {
       v && Er(window.getComputedStyle(v).zIndex);
@@ -5514,11 +5553,14 @@ const Ra = ga, Oa = va, ya = Ce(({ className: e, align: t = "end", sideOffset: n
     ref: o,
     align: t,
     sideOffset: n,
-    className: B(
-      "z-50 min-w-[200px] rounded-2xl bg-white p-2",
-      "shadow-lg border border-grayscale-200",
+    className: z(
+      "z-50 min-w-[200px] p-2",
+      "border rounded-md border-cms-gray-200",
+      "bg-cms-white shadow-lg",
       "animate-in fade-in-0 zoom-in-95",
-      "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+      "data-[state=closed]:animate-out",
+      "data-[state=closed]:fade-out-0",
+      "data-[state=closed]:zoom-out-95",
       "data-[side=bottom]:slide-in-from-top-2",
       "data-[side=left]:slide-in-from-right-2",
       "data-[side=right]:slide-in-from-left-2",
@@ -5530,17 +5572,17 @@ const Ra = ga, Oa = va, ya = Ce(({ className: e, align: t = "end", sideOffset: n
 ) }));
 ya.displayName = br.displayName;
 const wa = vt(
-  B(
-    "flex w-full items-center gap-3 rounded-xl px-4 py-3",
-    "text-base font-medium transition-colors",
-    "hover:bg-cms-bg03 active:bg-cms-bg04",
+  z(
+    "flex w-full items-center gap-3 rounded-md px-3 py-2",
+    "text-sm font-medium transition-colors",
+    "hover:bg-cms-gray-200 active:bg-cms-gray-300",
     "disabled:pointer-events-none disabled:opacity-50"
   ),
   {
     variants: {
       variant: {
         default: "text-cms-foreground",
-        destructive: "text-red-600 hover:text-red-700"
+        destructive: "text-cms-red-400 hover:text-cms-red-500"
       }
     },
     defaultVariants: {
@@ -5552,10 +5594,10 @@ const wa = vt(
     "button",
     {
       ref: s,
-      className: B(wa({ variant: t }), e),
+      className: z(wa({ variant: t }), e),
       ...o,
       children: [
-        n && /* @__PURE__ */ E("span", { className: "flex-shrink-0", children: n }),
+        n && /* @__PURE__ */ E("span", { className: "shrink-0", children: n }),
         r
       ]
     }
@@ -5574,7 +5616,7 @@ export {
   Oa as PopoverTrigger,
   ho as Select,
   co as buttonVariants,
-  B as cn,
+  z as cn,
   fo as dropdownTriggerVariants,
   wa as popoverMenuItemVariants
 };

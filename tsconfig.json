@@ -22,7 +22,6 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Paths */
-    "ignoreDeprecations": "6.0", // baseUrl deprecation 방지
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

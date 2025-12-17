@@ -1,6 +1,6 @@
 import { DropdownProps } from './Dropdown';
 
-export interface ComboboxProps extends Omit<DropdownProps, 'searchable'> {
+export interface ComboboxProps extends Omit<DropdownProps, "searchable"> {
     loading?: boolean;
     createable?: boolean;
     onCreateOption?: (value: string) => void;

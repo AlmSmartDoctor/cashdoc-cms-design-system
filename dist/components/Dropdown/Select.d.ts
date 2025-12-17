@@ -1,6 +1,6 @@
 import { DropdownProps } from './Dropdown';
 
-export interface SelectProps extends Omit<DropdownProps, 'multiple' | 'searchable' | 'clearable'> {
+export interface SelectProps extends Omit<DropdownProps, "multiple" | "searchable" | "clearable"> {
     label?: string;
     helperText?: string;
     error?: string;
