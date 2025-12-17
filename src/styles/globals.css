@@ -59,6 +59,9 @@
   --color-cms-orange-400: var(--cashdoc-orange-400);
   --color-cms-orange-500: var(--cashdoc-orange-500);
 
+  /* Green */
+  --color-cms-green-500: var(--cashdoc-green-500);
+
   /* Primary */
   --color-cms-primary-50: var(--cashdoc-primary-50);
   --color-cms-primary-100: var(--cashdoc-primary-100);
@@ -152,6 +155,9 @@
   /* Orange */
   --cashdoc-orange-400: #ff9254;
   --cashdoc-orange-500: #eb5500;
+
+  /* Green */
+  --cashdoc-green-500: #22c55e;
 
   /* Primary */
   --cashdoc-primary-50: #fff3d7;

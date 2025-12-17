@@ -6,3 +6,4 @@ export * from "./Popover";
 export * from "./Text";
 export * from "./TextInput";
 export * from "./DatePicker";
+export * from "./Switch";
