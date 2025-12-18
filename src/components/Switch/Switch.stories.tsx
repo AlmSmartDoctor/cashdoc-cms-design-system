@@ -1,29 +1,34 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Switch, type SwitchProps } from "./Switch";
 
-const meta = {
+const meta: Meta<typeof Switch> = {
   title: "Components/Switch",
   component: Switch,
+  parameters: {
+    layout: "centered",
+    docs: {
+      description: {
+        component: "Cms Design System의 스위치 컴포넌트입니다.",
+      },
+    },
+  },
   tags: ["autodocs"],
   argTypes: {
     variant: {
-      control: { type: "select" },
+      control: "select",
       options: ["default", "green", "black", "blue", "red"],
-      description: "The color variant of the switch.",
+      description: "스위치 색상 변형",
     },
     checked: {
       control: "boolean",
-      description: "The controlled state of the switch.",
+      description: "체크 상태",
     },
     disabled: {
       control: "boolean",
-      description: "Prevents user interaction with the switch.",
+      description: "비활성화 상태",
     },
   },
-  parameters: {
-    layout: "centered",
-  },
-} satisfies Meta<typeof Switch>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -31,6 +36,47 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     variant: "default",
+  },
+};
+
+export const Green: Story = {
+  args: {
+    variant: "green",
+    checked: true,
+  },
+};
+
+export const Black: Story = {
+  args: {
+    variant: "black",
+    checked: true,
+  },
+};
+
+export const Blue: Story = {
+  args: {
+    variant: "blue",
+    checked: true,
+  },
+};
+
+export const Red: Story = {
+  args: {
+    variant: "red",
+    checked: true,
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+  },
+};
+
+export const DisabledChecked: Story = {
+  args: {
+    disabled: true,
+    checked: true,
   },
 };
 
@@ -74,5 +120,10 @@ export const AllVariants: Story = {
   ),
   parameters: {
     controls: { hideNoControlsWarning: true },
+    docs: {
+      description: {
+        story: "모든 스위치 변형을 한 번에 보여줍니다.",
+      },
+    },
   },
 };
