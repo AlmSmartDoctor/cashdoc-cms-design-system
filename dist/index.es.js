@@ -5608,7 +5608,7 @@ const oc = Q("cms-font-pretendard cms-text-black", {
   variants: {
     variant: {
       h1: "text-cms-4xl font-bold",
-      h2: "text-cms-2xl font-semibold",
+      h2: "text-cms-3xl font-semibold",
       h3: "text-cms-xl font-semibold",
       subtitle: "text-cms-lg font-medium",
       body: "text-cms-md font-normal",

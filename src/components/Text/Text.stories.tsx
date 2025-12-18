@@ -9,7 +9,7 @@ const meta: Meta<typeof Text> = {
     docs: {
       description: {
         component:
-          "Cms Design System의 타이포그래피 컴포넌트입니다. cashdoc-hospital-event 프로젝트의 텍스트 스타일을 기반으로 만들어졌습니다.",
+          "Cms Design System의 타이포그래피 컴포넌트입니다. 다양한 텍스트 스타일과 정렬, 장식 옵션을 제공합니다.",
       },
     },
   },
@@ -41,7 +41,18 @@ const meta: Meta<typeof Text> = {
     },
     as: {
       control: "select",
-      options: ["p", "span", "div", "h1", "h2", "h3", "h4", "h5", "h6", "label"],
+      options: [
+        "p",
+        "span",
+        "div",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "label",
+      ],
       description: "HTML 태그",
     },
   },
@@ -53,56 +64,56 @@ type Story = StoryObj<typeof meta>;
 export const H1: Story = {
   args: {
     variant: "h1",
-    children: "제목 스타일 (32px, Bold)",
+    children: "제목 스타일",
   },
 };
 
 export const H2: Story = {
   args: {
     variant: "h2",
-    children: "부제목 스타일 (27px, Semibold)",
+    children: "부제목 스타일",
   },
 };
 
 export const H3: Story = {
   args: {
     variant: "h3",
-    children: "중제목 스타일 (20px, Semibold)",
+    children: "중제목 스타일",
   },
 };
 
 export const Subtitle: Story = {
   args: {
     variant: "subtitle",
-    children: "서브타이틀 스타일 (22px, Medium)",
+    children: "서브타이틀 스타일",
   },
 };
 
 export const Body: Story = {
   args: {
     variant: "body",
-    children: "본문 텍스트 스타일 (14px, Normal)",
+    children: "본문 텍스트 스타일",
   },
 };
 
 export const Emphasis: Story = {
   args: {
     variant: "emphasis",
-    children: "강조 텍스트 스타일 (16px, Semibold)",
+    children: "강조 텍스트 스타일",
   },
 };
 
 export const Caption: Story = {
   args: {
     variant: "caption",
-    children: "보조 텍스트 스타일 (12px, Normal)",
+    children: "보조 텍스트 스타일",
   },
 };
 
 export const Price: Story = {
   args: {
     variant: "price",
-    children: "15,000원",
+    children: "가격 스타일",
   },
 };
 
@@ -124,22 +135,24 @@ export const CenterAligned: Story = {
 
 export const AllVariants: Story = {
   render: () => (
-    <div className="cms-flex cms-flex-col cms-gap-4 cms-min-w-[600px]">
-      <Text variant="h1">H1 - 제목 스타일 (32px, Bold, #24272e)</Text>
-      <Text variant="h2">H2 - 부제목 스타일 (27px, Semibold, #2b3240)</Text>
-      <Text variant="h3">H3 - 중제목 스타일 (20px, Semibold, #24272e)</Text>
+    <div className="flex flex-col gap-4 min-w-[600px]">
+      <Text variant="h1">H1 - 제목 스타일 (28px, Bold, #24272e)</Text>
+      <Text variant="h2">H2 - 부제목 스타일 (24px, Semibold, #2b3240)</Text>
+      <Text variant="h3">H3 - 중제목 스타일 (18px, Semibold, #24272e)</Text>
       <Text variant="subtitle">
-        Subtitle - 서브타이틀 스타일 (22px, Medium, #63564e)
+        Subtitle - 서브타이틀 스타일 (16px, Medium, #63564e)
       </Text>
-      <Text variant="body">Body - 본문 텍스트 스타일 (14px, Normal, #63564e)</Text>
+      <Text variant="body">
+        Body - 본문 텍스트 스타일 (14px, Normal, #63564e)
+      </Text>
       <Text variant="emphasis">
-        Emphasis - 강조 텍스트 스타일 (16px, Semibold, #444b5a)
+        Emphasis - 강조 텍스트 스타일 (14px, Semibold, #444b5a)
       </Text>
       <Text variant="caption">
         Caption - 보조 텍스트 스타일 (12px, Normal, #7f7f7f)
       </Text>
-      <Text variant="price">Price - 15,000원 (15px, Bold, #24272e)</Text>
-      <div className="cms-border-t cms-pt-4 cms-mt-4">
+      <Text variant="price">Price - 15,000원 (10px, Bold, #24272e)</Text>
+      <div className="border-t pt-4 mt-4">
         <Text variant="body" decoration="underline">
           밑줄 있는 텍스트
         </Text>
