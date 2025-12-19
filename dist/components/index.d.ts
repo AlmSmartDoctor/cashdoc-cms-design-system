@@ -9,3 +9,4 @@ export * from './DatePicker';
 export * from './Switch';
 export * from './RadioButton';
 export * from './SideNavigation';
+export * from './Checkbox';
