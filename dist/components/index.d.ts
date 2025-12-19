@@ -8,3 +8,4 @@ export * from './TextInput';
 export * from './DatePicker';
 export * from './Switch';
 export * from './RadioButton';
+export * from './SideNavigation';
