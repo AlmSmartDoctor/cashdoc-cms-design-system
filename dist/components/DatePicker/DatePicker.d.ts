@@ -1,10 +1,16 @@
 import { default as React } from 'react';
-import { TextInputProps } from '../TextInput';
 
-export interface DatePickerProps extends Omit<TextInputProps, "type" | "value" | "onChange"> {
+export interface DatePickerProps {
     value?: string;
     onChange?: (date: string) => void;
+    label?: string;
+    placeholder?: string;
     min?: string;
     max?: string;
+    disabled?: boolean;
+    error?: boolean;
+    errorMessage?: string;
+    helperText?: string;
+    className?: string;
 }
-export declare const DatePicker: React.ForwardRefExoticComponent<DatePickerProps & React.RefAttributes<HTMLInputElement>>;
+export declare const DatePicker: React.ForwardRefExoticComponent<DatePickerProps & React.RefAttributes<HTMLDivElement>>;

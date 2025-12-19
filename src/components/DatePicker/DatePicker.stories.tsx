@@ -56,30 +56,56 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    label: "날짜 선택",
+  render: () => {
+    const [date, setDate] = useState("");
+    return <DatePicker label="날짜 선택" value={date} onChange={setDate} />;
+  },
+};
+
+export const NoLabel: Story = {
+  render: () => {
+    const [date, setDate] = useState("");
+    return (
+      <DatePicker placeholder="날짜를 선택하세요" value={date} onChange={setDate} />
+    );
   },
 };
 
 export const WithValue: Story = {
-  args: {
-    label: "예약 날짜",
-    value: "2025-12-31",
+  render: () => {
+    const [date, setDate] = useState("2025-12-31");
+    return (
+      <DatePicker label="예약 날짜" value={date} onChange={setDate} />
+    );
   },
 };
 
 export const WithHelperText: Story = {
-  args: {
-    label: "시작일",
-    helperText: "오늘 이후 날짜만 선택 가능합니다",
+  render: () => {
+    const [date, setDate] = useState("");
+    return (
+      <DatePicker
+        label="시작일"
+        value={date}
+        onChange={setDate}
+        helperText="오늘 이후 날짜만 선택 가능합니다"
+      />
+    );
   },
 };
 
 export const Error: Story = {
-  args: {
-    label: "날짜",
-    error: true,
-    errorMessage: "필수 입력 항목입니다",
+  render: () => {
+    const [date, setDate] = useState("");
+    return (
+      <DatePicker
+        label="날짜"
+        value={date}
+        onChange={setDate}
+        error
+        errorMessage="필수 입력 항목입니다"
+      />
+    );
   },
 };
 
@@ -92,11 +118,18 @@ export const Disabled: Story = {
 };
 
 export const WithMinMax: Story = {
-  args: {
-    label: "예약 날짜",
-    min: "2025-01-01",
-    max: "2025-12-31",
-    helperText: "2025년도 내에서만 선택 가능합니다",
+  render: () => {
+    const [date, setDate] = useState("");
+    return (
+      <DatePicker
+        label="예약 날짜"
+        value={date}
+        onChange={setDate}
+        min="2025-01-01"
+        max="2025-12-31"
+        helperText="2025년도 내에서만 선택 가능합니다"
+      />
+    );
   },
 };
 
@@ -126,15 +159,15 @@ export const Controlled: Story = {
 export const RangeDefault: Story = {
   render: () => {
     return (
-      <div className="cms-min-w-[600px]">
-        <DateRangePicker label="기간 선택" />
+      <div className="cms-min-w-[600px] cms-p-8">
+        <DateRangePicker />
       </div>
     );
   },
   parameters: {
     docs: {
       description: {
-        story: "기간 선택 컴포넌트입니다. 시작일과 종료일을 선택할 수 있습니다.",
+        story: "기간 선택 컴포넌트입니다. 시작일과 종료일을 선택할 수 있습니다. 클릭하면 달력이 나타나며, 빠른 선택 옵션을 제공합니다.",
       },
     },
   },
@@ -143,9 +176,8 @@ export const RangeDefault: Story = {
 export const RangeWithValue: Story = {
   render: () => {
     return (
-      <div className="cms-min-w-[600px]">
+      <div className="cms-min-w-[600px] cms-p-8">
         <DateRangePicker
-          label="프로젝트 기간"
           value={{ start: "2025-01-01", end: "2025-12-31" }}
         />
       </div>
@@ -156,38 +188,25 @@ export const RangeWithValue: Story = {
 export const RangeControlled: Story = {
   render: () => {
     const [range, setRange] = useState({
-      start: "2025-01-01",
-      end: "2025-01-31",
+      start: "2025-12-19",
+      end: "2025-12-19",
     });
 
     return (
-      <div className="cms-flex cms-flex-col cms-gap-4 cms-min-w-[600px]">
+      <div className="cms-flex cms-flex-col cms-gap-4 cms-min-w-[600px] cms-p-8">
         <DateRangePicker
-          label="기간 선택"
           value={range}
           onChange={setRange}
-          helperText={`선택된 기간: ${range.start || "없음"} ~ ${range.end || "없음"}`}
         />
+        <div className="cms-text-sm cms-text-gray-600">
+          선택된 기간: {range.start || "없음"} ~ {range.end || "없음"}
+        </div>
         <button
           onClick={() => setRange({ start: "", end: "" })}
           className="cms-px-3 cms-py-2 cms-bg-gray-200 cms-rounded-sm cms-w-fit"
         >
           기간 초기화
         </button>
-      </div>
-    );
-  },
-};
-
-export const RangeWithError: Story = {
-  render: () => {
-    return (
-      <div className="cms-min-w-[600px]">
-        <DateRangePicker
-          label="휴가 기간"
-          error
-          errorMessage="종료일은 시작일 이후여야 합니다"
-        />
       </div>
     );
   },
@@ -206,6 +225,8 @@ export const AllVariants: Story = {
         <h3 className="cms-text-cms-xl cms-font-semibold">단일 날짜 선택</h3>
 
         <DatePicker label="기본 날짜 선택" />
+
+        <DatePicker placeholder="라벨 없는 날짜 선택" />
 
         <DatePicker
           label="값이 있는 날짜"
@@ -236,24 +257,30 @@ export const AllVariants: Story = {
           </h3>
 
           <div className="cms-flex cms-flex-col cms-gap-4">
-            <DateRangePicker label="기본 기간 선택" />
+            <div>
+              <p className="cms-text-sm cms-text-gray-600 cms-mb-2">
+                기본 기간 선택
+              </p>
+              <DateRangePicker />
+            </div>
 
-            <DateRangePicker
-              label="값이 있는 기간"
-              value={range}
-              onChange={setRange}
-            />
+            <div>
+              <p className="cms-text-sm cms-text-gray-600 cms-mb-2">
+                값이 있는 기간
+              </p>
+              <DateRangePicker value={range} onChange={setRange} />
+            </div>
 
-            <DateRangePicker
-              label="도움말이 있는 기간"
-              helperText="최대 31일까지 선택 가능합니다"
-            />
-
-            <DateRangePicker
-              label="에러 상태"
-              error
-              errorMessage="종료일은 시작일 이후여야 합니다"
-            />
+            <div>
+              <p className="cms-text-sm cms-text-gray-600 cms-mb-2">
+                커스텀 라벨
+              </p>
+              <DateRangePicker
+                startLabel="체크인"
+                endLabel="체크아웃"
+                value={{ start: "2025-01-01", end: "2025-01-07" }}
+              />
+            </div>
           </div>
         </div>
       </div>

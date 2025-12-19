@@ -264,3 +264,220 @@
     color: var(--cashdoc-black);
   }
 }
+
+/* DateRangePicker Styles */
+.date-range-picker-calendar .rdp {
+  --rdp-accent-color: #358fff;
+  --rdp-background-color: #e6f1ff;
+  margin: 0;
+  font-size: 12px;
+}
+
+.date-range-picker-calendar .rdp-months {
+  gap: 0.75rem;
+}
+
+.date-range-picker-calendar .rdp-month_caption {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111111;
+  margin-bottom: 0.25rem;
+  padding-top: 0.25rem;
+}
+
+.date-range-picker-calendar .rdp-weekday {
+  font-size: 11px;
+  color: #666666;
+  font-weight: 500;
+  padding: 0.25rem;
+}
+
+.date-range-picker-calendar .rdp-day {
+  font-size: 12px;
+  border-radius: 4px;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  width: 32px;
+  height: 32px;
+}
+
+.date-range-picker-calendar .rdp-week {
+  margin-top: 0;
+}
+
+.date-range-picker-calendar .rdp-day_button {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 4px;
+  width: 100%;
+  height: 100%;
+}
+
+.date-range-picker-calendar .rdp-day_button:hover:not([disabled]):not(.rdp-day_selected) {
+  background-color: #f1f3f5;
+  transform: scale(1.05);
+}
+
+.date-range-picker-calendar .rdp-day_button:active:not([disabled]) {
+  transform: scale(0.95);
+}
+
+.date-range-picker-calendar .rdp-day_selected {
+  background-color: var(--rdp-accent-color);
+  color: white;
+  font-weight: 600;
+}
+
+.date-range-picker-calendar .rdp-day_selected:hover {
+  background-color: #0071fe;
+  transform: scale(1.05);
+}
+
+.date-range-picker-calendar .rdp-day_range_middle {
+  background-color: var(--rdp-background-color);
+  color: #111111;
+  border-radius: 0;
+}
+
+.date-range-picker-calendar .rdp-day_range_middle .rdp-day_button {
+  border-radius: 0;
+}
+
+.date-range-picker-calendar .rdp-day_range_start .rdp-day_button {
+  border-radius: 4px 0 0 4px;
+}
+
+.date-range-picker-calendar .rdp-day_range_end .rdp-day_button {
+  border-radius: 0 4px 4px 0;
+}
+
+.date-range-picker-calendar .rdp-day_range_start.rdp-day_range_end .rdp-day_button {
+  border-radius: 4px;
+}
+
+.date-range-picker-calendar .rdp-nav {
+  position: absolute;
+  top: 0;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.date-range-picker-calendar .rdp-month:first-child .rdp-nav {
+  right: 0;
+}
+
+.date-range-picker-calendar .rdp-button_previous,
+.date-range-picker-calendar .rdp-button_next {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.date-range-picker-calendar .rdp-button_previous:hover,
+.date-range-picker-calendar .rdp-button_next:hover {
+  background-color: #f1f3f5;
+  transform: scale(1.1);
+}
+
+.date-range-picker-calendar .rdp-button_previous:active,
+.date-range-picker-calendar .rdp-button_next:active {
+  transform: scale(0.9);
+}
+
+.date-range-picker-calendar .rdp-day_today:not(.rdp-day_selected) {
+  font-weight: 600;
+  color: #358fff;
+}
+
+/* DatePicker Styles (Single) */
+.date-picker-calendar .rdp {
+  --rdp-accent-color: #358fff;
+  --rdp-background-color: #e6f1ff;
+  margin: 0;
+  font-size: 12px;
+}
+
+.date-picker-calendar .rdp-month_caption {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111111;
+  margin-bottom: 0.25rem;
+  padding-top: 0.25rem;
+}
+
+.date-picker-calendar .rdp-weekday {
+  font-size: 11px;
+  color: #666666;
+  font-weight: 500;
+  padding: 0.25rem;
+}
+
+.date-picker-calendar .rdp-day {
+  font-size: 12px;
+  border-radius: 4px;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  width: 32px;
+  height: 32px;
+}
+
+.date-picker-calendar .rdp-week {
+  margin-top: 0;
+}
+
+.date-picker-calendar .rdp-day_button {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 4px;
+  width: 100%;
+  height: 100%;
+}
+
+.date-picker-calendar .rdp-day_button:hover:not([disabled]):not(.rdp-day_selected) {
+  background-color: #f1f3f5;
+  transform: scale(1.05);
+}
+
+.date-picker-calendar .rdp-day_button:active:not([disabled]) {
+  transform: scale(0.95);
+}
+
+.date-picker-calendar .rdp-day_selected {
+  background-color: var(--rdp-accent-color);
+  color: white;
+  font-weight: 600;
+}
+
+.date-picker-calendar .rdp-day_selected:hover {
+  background-color: #0071fe;
+  transform: scale(1.05);
+}
+
+.date-picker-calendar .rdp-nav {
+  position: absolute;
+  top: 0;
+  display: flex;
+  gap: 0.25rem;
+  right: 0;
+}
+
+.date-picker-calendar .rdp-button_previous,
+.date-picker-calendar .rdp-button_next {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.date-picker-calendar .rdp-button_previous:hover,
+.date-picker-calendar .rdp-button_next:hover {
+  background-color: #f1f3f5;
+  transform: scale(1.1);
+}
+
+.date-picker-calendar .rdp-button_previous:active,
+.date-picker-calendar .rdp-button_next:active {
+  transform: scale(0.9);
+}
+
+.date-picker-calendar .rdp-day_today:not(.rdp-day_selected) {
+  font-weight: 600;
+  color: #358fff;
+}
