@@ -8,20 +8,16 @@ const RadioGroup = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitives.Root>
 >(({ className, ...props }, ref) => {
   return (
-    <RadioGroupPrimitives.Root
-      className={cn("grid gap-2", className)}
-      {...props}
-      ref={ref}
-    />
+    <RadioGroupPrimitives.Root className={className} {...props} ref={ref} />
   );
 });
 RadioGroup.displayName = RadioGroupPrimitives.Root.displayName;
 
 const radioGroupItemVariants = cva(
   cn(
-    "aspect-square rounded-full border-2 transition-colors",
-    "focus:outline-none focus-visible:ring-2",
-    "focus-visible:ring-ring focus-visible:ring-offset-2",
+    "flex items-center justify-center aspect-square rounded-full border-2 transition-colors",
+    "focus:outline-none",
+    "focus-visible:ring-offset-2",
     "disabled:cursor-not-allowed disabled:opacity-50",
     "cursor-pointer"
   ),
@@ -38,9 +34,9 @@ const radioGroupItemVariants = cva(
         red: "border-cms-gray-300 text-cms-red-400 data-[state=checked]:border-cms-red-400",
       },
       size: {
-        sm: "h-4 w-4",
-        md: "h-5 w-5",
-        lg: "h-6 w-6",
+        sm: "size-4",
+        md: "size-5",
+        lg: "size-6",
       },
     },
     defaultVariants: {
@@ -51,20 +47,21 @@ const radioGroupItemVariants = cva(
 );
 
 const radioGroupIndicatorVariants = cva(
-  'w-full h-full relative after:content-[""] after:block after:rounded-full after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2',
+  "flex items-center justify-center rounded-full bg-current aspect-square",
   {
     variants: {
       variant: {
-        black: "after:bg-cms-black",
-        default: "after:bg-cms-primary-300",
-        green: "after:bg-cms-green-500",
-        blue: "after:bg-cms-blue-700",
-        red: "after:bg-cms-red-400",
+        // bg-current를 쓰면 부모 text color를 따라가므로 색상 정의 줄일 수 있음
+        black: "text-cms-black",
+        default: "text-cms-primary-300",
+        green: "text-cms-green-500",
+        blue: "text-cms-blue-700",
+        red: "text-cms-red-400",
       },
       size: {
-        sm: "after:h-2 after:w-2",
-        md: "after:h-2.5 after:w-2.5",
-        lg: "after:h-3 after:w-3",
+        sm: "size-2",
+        md: "size-2.5",
+        lg: "size-3",
       },
     },
     defaultVariants: {
