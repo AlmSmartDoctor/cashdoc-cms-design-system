@@ -49,24 +49,31 @@ const NavigationMenuItem = ({
             }
           }}
           className={cn(
-            "group w-full h-[52px] flex items-center px-5 text-white transition-colors hover:bg-[#3a3b3e]",
+            "group flex items-center px-5",
+            "text-white",
+            "w-full h-13",
             "data-[state=open]:bg-transparent",
-            !menu.subMenu && isSelected && "bg-[#3a3b3e]"
+            "hover:bg-[#3a3b3e]",
+            "transition-colors",
+            !menu.subMenu && isSelected && "bg-[#3a3b3e]",
           )}
         >
           {menu.icon && (
-            <div className="mr-3 flex items-center text-white [&>svg]:w-6 [&>svg]:h-6">
+            <div
+              className={cn(
+                "mr-3 flex items-center text-white ",
+                "[&>svg]:w-6 [&>svg]:h-6",
+              )}
+            >
               {menu.icon}
             </div>
           )}
-          <span className="text-base font-normal text-white">
-            {menu.title}
-          </span>
+          <span className="text-base font-normal text-white">{menu.title}</span>
           {menu.subMenu && (
             <ChevronDown
               className={cn(
                 "ml-auto transition-transform text-white",
-                isOpen && "rotate-180"
+                isOpen && "rotate-180",
               )}
               size={20}
             />
@@ -82,14 +89,14 @@ const NavigationMenuItem = ({
                 key={subItem.url}
                 onClick={() => onMenuClick(subItem.url)}
                 className={cn(
-                  "flex items-center h-[44px] px-5 pl-14 cursor-pointer transition-colors hover:bg-[#2e2f32]",
-                  subSelected && "bg-[#2e2f32]"
+                  "flex items-center h-11 px-5 pl-14 cursor-pointer transition-colors hover:bg-[#2e2f32]",
+                  subSelected && "bg-[#2e2f32]",
                 )}
               >
                 <span
                   className={cn(
                     "text-sm font-normal",
-                    subSelected ? "text-white font-medium" : "text-[#b4b4b4]"
+                    subSelected ? "text-white font-medium" : "text-[#b4b4b4]",
                   )}
                 >
                   {subItem.title}
@@ -109,7 +116,7 @@ export const SideNavigation = React.forwardRef<
 >(
   (
     { title, menus, selectedUrl, onMenuClick, headerSlot, className, ...props },
-    ref
+    ref,
   ) => {
     const [openedMenus, setOpenedMenus] = useState<string[]>([]);
 
@@ -118,7 +125,7 @@ export const SideNavigation = React.forwardRef<
         ref={ref}
         className={cn(
           "w-[280px] min-w-[280px] max-w-[280px] bg-[#2c2d30] flex flex-col text-white h-screen",
-          className
+          className,
         )}
         {...props}
       >
@@ -153,7 +160,7 @@ export const SideNavigation = React.forwardRef<
         </div>
       </div>
     );
-  }
+  },
 );
 
 SideNavigation.displayName = "SideNavigation";

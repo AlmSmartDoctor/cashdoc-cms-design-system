@@ -5,14 +5,14 @@ import { cn } from "@/utils/cn";
 const textVariants = cva("cms-font-pretendard cms-text-black", {
   variants: {
     variant: {
-      h1: "text-cms-4xl font-bold",
-      h2: "text-cms-3xl font-semibold",
-      h3: "text-cms-xl font-semibold",
-      subtitle: "text-cms-lg font-medium",
-      body: "text-cms-md font-normal",
-      emphasis: "text-cms-md font-semibold",
-      caption: "text-cms-sm font-normal",
-      price: "text-cms-xs font-bold",
+      h1: "text-3xl font-bold",
+      h2: "text-2xl font-semibold",
+      h3: "text-lg font-semibold",
+      subtitle: "text-base font-medium",
+      body: "text-sm font-normal",
+      emphasis: "text-sm font-semibold",
+      caption: "text-xs font-normal",
+      price: "text-xs font-bold",
     },
     align: {
       left: "text-left",

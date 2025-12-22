@@ -81,19 +81,6 @@
   --radius-cms-3xl: 20px;
   --radius-cms-4xl: 24px;
 
-  /* Font Size
-    Usage: text-cms-xl
-  */
-  --text-cms-xs: 10px;
-  --text-cms-sm: 12px;
-  --text-cms-md: 14px;
-  --text-cms-lg: 16px;
-  --text-cms-xl: 18px;
-  --text-cms-2xl: 20px;
-  --text-cms-3xl: 24px;
-  --text-cms-4xl: 28px;
-  --text-cms-5xl: 32px;
-
   /* Transition Duration
     Usage: duration-200, duration-300, duration-500
   */

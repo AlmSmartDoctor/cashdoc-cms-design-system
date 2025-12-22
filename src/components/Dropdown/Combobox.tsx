@@ -11,16 +11,16 @@ export interface ComboboxProps extends Omit<DropdownProps, "searchable"> {
 export const Combobox = forwardRef<HTMLButtonElement, ComboboxProps>(
   (
     { options, loading = false, createable = false, onCreateOption, ...props },
-    ref
+    ref,
   ) => {
     const [searchTerm] = useState("");
 
     const filteredOptions = options.filter((option) =>
-      option.label.toLowerCase().includes(searchTerm.toLowerCase())
+      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
     const hasExactMatch = filteredOptions.some(
-      (option) => option.label.toLowerCase() === searchTerm.toLowerCase()
+      (option) => option.label.toLowerCase() === searchTerm.toLowerCase(),
     );
 
     // 검색어가 있고 createable이며 정확히 일치하는 옵션이 없을 때 생성 옵션 추가
@@ -54,7 +54,7 @@ export const Combobox = forwardRef<HTMLButtonElement, ComboboxProps>(
         }}
       />
     );
-  }
+  },
 );
 
 Combobox.displayName = "Combobox";

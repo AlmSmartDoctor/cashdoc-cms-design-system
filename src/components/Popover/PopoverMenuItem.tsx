@@ -9,7 +9,7 @@ const popoverMenuItemVariants = cva(
     "flex w-full items-center gap-3 rounded-md px-3 py-2",
     "text-sm font-medium transition-colors",
     "hover:bg-cms-gray-200 active:bg-cms-gray-300",
-    "disabled:pointer-events-none disabled:opacity-50"
+    "disabled:pointer-events-none disabled:opacity-50",
   ),
   {
     variants: {
@@ -21,7 +21,7 @@ const popoverMenuItemVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 export interface PopoverMenuItemProps
@@ -43,7 +43,7 @@ const PopoverMenuItem = forwardRef<HTMLButtonElement, PopoverMenuItemProps>(
         {children}
       </button>
     );
-  }
+  },
 );
 
 PopoverMenuItem.displayName = "PopoverMenuItem";

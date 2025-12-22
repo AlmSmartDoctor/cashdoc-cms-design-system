@@ -34,7 +34,7 @@ const tagVariants = cva(
   cn(
     "inline-flex items-center gap-2 px-3 py-1",
     "bg-cms-primary-100 border border-solid border-cms-primary-200",
-    "rounded-cms-2xl text-cms-black font-cms-sm font-semibold"
+    "rounded-cms-2xl text-cms-black text-xs font-semibold"
   )
 );
 
@@ -43,7 +43,7 @@ const removeButtonVariants = cva(
     "inline-flex items-center justify-center",
     "w-[18px] h-[18px] p-0 border-none",
     "bg-cms-gray-300 text-cms-gray-700",
-    "font-cms-xs leading-none cursor-pointer rounded-full",
+    "text-xs leading-none cursor-pointer rounded-full",
     "transition-all duration-200",
     "hover:bg-cms-gray-400 hover:text-cms-black"
   )
@@ -52,19 +52,19 @@ const removeButtonVariants = cva(
 const inputVariants = cva(
   cn(
     "flex-1 min-w-[120px] outline-none border-none",
-    "font-cms-sm p-1.5",
+    "text-xs p-1.5",
     "placeholder:text-cms-gray-500",
     "disabled:bg-transparent disabled:cursor-not-allowed"
   )
 );
 
-const labelVariants = cva("block font-cms-sm font-medium text-cms-black mb-2");
+const labelVariants = cva("block text-xs font-medium text-cms-black mb-2");
 
 const helperTextVariants = cva(
-  "flex items-center gap-1 font-cms-sm text-cms-gray-700 mt-1"
+  "flex items-center gap-1 text-xs text-cms-gray-700 mt-1"
 );
 
-const tagCountVariants = cva("font-cms-xs text-cms-gray-750 font-bold");
+const tagCountVariants = cva("text-xs text-cms-gray-750 font-bold");
 
 export interface TagInputProps extends Omit<
   VariantProps<typeof tagInputContainerVariants>,

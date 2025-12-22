@@ -30,7 +30,7 @@ const getQuickSelectOptions = (): QuickSelectOption[] => {
   return [
     {
       label: "전체",
-      getValue: () => [dayjs("2000-01-01"), dayjs("2099-12-31")],
+      getValue: () => [dayjs("1970-01-01"), dayjs("2099-12-31")],
     },
     {
       label: "오늘",
@@ -85,7 +85,7 @@ export const DateRangePicker = React.forwardRef<
       endLabel = "종료일자",
       className,
     },
-    ref
+    ref,
   ) => {
     const [isOpen, setIsOpen] = useState(false);
     const [internalRange, setInternalRange] = useState<
@@ -167,12 +167,15 @@ export const DateRangePicker = React.forwardRef<
     return (
       <PopoverPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
         <PopoverPrimitive.Trigger asChild>
-          <div
-            ref={ref}
-            className={cn("flex items-center gap-0", className)}
-          >
+          <div ref={ref} className={cn("flex items-center gap-0", className)}>
             <div className="relative flex-1">
-              <label className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gray-500 pointer-events-none">
+              <label
+                className={cn(
+                  "absolute left-3 top-1/2 -translate-y-1/2",
+                  "text-xs text-gray-500",
+                  "pointer-events-none",
+                )}
+              >
                 {startLabel}
               </label>
               <input
@@ -180,11 +183,24 @@ export const DateRangePicker = React.forwardRef<
                 readOnly
                 value={displayValue.start}
                 placeholder="YYYY-MM-DD"
-                className="w-full h-10 pl-[59px] pr-3 border border-gray-300 border-r-0 rounded-l bg-white text-sm cursor-pointer hover:bg-gray-50 hover:border-gray-400 focus:outline-none transition-all duration-150"
+                className={cn(
+                  "w-full h-10 pl-[59px] pr-3 bg-white text-sm",
+                  "focus:outline-none",
+                  "border border-gray-300 border-r-0 rounded-l",
+                  "hover:bg-gray-50 hover:border-gray-400",
+                  "transition-all duration-150",
+                  "cursor-pointer",
+                )}
               />
             </div>
             <div className="relative flex-1">
-              <label className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gray-500 pointer-events-none">
+              <label
+                className={cn(
+                  "absolute left-3 top-1/2 -translate-y-1/2",
+                  "text-xs text-gray-500",
+                  "pointer-events-none",
+                )}
+              >
                 {endLabel}
               </label>
               <input
@@ -192,7 +208,15 @@ export const DateRangePicker = React.forwardRef<
                 readOnly
                 value={displayValue.end}
                 placeholder="YYYY-MM-DD"
-                className="w-full h-10 pl-[59px] pr-3 border border-gray-300 rounded-r bg-white text-sm cursor-pointer hover:bg-gray-50 hover:border-gray-400 focus:outline-none transition-all duration-150"
+                className={cn(
+                  "w-full h-10 pl-[59px] pr-3 bg-white",
+                  "text-sm",
+                  "border border-gray-300 rounded-r",
+                  "hover:bg-gray-50 hover:border-gray-400",
+                  "focus:outline-none",
+                  "transition-all duration-150",
+                  "cursor-pointer",
+                )}
               />
             </div>
           </div>
@@ -202,7 +226,19 @@ export const DateRangePicker = React.forwardRef<
           <PopoverPrimitive.Content
             align="start"
             sideOffset={5}
-            className="z-50 bg-white rounded-lg shadow-xl p-2 border border-gray-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2"
+            className={cn(
+              "z-50 p-2 bg-white rounded-lg",
+              "border border-gray-200",
+              "shadow-xl",
+              "data-[state=open]:animate-in",
+              "data-[state=closed]:animate-out",
+              "data-[state=closed]:fade-out-0",
+              "data-[state=open]:fade-in-0",
+              "data-[state=closed]:zoom-out-95",
+              "data-[state=open]:zoom-in-95",
+              "data-[side=bottom]:slide-in-from-top-2",
+              "data-[side=top]:slide-in-from-bottom-2",
+            )}
           >
             <div className="flex gap-2">
               {/* Quick Select Buttons */}
@@ -211,13 +247,21 @@ export const DateRangePicker = React.forwardRef<
                   <button
                     key={option.label}
                     onClick={() => handleQuickSelect(option)}
-                    className="w-[70px] h-[26px] px-2 text-left text-xs text-gray-700 hover:text-blue-600 hover:bg-blue-50 hover:font-medium border-b border-gray-200 last:border-b-0 transition-all duration-150 rounded-sm"
+                    className={cn(
+                      "w-[70px] h-[26px] px-2",
+                      "text-left text-xs text-gray-700",
+                      "border-b border-gray-200 rounded-sm",
+                      "last:border-b-0",
+                      "transition-all duration-150",
+                      "hover:bg-blue-50",
+                      "hover:font-medium",
+                      "hover:text-blue-600",
+                    )}
                   >
                     {option.label}
                   </button>
                 ))}
               </div>
-
               {/* Calendar */}
               <div className="date-range-picker-calendar">
                 <DayPicker
@@ -236,8 +280,13 @@ export const DateRangePicker = React.forwardRef<
             </div>
 
             {/* Footer */}
-            <div className="flex items-end justify-between mt-2 pt-2 border-t border-gray-200">
-              <div className="flex flex-col min-h-[32px]">
+            <div
+              className={cn(
+                "flex items-end justify-between mt-2 pt-2",
+                "border-t border-gray-200",
+              )}
+            >
+              <div className="flex flex-col min-h-8">
                 {!fromDay || !toDay ? (
                   <span className="text-xs text-red-500">
                     종료일자를 선택해 주세요.
@@ -258,14 +307,29 @@ export const DateRangePicker = React.forwardRef<
               <div className="flex gap-2">
                 <button
                   onClick={handleCancel}
-                  className="w-[60px] h-8 border border-gray-300 rounded text-xs font-medium text-gray-700 hover:bg-gray-50 active:scale-95 transition-all duration-150"
+                  className={cn(
+                    "w-15 h-8",
+                    "border border-gray-300 rounded",
+                    "text-xs font-medium text-gray-700",
+                    "transition-all duration-150",
+                    "hover:bg-gray-50 active:scale-95",
+                  )}
                 >
                   취소
                 </button>
                 <button
                   onClick={handleApply}
                   disabled={!fromDay || !toDay}
-                  className="w-[60px] h-8 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700 active:scale-95 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:active:scale-100 transition-all duration-150"
+                  className={cn(
+                    "w-15 h-8",
+                    "bg-blue-600 rounded",
+                    "text-xs font-medium text-cms-white",
+                    "hover:bg-blue-700 active:scale-95",
+                    "disabled:bg-gray-300",
+                    "disabled:active:scale-100",
+                    "disabled:cursor-not-allowed",
+                    "transition-all duration-150",
+                  )}
                 >
                   적용
                 </button>
@@ -275,7 +339,7 @@ export const DateRangePicker = React.forwardRef<
         </PopoverPrimitive.Portal>
       </PopoverPrimitive.Root>
     );
-  }
+  },
 );
 
 DateRangePicker.displayName = "DateRangePicker";

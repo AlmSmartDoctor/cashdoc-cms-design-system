@@ -33,7 +33,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
           <p
             className={cn(
               "text-xs",
-              error ? "text-cms-red-500" : "text-cms-gray-400"
+              error ? "text-cms-red-500" : "text-cms-gray-400",
             )}
           >
             {error || helperText}
@@ -41,7 +41,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Select.displayName = "Select";

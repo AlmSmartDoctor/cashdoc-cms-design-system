@@ -15,23 +15,36 @@ RadioGroup.displayName = RadioGroupPrimitives.Root.displayName;
 
 const radioGroupItemVariants = cva(
   cn(
-    "flex items-center justify-center aspect-square rounded-full border-2 transition-colors",
+    "flex items-center justify-center",
+    "aspect-square rounded-full border-2 transition-colors",
     "focus:outline-none",
     "focus-visible:ring-offset-2",
     "disabled:cursor-not-allowed disabled:opacity-50",
-    "cursor-pointer"
+    "cursor-pointer",
   ),
   {
     variants: {
       variant: {
-        black:
-          "border-cms-gray-300 text-cms-black data-[state=checked]:border-cms-black",
-        default:
-          "border-cms-gray-300 text-cms-primary-300 data-[state=checked]:border-cms-primary-300",
-        green:
-          "border-cms-gray-300 text-cms-green-500 data-[state=checked]:border-cms-green-500",
-        blue: "border-cms-gray-300 text-cms-blue-700 data-[state=checked]:border-cms-blue-700",
-        red: "border-cms-gray-300 text-cms-red-400 data-[state=checked]:border-cms-red-400",
+        black: cn(
+          "border-cms-gray-300 text-cms-black",
+          "data-[state=checked]:border-cms-black",
+        ),
+        default: cn(
+          "border-cms-gray-300 text-cms-primary-300",
+          "data-[state=checked]:border-cms-primary-300",
+        ),
+        green: cn(
+          "border-cms-gray-300 text-cms-green-500",
+          "data-[state=checked]:border-cms-green-500",
+        ),
+        blue: cn(
+          "border-cms-gray-300 text-cms-blue-700",
+          "data-[state=checked]:border-cms-blue-700",
+        ),
+        red: cn(
+          "border-cms-gray-300 text-cms-red-400",
+          "data-[state=checked]:border-cms-red-400",
+        ),
       },
       size: {
         sm: "size-4",
@@ -43,7 +56,7 @@ const radioGroupItemVariants = cva(
       variant: "black",
       size: "md",
     },
-  }
+  },
 );
 
 const radioGroupIndicatorVariants = cva(
@@ -68,7 +81,7 @@ const radioGroupIndicatorVariants = cva(
       variant: "black",
       size: "md",
     },
-  }
+  },
 );
 
 export interface RadioGroupItemProps

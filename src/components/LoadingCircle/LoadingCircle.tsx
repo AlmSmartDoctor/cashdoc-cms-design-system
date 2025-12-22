@@ -17,8 +17,9 @@ export function LoadingCircle({ size = "lg", className }: LoadingCircleProps) {
       <div
         className={cn(
           sizeClasses[size],
-          "animate-spin rounded-full border-2 border-cms-gray-500 border-b-transparent",
-          className
+          "animate-spin rounded-full",
+          "border-2 border-cms-gray-500 border-b-transparent",
+          className,
         )}
       />
     </div>
