@@ -11004,9 +11004,9 @@ const Qg = [
                 "span",
                 {
                   className: W(
-                    "text-md font-bold",
+                    "text-base font-bold",
                     "transition-colors",
-                    l ? "text-cms-primary-400 font-bold" : "text-[#b4b4b4]"
+                    l ? "text-cms-primary-400 font-bold" : "text-cms-white"
                   ),
                   children: i.title
                 }
@@ -11027,7 +11027,7 @@ const Qg = [
         ref: i,
         className: W(
           "flex flex-col",
-          "w-70 min-w-70 max-w-70 h-screen",
+          "w-70 min-w-70 max-w-70 h-full",
           "bg-[#2c2d30] text-white",
           a
         ),

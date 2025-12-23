@@ -125,11 +125,11 @@ const NavigationMenuItem = ({
               >
                 <span
                   className={cn(
-                    "text-md font-bold",
+                    "text-base font-bold",
                     "transition-colors",
                     subSelected
                       ? "text-cms-primary-400 font-bold"
-                      : "text-[#b4b4b4]",
+                      : "text-cms-white",
                   )}
                 >
                   {subItem.title}
@@ -158,7 +158,7 @@ export const SideNavigation = React.forwardRef<
         ref={ref}
         className={cn(
           "flex flex-col",
-          "w-70 min-w-70 max-w-70 h-screen",
+          "w-70 min-w-70 max-w-70 h-full",
           "bg-[#2c2d30] text-white",
           className,
         )}
