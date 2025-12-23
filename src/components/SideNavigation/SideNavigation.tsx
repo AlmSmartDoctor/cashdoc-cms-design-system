@@ -39,12 +39,17 @@ const NavigationMenuItem = ({
   selectedUrl,
   onMenuClick,
 }: NavigationMenuItemProps) => {
+  const isSubMenuSelected = menu.subMenu?.some(
+    (sub) => sub.url === selectedUrl,
+  );
+
   return (
     <Accordion.Item value={menu.url} className="border-none">
       <Accordion.Header className="m-0">
         <Accordion.Trigger
-          onClick={() => {
+          onClick={(e) => {
             if (!menu.subMenu) {
+              e.preventDefault();
               onMenuClick(menu.url);
             }
           }}
@@ -52,27 +57,42 @@ const NavigationMenuItem = ({
             "group flex items-center px-5",
             "text-white",
             "w-full h-13",
-            "data-[state=open]:bg-transparent",
-            "hover:bg-[#3a3b3e]",
+            !isSubMenuSelected && "data-[state=open]:bg-transparent",
             "transition-colors",
-            !menu.subMenu && isSelected && "bg-[#3a3b3e]",
+            !menu.subMenu && isSelected && "bg-cms-primary-400 text-cms-black",
+            isSubMenuSelected && "bg-cms-primary-200 text-cms-black",
+            "cursor-pointer",
           )}
         >
           {menu.icon && (
             <div
               className={cn(
-                "mr-3 flex items-center text-white ",
+                "mr-3 flex items-center",
                 "[&>svg]:w-6 [&>svg]:h-6",
+                (!menu.subMenu && isSelected) || isSubMenuSelected
+                  ? "text-cms-black"
+                  : "text-white",
               )}
             >
               {menu.icon}
             </div>
           )}
-          <span className="text-base font-normal text-white">{menu.title}</span>
+          <span
+            className={cn(
+              (!menu.subMenu && isSelected) || isSubMenuSelected
+                ? "text-cms-black"
+                : "text-white",
+            )}
+          >
+            {menu.title}
+          </span>
           {menu.subMenu && (
             <ChevronDown
               className={cn(
-                "ml-auto transition-transform text-white",
+                "ml-auto transition-transform",
+                (!menu.subMenu && isSelected) || isSubMenuSelected
+                  ? "text-cms-black"
+                  : "text-white",
                 isOpen && "rotate-180",
               )}
               size={20}
@@ -81,7 +101,14 @@ const NavigationMenuItem = ({
         </Accordion.Trigger>
       </Accordion.Header>
       {menu.subMenu && (
-        <Accordion.Content className="overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up bg-[#232427]">
+        <Accordion.Content
+          className={cn(
+            "overflow-hidden",
+            "bg-[#232427]",
+            "data-[state=open]:animate-accordion-down",
+            "data-[state=closed]:animate-accordion-up",
+          )}
+        >
           {menu.subMenu.map((subItem) => {
             const subSelected = subItem.url === selectedUrl;
             return (
@@ -89,14 +116,20 @@ const NavigationMenuItem = ({
                 key={subItem.url}
                 onClick={() => onMenuClick(subItem.url)}
                 className={cn(
-                  "flex items-center h-11 px-5 pl-14 cursor-pointer transition-colors hover:bg-[#2e2f32]",
-                  subSelected && "bg-[#2e2f32]",
+                  "flex items-center",
+                  "h-11 px-5 pl-14",
+                  "cursor-pointer",
+                  "transition-colors",
+                  "hover:bg-[#2e2f32]",
                 )}
               >
                 <span
                   className={cn(
                     "text-sm font-normal",
-                    subSelected ? "text-white font-medium" : "text-[#b4b4b4]",
+                    subSelected
+                      ? "text-cms-primary-400 font-medium"
+                      : "text-[#b4b4b4]",
+                    "transition-colors",
                   )}
                 >
                   {subItem.title}
@@ -124,7 +157,9 @@ export const SideNavigation = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          "w-[280px] min-w-[280px] max-w-[280px] bg-[#2c2d30] flex flex-col text-white h-screen",
+          "flex flex-col",
+          "w-70 min-w-70 max-w-70 h-screen",
+          "bg-[#2c2d30] text-white",
           className,
         )}
         {...props}
@@ -140,7 +175,14 @@ export const SideNavigation = React.forwardRef<
         )}
 
         {/* Menu Body */}
-        <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#3a3b3e] scrollbar-track-transparent">
+        <div
+          className={cn(
+            "flex-1 overflow-y-auto",
+            "scrollbar-thin",
+            "scrollbar-thumb-[#3a3b3e]",
+            "scrollbar-track-transparent",
+          )}
+        >
           <Accordion.Root
             type="multiple"
             value={openedMenus}

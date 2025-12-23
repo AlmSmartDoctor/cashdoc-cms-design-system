@@ -5,7 +5,7 @@ import { cn } from "@/utils/cn";
 const tagInputContainerVariants = cva(
   cn(
     "flex items-center gap-2 p-2 border border-solid rounded-cms-sm",
-    "min-h-[40px] w-full transition-colors duration-200"
+    "min-h-[40px] w-full transition-colors duration-200",
   ),
   {
     variants: {
@@ -15,7 +15,7 @@ const tagInputContainerVariants = cva(
           "bg-cms-white cursor-text",
           "border-cms-gray-450",
           "hover:border-cms-gray-800",
-          "focus-within:border-cms-gray-800"
+          "focus-within:border-cms-gray-800",
         ),
       },
       layout: {
@@ -27,15 +27,15 @@ const tagInputContainerVariants = cva(
       readOnly: false,
       layout: "row",
     },
-  }
+  },
 );
 
 const tagVariants = cva(
   cn(
     "inline-flex items-center gap-2 px-3 py-1",
     "bg-cms-primary-100 border border-solid border-cms-primary-200",
-    "rounded-cms-2xl text-cms-black text-xs font-semibold"
-  )
+    "rounded-cms-2xl text-cms-black text-xs font-semibold",
+  ),
 );
 
 const removeButtonVariants = cva(
@@ -45,8 +45,8 @@ const removeButtonVariants = cva(
     "bg-cms-gray-300 text-cms-gray-700",
     "text-xs leading-none cursor-pointer rounded-full",
     "transition-all duration-200",
-    "hover:bg-cms-gray-400 hover:text-cms-black"
-  )
+    "hover:bg-cms-gray-400 hover:text-cms-black",
+  ),
 );
 
 const inputVariants = cva(
@@ -54,14 +54,14 @@ const inputVariants = cva(
     "flex-1 min-w-[120px] outline-none border-none",
     "text-xs p-1.5",
     "placeholder:text-cms-gray-500",
-    "disabled:bg-transparent disabled:cursor-not-allowed"
-  )
+    "disabled:bg-transparent disabled:cursor-not-allowed",
+  ),
 );
 
 const labelVariants = cva("block text-xs font-medium text-cms-black mb-2");
 
 const helperTextVariants = cva(
-  "flex items-center gap-1 text-xs text-cms-gray-700 mt-1"
+  "flex items-center gap-1 text-xs text-cms-gray-700 mt-1",
 );
 
 const tagCountVariants = cva("text-xs text-cms-gray-750 font-bold");
@@ -80,7 +80,7 @@ export interface TagInputProps extends Omit<
   noLimit?: boolean;
   validateTag?: (
     tag: string,
-    currentTags: string[]
+    currentTags: string[],
   ) => boolean | string | undefined;
   className?: string;
   id?: string;
@@ -102,7 +102,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
       className,
       id,
     },
-    ref
+    ref,
   ) => {
     const [tags, setTags] = useState<string[]>(value);
     const [inputValue, setInputValue] = useState("");
@@ -179,7 +179,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
             className={cn(
               labelVariants(),
               required &&
-                "after:content-['*'] after:ml-1 after:text-cms-red-400"
+                "after:content-['*'] after:ml-1 after:text-cms-red-400",
             )}
           >
             {label}
@@ -234,7 +234,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 TagInput.displayName = "TagInput";

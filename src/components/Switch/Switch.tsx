@@ -11,7 +11,7 @@ const switchVariants = cva(
     "cursor-pointer",
     "focus-visible:outline-none",
     "disabled:cursor-not-allowed disabled:opacity-50",
-    "data-[state=unchecked]:bg-cms-gray-300"
+    "data-[state=unchecked]:bg-cms-gray-300",
   ),
 
   {
@@ -27,7 +27,7 @@ const switchVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 export interface SwitchProps
@@ -51,7 +51,7 @@ const Switch = React.forwardRef<
         "h-5 w-5",
         "data-[state=unchecked]:translate-x-0",
         "data-[state=checked]:translate-x-4",
-        "transition-transform"
+        "transition-transform",
       )}
     />
   </SwitchPrimitives.Root>

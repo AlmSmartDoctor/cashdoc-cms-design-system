@@ -32,12 +32,18 @@ export const Basic: Story = {
           onOpenChange={setOpen}
           title="기본 모달"
           footer={
-            <>
-              <Button onClick={() => setOpen(false)}>확인</Button>
-              <Button onClick={() => setOpen(false)} variant="outline">
+            <div className="flex justify-between w-full gap-2">
+              <Button onClick={() => setOpen(false)} className="w-full">
+                확인
+              </Button>
+              <Button
+                onClick={() => setOpen(false)}
+                variant="outline"
+                className="w-full"
+              >
                 취소
               </Button>
-            </>
+            </div>
           }
         >
           이것은 기본 모달입니다. 제목과 내용, 그리고 푸터 영역을 자유롭게
@@ -311,7 +317,11 @@ export const Sizes: Story = {
           onOpenChange={setSmOpen}
           title="Small 모달"
           size="sm"
-          footer={<Button onClick={() => setSmOpen(false)}>확인</Button>}
+          footer={
+            <Button onClick={() => setSmOpen(false)} className="w-full">
+              확인
+            </Button>
+          }
         >
           이것은 작은 크기의 모달입니다.
         </Modal>
@@ -321,7 +331,11 @@ export const Sizes: Story = {
           onOpenChange={setMdOpen}
           title="Medium 모달"
           size="md"
-          footer={<Button onClick={() => setMdOpen(false)}>확인</Button>}
+          footer={
+            <Button onClick={() => setMdOpen(false)} className="w-full">
+              확인
+            </Button>
+          }
         >
           이것은 중간 크기의 모달입니다. 기본 크기입니다.
         </Modal>
@@ -331,7 +345,11 @@ export const Sizes: Story = {
           onOpenChange={setLgOpen}
           title="Large 모달"
           size="lg"
-          footer={<Button onClick={() => setLgOpen(false)}>확인</Button>}
+          footer={
+            <Button onClick={() => setLgOpen(false)} className="w-full">
+              확인
+            </Button>
+          }
         >
           이것은 큰 크기의 모달입니다. 더 많은 내용을 표시할 수 있습니다.
         </Modal>

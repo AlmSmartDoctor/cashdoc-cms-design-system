@@ -13,7 +13,7 @@ const textInputVariants = cva(
     "outline-none",
     "text-cms-black text-xs",
     "placeholder:text-cms-gray-500",
-    "placeholder:text-xs"
+    "placeholder:text-xs",
   ),
   {
     variants: {
@@ -22,12 +22,14 @@ const textInputVariants = cva(
           "bg-cms-white ",
           "border-cms-gray-450",
           "focus:border-cms-gray-800",
-          "disabled:bg-cms-gray-150 disabled:text-cms-gray-400 disabled:cursor-not-allowed"
+          "disabled:bg-cms-gray-150",
+          "disabled:text-cms-gray-400",
+          "disabled:cursor-not-allowed",
         ),
         error: cn(
           "bg-cms-white",
           "border-cms-red-400",
-          "focus:border-cms-red-500"
+          "focus:border-cms-red-500",
         ),
       },
       fullWidth: {
@@ -39,17 +41,17 @@ const textInputVariants = cva(
       variant: "default",
       fullWidth: true,
     },
-  }
+  },
 );
 
 const labelVariants = cva("block text-xs font-medium text-cms-black");
 
 const errorMessageVariants = cva(
-  "block text-xs font-medium text-cms-red-400 mt-1"
+  "block text-xs font-medium text-cms-red-400 mt-1",
 );
 
 const helperTextVariants = cva(
-  "block text-xs font-normal text-cms-gray-700 mt-1"
+  "block text-xs font-normal text-cms-gray-700 mt-1",
 );
 
 export interface TextInputProps
@@ -81,10 +83,10 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       id,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [internalValue, setInternalValue] = React.useState<string>(
-      (value || defaultValue || "") as string
+      (value || defaultValue || "") as string,
     );
     const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
     const finalVariant = error ? "error" : variant;
@@ -125,7 +127,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           ref={ref}
           className={cn(
             textInputVariants({ variant: finalVariant, fullWidth }),
-            className
+            className,
           )}
           maxLength={maxLength}
           value={value}
@@ -141,7 +143,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 TextInput.displayName = "TextInput";

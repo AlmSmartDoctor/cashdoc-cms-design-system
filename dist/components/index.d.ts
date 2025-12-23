@@ -10,3 +10,4 @@ export * from './Switch';
 export * from './RadioButton';
 export * from './SideNavigation';
 export * from './Checkbox';
+export * from './Modal';

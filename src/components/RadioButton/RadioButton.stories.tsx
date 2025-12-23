@@ -46,7 +46,7 @@ export default meta;
 type Story = StoryObj<typeof RadioGroupItem>;
 
 const LabeledRadioItem = (
-  props: RadioGroupItemProps & { label: string; value: string }
+  props: RadioGroupItemProps & { label: string; value: string },
 ) => (
   <div className="flex items-center space-x-2">
     <RadioGroupItem

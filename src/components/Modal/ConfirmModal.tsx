@@ -2,7 +2,6 @@ import React from "react";
 import { CheckCircle2 } from "lucide-react";
 import { Modal } from "./Modal";
 import { Button } from "../Button/Button";
-import { cn } from "@/utils/cn";
 
 export interface ConfirmModalProps {
   open: boolean;
@@ -19,13 +18,13 @@ export const ConfirmModal = React.forwardRef<HTMLDivElement, ConfirmModalProps>(
     {
       open,
       onOpenChange,
-      title,
+      title = "확인",
       message,
       confirmText = "확인",
       onConfirm,
       className,
     },
-    ref
+    ref,
   ) => {
     const handleConfirm = () => {
       onConfirm?.();
@@ -37,28 +36,24 @@ export const ConfirmModal = React.forwardRef<HTMLDivElement, ConfirmModalProps>(
         ref={ref}
         open={open}
         onOpenChange={onOpenChange}
-        title={
-          title ? (
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-6 h-6 text-cms-blue-600" />
-              <span>{title}</span>
-            </div>
-          ) : (
-            <CheckCircle2 className="w-12 h-12 text-cms-blue-600" />
-          )
-        }
+        title={title}
         footer={
-          <Button onClick={handleConfirm} className="min-w-[100px]">
+          <Button
+            onClick={handleConfirm}
+            className="w-full h-12 bg-cms-gray-850 hover:bg-cms-gray-800"
+          >
             {confirmText}
           </Button>
         }
         className={className}
         size="sm"
+        showCloseButton={false}
+        icon={<CheckCircle2 className="w-15 h-15 text-cms-black" />}
       >
-        <div className={cn("text-center", title && "mt-2")}>{message}</div>
+        <div className="text-sm text-cms-gray-700">{message}</div>
       </Modal>
     );
-  }
+  },
 );
 
 ConfirmModal.displayName = "ConfirmModal";

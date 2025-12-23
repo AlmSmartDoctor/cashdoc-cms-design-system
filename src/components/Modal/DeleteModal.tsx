@@ -21,7 +21,7 @@ export const DeleteModal = React.forwardRef<HTMLDivElement, DeleteModalProps>(
     {
       open,
       onOpenChange,
-      title,
+      title = "삭제",
       message = "정말로 삭제하시겠습니까?",
       confirmText = "삭제",
       cancelText = "취소",
@@ -29,7 +29,7 @@ export const DeleteModal = React.forwardRef<HTMLDivElement, DeleteModalProps>(
       onCancel,
       className,
     },
-    ref
+    ref,
   ) => {
     const handleConfirm = () => {
       onConfirm();
@@ -46,45 +46,36 @@ export const DeleteModal = React.forwardRef<HTMLDivElement, DeleteModalProps>(
         ref={ref}
         open={open}
         onOpenChange={onOpenChange}
-        title={
-          title ? (
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="w-6 h-6 text-cms-red-400" />
-              <span>{title}</span>
-            </div>
-          ) : (
-            <AlertTriangle className="w-12 h-12 text-cms-red-400" />
-          )
-        }
+        icon={<AlertTriangle className="w-15 h-15 text-cms-red-400" />}
+        title={title}
         footer={
-          <>
+          <div className="flex gap-2 w-full">
+            <Button
+              onClick={handleCancel}
+              variant="outline"
+              className="flex-1 h-12"
+            >
+              {cancelText}
+            </Button>
             <Button
               onClick={handleConfirm}
-              variant="default"
               className={cn(
-                "min-w-[100px]",
-                "bg-cms-red-400 hover:bg-cms-red-500"
+                "flex-1 h-12",
+                "bg-cms-red-400 hover:bg-cms-red-500",
               )}
             >
               {confirmText}
             </Button>
-            <Button
-              onClick={handleCancel}
-              variant="outline"
-              className="min-w-[100px]"
-            >
-              {cancelText}
-            </Button>
-          </>
+          </div>
         }
         className={className}
         size="sm"
         showCloseButton={false}
       >
-        <div className={cn("text-center", title && "mt-2")}>{message}</div>
+        <div className="text-sm text-cms-gray-700">{message}</div>
       </Modal>
     );
-  }
+  },
 );
 
 DeleteModal.displayName = "DeleteModal";

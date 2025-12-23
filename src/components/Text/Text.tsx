@@ -48,7 +48,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <Component
@@ -59,7 +59,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
         {children}
       </Component>
     );
-  }
+  },
 );
 
 Text.displayName = "Text";
