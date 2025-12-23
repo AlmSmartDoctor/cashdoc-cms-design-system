@@ -20,7 +20,6 @@
   "scripts": {
     "build": "tsc && vite build",
     "dev": "vite",
-    "prepare": "pnpm build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "type-check": "tsc --noEmit",
