@@ -5675,9 +5675,9 @@ const qu = Ne(
     "font-normal leading-tight",
     "transition-colors duration-200",
     "outline-none",
-    "text-cms-black text-xs",
+    "text-md text-cms-black",
     "placeholder:text-cms-gray-500",
-    "placeholder:text-xs"
+    "placeholder:text-md"
   ),
   {
     variants: {
@@ -5706,10 +5706,10 @@ const qu = Ne(
       fullWidth: !0
     }
   }
-), Uu = Ne("block text-xs font-medium text-cms-black"), Xu = Ne(
-  "block text-xs font-medium text-cms-red-400 mt-1"
+), Uu = Ne("block text-sm font-medium text-cms-black"), Xu = Ne(
+  "block text-sm font-medium text-cms-red-400 mt-1"
 ), Ku = Ne(
-  "block text-xs font-normal text-cms-gray-700 mt-1"
+  "block text-sm font-normal text-cms-gray-700 mt-1"
 ), Qu = P.forwardRef(
   ({
     className: e,
@@ -5735,7 +5735,7 @@ const qu = Ne(
     return /* @__PURE__ */ V("div", { className: W("w-full", !n && "w-auto"), children: [
       C && /* @__PURE__ */ V("div", { className: "flex justify-between items-center mb-2", children: [
         r ? /* @__PURE__ */ g("label", { htmlFor: v, className: Uu(), children: r }) : /* @__PURE__ */ g("div", {}),
-        i && c && /* @__PURE__ */ V("span", { className: "text-xs text-cms-gray-600", children: [
+        i && c && /* @__PURE__ */ V("span", { className: "text-sm text-cms-gray-600", children: [
           k,
           " / ",
           c

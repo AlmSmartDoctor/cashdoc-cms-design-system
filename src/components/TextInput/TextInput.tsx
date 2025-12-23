@@ -11,9 +11,9 @@ const textInputVariants = cva(
     "font-normal leading-tight",
     "transition-colors duration-200",
     "outline-none",
-    "text-cms-black text-xs",
+    "text-md text-cms-black",
     "placeholder:text-cms-gray-500",
-    "placeholder:text-xs",
+    "placeholder:text-md",
   ),
   {
     variants: {
@@ -44,14 +44,14 @@ const textInputVariants = cva(
   },
 );
 
-const labelVariants = cva("block text-xs font-medium text-cms-black");
+const labelVariants = cva("block text-sm font-medium text-cms-black");
 
 const errorMessageVariants = cva(
-  "block text-xs font-medium text-cms-red-400 mt-1",
+  "block text-sm font-medium text-cms-red-400 mt-1",
 );
 
 const helperTextVariants = cva(
-  "block text-xs font-normal text-cms-gray-700 mt-1",
+  "block text-sm font-normal text-cms-gray-700 mt-1",
 );
 
 export interface TextInputProps
@@ -116,7 +116,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
               <div />
             )}
             {showCharCount && maxLength && (
-              <span className="text-xs text-cms-gray-600">
+              <span className="text-sm text-cms-gray-600">
                 {charCount} / {maxLength}
               </span>
             )}
