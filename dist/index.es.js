@@ -10935,13 +10935,13 @@ const Qg = [
         },
         className: W(
           "group flex items-center px-5",
-          "text-white",
-          "w-full h-13",
-          !a && "data-[state=open]:bg-transparent",
+          "text-white font-bold text-lg",
+          "w-full h-15",
           "transition-colors",
+          "cursor-pointer",
+          !a && "data-[state=open]:bg-transparent",
           !e.subMenu && n && "bg-cms-primary-400 text-cms-black",
-          a && "bg-cms-primary-200 text-cms-black",
-          "cursor-pointer"
+          a && "bg-cms-primary-200 text-cms-black"
         ),
         children: [
           e.icon && /* @__PURE__ */ v(
@@ -10995,7 +10995,7 @@ const Qg = [
               onClick: () => o(i.url),
               className: W(
                 "flex items-center",
-                "h-11 px-5 pl-14",
+                "h-13 px-5 pl-14",
                 "cursor-pointer",
                 "transition-colors",
                 "hover:bg-[#2e2f32]"
@@ -11004,9 +11004,9 @@ const Qg = [
                 "span",
                 {
                   className: W(
-                    "text-sm font-normal",
-                    l ? "text-cms-primary-400 font-medium" : "text-[#b4b4b4]",
-                    "transition-colors"
+                    "text-md font-bold",
+                    "transition-colors",
+                    l ? "text-cms-primary-400 font-bold" : "text-[#b4b4b4]"
                   ),
                   children: i.title
                 }

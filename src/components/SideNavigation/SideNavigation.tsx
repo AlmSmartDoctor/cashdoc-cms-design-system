@@ -55,13 +55,13 @@ const NavigationMenuItem = ({
           }}
           className={cn(
             "group flex items-center px-5",
-            "text-white",
-            "w-full h-13",
-            !isSubMenuSelected && "data-[state=open]:bg-transparent",
+            "text-white font-bold text-lg",
+            "w-full h-15",
             "transition-colors",
+            "cursor-pointer",
+            !isSubMenuSelected && "data-[state=open]:bg-transparent",
             !menu.subMenu && isSelected && "bg-cms-primary-400 text-cms-black",
             isSubMenuSelected && "bg-cms-primary-200 text-cms-black",
-            "cursor-pointer",
           )}
         >
           {menu.icon && (
@@ -117,7 +117,7 @@ const NavigationMenuItem = ({
                 onClick={() => onMenuClick(subItem.url)}
                 className={cn(
                   "flex items-center",
-                  "h-11 px-5 pl-14",
+                  "h-13 px-5 pl-14",
                   "cursor-pointer",
                   "transition-colors",
                   "hover:bg-[#2e2f32]",
@@ -125,11 +125,11 @@ const NavigationMenuItem = ({
               >
                 <span
                   className={cn(
-                    "text-sm font-normal",
-                    subSelected
-                      ? "text-cms-primary-400 font-medium"
-                      : "text-[#b4b4b4]",
+                    "text-md font-bold",
                     "transition-colors",
+                    subSelected
+                      ? "text-cms-primary-400 font-bold"
+                      : "text-[#b4b4b4]",
                   )}
                 >
                   {subItem.title}
