@@ -13,8 +13,85 @@ const meta: Meta<typeof Modal> = {
   component: Modal,
   parameters: {
     layout: "centered",
+    docs: {
+      description: {
+        component:
+          "사용자에게 중요한 정보를 표시하거나 입력을 요구하는 오버레이 대화상자입니다. 모달이 열리면 배경이 어두워지며 사용자의 주의를 집중시킵니다.",
+      },
+    },
   },
   tags: ["autodocs"],
+  argTypes: {
+    open: {
+      control: "boolean",
+      description: "모달의 열림/닫힘 상태를 제어합니다.",
+      table: {
+        type: { summary: "boolean" },
+      },
+    },
+    onOpenChange: {
+      description:
+        "모달의 열림/닫힘 상태가 변경될 때 호출되는 콜백 함수입니다. X 버튼, 배경 클릭, Esc 키 등으로 닫힐 때 호출됩니다.",
+      table: {
+        type: { summary: "(open: boolean) => void" },
+      },
+    },
+    title: {
+      control: "text",
+      description:
+        "모달의 제목입니다. 모달의 목적을 명확히 설명하는 텍스트를 사용하세요.",
+      table: {
+        type: { summary: "ReactNode" },
+      },
+    },
+    icon: {
+      description:
+        "제목 위에 표시될 아이콘입니다. 성공(체크), 에러(X), 경고(!) 등의 시각적 힌트를 제공할 때 사용합니다.",
+      table: {
+        type: { summary: "ReactNode" },
+      },
+    },
+    children: {
+      description:
+        "모달의 본문 콘텐츠입니다. 설명 텍스트, 폼, 또는 기타 요소를 포함할 수 있습니다.",
+      table: {
+        type: { summary: "ReactNode" },
+      },
+    },
+    footer: {
+      description:
+        "모달 하단에 표시될 액션 버튼 영역입니다. 일반적으로 확인, 취소 등의 버튼을 포함합니다.",
+      table: {
+        type: { summary: "ReactNode" },
+      },
+    },
+    size: {
+      control: "select",
+      options: ["sm", "md", "lg"],
+      description:
+        "모달의 최대 너비를 결정합니다. sm(384px)은 간단한 확인 대화상자, md(448px)는 일반적인 폼, lg(512px)는 복잡한 폼에 사용합니다.",
+      table: {
+        type: { summary: "sm | md | lg" },
+        defaultValue: { summary: "md" },
+      },
+    },
+    showCloseButton: {
+      control: "boolean",
+      description:
+        "우측 상단의 X 닫기 버튼 표시 여부입니다. 사용자가 언제든 모달을 닫을 수 있어야 하는 경우 true로 설정하세요.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "true" },
+      },
+    },
+    className: {
+      control: "text",
+      description: "모달 콘텐츠 영역에 추가할 커스텀 CSS 클래스입니다.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+  },
 };
 
 export default meta;

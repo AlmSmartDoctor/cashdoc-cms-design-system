@@ -18,43 +18,140 @@ const meta: Meta<typeof TextInput> = {
     variant: {
       control: "select",
       options: ["default", "error"],
-      description: "입력 필드의 스타일 변형",
+      description:
+        "입력 필드의 스타일 변형입니다. 일반적으로 error prop과 함께 자동으로 처리되므로 직접 설정할 필요가 없습니다.",
+      table: {
+        type: { summary: "default | error" },
+        defaultValue: { summary: "default" },
+      },
     },
     fullWidth: {
       control: "boolean",
-      description: "전체 너비 사용 여부",
+      description:
+        "true일 경우 부모 요소의 전체 너비를 차지합니다. false일 경우 내용에 맞춰 조절됩니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "true" },
+      },
     },
     disabled: {
       control: "boolean",
-      description: "비활성화 상태",
+      description:
+        "true일 경우 입력을 비활성화하고 회색으로 표시합니다. 포커스를 받지 않으며 클릭할 수 없습니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
     },
     label: {
       control: "text",
-      description: "입력 필드 라벨",
+      description:
+        "입력 필드 위에 표시되는 라벨 텍스트입니다. 무엇을 입력해야 하는지 명확하게 표시하세요.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    required: {
+      control: "boolean",
+      description:
+        "true일 경우 필수 입력 표시(*)를 라벨 옆에 표시하고 HTML input의 required 속성을 활성화합니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
     },
     placeholder: {
       control: "text",
-      description: "플레이스홀더 텍스트",
+      description:
+        "입력 필드가 비어있을 때 표시되는 힌트 텍스트입니다. 입력 형식의 예시를 보여주는 용도로 사용하세요.",
+      table: {
+        type: { summary: "string" },
+      },
     },
     error: {
       control: "boolean",
-      description: "에러 상태",
+      description:
+        "true일 경우 에러 상태로 전환되어 빨간색 테두리와 errorMessage를 표시합니다. 유효성 검증 실패 시 사용하세요.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
     },
     errorMessage: {
       control: "text",
-      description: "에러 메시지",
+      description:
+        "error={true}일 때 입력 필드 하단에 표시되는 에러 메시지입니다. 사용자가 문제를 해결할 수 있도록 구체적으로 작성하세요.",
+      table: {
+        type: { summary: "string" },
+      },
     },
     helperText: {
       control: "text",
-      description: "도움말 텍스트",
+      description:
+        "입력 필드 하단에 표시되는 도움말 텍스트입니다. 입력 형식이나 제약사항을 안내할 때 사용합니다. error 상태에서는 표시되지 않습니다.",
+      table: {
+        type: { summary: "string" },
+      },
     },
     showCharCount: {
       control: "boolean",
-      description: "글자 수 카운터 표시 여부",
+      description:
+        "true일 경우 우측 상단에 현재 입력된 글자 수와 최대 글자 수(maxLength)를 표시합니다. maxLength가 설정되어야 작동합니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
     },
     maxLength: {
       control: "number",
-      description: "최대 입력 글자 수",
+      description:
+        "입력 가능한 최대 글자 수를 제한합니다. showCharCount={true}와 함께 사용하여 사용자에게 제한을 알려주세요.",
+      table: {
+        type: { summary: "number" },
+      },
+    },
+    type: {
+      control: "select",
+      options: ["text", "email", "password", "number", "tel", "url", "date"],
+      description:
+        "HTML input type입니다. 입력 데이터에 맞는 type을 지정하면 모바일에서 적절한 키보드가 표시됩니다.",
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "text" },
+      },
+    },
+    value: {
+      description:
+        "제어 컴포넌트로 사용할 때의 입력 값입니다. onChange와 함께 사용하여 상태를 관리하세요.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    onChange: {
+      description:
+        "입력 값이 변경될 때 호출되는 콜백 함수입니다. 제어 컴포넌트로 사용할 때 필수입니다.",
+      table: {
+        type: { summary: "(e: ChangeEvent<HTMLInputElement>) => void" },
+      },
+    },
+    labelLayout: {
+      control: "select",
+      options: ["vertical", "horizontal"],
+      description:
+        "레이블의 배치 방향입니다. vertical은 위에, horizontal은 왼쪽에 레이블이 배치됩니다.",
+      table: {
+        type: { summary: "vertical | horizontal" },
+        defaultValue: { summary: "vertical" },
+      },
+    },
+    labelWidth: {
+      control: "text",
+      description:
+        "horizontal 레이아웃일 때 레이블의 너비입니다. CSS 단위로 지정합니다.",
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "120px" },
+      },
     },
   },
 };
@@ -72,6 +169,14 @@ export const WithLabel: Story = {
   args: {
     label: "이름",
     placeholder: "이름을 입력하세요",
+  },
+};
+
+export const Required: Story = {
+  args: {
+    label: "필수 입력 항목",
+    required: true,
+    placeholder: "내용을 입력해주세요",
   },
 };
 
@@ -97,7 +202,7 @@ export const Disabled: Story = {
     label: "사용자명",
     placeholder: "사용자명",
     disabled: true,
-    value: "disabled-user",
+    value: "비활성화된 사용자",
   },
 };
 
@@ -146,6 +251,70 @@ export const CharCountOnly: Story = {
     placeholder: "최대 50자",
     maxLength: 50,
     showCharCount: true,
+  },
+};
+
+export const HorizontalLayout: Story = {
+  args: {
+    label: "상호(법인명)",
+    required: true,
+    labelLayout: "horizontal",
+    labelWidth: "150px",
+    placeholder: "회사명을 입력하세요",
+  },
+};
+
+export const HorizontalLayoutForm: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4 min-w-[600px]">
+      <TextInput
+        label="상호(법인명)"
+        required
+        labelLayout="horizontal"
+        labelWidth="150px"
+        placeholder="회사명을 입력하세요"
+      />
+      <TextInput
+        label="대표자"
+        required
+        labelLayout="horizontal"
+        labelWidth="150px"
+        placeholder="대표자명을 입력하세요"
+      />
+      <TextInput
+        label="사업자 등록번호"
+        required
+        labelLayout="horizontal"
+        labelWidth="150px"
+        placeholder="000-00-00000"
+      />
+      <TextInput
+        label="업태"
+        labelLayout="horizontal"
+        labelWidth="150px"
+        placeholder="업태를 입력하세요"
+      />
+      <TextInput
+        label="사업장 소재지"
+        required
+        labelLayout="horizontal"
+        labelWidth="150px"
+        placeholder="주소를 입력하세요"
+      />
+      <TextInput
+        label="종목"
+        labelLayout="horizontal"
+        labelWidth="150px"
+        placeholder="종목을 입력하세요"
+      />
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: "가로 배치 레이아웃을 사용한 폼 예시입니다. 레이블 너비가 일정하게 유지되어 정렬된 모습을 보여줍니다.",
+      },
+    },
   },
 };
 

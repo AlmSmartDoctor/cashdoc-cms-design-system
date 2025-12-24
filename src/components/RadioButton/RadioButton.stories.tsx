@@ -21,16 +21,45 @@ const meta: Meta<typeof RadioGroupItem> = {
     variant: {
       control: "select",
       options: ["black", "default", "green", "blue", "red"],
-      description: "라디오 버튼 색상 변형",
+      description:
+        "라디오 버튼의 색상 테마를 설정합니다. 디자인 가이드의 각 상태(성공, 에러 등)에 맞춰 선택하세요.",
+      table: {
+        type: { summary: "black | default | green | blue | red" },
+        defaultValue: { summary: "black" },
+      },
     },
     size: {
       control: "select",
       options: ["sm", "md", "lg"],
-      description: "라디오 버튼 크기",
+      description: "라디오 버튼의 크기를 설정합니다.",
+      table: {
+        type: { summary: "sm | md | lg" },
+        defaultValue: { summary: "md" },
+      },
     },
     disabled: {
       control: "boolean",
-      description: "비활성화 상태",
+      description:
+        "true일 경우 선택을 비활성화합니다. 시각적으로 흐리게 표시되며 클릭할 수 없습니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    value: {
+      control: "text",
+      description: "라디오 버튼 아이템의 고유 값입니다.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    id: {
+      control: "text",
+      description:
+        "라디오 버튼 요소의 고유 식별자입니다. 레이블과 연결하기 위해 사용됩니다.",
+      table: {
+        type: { summary: "string" },
+      },
     },
   },
   decorators: [

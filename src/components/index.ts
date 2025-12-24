@@ -6,6 +6,7 @@ export * from "./Popover";
 export * from "./Text";
 export * from "./TextInput";
 export * from "./DatePicker";
+export * from "./DateRangePicker";
 export * from "./Switch";
 export * from "./RadioButton";
 export * from "./SideNavigation";

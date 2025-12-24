@@ -17,15 +17,42 @@ const meta: Meta<typeof Switch> = {
     variant: {
       control: "select",
       options: ["default", "green", "black", "blue", "red"],
-      description: "스위치 색상 변형",
+      description: "스위치가 'On' 상태일 때의 배경 색상을 설정합니다.",
+      table: {
+        type: { summary: "default | green | black | blue | red" },
+        defaultValue: { summary: "default" },
+      },
     },
     checked: {
       control: "boolean",
-      description: "체크 상태",
+      description:
+        "스위치의 현재 상태(On/Off)입니다. 제어 컴포넌트로 사용할 때 이 값을 통해 상태를 주입합니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    onCheckedChange: {
+      description: "스위치 상태가 변경될 때 호출되는 콜백 함수입니다.",
+      table: {
+        type: { summary: "(checked: boolean) => void" },
+      },
     },
     disabled: {
       control: "boolean",
-      description: "비활성화 상태",
+      description:
+        "true일 경우 사용자의 조작을 차단하고 시각적으로 흐리게 표시합니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    className: {
+      control: "text",
+      description: "스위치 요소에 추가할 커스텀 CSS 클래스입니다.",
+      table: {
+        type: { summary: "string" },
+      },
     },
   },
 };

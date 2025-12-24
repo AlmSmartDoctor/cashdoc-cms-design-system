@@ -27,17 +27,33 @@ const meta: Meta<typeof Text> = {
         "caption",
         "price",
       ],
-      description: "텍스트 스타일 변형",
+      description:
+        "텍스트의 용도에 따른 스타일 변형입니다. 크기, 두께, 색상이 미리 정의되어 있습니다.",
+      table: {
+        type: {
+          summary:
+            "h1 | h2 | h3 | subtitle | body | emphasis | caption | price",
+        },
+        defaultValue: { summary: "body" },
+      },
     },
     align: {
       control: "select",
       options: ["left", "center", "right"],
-      description: "텍스트 정렬",
+      description: "텍스트의 가로 정렬 방식을 설정합니다.",
+      table: {
+        type: { summary: "left | center | right" },
+        defaultValue: { summary: "left" },
+      },
     },
     decoration: {
       control: "select",
       options: ["underline", "lineThrough", "none"],
-      description: "텍스트 장식",
+      description: "텍스트에 추가할 장식효과(밑줄, 취소선 등)를 설정합니다.",
+      table: {
+        type: { summary: "underline | lineThrough | none" },
+        defaultValue: { summary: "none" },
+      },
     },
     as: {
       control: "select",
@@ -53,7 +69,27 @@ const meta: Meta<typeof Text> = {
         "h6",
         "label",
       ],
-      description: "HTML 태그",
+      description:
+        "의미론적(Semantic) 구조를 위해 사용할 HTML 태그를 지정합니다.",
+      table: {
+        type: {
+          summary: "p | span | div | h1 | h2 | h3 | h4 | h5 | h6 | label",
+        },
+        defaultValue: { summary: "p" },
+      },
+    },
+    children: {
+      description: "화면에 표시될 텍스트 내용입니다.",
+      table: {
+        type: { summary: "ReactNode" },
+      },
+    },
+    className: {
+      control: "text",
+      description: "텍스트 요소에 추가할 커스텀 CSS 클래스입니다.",
+      table: {
+        type: { summary: "string" },
+      },
     },
   },
 };

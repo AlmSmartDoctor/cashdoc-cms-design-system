@@ -16,34 +16,104 @@ const meta: Meta<typeof TagInput> = {
   },
   tags: ["autodocs"],
   argTypes: {
-    layout: {
-      control: "select",
-      options: ["row", "column"],
-      description: "태그 레이아웃 방향",
+    label: {
+      control: "text",
+      description: "입력 필드 위에 표시될 레이블 텍스트입니다.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    value: {
+      description: "현재 입력된 태그들의 문자열 배열입니다.",
+      table: {
+        type: { summary: "string[]" },
+        defaultValue: { summary: "[]" },
+      },
+    },
+    onChange: {
+      description: "태그 목록이 변경될 때 호출되는 콜백 함수입니다.",
+      table: {
+        type: { summary: "(tags: string[]) => void" },
+      },
     },
     maxTags: {
       control: "number",
-      description: "최대 태그 개수",
+      description:
+        "입력 가능한 최대 태그 개수입니다. noLimit가 true이면 무시됩니다.",
+      table: {
+        type: { summary: "number" },
+        defaultValue: { summary: "2" },
+      },
     },
     noLimit: {
       control: "boolean",
-      description: "태그 개수 제한 없음",
-    },
-    readOnly: {
-      control: "boolean",
-      description: "읽기 전용 모드",
-    },
-    required: {
-      control: "boolean",
-      description: "필수 입력 여부",
-    },
-    label: {
-      control: "text",
-      description: "라벨 텍스트",
+      description: "true일 경우 태그 개수에 제한을 두지 않습니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
     },
     placeholder: {
       control: "text",
-      description: "플레이스홀더 텍스트",
+      description: "입력창이 비어있을 때 표시될 힌트 텍스트입니다.",
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "태그를 입력하세요" },
+      },
+    },
+    layout: {
+      control: "select",
+      options: ["row", "column"],
+      description: "태그들이 나열되는 레이아웃 방식입니다.",
+      table: {
+        type: { summary: "row | column" },
+        defaultValue: { summary: "row" },
+      },
+    },
+    readOnly: {
+      control: "boolean",
+      description:
+        "true일 경우 읽기 전용 모드로 전환됩니다. 태그를 추가하거나 삭제할 수 없습니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    required: {
+      control: "boolean",
+      description: "true일 경우 필수 입력 표시(*)가 레이블에 나타납니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    validateTag: {
+      description:
+        "새로운 태그를 추가하기 전에 호출되는 검증 함수입니다. 에러 메시지(string)를 반환하면 alert이 발생하고 추가가 중단됩니다.",
+      table: {
+        type: {
+          summary: "(tag: string, currentTags: string[]) => boolean | string",
+        },
+      },
+    },
+    labelLayout: {
+      control: "select",
+      options: ["vertical", "horizontal"],
+      description:
+        "레이블의 배치 방향입니다. vertical은 위에, horizontal은 왼쪽에 레이블이 배치됩니다.",
+      table: {
+        type: { summary: "vertical | horizontal" },
+        defaultValue: { summary: "vertical" },
+      },
+    },
+    labelWidth: {
+      control: "text",
+      description:
+        "horizontal 레이아웃일 때 레이블의 너비입니다. CSS 단위로 지정합니다.",
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "120px" },
+      },
     },
   },
 };
@@ -209,6 +279,72 @@ export const WithValidation: Story = {
       description: {
         story:
           "태그 유효성 검사를 적용한 예시입니다. 2-10자의 한글, 영문, 숫자만 입력할 수 있습니다.",
+      },
+    },
+  },
+};
+
+export const HorizontalLayout: Story = {
+  render: (args) => {
+    const [tags, setTags] = useState<string[]>([]);
+    return <TagInput {...args} value={tags} onChange={setTags} />;
+  },
+  args: {
+    label: "키워드",
+    required: true,
+    labelLayout: "horizontal",
+    labelWidth: "150px",
+    placeholder: "태그 입력 후 Enter",
+    maxTags: 5,
+  },
+};
+
+const HorizontalLayoutFormExample = () => {
+  const [tags1, setTags1] = useState<string[]>([]);
+  const [tags2, setTags2] = useState<string[]>([]);
+  const [tags3, setTags3] = useState<string[]>([]);
+
+  return (
+    <div className="flex flex-col gap-4 min-w-[600px]">
+      <TagInput
+        label="관심 분야"
+        required
+        labelLayout="horizontal"
+        labelWidth="150px"
+        placeholder="태그 입력 후 Enter"
+        maxTags={5}
+        value={tags1}
+        onChange={setTags1}
+      />
+      <TagInput
+        label="기술 스택"
+        required
+        labelLayout="horizontal"
+        labelWidth="150px"
+        placeholder="태그 입력 후 Enter"
+        noLimit
+        value={tags2}
+        onChange={setTags2}
+      />
+      <TagInput
+        label="취미"
+        labelLayout="horizontal"
+        labelWidth="150px"
+        placeholder="태그 입력 후 Enter"
+        maxTags={3}
+        value={tags3}
+        onChange={setTags3}
+      />
+    </div>
+  );
+};
+
+export const HorizontalLayoutForm: Story = {
+  render: () => <HorizontalLayoutFormExample />,
+  parameters: {
+    docs: {
+      description: {
+        story: "가로 배치 레이아웃을 사용한 폼 예시입니다. 레이블 너비가 일정하게 유지되어 정렬된 모습을 보여줍니다.",
       },
     },
   },

@@ -37,7 +37,7 @@ const preview: Preview = {
       React.createElement(
         "div",
         { className: "cashdoc-ds" },
-        React.createElement(Story)
+        React.createElement(Story),
       ),
   ],
   globalTypes: {

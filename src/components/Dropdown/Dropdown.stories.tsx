@@ -19,28 +19,90 @@ const meta: Meta<typeof Dropdown> = {
     variant: {
       control: "select",
       options: ["default", "outline", "ghost"],
-      description: "드롭다운의 스타일 변형을 설정합니다.",
+      description: "드롭다운 트리거 버튼의 시각적 스타일 변형입니다.",
+      table: {
+        type: { summary: "default | outline | ghost" },
+        defaultValue: { summary: "default" },
+      },
     },
     size: {
       control: "select",
       options: ["sm", "default", "lg"],
-      description: "드롭다운의 크기를 설정합니다.",
+      description: "드롭다운 트리거 버튼의 크기입니다.",
+      table: {
+        type: { summary: "sm | default | lg" },
+        defaultValue: { summary: "default" },
+      },
     },
     disabled: {
       control: "boolean",
-      description: "드롭다운 비활성화 여부를 설정합니다.",
+      description: "true일 경우 드롭다운을 비활성화하여 열 수 없게 합니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
     },
     searchable: {
       control: "boolean",
-      description: "검색 기능 활성화 여부를 설정합니다.",
+      description:
+        "true일 경우 드롭다운 내부에 검색 입력창이 표시되어 옵션을 필터링할 수 있습니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
     },
     clearable: {
       control: "boolean",
-      description: "선택 취소 버튼 표시 여부를 설정합니다.",
+      description:
+        "true일 경우 선택된 값을 지울 수 있는 'X' 버튼이 트리거 우측에 표시됩니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
     },
     multiple: {
       control: "boolean",
-      description: "다중 선택 가능 여부를 설정합니다.",
+      description:
+        "true일 경우 여러 개의 옵션을 선택할 수 있습니다. 선택된 값들은 쉼표(,)로 구분된 문자열로 관리됩니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    options: {
+      description: "드롭다운에 표시될 옵션 목록입니다.",
+      table: {
+        type: { summary: "DropdownOption[]" },
+      },
+    },
+    value: {
+      control: "text",
+      description: "현재 선택된 값입니다.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    onValueChange: {
+      description: "선택된 값이 변경될 때 호출되는 콜백 함수입니다.",
+      table: {
+        type: { summary: "(value: string) => void" },
+      },
+    },
+    placeholder: {
+      control: "text",
+      description: "값이 선택되지 않았을 때 표시될 힌트 텍스트입니다.",
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "선택하세요" },
+      },
+    },
+    maxHeight: {
+      control: "number",
+      description: "옵션 목록 레이어의 최대 높이(px)를 설정합니다.",
+      table: {
+        type: { summary: "number" },
+        defaultValue: { summary: "200" },
+      },
     },
   },
 };

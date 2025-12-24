@@ -28,11 +28,46 @@ const meta: Meta<typeof SideNavigation> = {
   argTypes: {
     title: {
       control: "text",
-      description: "사이드바 제목 (headerSlot이 없을 때만 표시)",
+      description:
+        "사이드바 최상단에 표시될 제목입니다. headerSlot이 제공되면 표시되지 않습니다.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    menus: {
+      description:
+        "사이드바에 렌더링될 메뉴 항목 배열입니다. 아이콘과 서브메뉴를 포함할 수 있습니다.",
+      table: {
+        type: { summary: "MenuItem[]" },
+      },
     },
     selectedUrl: {
       control: "text",
-      description: "현재 선택된 URL",
+      description:
+        "현재 선택된(활성화된) 페이지의 URL입니다. 이 값과 일치하는 메뉴 항목이 하이라이트됩니다.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    onMenuClick: {
+      description: "메뉴 항목을 클릭했을 때 호출되는 콜백 함수입니다.",
+      table: {
+        type: { summary: "(url: string) => void" },
+      },
+    },
+    headerSlot: {
+      description:
+        "제목 대신 커스텀하게 구성할 수 있는 헤더 영역입니다. 로고나 사용자 정보 등을 포함할 때 사용합니다.",
+      table: {
+        type: { summary: "ReactNode" },
+      },
+    },
+    className: {
+      control: "text",
+      description: "사이드바 전체 컨테이너에 추가할 커스텀 CSS 클래스입니다.",
+      table: {
+        type: { summary: "string" },
+      },
     },
   },
 };

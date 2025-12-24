@@ -15,9 +15,21 @@ const meta: Meta<typeof LoadingCircle> = {
   tags: ['autodocs'],
   argTypes: {
     size: {
-      control: 'select',
-      options: ['sm', 'md', 'lg'],
-      description: '로딩 스피너의 크기를 설정합니다.',
+      control: "select",
+      options: ["sm", "md", "lg"],
+      description:
+        "로딩 스피너의 크기입니다. sm은 버튼 내부, md는 카드 내부, lg는 페이지 전체 로딩 등에 적합합니다.",
+      table: {
+        type: { summary: "sm | md | lg" },
+        defaultValue: { summary: "lg" },
+      },
+    },
+    className: {
+      control: "text",
+      description: "추가적인 스타일링을 위한 커스텀 CSS 클래스입니다.",
+      table: {
+        type: { summary: "string" },
+      },
     },
   },
 };

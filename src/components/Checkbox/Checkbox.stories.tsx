@@ -18,15 +18,51 @@ const meta: Meta<typeof Checkbox> = {
   argTypes: {
     label: {
       control: "text",
-      description: "체크박스 옆에 표시될 레이블 텍스트",
+      description:
+        "체크박스 우측에 표시될 텍스트 레이블입니다. 체크박스의 용도를 명확히 설명하는 문구를 사용하세요. 레이블 클릭 시에도 체크 상태가 전환됩니다.",
+      table: {
+        type: { summary: "string" },
+      },
     },
     disabled: {
       control: "boolean",
-      description: "비활성화 상태",
+      description:
+        "true일 경우 체크박스를 비활성화합니다. 사용자는 상태를 변경할 수 없으며 시각적으로 흐리게 표시됩니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
     },
     checked: {
       control: "boolean",
-      description: "체크 상태",
+      description:
+        "체크박스의 현재 선택 상태입니다. 제어 컴포넌트로 사용할 때 이 값을 통해 상태를 주입합니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    onCheckedChange: {
+      description:
+        "체크 상태가 변경될 때 호출되는 콜백 함수입니다. 변경된 상태(boolean)를 인자로 전달받습니다.",
+      table: {
+        type: { summary: "(checked: boolean) => void" },
+      },
+    },
+    id: {
+      control: "text",
+      description:
+        "체크박스 요소의 고유 식별자입니다. 생략 시 자동으로 생성되어 레이블과 연결됩니다.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    className: {
+      control: "text",
+      description: "체크박스 컨테이너에 추가할 커스텀 CSS 클래스입니다.",
+      table: {
+        type: { summary: "string" },
+      },
     },
   },
 };
@@ -126,9 +162,7 @@ export const MultipleCheckboxes: Story = {
 
     const toggleItem = (item: string) => {
       setSelectedItems((prev) =>
-        prev.includes(item)
-          ? prev.filter((i) => i !== item)
-          : [...prev, item]
+        prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item],
       );
     };
 
@@ -152,9 +186,7 @@ export const MultipleCheckboxes: Story = {
         <div className="mt-6 p-4 bg-gray-50 rounded">
           <p className="text-sm font-medium">선택된 항목:</p>
           <p className="text-sm text-gray-600 mt-1">
-            {selectedItems.length > 0
-              ? selectedItems.join(", ")
-              : "없음"}
+            {selectedItems.length > 0 ? selectedItems.join(", ") : "없음"}
           </p>
         </div>
       </div>

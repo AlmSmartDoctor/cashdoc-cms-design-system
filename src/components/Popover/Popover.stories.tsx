@@ -10,11 +10,33 @@ const meta: Meta<typeof Popover> = {
     docs: {
       description: {
         component:
-          "CMS Design System의 팝오버 컴포넌트입니다. Radix UI Popover를 기반으로 만들어졌습니다.",
+          "특정 요소 근처에 부가적인 정보나 컨트롤을 표시하는 플로팅 컴포넌트입니다. 주로 '더 보기' 메뉴나 간단한 설정 창을 구현할 때 사용합니다.",
       },
     },
   },
   tags: ["autodocs"],
+  argTypes: {
+    children: {
+      description:
+        "Popover의 트리거와 콘텐츠를 포함하는 요소입니다. 보통 PopoverTrigger와 PopoverContent가 자식으로 옵니다.",
+      table: {
+        type: { summary: "ReactNode" },
+      },
+    },
+    open: {
+      control: "boolean",
+      description: "팝오버의 열림/닫힘 상태를 외부에서 제어할 때 사용합니다.",
+      table: {
+        type: { summary: "boolean" },
+      },
+    },
+    onOpenChange: {
+      description: "팝오버의 열림/닫힘 상태가 변경될 때 호출되는 콜백 함수입니다.",
+      table: {
+        type: { summary: "(open: boolean) => void" },
+      },
+    },
+  },
 };
 
 export default meta;
