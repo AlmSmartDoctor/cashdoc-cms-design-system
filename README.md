@@ -1,6 +1,16 @@
 # Cashdoc CMS Design System
 
-Cashdoc CMS용 디자인 시스템 컴포넌트 라이브러리 [Storybook](https://cashdoc-cms-design-system.vercel.app/?path=/docs/components-button--docs)
+Cashdoc CMS용 디자인 시스템 컴포넌트 라이브러리
+
+## 문서
+Storybook과 JSDoc, 둘 중 더 편한 쪽을 보면 됩니다.
+### Storybook
+[Storybook](https://cashdoc-cms-design-system.vercel.app/?path=/docs/components-button--docs)
+
+### JSDoc(TSDoc)
+<img width="1038" height="363" alt="스크린샷 2025-12-24 오후 3 48 42" src="https://github.com/user-attachments/assets/1178fa60-30cb-436b-944c-495417179ac3" />
+
+<br />
 
 ## 기술 스택
 
@@ -12,11 +22,15 @@ Cashdoc CMS용 디자인 시스템 컴포넌트 라이브러리 [Storybook](http
 - **Vite** - 빌드 도구
 - **Storybook** - 컴포넌트 문서화
 
+<br />
+
 ## 설치
 
 ```bash
 pnpm install cashdoc-cms-design-system
 ```
+
+<br />
 
 ## 사용법
 
@@ -33,6 +47,8 @@ function App() {
   return <Button variant="default">버튼</Button>;
 }
 ```
+
+<br />
 
 ## 컴포넌트 리스트
 
@@ -74,7 +90,9 @@ function App() {
 - `Text` - 타이포그래피
 - `Icons` - 아이콘 세트
 
-## 개발
+#
+<br />
+# 개발
 
 ### 로컬 개발 서버
 
