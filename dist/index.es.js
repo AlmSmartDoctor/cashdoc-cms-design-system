@@ -5706,7 +5706,7 @@ const ra = Be(
       fullWidth: !0
     }
   }
-), oa = Be("block text-sm font-medium text-cms-black"), sf = Be(
+), oa = Be("block text-md font-medium text-cms-black"), sf = Be(
   "block text-sm font-medium text-cms-red-400 mt-1"
 ), cf = Be(
   "block text-sm font-normal text-cms-gray-700 mt-1"
@@ -5741,7 +5741,7 @@ const ra = Be(
           "label",
           {
             htmlFor: M,
-            className: W(oa(), "mb-0 flex-shrink-0"),
+            className: W(oa(), "mb-0 shrink-0"),
             style: { width: h },
             children: [
               r,
@@ -5766,7 +5766,7 @@ const ra = Be(
             ...b
           }
         ) }),
-        l && d && /* @__PURE__ */ q("span", { className: "text-sm text-cms-gray-600 flex-shrink-0", children: [
+        l && d && /* @__PURE__ */ q("span", { className: "text-sm text-cms-gray-600 shrink-0", children: [
           N,
           " / ",
           d
