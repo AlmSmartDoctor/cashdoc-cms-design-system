@@ -7,6 +7,7 @@ export * from './Text';
 export * from './TextInput';
 export * from './DatePicker';
 export * from './DateRangePicker';
+export * from './TimePicker';
 export * from './Switch';
 export * from './RadioButton';
 export * from './SideNavigation';
