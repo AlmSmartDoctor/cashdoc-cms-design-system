@@ -88,7 +88,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "기본 페이지네이션입니다. 10개 페이지를 이전/다음 버튼과 함께 표시합니다.",
+        story:
+          "기본 페이지네이션입니다. 10개 페이지를 이전/다음 버튼과 함께 표시합니다.",
       },
     },
   },

@@ -256,7 +256,9 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             return (
               <span
                 key={`ellipsis-${index}`}
-                className={cn(paginationButtonVariants({ variant: "ellipsis" }))}
+                className={cn(
+                  paginationButtonVariants({ variant: "ellipsis" }),
+                )}
                 aria-hidden="true"
               >
                 ...

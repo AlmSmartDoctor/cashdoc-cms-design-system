@@ -11501,7 +11501,9 @@ const Fn = _e(
               return /* @__PURE__ */ p(
                 "span",
                 {
-                  className: T(Fn({ variant: "ellipsis" })),
+                  className: T(
+                    Fn({ variant: "ellipsis" })
+                  ),
                   "aria-hidden": "true",
                   children: "..."
                 },

@@ -97,8 +97,7 @@ const meta: Meta<typeof TimePicker> = {
     },
     showIcon: {
       control: "boolean",
-      description:
-        "true일 경우 입력창 오른쪽에 시계 아이콘을 표시합니다.",
+      description: "true일 경우 입력창 오른쪽에 시계 아이콘을 표시합니다.",
       table: {
         type: { summary: "boolean" },
         defaultValue: { summary: "true" },
@@ -121,11 +120,7 @@ export const Default: Story = {
   render: () => {
     const [time, setTime] = useState("");
     return (
-      <TimePicker
-        label="시간 선택 (24시간)"
-        value={time}
-        onChange={setTime}
-      />
+      <TimePicker label="시간 선택 (24시간)" value={time} onChange={setTime} />
     );
   },
 };
@@ -365,10 +360,7 @@ export const AllStates: Story = {
         </div>
         <div>
           <h3 className="text-sm font-semibold mb-2">헬퍼 텍스트</h3>
-          <TimePicker
-            label="업무 시간"
-            helperText="업무 시간을 선택해주세요"
-          />
+          <TimePicker label="업무 시간" helperText="업무 시간을 선택해주세요" />
         </div>
         <div>
           <h3 className="text-sm font-semibold mb-2">에러 상태</h3>
