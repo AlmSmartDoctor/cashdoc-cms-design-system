@@ -11,6 +11,7 @@ export * from "./TimePicker";
 export * from "./Switch";
 export * from "./RadioButton";
 export * from "./SideNavigation";
+export * from "./Pagination";
 export * from "./Checkbox";
 export * from "./Modal";
 export * from "./Toast";
