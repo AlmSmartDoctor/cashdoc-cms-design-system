@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { TimePicker } from "./TimePicker";
+import { Button } from "../Button";
 import { useState } from "react";
 
 const meta: Meta<typeof TimePicker> = {
@@ -310,24 +311,27 @@ export const Controlled: Story = {
           helperText={`선택된 시간: ${time || "없음"}`}
         />
         <div className="flex gap-2">
-          <button
+          <Button
             onClick={() => setTime("09:00")}
-            className="px-3 py-2 bg-gray-200 rounded-sm text-sm"
+            variant="secondary"
+            size="sm"
           >
             09:00 설정
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setTime("14:30")}
-            className="px-3 py-2 bg-gray-200 rounded-sm text-sm"
+            variant="secondary"
+            size="sm"
           >
             14:30 설정
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setTime("")}
-            className="px-3 py-2 bg-gray-200 rounded-sm text-sm"
+            variant="secondary"
+            size="sm"
           >
             초기화
-          </button>
+          </Button>
         </div>
       </div>
     );

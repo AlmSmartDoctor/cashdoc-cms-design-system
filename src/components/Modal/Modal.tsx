@@ -2,6 +2,7 @@ import React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { cn } from "@/utils/cn";
+import { Button } from "../Button";
 
 export interface ModalProps {
   open: boolean;
@@ -233,16 +234,15 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
             )}
           >
             {showCloseButton && (
-              <DialogPrimitive.Close
-                className={cn(
-                  "absolute right-4 top-4 rounded-sm opacity-70",
-                  "transition-opacity hover:opacity-100",
-                  "focus:outline-none focus:ring-2 focus:ring-cms-gray-400",
-                  "disabled:pointer-events-none",
-                )}
-              >
-                <X className="h-4 w-4" />
-                <span className="sr-only">Close</span>
+              <DialogPrimitive.Close asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={cn("h-6 w-6", "absolute right-4 top-4")}
+                >
+                  <X />
+                  <span className="sr-only">Close</span>
+                </Button>
               </DialogPrimitive.Close>
             )}
 

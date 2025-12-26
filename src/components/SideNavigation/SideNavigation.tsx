@@ -54,7 +54,7 @@ const NavigationMenuItem = ({
             }
           }}
           className={cn(
-            "group flex items-center px-5",
+            "border-0 group flex items-center px-5 bg-cms-gray-850",
             "text-white font-bold text-lg",
             "w-full h-15",
             "transition-colors",
@@ -104,7 +104,6 @@ const NavigationMenuItem = ({
         <Accordion.Content
           className={cn(
             "overflow-hidden",
-            "bg-[#232427]",
             "data-[state=open]:animate-accordion-down",
             "data-[state=closed]:animate-accordion-up",
           )}
@@ -112,15 +111,15 @@ const NavigationMenuItem = ({
           {menu.subMenu.map((subItem) => {
             const subSelected = subItem.url === selectedUrl;
             return (
-              <div
+              <button
                 key={subItem.url}
                 onClick={() => onMenuClick(subItem.url)}
                 className={cn(
-                  "flex items-center",
-                  "h-13 px-5 pl-14",
+                  "border-0 bg-transparent flex items-center",
+                  "w-full h-13 px-5 pl-14",
                   "cursor-pointer",
                   "transition-colors",
-                  "hover:bg-[#2e2f32]",
+                  "hover:bg-cms-gray-900",
                 )}
               >
                 <span
@@ -134,7 +133,7 @@ const NavigationMenuItem = ({
                 >
                   {subItem.title}
                 </span>
-              </div>
+              </button>
             );
           })}
         </Accordion.Content>
@@ -236,7 +235,7 @@ export const SideNavigation = React.forwardRef<
         className={cn(
           "flex flex-col",
           "w-70 min-w-70 max-w-70 h-full",
-          "bg-[#2c2d30] text-white",
+          "bg-cms-gray-850 text-white",
           className,
         )}
         {...props}

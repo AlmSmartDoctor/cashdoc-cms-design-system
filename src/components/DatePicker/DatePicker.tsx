@@ -263,9 +263,9 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                   <button
                     onClick={handleCancel}
                     className={cn(
-                      "w-15 h-8 rounded",
+                      "w-15 h-8 rounded cursor-pointer",
                       "text-xs font-medium text-gray-700",
-                      "border border-gray-300",
+                      "border border-gray-300 bg-transparent",
                       "transition-all duration-150",
                       "active:scale-95",
                       "hover:bg-gray-50",
@@ -277,6 +277,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                     onClick={handleApply}
                     disabled={!internalDate}
                     className={cn(
+                      "border-0 cursor-pointer",
                       "w-15 h-8 bg-blue-600 rounded",
                       "text-xs text-white",
                       "hover:bg-blue-700",

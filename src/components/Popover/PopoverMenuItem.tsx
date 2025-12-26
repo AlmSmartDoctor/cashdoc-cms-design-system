@@ -6,9 +6,9 @@ import { ButtonHTMLAttributes, forwardRef } from "react";
 
 const popoverMenuItemVariants = cva(
   cn(
-    "flex w-full items-center gap-3 rounded-md px-3 py-2",
-    "text-sm font-medium transition-colors",
-    "hover:bg-cms-gray-200 active:bg-cms-gray-300",
+    "border-0 cursor-pointer flex w-full items-center gap-3 rounded-md px-3 py-2",
+    "bg-white text-sm font-medium transition-colors",
+    "hover:bg-cms-gray-100 active:bg-cms-gray-200",
     "disabled:pointer-events-none disabled:opacity-50",
   ),
   {

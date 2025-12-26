@@ -103,7 +103,7 @@ export const Checkbox = React.forwardRef<
         id={checkboxId}
         disabled={disabled}
         className={cn(
-          "peer h-[17px] w-[17px] shrink-0 rounded",
+          "peer h-5 w-5 shrink-0 rounded",
           "border border-gray-400 bg-white",
           "focus-visible:outline-none",
           "focus-visible:ring-2",
@@ -118,7 +118,7 @@ export const Checkbox = React.forwardRef<
         <CheckboxPrimitive.Indicator
           className={cn("flex items-center justify-center", "text-white")}
         >
-          <Check className="h-3 w-3" strokeWidth={3} />
+          <Check className="h-[18px] w-[18px]" strokeWidth={4} />
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Root>
       {label && (

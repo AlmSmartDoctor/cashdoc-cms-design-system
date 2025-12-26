@@ -15,3 +15,5 @@ export * from './Pagination';
 export * from './Checkbox';
 export * from './Modal';
 export * from './Toast';
+export * from './ToolTip';
+export * from './Table';

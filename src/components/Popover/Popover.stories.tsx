@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Popover, PopoverTrigger, PopoverContent, PopoverMenuItem } from "./";
 import { MoreVertical, Trash2, Edit, Heart, Share2, Copy } from "lucide-react";
+import { Button } from "../Button";
 
 const meta: Meta<typeof Popover> = {
   title: "Components/Popover",
@@ -47,8 +48,10 @@ export const Default: Story = {
   render: () => (
     <div className="flex items-center justify-center p-20">
       <Popover>
-        <PopoverTrigger className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-grayscale-200 transition-colors">
-          <MoreVertical className="h-5 w-5" />
+        <PopoverTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <MoreVertical className="h-5 w-5" />
+          </Button>
         </PopoverTrigger>
         <PopoverContent>
           <PopoverMenuItem
@@ -71,8 +74,10 @@ export const WithMultipleActions: Story = {
   render: () => (
     <div className="flex items-center justify-center p-20">
       <Popover>
-        <PopoverTrigger className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-grayscale-200 transition-colors">
-          <MoreVertical className="h-5 w-5" />
+        <PopoverTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <MoreVertical className="h-5 w-5" />
+          </Button>
         </PopoverTrigger>
         <PopoverContent>
           <PopoverMenuItem icon={<Edit className="h-5 w-5" />}>
@@ -106,8 +111,10 @@ export const OnCard: Story = {
       <div className="relative w-80 rounded-2xl border border-grayscale-200 bg-white p-6 shadow-sm">
         <div className="absolute top-4 right-4">
           <Popover>
-            <PopoverTrigger className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-grayscale-200 transition-colors">
-              <MoreVertical className="h-5 w-5" />
+            <PopoverTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <MoreVertical className="h-5 w-5" />
+              </Button>
             </PopoverTrigger>
             <PopoverContent>
               <PopoverMenuItem
@@ -142,8 +149,10 @@ export const WithoutIcons: Story = {
   render: () => (
     <div className="flex items-center justify-center p-20">
       <Popover>
-        <PopoverTrigger className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-grayscale-200 transition-colors">
-          <MoreVertical className="h-5 w-5" />
+        <PopoverTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <MoreVertical className="h-5 w-5" />
+          </Button>
         </PopoverTrigger>
         <PopoverContent>
           <PopoverMenuItem>프로필 보기</PopoverMenuItem>
@@ -161,8 +170,10 @@ export const WithDisabledItems: Story = {
   render: () => (
     <div className="flex items-center justify-center p-20">
       <Popover>
-        <PopoverTrigger className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-grayscale-200 transition-colors">
-          <MoreVertical className="h-5 w-5" />
+        <PopoverTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <MoreVertical className="h-5 w-5" />
+          </Button>
         </PopoverTrigger>
         <PopoverContent>
           <PopoverMenuItem icon={<Edit className="h-5 w-5" />}>
@@ -188,8 +199,10 @@ export const AlignStart: Story = {
   render: () => (
     <div className="flex items-center justify-center p-20">
       <Popover>
-        <PopoverTrigger className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-grayscale-200 transition-colors">
-          <MoreVertical className="h-5 w-5" />
+        <PopoverTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <MoreVertical className="h-5 w-5" />
+          </Button>
         </PopoverTrigger>
         <PopoverContent align="start">
           <PopoverMenuItem

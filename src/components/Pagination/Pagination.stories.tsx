@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Pagination } from "./Pagination";
+import { Button } from "../Button";
 import { useState } from "react";
 
 const meta: Meta<typeof Pagination> = {
@@ -279,24 +280,27 @@ export const Controlled: Story = {
     return (
       <div className="flex flex-col gap-4 items-center">
         <div className="flex gap-2">
-          <button
+          <Button
             onClick={() => setCurrentPage(1)}
-            className="px-3 py-2 bg-gray-200 rounded-sm text-sm"
+            variant="secondary"
+            size="sm"
           >
             첫 페이지로
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setCurrentPage(10)}
-            className="px-3 py-2 bg-gray-200 rounded-sm text-sm"
+            variant="secondary"
+            size="sm"
           >
             10페이지로
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setCurrentPage(totalPages)}
-            className="px-3 py-2 bg-gray-200 rounded-sm text-sm"
+            variant="secondary"
+            size="sm"
           >
             마지막 페이지로
-          </button>
+          </Button>
         </div>
         <p className="text-sm text-gray-600">
           현재 페이지: {currentPage} / {totalPages}

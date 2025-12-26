@@ -327,10 +327,10 @@ export const DateRangePicker = React.forwardRef<
                     key={option.label}
                     onClick={() => handleQuickSelect(option)}
                     className={cn(
+                      "border-0 cursor-pointer",
                       "w-[70px] h-[26px] px-2",
                       "text-left text-xs text-gray-700",
-                      "border-b border-gray-200 rounded-sm",
-                      "last:border-b-0",
+                      "bg-white",
                       "transition-all duration-150",
                       "hover:bg-blue-50",
                       "hover:font-medium",
@@ -387,8 +387,8 @@ export const DateRangePicker = React.forwardRef<
                 <button
                   onClick={handleCancel}
                   className={cn(
-                    "w-15 h-8",
-                    "border border-gray-300 rounded",
+                    "w-15 h-8 cursor-pointer",
+                    "border border-gray-300 rounded bg-transparent",
                     "text-xs font-medium text-gray-700",
                     "transition-all duration-150",
                     "hover:bg-gray-50 active:scale-95",
@@ -400,6 +400,7 @@ export const DateRangePicker = React.forwardRef<
                   onClick={handleApply}
                   disabled={!fromDay || !toDay}
                   className={cn(
+                    "border-0 cursor-pointer",
                     "w-15 h-8",
                     "bg-blue-600 rounded",
                     "text-xs font-medium text-cms-white",
