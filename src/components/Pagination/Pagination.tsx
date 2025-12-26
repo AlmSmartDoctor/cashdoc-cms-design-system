@@ -20,6 +20,7 @@ const paginationButtonVariants = cva(
     "rounded-md",
     "text-sm font-medium",
     "transition-colors",
+    "cursor-pointer",
     "focus-visible:outline-none focus-visible:ring-2",
   ),
   {

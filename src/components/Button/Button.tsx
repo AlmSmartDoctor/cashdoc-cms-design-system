@@ -29,9 +29,10 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-cms-gray-850 text-cms-white hover:bg-cms-gray-750",
+        default:
+          "border-0 bg-cms-gray-850 text-cms-white hover:bg-cms-gray-750",
         secondary: cn(
-          "bg-cms-gray-300 text-cms-black",
+          "border-0 bg-cms-gray-300 text-cms-black",
           "hover:bg-cms-gray-200 hover:text-cms-gray-800",
         ),
         outline: cn(
@@ -39,8 +40,9 @@ export const buttonVariants = cva(
           "hover:bg-cms-gray-200 hover:text-cms-gray-900",
         ),
 
-        ghost: "hover:bg-cms-gray-200 hover:text-cms-gray-800",
-        link: "text-cms-black underline-offset-4 hover:underline",
+        ghost:
+          "border-0 bg-transparent hover:bg-cms-gray-200 hover:text-cms-gray-800",
+        link: "border-0 text-cms-black underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-4 py-2",

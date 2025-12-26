@@ -323,6 +323,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
               <button
                 type="button"
                 className={cn(
+                  "border-0 bg-transparent",
                   "p-1 rounded text-cms-gray-400 transition-colors",
                   "hover:text-cms-black"
                 )}
@@ -383,6 +384,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                       key={option.value}
                       type="button"
                       className={cn(
+                        "border-0",
                         "flex items-center justify-between gap-2",
                         "w-full px-3 py-2 ",
                         "text-left text-sm",

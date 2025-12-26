@@ -7,7 +7,7 @@ const switchVariants = cva(
   cn(
     "peer inline-flex items-center transition-colors ",
     "rounded-full border-2 border-transparent box-border",
-    "h-6 w-10 shrink-0",
+    "h-6 w-10 shrink-0 py-0.5 px-[1px]",
     "cursor-pointer",
     "focus-visible:outline-none",
     "disabled:cursor-not-allowed disabled:opacity-50",
@@ -109,8 +109,8 @@ const Switch = React.forwardRef<
         "pointer-events-none block rounded-full ring-0",
         "bg-cms-white shadow-lg",
         "h-5 w-5",
-        "data-[state=unchecked]:translate-x-0",
-        "data-[state=checked]:translate-x-4",
+        "data-[state=unchecked]:translate-x-0 cursor-pointer",
+        "data-[state=checked]:translate-x-[14px]",
         "transition-transform",
       )}
     />

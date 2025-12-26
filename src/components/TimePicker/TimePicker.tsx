@@ -273,7 +273,6 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                 disabled={disabled}
                 className={cn(
                   "w-full h-10 px-3 border rounded bg-white text-sm",
-                  showIcon && "pr-10",
                   "hover:bg-gray-50 hover:border-gray-400",
                   "focus:outline-none",
                   "transition-all duration-150",
@@ -289,7 +288,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
               {showIcon && (
                 <Clock
                   className={cn(
-                    "absolute right-3 top-1/2 -translate-y-1/2",
+                    "absolute right-0 top-1/2 -translate-y-1/2",
                     "w-4 h-4 text-gray-400",
                     disabled && "opacity-50",
                   )}
@@ -325,7 +324,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     </div>
                     <div
                       ref={hourScrollRef}
-                      className="w-16 h-48 overflow-y-auto border border-gray-200 rounded scrollbar-thin"
+                      className="w-16 h-48 overflow-y-auto border border-gray-200 rounded cms-no-scrollbar"
                     >
                       {hours.map((hour) => (
                         <button
@@ -333,11 +332,12 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                           data-value={hour}
                           onClick={() => setSelectedHour(hour)}
                           className={cn(
+                            "border-0 cursor-pointer",
                             "w-full h-10 text-sm transition-colors",
                             "hover:bg-gray-100",
                             selectedHour === hour
                               ? "bg-blue-100 text-blue-700 font-medium"
-                              : "text-gray-700",
+                              : "bg-white text-gray-700",
                           )}
                           aria-label={`${hour}${format === "24h" ? "시" : ""}`}
                           aria-selected={selectedHour === hour}
@@ -357,7 +357,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     </div>
                     <div
                       ref={minuteScrollRef}
-                      className="w-16 h-48 overflow-y-auto border border-gray-200 rounded scrollbar-thin"
+                      className="w-16 h-48 overflow-y-auto border border-gray-200 rounded cms-no-scrollbar"
                     >
                       {minutes.map((minute) => (
                         <button
@@ -365,11 +365,12 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                           data-value={minute}
                           onClick={() => setSelectedMinute(minute)}
                           className={cn(
+                            "border-0 cursor-pointer",
                             "w-full h-10 text-sm transition-colors",
                             "hover:bg-gray-100",
                             selectedMinute === minute
                               ? "bg-blue-100 text-blue-700 font-medium"
-                              : "text-gray-700",
+                              : "bg-white text-gray-700",
                           )}
                           aria-label={`${minute}${format === "24h" ? "분" : " minutes"}`}
                           aria-selected={selectedMinute === minute}
@@ -390,11 +391,12 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                         <button
                           onClick={() => setSelectedPeriod("AM")}
                           className={cn(
+                            "border-0 cursor-pointer",
                             "h-10 text-sm rounded transition-colors",
                             "hover:bg-gray-100",
                             selectedPeriod === "AM"
                               ? "bg-blue-100 text-blue-700 font-medium"
-                              : "text-gray-700",
+                              : "bg-white text-gray-700",
                           )}
                           aria-label="AM"
                           aria-selected={selectedPeriod === "AM"}
@@ -404,11 +406,12 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                         <button
                           onClick={() => setSelectedPeriod("PM")}
                           className={cn(
+                            "border-0 cursor-pointer",
                             "h-10 text-sm rounded transition-colors",
                             "hover:bg-gray-100",
                             selectedPeriod === "PM"
                               ? "bg-blue-100 text-blue-700 font-medium"
-                              : "text-gray-700",
+                              : "bg-white text-gray-700",
                           )}
                           aria-label="PM"
                           aria-selected={selectedPeriod === "PM"}
@@ -432,9 +435,9 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                   <button
                     onClick={handleCancel}
                     className={cn(
-                      "w-15 h-8 rounded",
+                      "w-15 h-8 rounded cursor-pointer",
                       "text-xs font-medium text-gray-700",
-                      "border border-gray-300",
+                      "border border-gray-300 bg-transparent",
                       "transition-all duration-150",
                       "active:scale-95",
                       "hover:bg-gray-50",
@@ -446,6 +449,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     onClick={handleApply}
                     disabled={selectedHour === null || selectedMinute === null}
                     className={cn(
+                      "border-0 cursor-pointer",
                       "w-15 h-8 bg-blue-600 rounded",
                       "text-xs text-white",
                       "hover:bg-blue-700",
