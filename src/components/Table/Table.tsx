@@ -101,10 +101,10 @@ import { ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react";
  * {@end-tool}
  */
 
-const tableVariants = cva(cn("w-full caption-bottom text-sm"), {
+const tableVariants = cva(cn("w-full caption-bottom text-sm [border-spacing:0]"), {
   variants: {
     bordered: {
-      true: "border border-cms-gray-300",
+      true: "",
       false: "",
     },
   },
@@ -128,7 +128,12 @@ export interface TableProps
 
 export const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, striped, hoverable, bordered, compact, ...props }, ref) => (
-    <div className="relative w-full overflow-auto">
+    <div
+      className={cn(
+        "relative w-full overflow-auto",
+        bordered && "border border-cms-gray-300 rounded-lg"
+      )}
+    >
       <table
         ref={ref}
         className={cn(tableVariants({ bordered }), className)}
@@ -151,7 +156,16 @@ export const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   TableHeaderProps
 >(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn(className)} {...props} />
+  <thead
+    ref={ref}
+    className={cn(
+      "[&_tr]:border-0",
+      "[&_th:first-child]:rounded-tl-lg",
+      "[&_th:last-child]:rounded-tr-lg",
+      className
+    )}
+    {...props}
+  />
 ));
 TableHeader.displayName = "TableHeader";
 
@@ -286,9 +300,9 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         scope={scope}
         className={cn(
           "h-12 px-4 text-left align-middle font-semibold text-cms-gray-800",
-          "bg-cms-gray-100",
+          "bg-amber-50 border-0",
           "[&:has([role=checkbox])]:pr-0",
-          sortable && "cursor-pointer select-none hover:bg-cms-gray-200",
+          sortable && "cursor-pointer select-none hover:bg-amber-100",
           className,
         )}
         onClick={sortable ? onSort : undefined}
