@@ -1,11 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { ChevronRightIcon } from "./ChevronRightIcon";
-import { ChevronDownIcon } from "./ChevronDownIcon";
-import { ClearIcon } from "./ClearIcon";
-import { CloseIcon } from "./CloseIcon";
-import { FileUploadIcon } from "./FileUploadIcon";
-import { ImageUploadIcon } from "./ImageUploadIcon";
-import { FileIcon } from "./FileIcon";
+import * as Icons from "./index";
 
 const meta: Meta = {
   title: "Components/Icons",
@@ -14,7 +8,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          "디자인 시스템에서 공통으로 사용되는 SVG 아이콘 컴포넌트들입니다. 모든 아이콘은 SVG 속성을 상속받아 크기(width, height)와 색상(color, fill)을 자유롭게 조절할 수 있습니다.",
+          "Lucide-react 기반으로 표준화된 아이콘 세트입니다. 모든 아이콘은 기본적으로 40x40 크기와 1.5px의 선 굵기를 가지며, text color를 통해 색상을 자유롭게 조절할 수 있습니다.",
       },
     },
   },
@@ -25,91 +19,108 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const AllIconsStory = () => {
+  const IconSection = ({
+    title,
+    icons,
+  }: {
+    title: string;
+    icons: [string, React.ComponentType<any>][];
+  }) => (
+    <div className="mb-10">
+      <h3 className="text-xl font-bold mb-4 text-cms-gray-800 border-b pb-2">
+        {title}
+      </h3>
+      <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+        {icons.map(([name, Icon]) => (
+          <div
+            key={name}
+            className="flex flex-col items-center gap-2 p-4 border border-cms-gray-200 rounded-lg hover:bg-cms-gray-50 transition-colors"
+          >
+            <Icon className="text-cms-black" />
+            <p className="text-[10px] text-cms-gray-500 text-center font-mono leading-tight">
+              {name}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const iconEntries = Object.entries(Icons);
+
+  const categories = {
+    "Navigation & Layout": iconEntries.filter(
+      ([name]) =>
+        name.includes("Chevron") ||
+        name.includes("Arrow") ||
+        name.includes("Menu") ||
+        name.includes("Align"),
+    ),
+    "Status & Feedback": iconEntries.filter(
+      ([name]) =>
+        name.includes("XIcon") ||
+        name.includes("Check") ||
+        name.includes("Info") ||
+        name.includes("Error") ||
+        name.includes("Warning") ||
+        name.includes("Help"),
+    ),
+    Actions: iconEntries.filter(([name]) =>
+      [
+        "PlusIcon",
+        "PlusCircleIcon",
+        "TrashIcon",
+        "SaveIcon",
+        "RefreshIcon",
+        "LinkIcon",
+        "PinIcon",
+        "CloseIcon",
+        "SettingsIcon",
+      ].includes(name),
+    ),
+    "Files & Content": iconEntries.filter(
+      ([name]) =>
+        name.includes("File") ||
+        name.includes("Excel") ||
+        name.includes("Image") ||
+        name.includes("Calendar"),
+    ),
+    "Brand & Custom": iconEntries.filter(
+      ([name]) => name.includes("Medicash") || name.includes("Badge"),
+    ),
+  };
+
   return (
-    <div className="grid grid-cols-4 gap-6">
-      <div className="flex flex-col items-center gap-2 p-4 border border-cms-gray-300 rounded-md">
-        <ChevronRightIcon className="text-cms-black" />
-        <p className="text-xs text-cms-gray-600">ChevronRight</p>
-      </div>
-      <div className="flex flex-col items-center gap-2 p-4 border border-cms-gray-300 rounded-md">
-        <ChevronDownIcon className="text-cms-black" />
-        <p className="text-xs text-cms-gray-600">ChevronDown</p>
-      </div>
-      <div className="flex flex-col items-center gap-2 p-4 border border-cms-gray-300 rounded-md">
-        <ClearIcon className="text-cms-black" />
-        <p className="text-xs text-cms-gray-600">Clear</p>
-      </div>
-      <div className="flex flex-col items-center gap-2 p-4 border border-cms-gray-300 rounded-md">
-        <CloseIcon className="text-cms-black" />
-        <p className="text-xs text-cms-gray-600">Close</p>
-      </div>
-      <div className="flex flex-col items-center gap-2 p-4 border border-cms-gray-300 rounded-md">
-        <FileUploadIcon className="text-cms-gray-400" />
-        <p className="text-xs text-cms-gray-600">FileUpload</p>
-      </div>
-      <div className="flex flex-col items-center gap-2 p-4 border border-cms-gray-300 rounded-md">
-        <ImageUploadIcon className="text-cms-gray-400" />
-        <p className="text-xs text-cms-gray-600">ImageUpload</p>
-      </div>
-      <div className="flex flex-col items-center gap-2 p-4 border border-cms-gray-300 rounded-md">
-        <FileIcon type="application/pdf" />
-        <p className="text-xs text-cms-gray-600">File (PDF)</p>
-      </div>
-      <div className="flex flex-col items-center gap-2 p-4 border border-cms-gray-300 rounded-md">
-        <FileIcon type="application/msword" />
-        <p className="text-xs text-cms-gray-600">File (Word)</p>
-      </div>
+    <div className="p-4 w-full max-w-6xl">
+      {Object.entries(categories).map(([title, icons]) => (
+        <IconSection key={title} title={title} icons={icons as any} />
+      ))}
     </div>
   );
 };
 
 export const AllIcons: Story = {
   render: () => <AllIconsStory />,
-  parameters: {
-    docs: {
-      description: {
-        story: "디자인 시스템에서 사용되는 모든 아이콘들입니다.",
-      },
-    },
-  },
 };
 
-export const ChevronRight: Story = {
-  render: () => <ChevronRightIcon className="text-cms-black" />,
+export const Colors: Story = {
+  render: () => (
+    <div className="flex gap-6">
+      <Icons.CheckCircleIcon className="text-cms-green-500" />
+      <Icons.ErrorIcon className="text-cms-red-500" />
+      <Icons.InfoIcon className="text-cms-blue-500" />
+      <Icons.WarningIcon className="text-cms-orange-500" />
+      <Icons.MedicashIcon className="text-cms-pink-500" />
+    </div>
+  ),
 };
 
-export const ChevronDown: Story = {
-  render: () => <ChevronDownIcon className="text-cms-black" />,
-};
-
-export const ChevronDownOpen: Story = {
-  render: () => <ChevronDownIcon className="text-cms-black" isOpen={true} />,
-};
-
-export const Clear: Story = {
-  render: () => <ClearIcon className="text-cms-black" />,
-};
-
-export const Close: Story = {
-  render: () => <CloseIcon className="text-cms-black" />,
-};
-
-export const FileUpload: Story = {
-  render: () => <FileUploadIcon className="text-cms-gray-400" />,
-};
-
-export const ImageUpload: Story = {
-  render: () => <ImageUploadIcon className="text-cms-gray-400" />,
-};
-
-export const FilePDF: Story = {
-  render: () => <FileIcon type="application/pdf" />,
-};
-
-export const FileWord: Story = {
-  render: () => <FileIcon type="application/msword" />,
-};
-
-export const FileExcel: Story = {
-  render: () => <FileIcon type="application/vnd.ms-excel" />,
+export const Sizes: Story = {
+  render: () => (
+    <div className="flex items-end gap-6">
+      <Icons.ChevronRightIcon size={20} className="text-cms-gray-400" />
+      <Icons.ChevronRightIcon size={40} className="text-cms-gray-600" />
+      <Icons.ChevronRightIcon size={60} className="text-cms-gray-800" />
+    </div>
+  ),
 };

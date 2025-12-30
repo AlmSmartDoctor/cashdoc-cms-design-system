@@ -1,8 +1,7 @@
 import { cn } from "@/utils/cn";
 import { useCallback, useState } from "react";
 import { useDropzone, Accept } from "react-dropzone";
-import { ImageUploadIcon } from "../icons/ImageUploadIcon";
-import { CloseIcon } from "../icons/CloseIcon";
+import { ImageUploadIcon, XIcon as CloseIcon } from "../icons";
 
 export interface ImageUploadProps {
   value?: File[];
@@ -156,7 +155,7 @@ export const ImageUpload = ({
                 )}
                 aria-label="파일 제거"
               >
-                <CloseIcon />
+                <CloseIcon className="w-4 h-4" />
               </button>
               <div className="absolute bottom-0 left-0 right-0 px-2 py-1.5 bg-gradient-to-t from-black/60 to-transparent rounded-b-md">
                 <p className="text-xs text-white truncate">{files[0].name}</p>
@@ -212,7 +211,7 @@ export const ImageUpload = ({
                 )}
                 aria-label="파일 제거"
               >
-                <CloseIcon />
+                <CloseIcon className="w-3 h-3" />
               </button>
               <div className="px-2 py-1.5 bg-white border-t border-cms-gray-300">
                 <p className="text-xs text-cms-gray-600 truncate">{file.name}</p>
