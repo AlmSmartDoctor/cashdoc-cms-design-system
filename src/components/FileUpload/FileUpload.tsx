@@ -1,9 +1,7 @@
 import { cn } from "@/utils/cn";
 import { useCallback, useState } from "react";
 import { useDropzone, Accept } from "react-dropzone";
-import { FileUploadIcon } from "../icons/FileUploadIcon";
-import { FileIcon } from "../icons/FileIcon";
-import { CloseIcon } from "../icons/CloseIcon";
+import { FileUploadIcon, FileIcon, XIcon as CloseIcon } from "../icons";
 
 export interface FileUploadProps {
   value?: File[];
@@ -153,7 +151,7 @@ export const FileUpload = ({
                 "transition-colors group"
               )}
             >
-              <FileIcon type={file.type} className="w-8 h-8" />
+              <FileIcon className="w-8 h-8" />
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-cms-black truncate leading-tight">
                   {file.name}
@@ -175,7 +173,7 @@ export const FileUpload = ({
                 )}
                 aria-label="파일 제거"
               >
-                <CloseIcon />
+                <CloseIcon className="w-4 h-4" />
               </button>
             </div>
           ))}

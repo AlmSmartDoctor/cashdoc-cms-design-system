@@ -1,8 +1,7 @@
 import { cn } from "@/utils/cn";
 import { cva, VariantProps } from "class-variance-authority";
 import { useState, useRef, useEffect, forwardRef, KeyboardEvent } from "react";
-import { ChevronDownIcon } from "../icons/ChevronDownIcon";
-import { ClearIcon } from "../icons/ClearIcon";
+import { ChevronDownIcon, XIcon as ClearIcon } from "../icons";
 
 export const dropdownTriggerVariants = cva(
   cn(
@@ -289,8 +288,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
               </button>
             )}
             <ChevronDownIcon
-              isOpen={isOpen}
-              className="w-3 h-3"
+              className={cn("w-3 h-3 transition-transform duration-200", isOpen && "rotate-180")}
             />
           </div>
         </button>
