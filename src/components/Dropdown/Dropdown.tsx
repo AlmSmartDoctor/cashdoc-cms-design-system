@@ -1,28 +1,30 @@
 import { cn } from "@/utils/cn";
 import { cva, VariantProps } from "class-variance-authority";
 import { useState, useRef, useEffect, forwardRef, KeyboardEvent } from "react";
+import { ChevronDownIcon } from "../icons/ChevronDownIcon";
+import { ClearIcon } from "../icons/ClearIcon";
 
 export const dropdownTriggerVariants = cva(
   cn(
     "flex items-center justify-between",
-    "rounded-lg px-4 py-2.5",
+    "rounded-md px-4 py-2.5",
     "text-sm font-medium",
     "outline-none",
-    "focus:ring-2 focus:ring-offset-2",
-    "transition-all"
+    "transition-all",
+    "w-full min-w-0"
   ),
   {
     variants: {
       variant: {
         default: cn(
-          "bg-default text-black border border-cms-outline",
-          "hover:bg-cms-gray-200"
+          "bg-white text-cms-black border border-black",
+          "hover:bg-cms-gray-100"
         ),
         outline: cn(
           "border border-cms-outline bg-transparent",
           "hover:bg-cms-gray-200"
         ),
-        ghost: "hover:bg-cms-gray-200 hover:text-black",
+        ghost: "border-none bg-transparent hover:bg-cms-gray-200 hover:text-black",
       },
       size: {
         sm: "px-3 py-2 text-xs",
@@ -58,53 +60,6 @@ export interface DropdownProps extends VariantProps<
   multiple?: boolean;
   maxHeight?: number;
 }
-
-const ChevronDownIcon = ({
-  className,
-  isOpen,
-}: {
-  className?: string;
-  isOpen: boolean;
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="10"
-    height="6"
-    viewBox="0 0 10 6"
-    fill="none"
-    className={cn(
-      "transition-transform duration-200",
-      isOpen && "rotate-180",
-      className
-    )}
-  >
-    <path
-      d="M8.75 0.75L4.57609 4.75L0.75 0.75"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-const ClearIcon = ({ className }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
-    fill="none"
-    className={className}
-  >
-    <path
-      d="M9 3L3 9M3 3L9 9"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
 
 /**
  * 사용자가 목록에서 하나 또는 여러 개의 옵션을 선택할 수 있게 하는 컴포넌트입니다.
@@ -335,7 +290,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
             )}
             <ChevronDownIcon
               isOpen={isOpen}
-              className="w-4 h-4 text-cms-gray-400"
+              className="w-3 h-3"
             />
           </div>
         </button>
@@ -343,15 +298,15 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         {isOpen && (
           <div
             className={cn(
-              "absolute z-50 mt-1 py-1 w-full",
-              "rounded-lg border border-cms-gray-400",
+              "absolute z-50 mt-1 py-1 w-full min-w-0",
+              "rounded-md border border-cms-gray-300",
               "bg-white shadow-lg",
               dropdownClassName
             )}
             style={{ maxHeight: `${maxHeight}px` }}
           >
             {searchable && (
-              <div className="px-3 py-2 border-b border-cms-gray-400">
+              <div className="px-3 py-2 border-b border-cms-gray-200">
                 <input
                   ref={searchInputRef}
                   type="text"
@@ -361,8 +316,8 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                   className={cn(
                     "w-full px-2 py-1 text-sm",
                     "rounded outline-none",
-                    "border border-cms-gray-400",
-                    "focus:ring-1 focus:ring-cms-black"
+                    "border border-cms-gray-300",
+                    "focus:ring-1 focus:ring-cms-gray-400"
                   )}
                 />
               </div>
@@ -390,9 +345,9 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                         "text-left text-sm",
                         "transition-colors",
                         option.disabled
-                          ? "text-cms-gray-400 cursor-not-allowed"
-                          : "text-cms-black hover:bg-cms-gray-200 cursor-pointer",
-                        isSelected && "bg-cms-gray-400 font-medium"
+                          ? "text-cms-gray-400 cursor-not-allowed bg-white"
+                          : "text-cms-black bg-white hover:bg-cms-gray-100 cursor-pointer",
+                        isSelected && "bg-cms-gray-150 font-medium"
                       )}
                       onClick={() => handleOptionClick(option)}
                       disabled={option.disabled}

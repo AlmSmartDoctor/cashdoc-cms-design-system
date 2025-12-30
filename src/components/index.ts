@@ -17,3 +17,5 @@ export * from "./Modal";
 export * from "./Toast";
 export * from "./ToolTip";
 export * from "./Table";
+export * from "./ImageUpload";
+export * from "./FileUpload";
