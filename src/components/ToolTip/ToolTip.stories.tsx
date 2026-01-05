@@ -5,7 +5,7 @@ import { Info, Settings, Download, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 const meta: Meta<typeof ToolTip> = {
-  title: "Components/ToolTip",
+  title: "Feedback/ToolTip",
   component: ToolTip,
   parameters: {
     layout: "centered",

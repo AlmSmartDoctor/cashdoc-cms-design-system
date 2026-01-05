@@ -6,7 +6,7 @@ import {
 } from "./RadioButton";
 
 const meta: Meta<typeof RadioGroupItem> = {
-  title: "Components/RadioButton",
+  title: "Forms/RadioButton",
   component: RadioGroupItem,
   parameters: {
     layout: "centered",

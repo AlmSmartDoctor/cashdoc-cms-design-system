@@ -3,7 +3,7 @@ import { TagInput } from "./TagInput";
 import { useState } from "react";
 
 const meta: Meta<typeof TagInput> = {
-  title: "Components/TagInput",
+  title: "Forms/TagInput",
   component: TagInput,
   parameters: {
     layout: "centered",

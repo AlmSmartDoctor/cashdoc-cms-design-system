@@ -4,7 +4,7 @@ import { Button } from "../Button";
 import { useState } from "react";
 
 const meta: Meta<typeof TimePicker> = {
-  title: "Components/TimePicker",
+  title: "Forms/TimePicker",
   component: TimePicker,
   parameters: {
     layout: "centered",

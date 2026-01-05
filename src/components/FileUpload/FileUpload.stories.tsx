@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FileUpload } from "./FileUpload";
 
 const meta: Meta<typeof FileUpload> = {
-  title: "Components/FileUpload",
+  title: "Forms/FileUpload",
   component: FileUpload,
   parameters: {
     layout: "centered",

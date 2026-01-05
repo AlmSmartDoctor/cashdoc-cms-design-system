@@ -4,7 +4,7 @@ import { MoreVertical, Trash2, Edit, Heart, Share2, Copy } from "lucide-react";
 import { Button } from "../Button";
 
 const meta: Meta<typeof Popover> = {
-  title: "Components/Popover",
+  title: "Feedback/Popover",
   component: Popover,
   parameters: {
     layout: "centered",

@@ -14,7 +14,7 @@ import { Button } from "../Button";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 
 const meta: Meta<typeof Table> = {
-  title: "Components/Table",
+  title: "Data Display/Table",
   component: Table,
   parameters: {
     layout: "padded",

@@ -4,7 +4,7 @@ import { Button } from "../Button";
 import { useState } from "react";
 
 const meta: Meta<typeof Pagination> = {
-  title: "Components/Pagination",
+  title: "Data Display/Pagination",
   component: Pagination,
   parameters: {
     layout: "centered",

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { LoadingCircle } from './LoadingCircle';
 
 const meta: Meta<typeof LoadingCircle> = {
-  title: 'Components/LoadingCircle',
+  title: 'Loading/LoadingCircle',
   component: LoadingCircle,
   parameters: {
     layout: 'centered',

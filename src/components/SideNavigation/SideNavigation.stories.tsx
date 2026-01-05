@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 
 const meta: Meta<typeof SideNavigation> = {
-  title: "Components/SideNavigation",
+  title: "Navigation/SideNavigation",
   component: SideNavigation,
   parameters: {
     layout: "fullscreen",

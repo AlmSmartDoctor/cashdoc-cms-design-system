@@ -9,7 +9,7 @@ import { SuccessModal } from "./SuccessModal";
 import { Button } from "../Button/Button";
 
 const meta: Meta<typeof Modal> = {
-  title: "Components/Modal",
+  title: "Feedback/Modal",
   component: Modal,
   parameters: {
     layout: "centered",
