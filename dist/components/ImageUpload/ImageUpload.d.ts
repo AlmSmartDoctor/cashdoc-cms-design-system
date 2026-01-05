@@ -15,6 +15,7 @@ export interface ImageUploadProps {
     disabled?: boolean;
     className?: string;
     showPreview?: boolean;
+    error?: boolean;
     onError?: (error: string) => void;
     validateImage?: (file: File, metadata: ImageMetadata) => string | null | Promise<string | null>;
     placeholder?: string;
@@ -148,6 +149,6 @@ export interface ImageUploadProps {
  * {@end-tool}
  */
 export declare const ImageUpload: {
-    ({ value, onChange, maxFiles, maxSize, accept, disabled, className, showPreview, onError, validateImage, placeholder, placeholderActive, }: ImageUploadProps): import("react/jsx-runtime").JSX.Element;
+    ({ value, onChange, maxFiles, maxSize, accept, disabled, className, showPreview, error, onError, validateImage, placeholder, placeholderActive, }: ImageUploadProps): import("react/jsx-runtime").JSX.Element;
     displayName: string;
 };
