@@ -73,7 +73,9 @@ export const FileUpload = ({
       if (rejectedFiles.length > 0) {
         const error = rejectedFiles[0].errors[0];
         if (error.code === "file-too-large") {
-          onError?.(`파일 크기는 ${maxSize / 1024 / 1024}MB를 초과할 수 없습니다.`);
+          onError?.(
+            `파일 크기는 ${maxSize / 1024 / 1024}MB를 초과할 수 없습니다.`,
+          );
         } else if (error.code === "file-invalid-type") {
           onError?.("지원하지 않는 파일 형식입니다.");
         } else if (error.code === "too-many-files") {
@@ -86,7 +88,7 @@ export const FileUpload = ({
       setFiles(newFiles);
       onChange?.(newFiles);
     },
-    [files, maxFiles, maxSize, onChange, onError]
+    [files, maxFiles, maxSize, onChange, onError],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -125,13 +127,15 @@ export const FileUpload = ({
             isDragActive
               ? "border-cms-black bg-cms-gray-100"
               : "border-cms-gray-300 bg-white hover:bg-cms-gray-50",
-            disabled && "opacity-50 cursor-not-allowed pointer-events-none"
+            disabled && "opacity-50 cursor-not-allowed pointer-events-none",
           )}
         >
           <input {...getInputProps()} />
           <FileUploadIcon className="text-cms-gray-400" />
           <p className="mt-4 text-sm font-medium text-cms-black text-center">
-            {isDragActive ? "파일을 여기에 놓으세요" : "클릭하거나 파일을 드래그하세요"}
+            {isDragActive
+              ? "파일을 여기에 놓으세요"
+              : "클릭하거나 파일을 드래그하세요"}
           </p>
           <p className="mt-1 text-xs text-cms-gray-400 text-center">
             최대 {maxFiles}개 파일, 최대 {maxSize / 1024 / 1024}MB
@@ -148,7 +152,7 @@ export const FileUpload = ({
                 "flex items-center gap-2 px-3 py-2",
                 "rounded-md border border-cms-gray-300",
                 "bg-white hover:bg-cms-gray-50",
-                "transition-colors group"
+                "transition-colors group",
               )}
             >
               <FileIcon className="w-8 h-8" />
@@ -164,12 +168,12 @@ export const FileUpload = ({
                 type="button"
                 onClick={() => removeFile(index)}
                 className={cn(
-                  "w-7 h-7 rounded-full flex-shrink-0",
+                  "w-7 h-7 rounded-full shrink-0",
                   "flex items-center justify-center",
                   "text-cms-gray-400",
                   "hover:bg-cms-gray-100 hover:text-cms-black",
                   "transition-colors",
-                  "border-none"
+                  "border-none",
                 )}
                 aria-label="파일 제거"
               >

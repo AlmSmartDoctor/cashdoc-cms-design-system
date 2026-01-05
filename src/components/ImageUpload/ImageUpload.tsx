@@ -3,6 +3,13 @@ import { useCallback, useState } from "react";
 import { useDropzone, Accept } from "react-dropzone";
 import { ImageUploadIcon, XIcon as CloseIcon } from "../icons";
 
+export interface ImageMetadata {
+  width: number;
+  height: number;
+  aspectRatio: number;
+  size: number;
+}
+
 export interface ImageUploadProps {
   value?: File[];
   onChange?: (files: File[]) => void;
@@ -13,6 +20,9 @@ export interface ImageUploadProps {
   className?: string;
   showPreview?: boolean;
   onError?: (error: string) => void;
+  validateImage?: (file: File, metadata: ImageMetadata) => string | null | Promise<string | null>;
+  placeholder?: string;
+  placeholderActive?: string;
 }
 
 /**
@@ -57,6 +67,90 @@ export interface ImageUploadProps {
  * />
  * ```
  * {@end-tool}
+ *
+ * {@tool snippet}
+ * 최소 이미지 크기 검증:
+ *
+ * ```tsx
+ * <ImageUpload
+ *   validateImage={(file, metadata) => {
+ *     if (metadata.width < 800 || metadata.height < 600) {
+ *       return "이미지는 최소 800x600 이상이어야 합니다.";
+ *     }
+ *     return null;
+ *   }}
+ *   onError={(error) => alert(error)}
+ * />
+ * ```
+ * {@end-tool}
+ *
+ * {@tool snippet}
+ * 정확한 이미지 크기 검증:
+ *
+ * ```tsx
+ * <ImageUpload
+ *   validateImage={(file, metadata) => {
+ *     if (metadata.width !== 1920 || metadata.height !== 1080) {
+ *       return `이미지는 정확히 1920x1080이어야 합니다. (현재: ${metadata.width}x${metadata.height})`;
+ *     }
+ *     return null;
+ *   }}
+ *   onError={(error) => alert(error)}
+ * />
+ * ```
+ * {@end-tool}
+ *
+ * {@tool snippet}
+ * 이미지 비율 검증:
+ *
+ * ```tsx
+ * <ImageUpload
+ *   validateImage={(file, metadata) => {
+ *     const targetRatio = 16 / 9;
+ *     const tolerance = 0.1;
+ *     if (Math.abs(metadata.aspectRatio - targetRatio) > tolerance) {
+ *       return "이미지 비율은 16:9여야 합니다.";
+ *     }
+ *     return null;
+ *   }}
+ *   onError={(error) => alert(error)}
+ * />
+ * ```
+ * {@end-tool}
+ *
+ * {@tool snippet}
+ * 복합 검증:
+ *
+ * ```tsx
+ * <ImageUpload
+ *   validateImage={(file, metadata) => {
+ *     if (metadata.width > 4000) {
+ *       return "이미지 너비는 4000px를 초과할 수 없습니다.";
+ *     }
+ *     if (metadata.aspectRatio < 1) {
+ *       return "세로 이미지는 업로드할 수 없습니다.";
+ *     }
+ *     if (metadata.size > 2 * 1024 * 1024) {
+ *       return "파일 크기는 2MB를 초과할 수 없습니다.";
+ *     }
+ *     return null;
+ *   }}
+ *   onError={(error) => alert(error)}
+ * />
+ * ```
+ * {@end-tool}
+ *
+ * {@tool snippet}
+ * 커스텀 안내 문구:
+ *
+ * ```tsx
+ * <ImageUpload
+ *   placeholder="상품 이미지를 업로드하세요"
+ *   placeholderActive="이미지를 드롭하세요"
+ *   onChange={(files) => console.log(files)}
+ * />
+ * ```
+ * {@end-tool}
  */
 export const ImageUpload = ({
   value = [],
@@ -68,11 +162,38 @@ export const ImageUpload = ({
   className,
   showPreview = true,
   onError,
+  validateImage,
+  placeholder = "클릭하거나 파일을 드래그하세요",
+  placeholderActive = "파일을 여기에 놓으세요",
 }: ImageUploadProps) => {
   const [files, setFiles] = useState<File[]>(value);
 
+  const loadImageMetadata = (file: File): Promise<ImageMetadata> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        resolve({
+          width: img.width,
+          height: img.height,
+          aspectRatio: img.width / img.height,
+          size: file.size,
+        });
+      };
+
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error("이미지를 로드할 수 없습니다."));
+      };
+
+      img.src = url;
+    });
+  };
+
   const onDrop = useCallback(
-    (acceptedFiles: File[], rejectedFiles: any[]) => {
+    async (acceptedFiles: File[], rejectedFiles: any[]) => {
       if (rejectedFiles.length > 0) {
         const error = rejectedFiles[0].errors[0];
         if (error.code === "file-too-large") {
@@ -85,11 +206,38 @@ export const ImageUpload = ({
         return;
       }
 
-      const newFiles = maxFiles === 1 ? acceptedFiles : [...files, ...acceptedFiles].slice(0, maxFiles);
-      setFiles(newFiles);
-      onChange?.(newFiles);
+      // 커스텀 검증 로직 실행
+      if (validateImage) {
+        const validatedFiles: File[] = [];
+
+        for (const file of acceptedFiles) {
+          try {
+            const metadata = await loadImageMetadata(file);
+            const validationError = await validateImage(file, metadata);
+
+            if (validationError) {
+              onError?.(validationError);
+              continue;
+            }
+
+            validatedFiles.push(file);
+          } catch (error) {
+            onError?.((error as Error).message);
+          }
+        }
+
+        if (validatedFiles.length === 0) return;
+
+        const newFiles = maxFiles === 1 ? validatedFiles : [...files, ...validatedFiles].slice(0, maxFiles);
+        setFiles(newFiles);
+        onChange?.(newFiles);
+      } else {
+        const newFiles = maxFiles === 1 ? acceptedFiles : [...files, ...acceptedFiles].slice(0, maxFiles);
+        setFiles(newFiles);
+        onChange?.(newFiles);
+      }
     },
-    [files, maxFiles, maxSize, onChange, onError]
+    [files, maxFiles, maxSize, onChange, onError, validateImage]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -131,11 +279,11 @@ export const ImageUpload = ({
           <input {...getInputProps()} />
 
           {isSingleMode && hasFile && showPreview ? (
-            <div className="relative w-full h-full min-h-[200px] group flex items-center justify-center bg-cms-gray-100">
+            <div className="relative w-full h-full min-h-[200px] group flex items-center justify-center bg-cms-gray-100 rounded-md overflow-hidden">
               <img
                 src={URL.createObjectURL(files[0])}
                 alt={files[0].name}
-                className="max-w-full max-h-full object-contain rounded-md"
+                className="max-w-full max-h-full object-contain"
               />
               <button
                 type="button"
@@ -148,27 +296,20 @@ export const ImageUpload = ({
                   "w-8 h-8 rounded-full",
                   "flex items-center justify-center",
                   "bg-white shadow-md",
-                  "opacity-0 group-hover:opacity-100",
-                  "transition-opacity",
                   "hover:bg-cms-gray-100",
+                  "cursor-pointer",
                   "border-none"
                 )}
                 aria-label="파일 제거"
               >
                 <CloseIcon className="w-4 h-4" />
               </button>
-              <div className="absolute bottom-0 left-0 right-0 px-2 py-1.5 bg-gradient-to-t from-black/60 to-transparent rounded-b-md">
-                <p className="text-xs text-white truncate">{files[0].name}</p>
-                <p className="text-xs text-white/80">
-                  {(files[0].size / 1024).toFixed(1)} KB
-                </p>
-              </div>
             </div>
           ) : (
             <div className="p-6 flex flex-col items-center">
               <ImageUploadIcon className="text-cms-gray-400" />
               <p className="mt-4 text-sm font-medium text-cms-black text-center">
-                {isDragActive ? "파일을 여기에 놓으세요" : "클릭하거나 파일을 드래그하세요"}
+                {isDragActive ? placeholderActive : placeholder}
               </p>
               <p className="mt-1 text-xs text-cms-gray-400 text-center">
                 {maxFiles > 1 ? `최대 ${maxFiles}개` : "1개"} 파일, 최대{" "}
@@ -204,9 +345,8 @@ export const ImageUpload = ({
                   "w-7 h-7 rounded-full",
                   "flex items-center justify-center",
                   "bg-white shadow-md",
-                  "opacity-0 group-hover:opacity-100",
-                  "transition-opacity",
                   "hover:bg-cms-gray-100",
+                  "cursor-pointer",
                   "border-none"
                 )}
                 aria-label="파일 제거"
