@@ -1,5 +1,11 @@
 import { Accept } from 'react-dropzone';
 
+export interface ImageMetadata {
+    width: number;
+    height: number;
+    aspectRatio: number;
+    size: number;
+}
 export interface ImageUploadProps {
     value?: File[];
     onChange?: (files: File[]) => void;
@@ -10,6 +16,9 @@ export interface ImageUploadProps {
     className?: string;
     showPreview?: boolean;
     onError?: (error: string) => void;
+    validateImage?: (file: File, metadata: ImageMetadata) => string | null | Promise<string | null>;
+    placeholder?: string;
+    placeholderActive?: string;
 }
 /**
  * 드래그 앤 드롭 및 클릭을 통해 이미지를 업로드할 수 있는 컴포넌트입니다.
@@ -53,8 +62,92 @@ export interface ImageUploadProps {
  * />
  * ```
  * {@end-tool}
+ *
+ * {@tool snippet}
+ * 최소 이미지 크기 검증:
+ *
+ * ```tsx
+ * <ImageUpload
+ *   validateImage={(file, metadata) => {
+ *     if (metadata.width < 800 || metadata.height < 600) {
+ *       return "이미지는 최소 800x600 이상이어야 합니다.";
+ *     }
+ *     return null;
+ *   }}
+ *   onError={(error) => alert(error)}
+ * />
+ * ```
+ * {@end-tool}
+ *
+ * {@tool snippet}
+ * 정확한 이미지 크기 검증:
+ *
+ * ```tsx
+ * <ImageUpload
+ *   validateImage={(file, metadata) => {
+ *     if (metadata.width !== 1920 || metadata.height !== 1080) {
+ *       return `이미지는 정확히 1920x1080이어야 합니다. (현재: ${metadata.width}x${metadata.height})`;
+ *     }
+ *     return null;
+ *   }}
+ *   onError={(error) => alert(error)}
+ * />
+ * ```
+ * {@end-tool}
+ *
+ * {@tool snippet}
+ * 이미지 비율 검증:
+ *
+ * ```tsx
+ * <ImageUpload
+ *   validateImage={(file, metadata) => {
+ *     const targetRatio = 16 / 9;
+ *     const tolerance = 0.1;
+ *     if (Math.abs(metadata.aspectRatio - targetRatio) > tolerance) {
+ *       return "이미지 비율은 16:9여야 합니다.";
+ *     }
+ *     return null;
+ *   }}
+ *   onError={(error) => alert(error)}
+ * />
+ * ```
+ * {@end-tool}
+ *
+ * {@tool snippet}
+ * 복합 검증:
+ *
+ * ```tsx
+ * <ImageUpload
+ *   validateImage={(file, metadata) => {
+ *     if (metadata.width > 4000) {
+ *       return "이미지 너비는 4000px를 초과할 수 없습니다.";
+ *     }
+ *     if (metadata.aspectRatio < 1) {
+ *       return "세로 이미지는 업로드할 수 없습니다.";
+ *     }
+ *     if (metadata.size > 2 * 1024 * 1024) {
+ *       return "파일 크기는 2MB를 초과할 수 없습니다.";
+ *     }
+ *     return null;
+ *   }}
+ *   onError={(error) => alert(error)}
+ * />
+ * ```
+ * {@end-tool}
+ *
+ * {@tool snippet}
+ * 커스텀 안내 문구:
+ *
+ * ```tsx
+ * <ImageUpload
+ *   placeholder="상품 이미지를 업로드하세요"
+ *   placeholderActive="이미지를 드롭하세요"
+ *   onChange={(files) => console.log(files)}
+ * />
+ * ```
+ * {@end-tool}
  */
 export declare const ImageUpload: {
-    ({ value, onChange, maxFiles, maxSize, accept, disabled, className, showPreview, onError, }: ImageUploadProps): import("react/jsx-runtime").JSX.Element;
+    ({ value, onChange, maxFiles, maxSize, accept, disabled, className, showPreview, onError, validateImage, placeholder, placeholderActive, }: ImageUploadProps): import("react/jsx-runtime").JSX.Element;
     displayName: string;
 };
