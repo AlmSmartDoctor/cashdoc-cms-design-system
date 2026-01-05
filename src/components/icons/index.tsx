@@ -59,10 +59,26 @@ export const ChevronDownIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ),
 );
 
+export const ChevronDownFillIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M6 9L12 15L18 9Z" fill="currentColor" />
+    </IconWrapper>
+  ),
+);
+
 export const ChevronUpIcon = React.forwardRef<SVGSVGElement, IconProps>(
   (props, ref) => (
     <IconWrapper ref={ref} {...props}>
       <path d="M18 15L12 9L6 15" />
+    </IconWrapper>
+  ),
+);
+
+export const ChevronUpFillIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M18 15L12 9L6 15Z" fill="currentColor" />
     </IconWrapper>
   ),
 );
@@ -75,10 +91,26 @@ export const ChevronLeftIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ),
 );
 
+export const ChevronLeftFillIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M15 18L9 12L15 6Z" fill="currentColor" />
+    </IconWrapper>
+  ),
+);
+
 export const ChevronRightIcon = React.forwardRef<SVGSVGElement, IconProps>(
   (props, ref) => (
     <IconWrapper ref={ref} {...props}>
       <path d="M9 18L15 12L9 6" />
+    </IconWrapper>
+  ),
+);
+
+export const ChevronRightFillIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M9 18L15 12L9 6Z" fill="currentColor" />
     </IconWrapper>
   ),
 );
@@ -164,8 +196,8 @@ export const CheckIcon = React.forwardRef<SVGSVGElement, IconProps>(
 export const CheckCircleIcon = React.forwardRef<SVGSVGElement, IconProps>(
   (props, ref) => (
     <IconWrapper ref={ref} {...props}>
-      <path d="M22 11.08V12A10 10 0 1 1 16.07 2.86" />
-      <path d="M22 4L11 15L8 12" />
+      <circle cx="12" cy="12" r="10" />
+      <path d="m8.5 12 2.5 2.5 5-5" />
     </IconWrapper>
   ),
 );

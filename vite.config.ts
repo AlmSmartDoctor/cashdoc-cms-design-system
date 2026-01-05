@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import dts from "vite-plugin-dts";
+import pkg from "./package.json";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -26,11 +27,9 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
-        "react",
-        "react-dom",
+        ...Object.keys(pkg.peerDependencies || {}),
+        ...Object.keys(pkg.dependencies || {}),
         "react/jsx-runtime",
-        "framer-motion",
-        "react-dropzone",
       ],
       output: {
         globals: {
