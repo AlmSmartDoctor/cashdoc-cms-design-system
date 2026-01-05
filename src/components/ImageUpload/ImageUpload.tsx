@@ -19,6 +19,7 @@ export interface ImageUploadProps {
   disabled?: boolean;
   className?: string;
   showPreview?: boolean;
+  error?: boolean;
   onError?: (error: string) => void;
   validateImage?: (file: File, metadata: ImageMetadata) => string | null | Promise<string | null>;
   placeholder?: string;
@@ -161,6 +162,7 @@ export const ImageUpload = ({
   disabled = false,
   className,
   showPreview = true,
+  error = false,
   onError,
   validateImage,
   placeholder = "클릭하거나 파일을 드래그하세요",
@@ -265,15 +267,17 @@ export const ImageUpload = ({
         <div
           {...getRootProps()}
           className={cn(
-            "relative rounded-md border-2 border-dashed",
+            "relative rounded-md border-2 border-solid",
             "transition-colors cursor-pointer",
             "flex flex-col items-center justify-center",
             "min-h-[200px]",
-            isDragActive
+            error
+              ? "border-red-500"
+              : isDragActive
               ? "border-cms-black bg-cms-gray-100"
               : "border-cms-gray-300 bg-white hover:bg-cms-gray-50",
             disabled && "opacity-50 cursor-not-allowed pointer-events-none",
-            isSingleMode && hasFile && "p-0 border-solid"
+            isSingleMode && hasFile && "p-0"
           )}
         >
           <input {...getInputProps()} />

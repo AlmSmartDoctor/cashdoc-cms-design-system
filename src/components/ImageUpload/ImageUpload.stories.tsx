@@ -86,6 +86,14 @@ const meta: Meta<typeof ImageUpload> = {
         defaultValue: { summary: '"파일을 여기에 놓으세요"' },
       },
     },
+    error: {
+      control: "boolean",
+      description: "true일 경우 에러 상태로 빨간색 테두리를 표시합니다",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
   },
 };
 
@@ -539,6 +547,60 @@ export const CustomPlaceholder: Story = {
       description: {
         story:
           "커스텀 안내 문구를 사용하는 예제입니다. placeholder와 placeholderActive props로 텍스트를 커스터마이징할 수 있습니다.",
+      },
+    },
+  },
+};
+
+const ErrorStateStory = () => {
+  const [files, setFiles] = useState<File[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [hasError, setHasError] = useState<boolean>(false);
+
+  const handleError = (error: string) => {
+    setErrorMessage(error);
+    setHasError(true);
+  };
+
+  const handleChange = (newFiles: File[]) => {
+    setFiles(newFiles);
+    setHasError(false);
+    setErrorMessage("");
+  };
+
+  return (
+    <div className="w-[600px]">
+      <ImageUpload
+        value={files}
+        onChange={handleChange}
+        onError={handleError}
+        error={hasError}
+        maxFiles={1}
+        showPreview={true}
+        validateImage={(_, metadata) => {
+          if (metadata.width < 800 || metadata.height < 600) {
+            return "이미지는 최소 800x600 이상이어야 합니다.";
+          }
+          return null;
+        }}
+      />
+      {errorMessage && (
+        <p className="mt-2 text-sm text-red-500">{errorMessage}</p>
+      )}
+      <p className="mt-2 text-xs text-cms-gray-400">
+        최소 이미지 크기: 800x600px (에러 발생 시 빨간색 테두리 표시)
+      </p>
+    </div>
+  );
+};
+
+export const ErrorState: Story = {
+  render: () => <ErrorStateStory />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "에러 상태를 표시하는 예제입니다. 검증 실패 시 빨간색 테두리가 표시됩니다.",
       },
     },
   },
