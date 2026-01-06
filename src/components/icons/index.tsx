@@ -174,6 +174,33 @@ export const AlignIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ),
 );
 
+export const MessageSquareIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </IconWrapper>
+  ),
+);
+
+export const MessageSquareTextIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      <line x1="8" x2="16" y1="7" y2="7" />
+      <line x1="8" x2="16" y1="10" y2="10" />
+      <line x1="8" x2="16" y1="13" y2="13" />
+    </IconWrapper>
+  ),
+);
+
+export const MessageCircleIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+    </IconWrapper>
+  ),
+);
+
 // --- Status & Feedback ---
 export const XIcon = React.forwardRef<SVGSVGElement, IconProps>(
   (props, ref) => (
@@ -382,7 +409,6 @@ export const ImageUploadIcon = React.forwardRef<SVGSVGElement, IconProps>(
       <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
       <circle cx="9" cy="9" r="2" />
       <path d="M21 15L17.91 11.91A2 2 0 0 0 15.09 11.91L6 21" />
-      <path d="M16 12L18.5 9.5A2 2 0 0 1 21.32 9.5L21 12" />
     </IconWrapper>
   ),
 );

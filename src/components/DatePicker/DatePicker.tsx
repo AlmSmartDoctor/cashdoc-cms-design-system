@@ -4,6 +4,7 @@ import { DayPicker } from "react-day-picker";
 import { ko } from "react-day-picker/locale";
 import dayjs, { Dayjs } from "dayjs";
 import { cn } from "@/utils/cn";
+import { CalendarIcon } from "@/components/icons";
 import "react-day-picker/style.css";
 
 export interface DatePickerProps {
@@ -185,6 +186,16 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
         >
           <PopoverPrimitive.Trigger asChild>
             <div className="relative">
+              <div className="absolute left-3 top-0 h-full flex items-center pointer-events-none">
+                <CalendarIcon
+                  size={20}
+                  strokeWidth={1.5}
+                  className={cn(
+                    "text-gray-400",
+                    disabled && "text-gray-300",
+                  )}
+                />
+              </div>
               <input
                 type="text"
                 readOnly
@@ -192,7 +203,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                 placeholder={placeholder}
                 disabled={disabled}
                 className={cn(
-                  "w-full h-10 px-3 border rounded bg-white text-sm",
+                  "w-full h-10 pl-10 pr-3 border rounded bg-white text-sm",
                   "hover:bg-gray-50 hover:border-gray-400",
                   "focus:outline-none",
                   "transition-all duration-150",

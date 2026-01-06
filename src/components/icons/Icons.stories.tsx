@@ -78,6 +78,7 @@ const AllIconsStory = () => {
         "SettingsIcon",
       ].includes(name),
     ),
+    Communication: iconEntries.filter(([name]) => name.includes("Message")),
     "Files & Content": iconEntries.filter(
       ([name]) =>
         name.includes("File") ||

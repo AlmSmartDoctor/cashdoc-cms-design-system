@@ -248,15 +248,15 @@ export const DateRangePicker = React.forwardRef<
         <PopoverPrimitive.Trigger asChild>
           <div ref={ref} className={cn("flex items-center gap-0", className)}>
             <div className="relative flex-1">
-              <label
+              <div
                 className={cn(
-                  "absolute left-3 top-1/2 -translate-y-1/2",
+                  "absolute left-3 top-0 h-full flex items-center",
                   "text-xs text-gray-500",
                   "pointer-events-none",
                 )}
               >
-                {startLabel}
-              </label>
+                <label>{startLabel}</label>
+              </div>
               <input
                 type="text"
                 readOnly
@@ -273,15 +273,15 @@ export const DateRangePicker = React.forwardRef<
               />
             </div>
             <div className="relative flex-1">
-              <label
+              <div
                 className={cn(
-                  "absolute left-3 top-1/2 -translate-y-1/2",
+                  "absolute left-3 top-0 h-full flex items-center",
                   "text-xs text-gray-500",
                   "pointer-events-none",
                 )}
               >
-                {endLabel}
-              </label>
+                <label>{endLabel}</label>
+              </div>
               <input
                 type="text"
                 readOnly
