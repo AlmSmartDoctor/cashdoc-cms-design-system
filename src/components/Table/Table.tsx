@@ -172,7 +172,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
         )}
       >
         {showLeftScroll && (
-          <div className="absolute left-0 top-0 bottom-0 z-10 flex w-8 items-center justify-center bg-gradient-to-r from-white to-transparent">
+          <div className="absolute left-0 top-0 bottom-0 z-10 flex w-8 items-center justify-center bg-linear-to-r from-white to-transparent">
             <ChevronLeft className="h-6 w-6 text-cms-gray-400" />
           </div>
         )}
@@ -187,7 +187,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
           />
         </div>
         {showRightScroll && (
-          <div className="absolute right-0 top-0 bottom-0 z-10 flex w-8 items-center justify-center bg-gradient-to-l from-white to-transparent">
+          <div className="absolute right-0 top-0 bottom-0 z-10 flex w-8 items-center justify-center bg-linear-to-l from-white to-transparent">
             <ChevronRight className="h-6 w-6 text-cms-gray-400" />
           </div>
         )}

@@ -226,7 +226,8 @@ export const Bordered: Story = {
   parameters: {
     docs: {
       description: {
-        story: "bordered prop을 true로 설정하면 테이블 외곽에 테두리가 표시됩니다.",
+        story:
+          "bordered prop을 true로 설정하면 테이블 외곽에 테두리가 표시됩니다.",
       },
     },
   },
@@ -342,7 +343,9 @@ export const WithSorting: Story = {
           {sortedProducts.map((product) => (
             <TableRow key={product.id}>
               <TableCell>{product.name}</TableCell>
-              <TableCell align="right">{product.price.toLocaleString()}원</TableCell>
+              <TableCell align="right">
+                {product.price.toLocaleString()}원
+              </TableCell>
               <TableCell align="right">{product.stock}</TableCell>
             </TableRow>
           ))}
@@ -461,14 +464,17 @@ export const ComplexTable: Story = {
             <TableRow key={order.id}>
               <TableCell className="font-mono">{order.id}</TableCell>
               <TableCell>{order.customer}</TableCell>
-              <TableCell align="right">{order.amount.toLocaleString()}원</TableCell>
+              <TableCell align="right">
+                {order.amount.toLocaleString()}원
+              </TableCell>
               <TableCell>
                 <span
                   className={cn(
                     "inline-block px-2 py-1 text-xs rounded-full",
                     order.status === "완료" && "bg-green-100 text-green-800",
                     order.status === "배송중" && "bg-blue-100 text-blue-800",
-                    order.status === "처리중" && "bg-yellow-100 text-yellow-800",
+                    order.status === "처리중" &&
+                      "bg-yellow-100 text-yellow-800",
                   )}
                 >
                   {order.status}
@@ -665,13 +671,27 @@ export const HorizontalScroll: Story = {
               <TableRow key={item.id}>
                 <TableCell className="whitespace-nowrap">{item.id}</TableCell>
                 <TableCell className="whitespace-nowrap">{item.name}</TableCell>
-                <TableCell className="whitespace-nowrap">{item.email}</TableCell>
-                <TableCell className="whitespace-nowrap">{item.phone}</TableCell>
-                <TableCell className="whitespace-nowrap">{item.department}</TableCell>
-                <TableCell className="whitespace-nowrap">{item.position}</TableCell>
-                <TableCell className="whitespace-nowrap">{item.joined}</TableCell>
-                <TableCell className="whitespace-nowrap">{item.status}</TableCell>
-                <TableCell className="whitespace-nowrap">{item.address}</TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {item.email}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {item.phone}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {item.department}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {item.position}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {item.joined}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {item.status}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {item.address}
+                </TableCell>
                 <TableCell className="whitespace-nowrap">{item.memo}</TableCell>
               </TableRow>
             ))}
@@ -694,7 +714,8 @@ export const WithCaption: Story = {
   render: () => (
     <Table>
       <TableCaption>
-        최근 7일간의 웹사이트 방문 통계입니다. 데이터는 매일 자정에 업데이트됩니다.
+        최근 7일간의 웹사이트 방문 통계입니다. 데이터는 매일 자정에
+        업데이트됩니다.
       </TableCaption>
       <TableHeader>
         <TableRow>
