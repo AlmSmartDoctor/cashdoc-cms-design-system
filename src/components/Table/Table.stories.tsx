@@ -601,6 +601,95 @@ export const Responsive: Story = {
   },
 };
 
+export const HorizontalScroll: Story = {
+  render: () => {
+    const wideData = [
+      {
+        id: 1,
+        name: "홍길동",
+        email: "hong@example.com",
+        phone: "010-1234-5678",
+        department: "개발팀",
+        position: "팀장",
+        joined: "2020-01-15",
+        status: "재직중",
+        address: "서울시 강남구 테헤란로 123",
+        memo: "메모 내용이 아주 길어지면 테이블이 가로로 스크롤됩니다.",
+      },
+      {
+        id: 2,
+        name: "김철수",
+        email: "kim@example.com",
+        phone: "010-2345-6789",
+        department: "디자인팀",
+        position: "대리",
+        joined: "2021-03-20",
+        status: "재직중",
+        address: "서울시 서초구 서초대로 456",
+        memo: "긴 내용의 메모입니다. 스크롤을 확인해보세요.",
+      },
+      {
+        id: 3,
+        name: "이영희",
+        email: "lee@example.com",
+        phone: "010-3456-7890",
+        department: "마케팅팀",
+        position: "과장",
+        joined: "2019-05-10",
+        status: "재직중",
+        address: "경기도 성남시 분당구 판교로 789",
+        memo: "테이블의 가로 스크롤 기능을 테스트하기 위한 데이터입니다.",
+      },
+    ];
+
+    return (
+      <div className="w-[500px] border p-4 rounded-lg">
+        <h3 className="mb-2 font-bold">가로 스크롤 확인 (Width: 500px)</h3>
+        <Table striped hoverable>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="whitespace-nowrap">ID</TableHead>
+              <TableHead className="whitespace-nowrap">이름</TableHead>
+              <TableHead className="whitespace-nowrap">이메일</TableHead>
+              <TableHead className="whitespace-nowrap">전화번호</TableHead>
+              <TableHead className="whitespace-nowrap">부서</TableHead>
+              <TableHead className="whitespace-nowrap">직급</TableHead>
+              <TableHead className="whitespace-nowrap">입사일</TableHead>
+              <TableHead className="whitespace-nowrap">상태</TableHead>
+              <TableHead className="whitespace-nowrap">주소</TableHead>
+              <TableHead className="whitespace-nowrap">메모</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {wideData.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell className="whitespace-nowrap">{item.id}</TableCell>
+                <TableCell className="whitespace-nowrap">{item.name}</TableCell>
+                <TableCell className="whitespace-nowrap">{item.email}</TableCell>
+                <TableCell className="whitespace-nowrap">{item.phone}</TableCell>
+                <TableCell className="whitespace-nowrap">{item.department}</TableCell>
+                <TableCell className="whitespace-nowrap">{item.position}</TableCell>
+                <TableCell className="whitespace-nowrap">{item.joined}</TableCell>
+                <TableCell className="whitespace-nowrap">{item.status}</TableCell>
+                <TableCell className="whitespace-nowrap">{item.address}</TableCell>
+                <TableCell className="whitespace-nowrap">{item.memo}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "테이블의 내용이 컨테이너 너비를 초과할 경우 가로 스크롤이 발생하며, 스크롤 가능 여부를 나타내는 화살표 아이콘(Chevron)이 좌우측에 표시됩니다.",
+      },
+    },
+  },
+};
+
 export const WithCaption: Story = {
   render: () => (
     <Table>

@@ -1,9 +1,44 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
-import { ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react";
+import {
+  ChevronUp,
+  ChevronDown,
+  ChevronsUpDown,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+
+const tableVariants = cva(
+  cn("w-full caption-bottom text-sm [border-spacing:0]"),
+  {
+    variants: {
+      bordered: {
+        true: "",
+        false: "",
+      },
+    },
+    defaultVariants: {
+      bordered: false,
+    },
+  },
+);
+
+export interface TableProps
+  extends
+    React.TableHTMLAttributes<HTMLTableElement>,
+    VariantProps<typeof tableVariants> {
+  /** zebra stripe 패턴 적용 여부 */
+  striped?: boolean;
+  /** row hover 효과 적용 여부 */
+  hoverable?: boolean;
+  /** 테두리 표시 여부 */
+  bordered?: boolean;
+  /** 좁은 padding 적용 여부 */
+  compact?: boolean;
+}
 
 /**
  * 데이터를 행과 열로 구조화하여 표시하는 테이블 컴포넌트입니다.
@@ -100,58 +135,78 @@ import { ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react";
  * ```
  * {@end-tool}
  */
-
-const tableVariants = cva(cn("w-full caption-bottom text-sm [border-spacing:0]"), {
-  variants: {
-    bordered: {
-      true: "",
-      false: "",
-    },
-  },
-  defaultVariants: {
-    bordered: false,
-  },
-});
-
-export interface TableProps
-  extends React.TableHTMLAttributes<HTMLTableElement>,
-    VariantProps<typeof tableVariants> {
-  /** zebra stripe 패턴 적용 여부 */
-  striped?: boolean;
-  /** row hover 효과 적용 여부 */
-  hoverable?: boolean;
-  /** 테두리 표시 여부 */
-  bordered?: boolean;
-  /** 좁은 padding 적용 여부 */
-  compact?: boolean;
-}
-
 export const Table = React.forwardRef<HTMLTableElement, TableProps>(
-  ({ className, striped, hoverable, bordered, compact, ...props }, ref) => (
-    <div
-      className={cn(
-        "relative w-full overflow-auto",
-        bordered && "border border-cms-gray-300 rounded-lg"
-      )}
-    >
-      <table
-        ref={ref}
-        className={cn(tableVariants({ bordered }), className)}
-        data-striped={striped}
-        data-hoverable={hoverable}
-        data-compact={compact}
-        {...props}
-      />
-    </div>
-  ),
+  ({ className, striped, hoverable, bordered, compact, ...props }, ref) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [showLeftScroll, setShowLeftScroll] = useState(false);
+    const [showRightScroll, setShowRightScroll] = useState(false);
+
+    const checkScroll = () => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      setShowLeftScroll(scrollLeft > 0);
+      setShowRightScroll(scrollLeft < scrollWidth - clientWidth - 1);
+    };
+
+    useEffect(() => {
+      const container = containerRef.current;
+      if (container) {
+        checkScroll();
+        container.addEventListener("scroll", checkScroll);
+        window.addEventListener("resize", checkScroll);
+
+        return () => {
+          container.removeEventListener("scroll", checkScroll);
+          window.removeEventListener("resize", checkScroll);
+        };
+      }
+    }, []);
+
+    return (
+      <div
+        className={cn(
+          "relative w-full",
+          bordered && "border border-cms-gray-300 rounded-lg",
+        )}
+      >
+        {showLeftScroll && (
+          <div className="absolute left-0 top-0 bottom-0 z-10 flex w-8 items-center justify-center bg-gradient-to-r from-white to-transparent">
+            <ChevronLeft className="h-6 w-6 text-cms-gray-400" />
+          </div>
+        )}
+        <div ref={containerRef} className="overflow-auto rounded-lg">
+          <table
+            ref={ref}
+            className={cn(tableVariants({ bordered }), className)}
+            data-striped={striped}
+            data-hoverable={hoverable}
+            data-compact={compact}
+            {...props}
+          />
+        </div>
+        {showRightScroll && (
+          <div className="absolute right-0 top-0 bottom-0 z-10 flex w-8 items-center justify-center bg-gradient-to-l from-white to-transparent">
+            <ChevronRight className="h-6 w-6 text-cms-gray-400" />
+          </div>
+        )}
+      </div>
+    );
+  },
 );
 Table.displayName = "Table";
 
 /* --------------------------------- TableHeader --------------------------------- */
 
-export interface TableHeaderProps
-  extends React.HTMLAttributes<HTMLTableSectionElement> {}
+export interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionElement> {}
 
+/**
+ * 테이블의 헤더 섹션을 정의하는 컴포넌트입니다.
+ *
+ * `<thead>` 태그를 렌더링하며, 보통 `TableRow`와 `TableHead`를 포함하여
+ * 열의 제목을 표시하는 데 사용됩니다.
+ */
 export const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   TableHeaderProps
@@ -162,7 +217,7 @@ export const TableHeader = React.forwardRef<
       "[&_tr]:border-0",
       "[&_th:first-child]:rounded-tl-lg",
       "[&_th:last-child]:rounded-tr-lg",
-      className
+      className,
     )}
     {...props}
   />
@@ -171,9 +226,14 @@ TableHeader.displayName = "TableHeader";
 
 /* --------------------------------- TableBody --------------------------------- */
 
-export interface TableBodyProps
-  extends React.HTMLAttributes<HTMLTableSectionElement> {}
+export interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionElement> {}
 
+/**
+ * 테이블의 본문 섹션을 정의하는 컴포넌트입니다.
+ *
+ * `<tbody>` 태그를 렌더링하며, 실제 데이터가 포함된 `TableRow`와 `TableCell`을
+ * 포함합니다.
+ */
 export const TableBody = React.forwardRef<
   HTMLTableSectionElement,
   TableBodyProps
@@ -188,9 +248,13 @@ TableBody.displayName = "TableBody";
 
 /* --------------------------------- TableFooter --------------------------------- */
 
-export interface TableFooterProps
-  extends React.HTMLAttributes<HTMLTableSectionElement> {}
+export interface TableFooterProps extends React.HTMLAttributes<HTMLTableSectionElement> {}
 
+/**
+ * 테이블의 푸터 섹션을 정의하는 컴포넌트입니다.
+ *
+ * `<tfoot>` 태그를 렌더링하며, 합계나 요약 정보를 표시하는 데 사용됩니다.
+ */
 export const TableFooter = React.forwardRef<
   HTMLTableSectionElement,
   TableFooterProps
@@ -226,12 +290,19 @@ const tableRowVariants = cva(cn("border-b border-cms-gray-200"), {
 });
 
 export interface TableRowProps
-  extends React.HTMLAttributes<HTMLTableRowElement>,
+  extends
+    React.HTMLAttributes<HTMLTableRowElement>,
     VariantProps<typeof tableRowVariants> {
   /** 선택된 행 표시 여부 */
   selected?: boolean;
 }
 
+/**
+ * 테이블의 행(Row)을 정의하는 컴포넌트입니다.
+ *
+ * `<tr>` 태그를 렌더링하며, `hoverable`이나 `striped` 속성이 `Table` 컴포넌트에
+ * 적용되었을 때 이에 따른 스타일을 자동으로 적용합니다.
+ */
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   ({ className, selected, ...props }, ref) => {
     const table = (ref as any)?.current?.closest("table");
@@ -256,8 +327,7 @@ TableRow.displayName = "TableRow";
 
 /* --------------------------------- TableHead --------------------------------- */
 
-export interface TableHeadProps
-  extends React.ThHTMLAttributes<HTMLTableCellElement> {
+export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
   /** 정렬 가능 여부 */
   sortable?: boolean;
   /** 정렬 방향 */
@@ -266,6 +336,12 @@ export interface TableHeadProps
   onSort?: () => void;
 }
 
+/**
+ * 테이블의 헤더 셀을 정의하는 컴포넌트입니다.
+ *
+ * `<th>` 태그를 렌더링하며, 열의 제목을 표시합니다.
+ * 정렬 기능(`sortable`)을 지원하며, 정렬 방향에 따라 아이콘을 표시할 수 있습니다.
+ */
 export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
   (
     {
@@ -281,7 +357,8 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
   ) => {
     const getSortIcon = () => {
       if (!sortable) return null;
-      if (sortDirection === "asc") return <ChevronUp className="ml-2 h-4 w-4" />;
+      if (sortDirection === "asc")
+        return <ChevronUp className="ml-2 h-4 w-4" />;
       if (sortDirection === "desc")
         return <ChevronDown className="ml-2 h-4 w-4" />;
       return <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />;
@@ -328,26 +405,36 @@ TableHead.displayName = "TableHead";
 
 /* --------------------------------- TableCell --------------------------------- */
 
-const tableCellVariants = cva(cn("p-4 align-middle [&:has([role=checkbox])]:pr-0"), {
-  variants: {
-    align: {
-      left: "text-left",
-      center: "text-center",
-      right: "text-right",
+const tableCellVariants = cva(
+  cn("p-4 align-middle [&:has([role=checkbox])]:pr-0"),
+  {
+    variants: {
+      align: {
+        left: "text-left",
+        center: "text-center",
+        right: "text-right",
+      },
+    },
+    defaultVariants: {
+      align: "left",
     },
   },
-  defaultVariants: {
-    align: "left",
-  },
-});
+);
 
 export interface TableCellProps
-  extends React.TdHTMLAttributes<HTMLTableCellElement>,
+  extends
+    React.TdHTMLAttributes<HTMLTableCellElement>,
     VariantProps<typeof tableCellVariants> {
   /** 텍스트 정렬 방식 */
   align?: "left" | "center" | "right";
 }
 
+/**
+ * 테이블의 데이터 셀을 정의하는 컴포넌트입니다.
+ *
+ * `<td>` 태그를 렌더링하며, 실제 데이터를 표시합니다.
+ * 텍스트 정렬(`align`)을 설정할 수 있습니다.
+ */
 export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({ className, align, ...props }, ref) => {
     const table = (ref as any)?.current?.closest("table");
@@ -370,9 +457,14 @@ TableCell.displayName = "TableCell";
 
 /* --------------------------------- TableCaption --------------------------------- */
 
-export interface TableCaptionProps
-  extends React.HTMLAttributes<HTMLTableCaptionElement> {}
+export interface TableCaptionProps extends React.HTMLAttributes<HTMLTableCaptionElement> {}
 
+/**
+ * 테이블의 캡션(설명)을 정의하는 컴포넌트입니다.
+ *
+ * `<caption>` 태그를 렌더링하며, 스크린 리더 사용자에게 테이블의 목적을
+ * 설명하는 데 중요한 역할을 합니다.
+ */
 export const TableCaption = React.forwardRef<
   HTMLTableCaptionElement,
   TableCaptionProps
