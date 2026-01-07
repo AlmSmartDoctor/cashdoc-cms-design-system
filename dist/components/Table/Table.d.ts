@@ -1,6 +1,19 @@
 import { default as React } from 'react';
 import { VariantProps } from 'class-variance-authority';
 
+declare const tableVariants: (props?: ({
+    bordered?: boolean | null | undefined;
+} & import('class-variance-authority/types').ClassProp) | undefined) => string;
+export interface TableProps extends React.TableHTMLAttributes<HTMLTableElement>, VariantProps<typeof tableVariants> {
+    /** zebra stripe 패턴 적용 여부 */
+    striped?: boolean;
+    /** row hover 효과 적용 여부 */
+    hoverable?: boolean;
+    /** 테두리 표시 여부 */
+    bordered?: boolean;
+    /** 좁은 padding 적용 여부 */
+    compact?: boolean;
+}
 /**
  * 데이터를 행과 열로 구조화하여 표시하는 테이블 컴포넌트입니다.
  *
@@ -96,28 +109,32 @@ import { VariantProps } from 'class-variance-authority';
  * ```
  * {@end-tool}
  */
-declare const tableVariants: (props?: ({
-    bordered?: boolean | null | undefined;
-} & import('class-variance-authority/types').ClassProp) | undefined) => string;
-export interface TableProps extends React.TableHTMLAttributes<HTMLTableElement>, VariantProps<typeof tableVariants> {
-    /** zebra stripe 패턴 적용 여부 */
-    striped?: boolean;
-    /** row hover 효과 적용 여부 */
-    hoverable?: boolean;
-    /** 테두리 표시 여부 */
-    bordered?: boolean;
-    /** 좁은 padding 적용 여부 */
-    compact?: boolean;
-}
 export declare const Table: React.ForwardRefExoticComponent<TableProps & React.RefAttributes<HTMLTableElement>>;
 export interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionElement> {
 }
+/**
+ * 테이블의 헤더 섹션을 정의하는 컴포넌트입니다.
+ *
+ * `<thead>` 태그를 렌더링하며, 보통 `TableRow`와 `TableHead`를 포함하여
+ * 열의 제목을 표시하는 데 사용됩니다.
+ */
 export declare const TableHeader: React.ForwardRefExoticComponent<TableHeaderProps & React.RefAttributes<HTMLTableSectionElement>>;
 export interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionElement> {
 }
+/**
+ * 테이블의 본문 섹션을 정의하는 컴포넌트입니다.
+ *
+ * `<tbody>` 태그를 렌더링하며, 실제 데이터가 포함된 `TableRow`와 `TableCell`을
+ * 포함합니다.
+ */
 export declare const TableBody: React.ForwardRefExoticComponent<TableBodyProps & React.RefAttributes<HTMLTableSectionElement>>;
 export interface TableFooterProps extends React.HTMLAttributes<HTMLTableSectionElement> {
 }
+/**
+ * 테이블의 푸터 섹션을 정의하는 컴포넌트입니다.
+ *
+ * `<tfoot>` 태그를 렌더링하며, 합계나 요약 정보를 표시하는 데 사용됩니다.
+ */
 export declare const TableFooter: React.ForwardRefExoticComponent<TableFooterProps & React.RefAttributes<HTMLTableSectionElement>>;
 declare const tableRowVariants: (props?: ({
     hoverable?: boolean | null | undefined;
@@ -127,6 +144,12 @@ export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement>
     /** 선택된 행 표시 여부 */
     selected?: boolean;
 }
+/**
+ * 테이블의 행(Row)을 정의하는 컴포넌트입니다.
+ *
+ * `<tr>` 태그를 렌더링하며, `hoverable`이나 `striped` 속성이 `Table` 컴포넌트에
+ * 적용되었을 때 이에 따른 스타일을 자동으로 적용합니다.
+ */
 export declare const TableRow: React.ForwardRefExoticComponent<TableRowProps & React.RefAttributes<HTMLTableRowElement>>;
 export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
     /** 정렬 가능 여부 */
@@ -136,6 +159,12 @@ export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElem
     /** 정렬 클릭 핸들러 */
     onSort?: () => void;
 }
+/**
+ * 테이블의 헤더 셀을 정의하는 컴포넌트입니다.
+ *
+ * `<th>` 태그를 렌더링하며, 열의 제목을 표시합니다.
+ * 정렬 기능(`sortable`)을 지원하며, 정렬 방향에 따라 아이콘을 표시할 수 있습니다.
+ */
 export declare const TableHead: React.ForwardRefExoticComponent<TableHeadProps & React.RefAttributes<HTMLTableCellElement>>;
 declare const tableCellVariants: (props?: ({
     align?: "center" | "right" | "left" | null | undefined;
@@ -144,8 +173,20 @@ export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElem
     /** 텍스트 정렬 방식 */
     align?: "left" | "center" | "right";
 }
+/**
+ * 테이블의 데이터 셀을 정의하는 컴포넌트입니다.
+ *
+ * `<td>` 태그를 렌더링하며, 실제 데이터를 표시합니다.
+ * 텍스트 정렬(`align`)을 설정할 수 있습니다.
+ */
 export declare const TableCell: React.ForwardRefExoticComponent<TableCellProps & React.RefAttributes<HTMLTableCellElement>>;
 export interface TableCaptionProps extends React.HTMLAttributes<HTMLTableCaptionElement> {
 }
+/**
+ * 테이블의 캡션(설명)을 정의하는 컴포넌트입니다.
+ *
+ * `<caption>` 태그를 렌더링하며, 스크린 리더 사용자에게 테이블의 목적을
+ * 설명하는 데 중요한 역할을 합니다.
+ */
 export declare const TableCaption: React.ForwardRefExoticComponent<TableCaptionProps & React.RefAttributes<HTMLTableCaptionElement>>;
 export {};

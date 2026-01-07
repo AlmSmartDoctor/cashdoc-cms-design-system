@@ -166,9 +166,11 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     const [selectedValues, setSelectedValues] = useState<string[]>(
       multiple ? (value ? [value] : []) : []
     );
+    const [showScrollIndicator, setShowScrollIndicator] = useState(false);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
+    const optionsListRef = useRef<HTMLDivElement>(null);
 
     const selectedOption = options.find((option) => option.value === value);
     const selectedLabel = multiple
@@ -246,6 +248,34 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       }
     }, [isOpen, searchable]);
 
+    // 스크롤 가능 여부 체크
+    const checkScrollIndicator = () => {
+      if (optionsListRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = optionsListRef.current;
+        const hasMoreContent = scrollHeight > clientHeight;
+        const isAtBottom = scrollHeight - scrollTop - clientHeight < 1;
+        setShowScrollIndicator(hasMoreContent && !isAtBottom);
+      }
+    };
+
+    // 드롭다운이 열릴 때와 옵션이 변경될 때 스크롤 인디케이터 체크
+    useEffect(() => {
+      if (isOpen) {
+        checkScrollIndicator();
+      }
+    }, [isOpen, filteredOptions]);
+
+    // 스크롤 이벤트 리스너
+    useEffect(() => {
+      const optionsList = optionsListRef.current;
+      if (optionsList && isOpen) {
+        optionsList.addEventListener("scroll", checkScrollIndicator);
+        return () => {
+          optionsList.removeEventListener("scroll", checkScrollIndicator);
+        };
+      }
+    }, [isOpen]);
+
     return (
       <div ref={dropdownRef} className="relative w-full">
         <button
@@ -321,57 +351,68 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
               </div>
             )}
 
-            <div className="max-h-48 overflow-y-auto">
-              {filteredOptions.length === 0 ? (
-                <div className="px-3 py-2 text-sm text-cms-gray-400 text-center">
-                  {searchTerm ? "검색 결과가 없습니다" : "옵션이 없습니다"}
-                </div>
-              ) : (
-                filteredOptions.map((option) => {
-                  const isSelected = multiple
-                    ? selectedValues.includes(option.value)
-                    : value === option.value;
+            <div className="relative">
+              <div
+                ref={optionsListRef}
+                className="max-h-48 overflow-y-auto"
+              >
+                {filteredOptions.length === 0 ? (
+                  <div className="px-3 py-2 text-sm text-cms-gray-400 text-center">
+                    {searchTerm ? "검색 결과가 없습니다" : "옵션이 없습니다"}
+                  </div>
+                ) : (
+                  filteredOptions.map((option) => {
+                    const isSelected = multiple
+                      ? selectedValues.includes(option.value)
+                      : value === option.value;
 
-                  return (
-                    <button
-                      key={option.value}
-                      type="button"
-                      className={cn(
-                        "border-0",
-                        "flex items-center justify-between gap-2",
-                        "w-full px-3 py-2 ",
-                        "text-left text-sm",
-                        "transition-colors",
-                        option.disabled
-                          ? "text-cms-gray-400 cursor-not-allowed bg-white"
-                          : "text-cms-black bg-white hover:bg-cms-gray-100 cursor-pointer",
-                        isSelected && "bg-cms-gray-150 font-medium"
-                      )}
-                      onClick={() => handleOptionClick(option)}
-                      disabled={option.disabled}
-                    >
-                      <span className="truncate">{option.label}</span>
-                      {isSelected && (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          className="w-4 h-4 text-black shrink-0"
-                        >
-                          <path
-                            d="M13.5 4.5L6 12L2.5 8.5"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      )}
-                    </button>
-                  );
-                })
+                    return (
+                      <button
+                        key={option.value}
+                        type="button"
+                        className={cn(
+                          "border-0",
+                          "flex items-center justify-between gap-2",
+                          "w-full px-3 py-2 ",
+                          "text-left text-sm",
+                          "transition-colors",
+                          option.disabled
+                            ? "text-cms-gray-400 cursor-not-allowed bg-white"
+                            : "text-cms-black bg-white hover:bg-cms-gray-100 cursor-pointer",
+                          isSelected && "bg-cms-gray-150 font-medium"
+                        )}
+                        onClick={() => handleOptionClick(option)}
+                        disabled={option.disabled}
+                      >
+                        <span className="truncate">{option.label}</span>
+                        {isSelected && (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            className="w-4 h-4 text-black shrink-0"
+                          >
+                            <path
+                              d="M13.5 4.5L6 12L2.5 8.5"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        )}
+                      </button>
+                    );
+                  })
+                )}
+              </div>
+
+              {showScrollIndicator && (
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none flex items-end justify-center pb-1">
+                  <ChevronDownFillIcon className="w-4 h-4 text-cms-gray-400 animate-bounce" />
+                </div>
               )}
             </div>
           </div>

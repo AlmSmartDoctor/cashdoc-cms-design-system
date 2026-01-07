@@ -1,5 +1,31 @@
 import { default as React } from 'react';
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+export interface ToolTipProps extends Omit<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>, "content"> {
+    /** 툴팁을 트리거하는 요소 */
+    children: React.ReactNode;
+    /** 툴팁에 표시할 내용 */
+    content: React.ReactNode;
+    /** 툴팁이 나타날 위치 (기본: "top") */
+    side?: "top" | "right" | "bottom" | "left";
+    /** 트리거로부터의 거리 (픽셀) (기본: 4) */
+    sideOffset?: number;
+    /** 트리거와의 정렬 방식 (기본: "center") */
+    align?: "start" | "center" | "end";
+    /** 마우스 호버 후 툴팁이 나타나기까지의 지연 시간 (밀리초) (기본: 200) */
+    delayDuration?: number;
+    /** 다른 툴팁에서 빠르게 진입 시 지연 건너뛰기 시간 (밀리초) (기본: 300) */
+    skipDelayDuration?: number;
+    /** 툴팁 위로 마우스를 이동할 수 있는지 여부 (기본: true) */
+    disableHoverableContent?: boolean;
+    /** 화살표 표시 여부 (기본: true) */
+    showArrow?: boolean;
+    /** Controlled 모드: 툴팁 열림 상태 */
+    open?: boolean;
+    /** Uncontrolled 모드: 초기 열림 상태 */
+    defaultOpen?: boolean;
+    /** 툴팁 열림 상태 변경 시 콜백 */
+    onOpenChange?: (open: boolean) => void;
+}
 /**
  * 마우스 호버나 포커스 시 간단한 힌트나 설명을 제공하는 툴팁 컴포넌트입니다.
  *
@@ -81,30 +107,4 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip";
  * - {@link Popover}, 클릭으로 열고 상호작용이 필요한 경우
  * - {@link Modal}, 중요한 정보나 복잡한 작업이 필요한 경우
  */
-export interface ToolTipProps extends Omit<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>, "content"> {
-    /** 툴팁을 트리거하는 요소 */
-    children: React.ReactNode;
-    /** 툴팁에 표시할 내용 */
-    content: React.ReactNode;
-    /** 툴팁이 나타날 위치 (기본: "top") */
-    side?: "top" | "right" | "bottom" | "left";
-    /** 트리거로부터의 거리 (픽셀) (기본: 4) */
-    sideOffset?: number;
-    /** 트리거와의 정렬 방식 (기본: "center") */
-    align?: "start" | "center" | "end";
-    /** 마우스 호버 후 툴팁이 나타나기까지의 지연 시간 (밀리초) (기본: 200) */
-    delayDuration?: number;
-    /** 다른 툴팁에서 빠르게 진입 시 지연 건너뛰기 시간 (밀리초) (기본: 300) */
-    skipDelayDuration?: number;
-    /** 툴팁 위로 마우스를 이동할 수 있는지 여부 (기본: true) */
-    disableHoverableContent?: boolean;
-    /** 화살표 표시 여부 (기본: true) */
-    showArrow?: boolean;
-    /** Controlled 모드: 툴팁 열림 상태 */
-    open?: boolean;
-    /** Uncontrolled 모드: 초기 열림 상태 */
-    defaultOpen?: boolean;
-    /** 툴팁 열림 상태 변경 시 콜백 */
-    onOpenChange?: (open: boolean) => void;
-}
 export declare const ToolTip: React.ForwardRefExoticComponent<ToolTipProps & React.RefAttributes<HTMLDivElement>>;
