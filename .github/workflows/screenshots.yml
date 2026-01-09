@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths-ignore:
-      - '__screenshots__/**'
+      - "__screenshots__/**"
   workflow_dispatch:
 
 concurrency:
@@ -52,7 +52,7 @@ jobs:
 
       - name: Push Screenshots to External Repository
         env:
-          SCREENSHOT_REPO: AlmSmartDoctor/cashdoc-cms-design-system-screenshots
+          SCREENSHOT_REPO: AlmSmartDoctor/ccds-screenshots
           SCREENSHOT_TOKEN: ${{ secrets.SCREENSHOT_REPO_TOKEN }}
         run: |
           # 별도 레포 설정
