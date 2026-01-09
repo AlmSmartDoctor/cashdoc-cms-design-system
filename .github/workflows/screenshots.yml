@@ -5,6 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: screenshots-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
   pull-requests: write
@@ -94,9 +98,30 @@ jobs:
 
             스크린샷의 경로나 파일명에 변경 사항이 있다면, JSdoc의 사진에 영향이 갈 수 있으니 확인 부탁드립니다.`;
 
-            github.rest.issues.createComment({
+            // 기존 댓글 검색
+            const { data: comments } = await github.rest.issues.listComments({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: message
             });
+
+            const botComment = comments.find(comment => {
+              return comment.user.type === 'Bot' && comment.body.includes('## 📸 Component Screenshots');
+            });
+
+            // 업데이트 또는 생성
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                comment_id: botComment.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: message
+              });
+            } else {
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: message
+              });
+            }
