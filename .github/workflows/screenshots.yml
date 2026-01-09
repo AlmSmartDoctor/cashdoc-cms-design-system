@@ -88,9 +88,11 @@ jobs:
 
             const message = `## 📸 Component Screenshots
 
-            ${fileCount} screenshots have been updated and committed to the repository.
+            ${fileCount}개의 스크린샷이 업데이트되어 저장소에 커밋되었습니다.
 
-            You can review the changes in the "Files changed" tab.`;
+            변경 사항은 "Files changed" 탭에서 확인할 수 있습니다.
+
+            스크린샷의 경로나 파일명에 변경 사항이 있다면, JSdoc의 사진에 영향이 갈 수 있으니 확인 부탁드립니다.`;`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
