@@ -30,7 +30,7 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
     "screenshot": "storycap http://localhost:6006 --serverCmd \"pnpm storybook\" --serverTimeout 60000",
-    "screenshot:ci": "storycap http://localhost:6006 --serverCmd \"pnpm storybook\" --serverTimeout 120000"
+    "screenshot:ci": "storycap http://localhost:6006 --serverCmd \"pnpm storybook\" --serverTimeout 120000 --verbose"
   },
   "keywords": [
     "design-system",

@@ -50,7 +50,6 @@ coverage
 test-results/
 playwright-report/
 playwright/.cache/
-__screenshots__/
 
 # Temporary files
 *.tmp

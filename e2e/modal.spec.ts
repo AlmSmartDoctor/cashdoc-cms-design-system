@@ -55,6 +55,9 @@ test.describe('Modal 컴포넌트', () => {
     // 초기 상태: 모달이 열려 있음
     await expect(page.getByRole('dialog')).toBeVisible();
 
+    // 모달 내부 요소에 포커스 (자동 포커스가 비활성화되어 있으므로 수동으로 포커스 이동 필요)
+    await page.getByRole('button', { name: '확인' }).focus();
+
     // ESC 키 누르기
     await page.keyboard.press('Escape');
 
