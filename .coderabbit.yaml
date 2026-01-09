@@ -6,3 +6,6 @@ reviews:
     ignore_title_keywords:
       - "[skip ci]"
       - "update screenshots"
+    drafts: false
+  ignore_keyword_in_comment:
+    - "[skip ci]"
