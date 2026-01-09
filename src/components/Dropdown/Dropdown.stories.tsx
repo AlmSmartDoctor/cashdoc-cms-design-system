@@ -567,3 +567,23 @@ export const ComprehensiveExample: Story = {
     },
   },
 };
+
+export const ForJsdoc: Story = {
+  parameters: {
+    docs: { disable: true },
+    layout: "centered",
+  },
+  render: () => (
+    <div className="h-[300px] w-full flex items-start justify-center pt-10">
+      <Dropdown
+        options={[
+          { value: "option1", label: "Option 1" },
+          { value: "option2", label: "Option 2" },
+          { value: "option3", label: "Option 3" },
+        ]}
+        placeholder="Select Option"
+        defaultOpen={true}
+      />
+    </div>
+  ),
+};

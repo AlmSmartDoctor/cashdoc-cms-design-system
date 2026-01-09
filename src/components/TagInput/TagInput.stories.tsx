@@ -344,7 +344,8 @@ export const HorizontalLayoutForm: Story = {
   parameters: {
     docs: {
       description: {
-        story: "가로 배치 레이아웃을 사용한 폼 예시입니다. 레이블 너비가 일정하게 유지되어 정렬된 모습을 보여줍니다.",
+        story:
+          "가로 배치 레이아웃을 사용한 폼 예시입니다. 레이블 너비가 일정하게 유지되어 정렬된 모습을 보여줍니다.",
       },
     },
   },
@@ -425,3 +426,5 @@ export const AllStates: Story = {
     },
   },
 };
+
+export const ForJsdoc: Story = AllStates;

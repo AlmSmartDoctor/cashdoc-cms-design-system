@@ -151,7 +151,9 @@ export interface ImageUploadProps {
  *   onChange={(files) => console.log(files)}
  * />
  * ```
- * {@end-tool}
+ * {@end-tool} *
+ * ## 참고사진
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/ImageUpload/Default.png?raw=true)
  */
 export const ImageUpload = ({
   value = [],

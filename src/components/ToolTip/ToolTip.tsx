@@ -114,6 +114,8 @@ export interface ToolTipProps extends Omit<
  *
  * - {@link Popover}, 클릭으로 열고 상호작용이 필요한 경우
  * - {@link Modal}, 중요한 정보나 복잡한 작업이 필요한 경우
+ * ## 참고사진
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Feedback/ToolTip/All%20States.png?raw=true)
  */
 export const ToolTip = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,

@@ -2,5 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "pnpm build-storybook",
   "outputDirectory": "storybook-static",
-  "installCommand": "pnpm install"
+  "installCommand": "pnpm install",
+  "ignoreCommand": "git log -1 --pretty=%B | grep -q '\\[skip ci\\]'"
 }

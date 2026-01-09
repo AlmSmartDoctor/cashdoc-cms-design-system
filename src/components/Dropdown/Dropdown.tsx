@@ -1,42 +1,8 @@
 import { cn } from "@/utils/cn";
-import { cva, VariantProps } from "class-variance-authority";
+import { VariantProps } from "class-variance-authority";
 import { useState, useRef, useEffect, forwardRef, KeyboardEvent } from "react";
 import { ChevronDownFillIcon, XIcon as ClearIcon } from "../icons";
-
-export const dropdownTriggerVariants = cva(
-  cn(
-    "flex items-center justify-between",
-    "rounded-md px-4 py-2.5",
-    "text-sm font-medium",
-    "outline-none",
-    "transition-all",
-    "w-full min-w-0"
-  ),
-  {
-    variants: {
-      variant: {
-        default: cn(
-          "bg-white text-cms-black border border-black",
-          "hover:bg-cms-gray-100"
-        ),
-        outline: cn(
-          "border border-cms-outline bg-transparent",
-          "hover:bg-cms-gray-200"
-        ),
-        ghost: "border-none bg-transparent hover:bg-cms-gray-200 hover:text-black",
-      },
-      size: {
-        sm: "px-3 py-2 text-xs",
-        default: "px-4 py-2.5 text-sm",
-        lg: "px-6 py-3 text-base",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-);
+import { dropdownTriggerVariants } from "./variants";
 
 export interface DropdownOption {
   value: string;
@@ -58,6 +24,7 @@ export interface DropdownProps extends VariantProps<
   clearable?: boolean;
   multiple?: boolean;
   maxHeight?: number;
+  defaultOpen?: boolean;
 }
 
 /**
@@ -139,7 +106,9 @@ export interface DropdownProps extends VariantProps<
  *
  * - {@link Select}, 기본적인 HTML select 스타일의 컴포넌트
  * - {@link Combobox}, 입력과 선택이 결합된 컴포넌트
- * - {@link Popover}, 더 자유로운 형태의 팝오버가 필요한 경우
+ * - {@link Popover}, 더 자유로운 형태의 팝오버가 필요한 경우 *
+ * ## 참고사진
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/Dropdown/Default.png?raw=true)
  */
 export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
   (
@@ -157,11 +126,12 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       clearable = false,
       multiple = false,
       maxHeight = 200,
+      defaultOpen = false,
       ...props
     },
     ref
   ) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(defaultOpen);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedValues, setSelectedValues] = useState<string[]>(
       multiple ? (value ? [value] : []) : []

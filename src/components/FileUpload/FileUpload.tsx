@@ -54,7 +54,9 @@ export interface FileUploadProps {
  *   accept={{ "application/pdf": [".pdf"] }}
  * />
  * ```
- * {@end-tool}
+ * {@end-tool} *
+ * ## 참고사진
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/FileUpload/Default.png?raw=true)
  */
 export const FileUpload = ({
   value = [],
