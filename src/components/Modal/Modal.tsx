@@ -220,6 +220,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
           />
           <DialogPrimitive.Content
             ref={ref}
+            onOpenAutoFocus={(e) => e.preventDefault()}
             className={cn(
               "fixed left-[50%] top-[50%] z-150",
               "translate-x-[-50%] translate-y-[-50%]",

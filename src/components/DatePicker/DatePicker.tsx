@@ -190,10 +190,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                 <CalendarIcon
                   size={20}
                   strokeWidth={1.5}
-                  className={cn(
-                    "text-gray-400",
-                    disabled && "text-gray-300",
-                  )}
+                  className={cn("text-gray-400", disabled && "text-gray-300")}
                 />
               </div>
               <input

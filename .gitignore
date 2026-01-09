@@ -14,7 +14,7 @@ node_modules
 .yarn
 
 # Build outputs
-# dist - commented out to include in git for GitHub installations
+dist
 dist-ssr
 *.local
 build
@@ -47,6 +47,10 @@ storybook-static
 # Testing
 coverage
 .nyc_output
+test-results/
+playwright-report/
+playwright/.cache/
+__screenshots__/
 
 # Temporary files
 *.tmp

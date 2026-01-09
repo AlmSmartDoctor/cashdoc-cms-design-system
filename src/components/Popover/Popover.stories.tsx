@@ -45,9 +45,12 @@ type Story = StoryObj<typeof meta>;
 
 // 기본 케밥 메뉴 예제
 export const Default: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
     <div className="flex items-center justify-center p-20">
-      <Popover>
+      <Popover defaultOpen={true}>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon">
             <MoreVertical className="h-5 w-5" />
@@ -71,9 +74,12 @@ export const Default: Story = {
 
 // 다양한 액션이 있는 예제
 export const WithMultipleActions: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
     <div className="flex items-center justify-center p-20">
-      <Popover>
+      <Popover defaultOpen={true}>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon">
             <MoreVertical className="h-5 w-5" />
@@ -106,11 +112,14 @@ export const WithMultipleActions: Story = {
 
 // 카드 위의 케밥 메뉴 예제
 export const OnCard: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
     <div className="flex items-center justify-center p-20">
       <div className="relative w-80 rounded-2xl border border-grayscale-200 bg-white p-6 shadow-sm">
         <div className="absolute top-4 right-4">
-          <Popover>
+          <Popover defaultOpen={true}>
             <PopoverTrigger asChild>
               <Button variant="ghost" size="icon">
                 <MoreVertical className="h-5 w-5" />
@@ -146,9 +155,12 @@ export const OnCard: Story = {
 
 // 아이콘 없는 메뉴
 export const WithoutIcons: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
     <div className="flex items-center justify-center p-20">
-      <Popover>
+      <Popover defaultOpen={true}>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon">
             <MoreVertical className="h-5 w-5" />
@@ -167,9 +179,12 @@ export const WithoutIcons: Story = {
 
 // 비활성화된 메뉴 아이템
 export const WithDisabledItems: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
     <div className="flex items-center justify-center p-20">
-      <Popover>
+      <Popover defaultOpen={true}>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon">
             <MoreVertical className="h-5 w-5" />
@@ -196,9 +211,12 @@ export const WithDisabledItems: Story = {
 
 // 왼쪽 정렬
 export const AlignStart: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
     <div className="flex items-center justify-center p-20">
-      <Popover>
+      <Popover defaultOpen={true}>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon">
             <MoreVertical className="h-5 w-5" />

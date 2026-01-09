@@ -1,6 +1,6 @@
 import React from "react";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import { Check } from "lucide-react";
+import { CheckIcon } from "@/components/icons";
 import { cn } from "@/utils/cn";
 
 export interface CheckboxProps extends React.ComponentPropsWithoutRef<
@@ -108,17 +108,18 @@ export const Checkbox = React.forwardRef<
           "focus-visible:outline-none",
           "focus-visible:ring-2",
           "focus-visible:ring-offset-2",
+          "cursor-pointer",
           "disabled:cursor-not-allowed disabled:opacity-50",
           "data-[state=checked]:bg-black data-[state=checked]:border-black",
           "transition-colors",
-          className
+          className,
         )}
         {...props}
       >
         <CheckboxPrimitive.Indicator
           className={cn("flex items-center justify-center", "text-white")}
         >
-          <Check className="h-[18px] w-[18px]" strokeWidth={4} />
+          <CheckIcon size={14} strokeWidth={3} className="scale-150" />
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Root>
       {label && (
@@ -128,7 +129,7 @@ export const Checkbox = React.forwardRef<
             "ml-2 text-base font-normal text-gray-500",
             "hover:text-black transition-colors",
             disabled && "cursor-not-allowed opacity-50",
-            "cursor-pointer select-none"
+            "cursor-pointer select-none",
           )}
         >
           {label}

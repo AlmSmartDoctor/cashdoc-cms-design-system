@@ -424,6 +424,150 @@ export const CalendarIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ),
 );
 
+// --- User & Profile ---
+export const UserIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M19 21V19C19 16.7909 17.2091 15 15 15H9C6.79086 15 5 16.7909 5 19V21" />
+      <circle cx="12" cy="7" r="4" />
+    </IconWrapper>
+  ),
+);
+
+export const UsersIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M17 21V19C17 16.7909 15.2091 15 13 15H5C2.79086 15 1 16.7909 1 19V21" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21V19C22.9986 17.1771 21.765 15.5857 20 15.13" />
+      <path d="M16 3.13C17.7699 3.58338 19.0078 5.17972 19.0078 7.005C19.0078 8.83028 17.7699 10.4266 16 10.88" />
+    </IconWrapper>
+  ),
+);
+
+// --- List & Document ---
+export const ListIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <line x1="8" x2="21" y1="6" y2="6" />
+      <line x1="8" x2="21" y1="12" y2="12" />
+      <line x1="8" x2="21" y1="18" y2="18" />
+      <line x1="3" x2="3.01" y1="6" y2="6" />
+      <line x1="3" x2="3.01" y1="12" y2="12" />
+      <line x1="3" x2="3.01" y1="18" y2="18" />
+    </IconWrapper>
+  ),
+);
+
+export const FileImportIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M14.5 2H6A2 2 0 0 0 4 4V20A2 2 0 0 0 6 22H18A2 2 0 0 0 20 20V7.5L14.5 2Z" />
+      <polyline points="14 2 14 8 20 8" />
+      <path d="M12 18V12" />
+      <path d="M9 15L12 18L15 15" />
+    </IconWrapper>
+  ),
+);
+
+export const FileExportIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M14.5 2H6A2 2 0 0 0 4 4V20A2 2 0 0 0 6 22H18A2 2 0 0 0 20 20V7.5L14.5 2Z" />
+      <polyline points="14 2 14 8 20 8" />
+      <path d="M12 12V18" />
+      <path d="M9 15L12 12L15 15" />
+    </IconWrapper>
+  ),
+);
+
+// --- Edit & Write ---
+export const EditIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M11 4H4C2.89543 4 2 4.89543 2 6V20C2 21.1046 2.89543 22 4 22H18C19.1046 22 20 21.1046 20 20V13" />
+      <path d="M18.5 2.5C19.3284 1.67157 20.6716 1.67157 21.5 2.5C22.3284 3.32843 22.3284 4.67157 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" />
+    </IconWrapper>
+  ),
+);
+
+export const Edit2Icon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M17 3C17.5304 2.46957 18.2652 2.17157 19.0303 2.17157C19.7954 2.17157 20.5302 2.46957 21.0607 3C21.5911 3.53043 21.8891 4.26522 21.8891 5.03033C21.8891 5.79544 21.5911 6.53023 21.0607 7.06066L7.5 20.5L2 22L3.5 16.5L17 3Z" />
+    </IconWrapper>
+  ),
+);
+
+// --- Analytics & Charts ---
+export const TrendingUpIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+      <polyline points="17 6 23 6 23 12" />
+    </IconWrapper>
+  ),
+);
+
+export const TrendingDownIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
+      <polyline points="17 18 23 18 23 12" />
+    </IconWrapper>
+  ),
+);
+
+export const BarChartIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <line x1="12" x2="12" y1="20" y2="10" />
+      <line x1="18" x2="18" y1="20" y2="4" />
+      <line x1="6" x2="6" y1="20" y2="16" />
+    </IconWrapper>
+  ),
+);
+
+// --- Payment & Cards ---
+export const CreditCardIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <rect width="20" height="14" x="2" y="5" rx="2" />
+      <line x1="2" x2="22" y1="10" y2="10" />
+    </IconWrapper>
+  ),
+);
+
+// --- Media ---
+export const ImageIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+      <circle cx="9" cy="9" r="2" />
+      <path d="M21 15L16 10L5 21" />
+    </IconWrapper>
+  ),
+);
+
+// --- Books & Reading ---
+export const BookIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M4 19.5C4 18.1193 5.11929 17 6.5 17H20" />
+      <path d="M6.5 2H20V22H6.5C5.11929 22 4 20.8807 4 19.5V4.5C4 3.11929 5.11929 2 6.5 2Z" />
+    </IconWrapper>
+  ),
+);
+
+export const BookOpenIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M2 3H8C9.06087 3 10.0783 3.42143 10.8284 4.17157C11.5786 4.92172 12 5.93913 12 7V21C12 20.2044 11.6839 19.4413 11.1213 18.8787C10.5587 18.3161 9.79565 18 9 18H2V3Z" />
+      <path d="M22 3H16C14.9391 3 13.9217 3.42143 13.1716 4.17157C12.4214 4.92172 12 5.93913 12 7V21C12 20.2044 12.3161 19.4413 12.8787 18.8787C13.4413 18.3161 14.2044 18 15 18H22V3Z" />
+    </IconWrapper>
+  ),
+);
+
 // --- Custom Brand Icons ---
 export const MedicashIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ className, size = DEFAULT_SIZE, ...props }, ref) => (

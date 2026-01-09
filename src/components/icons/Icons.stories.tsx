@@ -56,6 +56,9 @@ const AllIconsStory = () => {
         name.includes("Menu") ||
         name.includes("Align"),
     ),
+    "User & Profile": iconEntries.filter(
+      ([name]) => name.includes("User"),
+    ),
     "Status & Feedback": iconEntries.filter(
       ([name]) =>
         name.includes("XIcon") ||
@@ -78,13 +81,33 @@ const AllIconsStory = () => {
         "SettingsIcon",
       ].includes(name),
     ),
+    "Edit & Write": iconEntries.filter(([name]) => name.includes("Edit")),
     Communication: iconEntries.filter(([name]) => name.includes("Message")),
+    "List & Document": iconEntries.filter(
+      ([name]) =>
+        name.includes("List") ||
+        name.includes("FileImport") ||
+        name.includes("FileExport"),
+    ),
     "Files & Content": iconEntries.filter(
       ([name]) =>
-        name.includes("File") ||
+        (name.includes("File") && !name.includes("Import") && !name.includes("Export")) ||
         name.includes("Excel") ||
-        name.includes("Image") ||
         name.includes("Calendar"),
+    ),
+    "Media & Images": iconEntries.filter(
+      ([name]) => name.includes("Image"),
+    ),
+    "Analytics & Charts": iconEntries.filter(
+      ([name]) =>
+        name.includes("Trending") ||
+        name.includes("BarChart"),
+    ),
+    "Payment & Cards": iconEntries.filter(
+      ([name]) => name.includes("CreditCard"),
+    ),
+    "Books & Reading": iconEntries.filter(
+      ([name]) => name.includes("Book"),
     ),
     "Brand & Custom": iconEntries.filter(
       ([name]) => name.includes("Medicash") || name.includes("Badge"),

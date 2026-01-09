@@ -124,8 +124,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
-    <ToolTip content="설정 페이지로 이동합니다">
+    <ToolTip content="설정 페이지로 이동합니다" defaultOpen={true}>
       <Button variant="ghost" size="icon">
         <Settings className="h-4 w-4" />
       </Button>
@@ -141,9 +144,12 @@ export const Default: Story = {
 };
 
 export const AllPositions: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
     <div className="flex flex-col items-center gap-12">
-      <ToolTip content="상단 툴팁" side="top">
+      <ToolTip content="상단 툴팁" side="top" defaultOpen={true}>
         <Button variant="outline">Top</Button>
       </ToolTip>
       <div className="flex gap-12">
@@ -170,9 +176,12 @@ export const AllPositions: Story = {
 };
 
 export const WithDelay: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
     <div className="flex gap-4">
-      <ToolTip content="즉시 표시" delayDuration={0}>
+      <ToolTip content="즉시 표시" delayDuration={0} defaultOpen={true}>
         <Button variant="outline">즉시 (0ms)</Button>
       </ToolTip>
       <ToolTip content="기본 지연" delayDuration={200}>
@@ -194,8 +203,11 @@ export const WithDelay: Story = {
 };
 
 export const LongContent: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
-    <ToolTip content="이 기능은 관리자 권한이 필요합니다. 권한이 없는 사용자는 실행할 수 없으며, 관리자에게 문의하세요.">
+    <ToolTip content="이 기능은 관리자 권한이 필요합니다. 권한이 없는 사용자는 실행할 수 없으며, 관리자에게 문의하세요." defaultOpen={true}>
       <Button variant="outline">
         <Info className="mr-2 h-4 w-4" />
         권한 필요
@@ -213,9 +225,12 @@ export const LongContent: Story = {
 };
 
 export const WithIcon: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
     <div className="flex gap-4">
-      <ToolTip content="다운로드">
+      <ToolTip content="다운로드" defaultOpen={true}>
         <Button variant="ghost" size="icon">
           <Download className="h-4 w-4" />
         </Button>
@@ -248,9 +263,12 @@ export const WithIcon: Story = {
 };
 
 export const WithoutArrow: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
     <div className="flex gap-4">
-      <ToolTip content="화살표 있음" showArrow={true}>
+      <ToolTip content="화살표 있음" showArrow={true} defaultOpen={true}>
         <Button variant="outline">화살표 있음</Button>
       </ToolTip>
       <ToolTip content="화살표 없음" showArrow={false}>
@@ -269,9 +287,12 @@ export const WithoutArrow: Story = {
 };
 
 export const DifferentAlignments: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
     <div className="flex flex-col gap-4">
-      <ToolTip content="시작 정렬" align="start" side="bottom">
+      <ToolTip content="시작 정렬" align="start" side="bottom" defaultOpen={true}>
         <Button variant="outline">Align Start</Button>
       </ToolTip>
       <ToolTip content="중앙 정렬" align="center" side="bottom">
@@ -293,11 +314,14 @@ export const DifferentAlignments: Story = {
 };
 
 export const OnTextElement: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => (
     <div className="w-64 p-4 border rounded">
       <p className="text-sm">
         이 문장에는{" "}
-        <ToolTip content="여기에 추가 설명이 표시됩니다">
+        <ToolTip content="여기에 추가 설명이 표시됩니다" defaultOpen={true}>
           <span className="underline decoration-dashed cursor-help">
             툴팁이 있는 텍스트
           </span>

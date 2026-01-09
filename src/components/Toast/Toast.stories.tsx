@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Toaster } from "./Toaster";
 import { toast } from "./index";
 import { Button } from "../Button";
+import { useEffect } from "react";
 
 const meta: Meta<typeof Toaster> = {
   title: "Feedback/Toast",
@@ -80,50 +81,82 @@ export const Default: Story = {
 };
 
 export const WithDescription: Story = {
-  render: (args) => (
-    <div>
-      <Toaster {...args} />
-      <Button
-        onClick={() =>
-          toast("알림 제목", { description: "알림에 대한 상세 설명입니다." })
-        }
-      >
-        상세 설명 토스트
-      </Button>
-    </div>
-  ),
+  parameters: {
+    docs: { disable: true },
+  },
+  render: (args) => {
+    useEffect(() => {
+      toast("알림 제목", { description: "알림에 대한 상세 설명입니다." });
+    }, []);
+
+    return (
+      <div>
+        <Toaster {...args} />
+        <Button
+          onClick={() =>
+            toast("알림 제목", { description: "알림에 대한 상세 설명입니다." })
+          }
+        >
+          상세 설명 토스트
+        </Button>
+      </div>
+    );
+  },
 };
 
 export const WithAction: Story = {
-  render: (args) => (
-    <div>
-      <Toaster {...args} />
-      <Button
-        onClick={() =>
-          toast("파일이 삭제되었습니다.", {
-            action: {
-              label: "되돌리기",
-              onClick: () => console.log("Undo"),
-            },
-          })
-        }
-      >
-        되돌리기 액션이 포함된 토스트
-      </Button>
-    </div>
-  ),
+  parameters: {
+    docs: { disable: true },
+  },
+  render: (args) => {
+    useEffect(() => {
+      toast("파일이 삭제되었습니다.", {
+        action: {
+          label: "되돌리기",
+          onClick: () => console.log("Undo"),
+        },
+      });
+    }, []);
+
+    return (
+      <div>
+        <Toaster {...args} />
+        <Button
+          onClick={() =>
+            toast("파일이 삭제되었습니다.", {
+              action: {
+                label: "되돌리기",
+                onClick: () => console.log("Undo"),
+              },
+            })
+          }
+        >
+          되돌리기 액션이 포함된 토스트
+        </Button>
+      </div>
+    );
+  },
 };
 
 export const CustomPosition: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   args: {
     position: "top-center",
   },
-  render: (args) => (
-    <div>
-      <Toaster {...args} />
-      <Button onClick={() => toast("커스텀된 위치에 표시되는 알림입니다.")}>
-        커스텀 위치 토스트
-      </Button>
-    </div>
-  ),
+  render: (args) => {
+    useEffect(() => {
+      toast("커스텀된 위치에 표시되는 알림입니다.");
+    }, []);
+
+    return (
+      <div>
+        <Toaster {...args} />
+        <Button onClick={() => toast("커스텀된 위치에 표시되는 알림입니다.")}>
+          커스텀 위치 토스트
+        </Button>
+      </div>
+    );
+  },
 };

@@ -98,8 +98,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     return (
       <>
@@ -132,8 +135,11 @@ export const Basic: Story = {
 };
 
 export const Confirm: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     return (
       <>
@@ -150,8 +156,11 @@ export const Confirm: Story = {
 };
 
 export const ConfirmWithTitle: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     return (
       <>
@@ -169,8 +178,11 @@ export const ConfirmWithTitle: Story = {
 };
 
 export const Success: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     return (
       <>
@@ -187,8 +199,11 @@ export const Success: Story = {
 };
 
 export const SuccessWithTitle: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     return (
       <>
@@ -206,8 +221,11 @@ export const SuccessWithTitle: Story = {
 };
 
 export const Error: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     return (
       <>
@@ -224,8 +242,11 @@ export const Error: Story = {
 };
 
 export const ErrorWithTitle: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     return (
       <>
@@ -243,8 +264,11 @@ export const ErrorWithTitle: Story = {
 };
 
 export const Warning: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     return (
       <>
@@ -261,8 +285,11 @@ export const Warning: Story = {
 };
 
 export const WarningWithTitle: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     return (
       <>
@@ -280,8 +307,11 @@ export const WarningWithTitle: Story = {
 };
 
 export const Delete: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     return (
       <>
@@ -302,8 +332,11 @@ export const Delete: Story = {
 };
 
 export const DeleteWithCustomMessage: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     return (
       <>
@@ -328,8 +361,11 @@ export const DeleteWithCustomMessage: Story = {
 };
 
 export const AllModals: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => {
-    const [confirmOpen, setConfirmOpen] = useState(false);
+    const [confirmOpen, setConfirmOpen] = useState(true);
     const [successOpen, setSuccessOpen] = useState(false);
     const [errorOpen, setErrorOpen] = useState(false);
     const [warningOpen, setWarningOpen] = useState(false);
@@ -378,8 +414,11 @@ export const AllModals: Story = {
 };
 
 export const Sizes: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
   render: () => {
-    const [smOpen, setSmOpen] = useState(false);
+    const [smOpen, setSmOpen] = useState(true);
     const [mdOpen, setMdOpen] = useState(false);
     const [lgOpen, setLgOpen] = useState(false);
 
