@@ -3,6 +3,8 @@ name: Screenshots
 on:
   pull_request:
     branches: [main]
+    paths-ignore:
+      - '__screenshots__/**'
   workflow_dispatch:
 
 concurrency:
@@ -17,6 +19,7 @@ jobs:
   capture-screenshots:
     name: Capture Component Screenshots
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -52,6 +55,9 @@ jobs:
         with:
           commit_message: "chore: update screenshots [skip ci]"
           file_pattern: "__screenshots__/**/*.png"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
 
       - name: Comment PR with screenshots info
         if: github.event_name == 'pull_request'
