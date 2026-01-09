@@ -158,7 +158,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       } else {
         const match = value.match(timeRegex12h);
         if (match) {
-          let hour = parseInt(match[1], 10);
+          const hour = parseInt(match[1], 10);
           const period = match[3].toUpperCase() as "AM" | "PM";
           setSelectedHour(hour);
           setSelectedMinute(parseInt(match[2], 10));

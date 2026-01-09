@@ -125,7 +125,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story: "기본 툴팁입니다. 마우스를 올리면 상단에 툴팁이 나타납니다.",
+      },
+    },
   },
   render: () => (
     <ToolTip content="설정 페이지로 이동합니다" defaultOpen={true}>
@@ -134,18 +139,17 @@ export const Default: Story = {
       </Button>
     </ToolTip>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story: "기본 툴팁입니다. 마우스를 올리면 상단에 툴팁이 나타납니다.",
-      },
-    },
-  },
 };
 
 export const AllPositions: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story:
+          "툴팁의 위치를 상하좌우로 지정할 수 있습니다. side prop을 사용하여 원하는 방향을 설정하세요.",
+      },
+    },
   },
   render: () => (
     <div className="flex flex-col items-center gap-12">
@@ -165,19 +169,17 @@ export const AllPositions: Story = {
       </ToolTip>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "툴팁의 위치를 상하좌우로 지정할 수 있습니다. side prop을 사용하여 원하는 방향을 설정하세요.",
-      },
-    },
-  },
 };
 
 export const WithDelay: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story:
+          "delayDuration prop으로 툴팁이 나타나기까지의 지연 시간을 조절할 수 있습니다. 우발적인 호버로 인한 깜빡임을 방지하는 데 유용합니다.",
+      },
+    },
   },
   render: () => (
     <div className="flex gap-4">
@@ -192,19 +194,17 @@ export const WithDelay: Story = {
       </ToolTip>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "delayDuration prop으로 툴팁이 나타나기까지의 지연 시간을 조절할 수 있습니다. 우발적인 호버로 인한 깜빡임을 방지하는 데 유용합니다.",
-      },
-    },
-  },
 };
 
 export const LongContent: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story:
+          "긴 텍스트도 표시할 수 있습니다. 툴팁은 max-w-xs 클래스로 최대 너비가 제한되어 있어 자동으로 줄바꿈됩니다.",
+      },
+    },
   },
   render: () => (
     <ToolTip content="이 기능은 관리자 권한이 필요합니다. 권한이 없는 사용자는 실행할 수 없으며, 관리자에게 문의하세요." defaultOpen={true}>
@@ -214,19 +214,17 @@ export const LongContent: Story = {
       </Button>
     </ToolTip>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "긴 텍스트도 표시할 수 있습니다. 툴팁은 max-w-xs 클래스로 최대 너비가 제한되어 있어 자동으로 줄바꿈됩니다.",
-      },
-    },
-  },
 };
 
 export const WithIcon: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story:
+          "아이콘 버튼과 함께 사용하는 가장 일반적인 패턴입니다. 아이콘만으로는 기능을 알기 어려울 때 툴팁으로 설명을 제공합니다.",
+      },
+    },
   },
   render: () => (
     <div className="flex gap-4">
@@ -252,19 +250,17 @@ export const WithIcon: Story = {
       </ToolTip>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "아이콘 버튼과 함께 사용하는 가장 일반적인 패턴입니다. 아이콘만으로는 기능을 알기 어려울 때 툴팁으로 설명을 제공합니다.",
-      },
-    },
-  },
 };
 
 export const WithoutArrow: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story:
+          "showArrow prop을 false로 설정하면 화살표를 숨길 수 있습니다. 미니멀한 디자인이 필요할 때 유용합니다.",
+      },
+    },
   },
   render: () => (
     <div className="flex gap-4">
@@ -276,19 +272,17 @@ export const WithoutArrow: Story = {
       </ToolTip>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "showArrow prop을 false로 설정하면 화살표를 숨길 수 있습니다. 미니멀한 디자인이 필요할 때 유용합니다.",
-      },
-    },
-  },
 };
 
 export const DifferentAlignments: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story:
+          "align prop으로 툴팁의 정렬 방식을 조절할 수 있습니다. 기본값은 center입니다.",
+      },
+    },
   },
   render: () => (
     <div className="flex flex-col gap-4">
@@ -303,19 +297,17 @@ export const DifferentAlignments: Story = {
       </ToolTip>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "align prop으로 툴팁의 정렬 방식을 조절할 수 있습니다. 기본값은 center입니다.",
-      },
-    },
-  },
 };
 
 export const OnTextElement: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story:
+          "텍스트 요소에도 툴팁을 적용할 수 있습니다. 용어 설명이나 추가 정보를 제공할 때 유용합니다.",
+      },
+    },
   },
   render: () => (
     <div className="w-64 p-4 border rounded">
@@ -330,14 +322,6 @@ export const OnTextElement: Story = {
       </p>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "텍스트 요소에도 툴팁을 적용할 수 있습니다. 용어 설명이나 추가 정보를 제공할 때 유용합니다.",
-      },
-    },
-  },
 };
 
 export const Controlled: Story = {

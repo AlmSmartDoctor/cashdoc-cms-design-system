@@ -245,7 +245,7 @@ export const Controlled: Story = {
 const ValidationExample = () => {
   const [tags, setTags] = useState<string[]>([]);
 
-  const validateTag = (tag: string, _currentTags: string[]) => {
+  const validateTag = (tag: string) => {
     if (tag.length < 2) {
       return "태그는 최소 2글자 이상이어야 합니다.";
     }
@@ -344,7 +344,8 @@ export const HorizontalLayoutForm: Story = {
   parameters: {
     docs: {
       description: {
-        story: "가로 배치 레이아웃을 사용한 폼 예시입니다. 레이블 너비가 일정하게 유지되어 정렬된 모습을 보여줍니다.",
+        story:
+          "가로 배치 레이아웃을 사용한 폼 예시입니다. 레이블 너비가 일정하게 유지되어 정렬된 모습을 보여줍니다.",
       },
     },
   },
