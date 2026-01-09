@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.head_ref || github.ref }}
 
       - uses: pnpm/action-setup@v4
         with:
@@ -47,7 +47,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: update screenshots [skip ci]"
-          file_pattern: "__screenshots__/*.png"
+          file_pattern: "__screenshots__/**/*.png"
 
       - name: Comment PR with screenshots info
         if: github.event_name == 'pull_request'
@@ -60,11 +60,30 @@ jobs:
             const screenshotsDir = '__screenshots__';
             let fileCount = 0;
 
+            const countPng = (dir) => {
+              try {
+                const files = fs.readdirSync(dir, { withFileTypes: true });
+                for (const file of files) {
+                  const fullPath = path.join(dir, file.name);
+                  if (file.isDirectory()) {
+                    countPng(fullPath);
+                  } else if (file.name.endsWith('.png')) {
+                    fileCount++;
+                  }
+                }
+              } catch (error) {
+                console.log('Error reading directory:', dir, error);
+              }
+            };
+
             try {
-              const files = fs.readdirSync(screenshotsDir);
-              fileCount = files.filter(f => f.endsWith('.png')).length;
+              if (fs.existsSync(screenshotsDir)) {
+                countPng(screenshotsDir);
+              } else {
+                console.log('Screenshots directory not found');
+              }
             } catch (error) {
-              console.log('Screenshots directory not found');
+              console.log('Error starting screenshot count:', error);
             }
 
             const message = `## 📸 Component Screenshots
