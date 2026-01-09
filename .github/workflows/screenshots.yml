@@ -50,14 +50,29 @@ jobs:
           ls -R __screenshots__ || echo "Screenshots directory not found"
           find __screenshots__ -name "*.png" | wc -l
 
-      - name: Commit and Push Screenshots
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: update screenshots [skip ci] [skip vercel] [coderabbit skip]"
-          file_pattern: "__screenshots__/**/*.png"
-          commit_user_name: "github-actions[bot]"
-          commit_user_email: "github-actions[bot]@users.noreply.github.com"
-          commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+      - name: Push Screenshots to External Repository
+        env:
+          SCREENSHOT_REPO: AlmSmartDoctor/cashdoc-cms-design-system-screenshots
+          SCREENSHOT_TOKEN: ${{ secrets.SCREENSHOT_REPO_TOKEN }}
+        run: |
+          # 별도 레포 설정
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 임시 디렉토리에 클론
+          cd /tmp
+          git clone https://x-access-token:${SCREENSHOT_TOKEN}@github.com/${SCREENSHOT_REPO}.git screenshots-repo
+          cd screenshots-repo
+
+          # 스크린샷 복사
+          rm -rf screenshots/*
+          mkdir -p screenshots
+          cp -r ${{ github.workspace }}/__screenshots__/* screenshots/
+
+          # 커밋 및 푸시
+          git add screenshots/
+          git commit -m "chore: update screenshots from ${{ github.repository }}@${{ github.sha }}" || echo "No changes to commit"
+          git push
 
       - name: Comment PR with screenshots info
         if: github.event_name == 'pull_request'
@@ -96,13 +111,19 @@ jobs:
               console.log('Error starting screenshot count:', error);
             }
 
+            const screenshotRepo = 'AlmSmartDoctor/cashdoc-cms-design-system-screenshots';
             const message = `## 📸 Component Screenshots
 
-            ${fileCount}개의 스크린샷이 업데이트되어 저장소에 커밋되었습니다.
+            ${fileCount}개의 스크린샷이 업데이트되어 별도 저장소에 커밋되었습니다.
 
-            변경 사항은 "Files changed" 탭에서 확인할 수 있습니다.
+            🔗 [스크린샷 저장소 보기](https://github.com/${screenshotRepo})
 
-            스크린샷의 경로나 파일명에 변경 사항이 있다면, JSdoc의 사진에 영향이 갈 수 있으니 확인 부탁드립니다.`;
+            스크린샷은 다음 URL 형식으로 참조할 수 있습니다:
+            \`\`\`
+            https://raw.githubusercontent.com/${screenshotRepo}/main/screenshots/[카테고리]/[파일명].png
+            \`\`\`
+
+            스크린샷의 경로나 파일명에 변경 사항이 있다면, JSDoc의 이미지 참조에 영향이 갈 수 있으니 확인 부탁드립니다.`;
 
             // 기존 댓글 검색
             const { data: comments } = await github.rest.issues.listComments({
