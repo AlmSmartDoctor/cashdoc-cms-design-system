@@ -72,7 +72,7 @@ export interface ButtonProps
  *
  * ```tsx
  * <div className="flex gap-2">
- *   <Button variant="primary">저장하기</Button>
+ *   <Button variant="default">저장하기</Button>
  *   <Button variant="outline">취소</Button>
  *   <Button variant="ghost">닫기</Button>
  * </div>
@@ -99,12 +99,12 @@ export interface ButtonProps
  * ```tsx
  * <div className="flex items-center gap-2">
  *   <Button size="sm">Small</Button>
- *   <Button size="md">Medium</Button>
+ *   <Button size="default">Medium</Button>
  *   <Button size="lg">Large</Button>
  * </div>
  * ```
  * {@end-tool}
- *s
+ *
  * See also:
  *
  * - {@link TextInput}, 입력과 함께 액션이 필요한 경우

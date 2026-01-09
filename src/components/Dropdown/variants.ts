@@ -21,7 +21,10 @@ export const dropdownTriggerVariants = cva(
           "border border-cms-outline bg-transparent",
           "hover:bg-cms-gray-200"
         ),
-        ghost: "border-none bg-transparent hover:bg-cms-gray-200 hover:text-black",
+        ghost: cn(
+          "border-none bg-transparent",
+          "hover:bg-cms-gray-200 hover:text-black"
+        ),
       },
       size: {
         sm: "px-3 py-2 text-xs",

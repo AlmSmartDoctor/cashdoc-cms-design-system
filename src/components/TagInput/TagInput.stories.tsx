@@ -245,7 +245,7 @@ export const Controlled: Story = {
 const ValidationExample = () => {
   const [tags, setTags] = useState<string[]>([]);
 
-  const validateTag = (tag: string) => {
+  const validateTag = (tag: string, _currentTags: string[]) => {
     if (tag.length < 2) {
       return "태그는 최소 2글자 이상이어야 합니다.";
     }
