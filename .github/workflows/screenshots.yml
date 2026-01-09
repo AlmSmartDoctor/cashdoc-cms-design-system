@@ -1,0 +1,71 @@
+name: Screenshots
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  capture-screenshots:
+    name: Capture Component Screenshots
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9.0.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Capture screenshots
+        run: pnpm run screenshot:ci
+
+      - name: Commit and Push Screenshots
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update screenshots [skip ci]"
+          file_pattern: "__screenshots__/*.png"
+
+      - name: Comment PR with screenshots info
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            const screenshotsDir = '__screenshots__';
+            let fileCount = 0;
+
+            try {
+              const files = fs.readdirSync(screenshotsDir);
+              fileCount = files.filter(f => f.endsWith('.png')).length;
+            } catch (error) {
+              console.log('Screenshots directory not found');
+            }
+
+            const message = `## 📸 Component Screenshots
+
+            ${fileCount} screenshots have been updated and committed to the repository.
+
+            You can review the changes in the "Files changed" tab.`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
