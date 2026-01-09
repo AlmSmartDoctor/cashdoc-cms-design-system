@@ -155,4 +155,4 @@ export const AllVariants: Story = {
   },
 };
 
-export const ForJsdoc = AllVariants;
+export const ForJsdoc: Story = AllVariants;

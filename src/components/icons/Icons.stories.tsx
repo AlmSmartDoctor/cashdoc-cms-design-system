@@ -127,7 +127,7 @@ export const AllIcons: Story = {
   render: () => <AllIconsStory />,
 };
 
-export const ForJsdoc = AllIcons;
+export const ForJsdoc: Story = AllIcons;
 
 export const Colors: Story = {
   render: () => (

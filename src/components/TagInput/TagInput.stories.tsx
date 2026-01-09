@@ -427,4 +427,4 @@ export const AllStates: Story = {
   },
 };
 
-export const ForJsdoc = AllStates;
+export const ForJsdoc: Story = AllStates;
