@@ -605,3 +605,33 @@ export const ErrorState: Story = {
     },
   },
 };
+
+export const ForJsdoc: Story = {
+  render: () => (
+    <div className="flex flex-col gap-6 w-[600px]">
+      <div>
+        <h3 className="mb-2 font-bold">Default (Max 1)</h3>
+        <ImageUpload maxFiles={1} showPreview={true} />
+      </div>
+      <div>
+        <h3 className="mb-2 font-bold">Multiple (Max 5)</h3>
+        <ImageUpload maxFiles={5} showPreview={true} />
+      </div>
+      <div>
+        <h3 className="mb-2 font-bold">Disabled</h3>
+        <ImageUpload disabled />
+      </div>
+      <div>
+        <h3 className="mb-2 font-bold">Error State</h3>
+        <ImageUpload error />
+      </div>
+      <div>
+        <h3 className="mb-2 font-bold">No Preview</h3>
+        <ImageUpload showPreview={false} />
+      </div>
+    </div>
+  ),
+  parameters: {
+    docs: { disable: true },
+  },
+};

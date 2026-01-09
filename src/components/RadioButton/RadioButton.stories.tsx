@@ -299,3 +299,5 @@ export const AllVariantsAndSizes: Story = {
     },
   },
 };
+
+export const ForJsdoc = AllVariantsAndSizes;

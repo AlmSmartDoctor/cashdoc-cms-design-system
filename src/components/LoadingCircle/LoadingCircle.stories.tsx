@@ -82,3 +82,5 @@ export const AllSizes: Story = {
     },
   },
 };
+
+export const ForJsdoc = AllSizes;

@@ -110,6 +110,9 @@ export interface TimePickerProps {
  * - {@link DatePicker}, 날짜를 선택해야 하는 경우
  * - {@link DateRangePicker}, 날짜 범위를 선택해야 하는 경우
  * - {@link TextInput}, 단순한 텍스트 입력이 필요한 경우
+ *
+ * ## 참고사진
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/TimePicker/Default.png?raw=true)
  */
 export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
   (

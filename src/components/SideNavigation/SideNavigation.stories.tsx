@@ -331,3 +331,38 @@ export const WithoutIcons: Story = {
     },
   },
 };
+
+export const ForJsdoc: Story = {
+  render: (args) => {
+    const [selectedUrl, setSelectedUrl] = useState("/home");
+    return (
+      <div className="h-[600px] flex border border-gray-200 rounded-lg overflow-hidden relative">
+        <SideNavigation
+          {...args}
+          selectedUrl={selectedUrl}
+          onMenuClick={setSelectedUrl}
+          headerSlot={
+            <div className="p-5 flex flex-col gap-5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-[#FFC107] rounded-full flex items-center justify-center">
+                  <span className="text-xl font-bold text-black">C</span>
+                </div>
+                <span className="text-xl font-bold text-white">캐시닥</span>
+              </div>
+            </div>
+          }
+        />
+        <div className="flex-1 p-8 bg-gray-50">
+          <h1 className="text-2xl font-bold">Content Area</h1>
+        </div>
+      </div>
+    );
+  },
+  args: {
+    menus: sampleMenus,
+  },
+  parameters: {
+    docs: { disable: true },
+    layout: "centered",
+  },
+};

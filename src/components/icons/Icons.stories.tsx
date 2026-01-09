@@ -127,6 +127,8 @@ export const AllIcons: Story = {
   render: () => <AllIconsStory />,
 };
 
+export const ForJsdoc = AllIcons;
+
 export const Colors: Story = {
   render: () => (
     <div className="flex gap-6">

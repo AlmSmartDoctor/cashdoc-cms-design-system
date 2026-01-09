@@ -481,3 +481,17 @@ export const AllStates: Story = {
     },
   },
 };
+
+export const ForJsdoc: Story = {
+  parameters: {
+    docs: { disable: true },
+    layout: "centered",
+  },
+  render: () => (
+    <div className="h-[100px] w-full flex items-center justify-center">
+      <ToolTip content="This is a tooltip" defaultOpen={true}>
+        <Button variant="outline">Hover me</Button>
+      </ToolTip>
+    </div>
+  ),
+};

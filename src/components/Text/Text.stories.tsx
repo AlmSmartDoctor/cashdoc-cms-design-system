@@ -212,3 +212,5 @@ export const AllVariants: Story = {
     },
   },
 };
+
+export const ForJsdoc = AllVariants;

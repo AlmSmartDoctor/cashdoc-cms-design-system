@@ -160,3 +160,29 @@ export const CustomPosition: Story = {
     );
   },
 };
+
+export const ForJsdoc: Story = {
+  parameters: {
+    docs: { disable: true },
+  },
+  render: (args) => {
+    useEffect(() => {
+      // Trigger a representative toast
+      toast.success("Success Toast", {
+        description: "This is a toast for documentation.",
+        action: {
+          label: "Action",
+          onClick: () => console.log("Action clicked"),
+        },
+        duration: Infinity, // Keep it open for screenshot
+      });
+    }, []);
+
+    return (
+      <div className="h-[200px] flex items-center justify-center">
+        <Toaster {...args} />
+        <Button onClick={() => toast("Another Toast")}>Show Toast</Button>
+      </div>
+    );
+  },
+};

@@ -124,3 +124,33 @@ export const Controlled: Story = {
     );
   },
 };
+
+export const ForJsdoc: Story = {
+  render: () => {
+    const [range, setRange] = useState({ start: "2025-01-01", end: "2025-01-07" });
+    return (
+      <div className="flex flex-col gap-6 w-[600px]">
+        <div>
+          <h3 className="mb-2 font-bold">Default</h3>
+          <DateRangePicker value={{ start: "", end: "" }} onChange={() => {}} />
+        </div>
+        <div>
+          <h3 className="mb-2 font-bold">With Value</h3>
+          <DateRangePicker value={range} onChange={setRange} />
+        </div>
+        <div>
+          <h3 className="mb-2 font-bold">Custom Labels</h3>
+          <DateRangePicker
+            startLabel="From"
+            endLabel="To"
+            value={{ start: "", end: "" }}
+            onChange={() => {}}
+          />
+        </div>
+      </div>
+    );
+  },
+  parameters: {
+    docs: { disable: true },
+  },
+};

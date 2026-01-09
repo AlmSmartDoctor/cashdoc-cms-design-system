@@ -109,7 +109,9 @@ export interface ButtonProps
  *
  * - {@link TextInput}, 입력과 함께 액션이 필요한 경우
  * - {@link Modal}, 중요한 결정을 위한 버튼을 포함하는 오버레이
- * - {@link IconButton}, 아이콘만으로 구성된 버튼을 구성할 때
+ * - {@link IconButton}, 아이콘만으로 구성된 버튼을 구성할 때 *
+ * ## 참고사진
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/Button/Default.png?raw=true)
  */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {

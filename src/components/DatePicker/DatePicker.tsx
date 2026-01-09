@@ -101,7 +101,9 @@ export interface DatePickerProps {
  *
  * - {@link DateRangePicker}, 기간을 선택해야 하는 경우
  * - {@link TextInput}, 단순한 텍스트 입력이 필요한 경우
- * - {@link Popover}, 일반적인 팝오버 컴포넌트
+ * - {@link Popover}, 일반적인 팝오버 컴포넌트 *
+ * ## 참고사진
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/DatePicker/Default.png?raw=true)
  */
 export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
   (

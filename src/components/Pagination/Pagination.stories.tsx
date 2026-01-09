@@ -390,3 +390,5 @@ export const AllStates: Story = {
     },
   },
 };
+
+export const ForJsdoc = AllStates;

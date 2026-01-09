@@ -221,3 +221,17 @@ export const LongLabel: Story = {
     ),
   ],
 };
+
+export const ForJsdoc: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <Checkbox label="Default" />
+      <Checkbox label="Checked" checked />
+      <Checkbox label="Disabled" disabled />
+      <Checkbox label="Disabled Checked" disabled checked />
+    </div>
+  ),
+  parameters: {
+    docs: { disable: true },
+  },
+};

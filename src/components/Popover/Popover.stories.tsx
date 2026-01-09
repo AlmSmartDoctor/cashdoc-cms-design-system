@@ -237,3 +237,29 @@ export const AlignStart: Story = {
     </div>
   ),
 };
+
+export const ForJsdoc: Story = {
+  parameters: {
+    docs: { disable: true },
+    layout: "centered",
+  },
+  render: () => (
+    <div className="h-[200px] w-full flex items-center justify-center">
+      <Popover defaultOpen={true}>
+        <PopoverTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <MoreVertical className="h-5 w-5" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <PopoverMenuItem icon={<Edit className="h-5 w-5" />}>
+            Edit
+          </PopoverMenuItem>
+          <PopoverMenuItem icon={<Trash2 className="h-5 w-5" />}>
+            Delete
+          </PopoverMenuItem>
+        </PopoverContent>
+      </Popover>
+    </div>
+  ),
+};

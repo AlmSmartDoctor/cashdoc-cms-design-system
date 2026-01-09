@@ -249,3 +249,25 @@ export const LargeSize: Story = {
     },
   },
 };
+
+export const ForJsdoc: Story = {
+  render: () => (
+    <div className="flex flex-col gap-6 w-[600px]">
+      <div>
+        <h3 className="mb-2 font-bold">Default</h3>
+        <FileUpload />
+      </div>
+      <div>
+        <h3 className="mb-2 font-bold">Disabled</h3>
+        <FileUpload disabled />
+      </div>
+      <div>
+        <h3 className="mb-2 font-bold">PDF Only</h3>
+        <FileUpload accept={{ "application/pdf": [".pdf"] }} />
+      </div>
+    </div>
+  ),
+  parameters: {
+    docs: { disable: true },
+  },
+};

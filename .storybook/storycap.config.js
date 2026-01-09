@@ -40,9 +40,9 @@ module.exports = {
     }
   },
 
-  // All 또는 Default가 없는 스토리 제외 (All, Default만 캡처)
+  // ForJsdoc 스토리만 캡처
   skip: (story) => {
-    const name = story.kind + '--' + story.story;
-    return !name.match(/--(all|default)$/i);
+    // story.story는 "For Jsdoc" 또는 "ForJsdoc" 등일 수 있음
+    return !story.story.match(/For\s?Jsdoc/i);
   },
 };

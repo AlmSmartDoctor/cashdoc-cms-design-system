@@ -24,6 +24,7 @@ export interface DropdownProps extends VariantProps<
   clearable?: boolean;
   multiple?: boolean;
   maxHeight?: number;
+  defaultOpen?: boolean;
 }
 
 /**
@@ -105,7 +106,9 @@ export interface DropdownProps extends VariantProps<
  *
  * - {@link Select}, 기본적인 HTML select 스타일의 컴포넌트
  * - {@link Combobox}, 입력과 선택이 결합된 컴포넌트
- * - {@link Popover}, 더 자유로운 형태의 팝오버가 필요한 경우
+ * - {@link Popover}, 더 자유로운 형태의 팝오버가 필요한 경우 *
+ * ## 참고사진
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/Dropdown/Default.png?raw=true)
  */
 export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
   (
@@ -123,11 +126,12 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       clearable = false,
       multiple = false,
       maxHeight = 200,
+      defaultOpen = false,
       ...props
     },
     ref
   ) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(defaultOpen);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedValues, setSelectedValues] = useState<string[]>(
       multiple ? (value ? [value] : []) : []
