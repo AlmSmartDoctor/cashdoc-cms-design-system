@@ -12,7 +12,7 @@ Storybook과 JSDoc, 둘 중 더 편한 쪽을 보면 됩니다.
 
 ### JSDoc(TSDoc)
 
-<img width="1038" height="363" alt="스크린샷 2025-12-24 오후 3 48 42" src="https://github.com/user-attachments/assets/1178fa60-30cb-436b-944c-495417179ac3" />
+<img width="1038" height="363" alt="스크린샷 2025-12-24 오후 3 48 42" src="https://github.com/user-attachments/assets/3a2c3ef6-ab30-4130-82d1-4c7145aa8f82" />
 
 <br />
 
