@@ -19,12 +19,8 @@ test.describe("TagInput 컴포넌트", () => {
     await expect(page.getByText("Playwright")).toBeVisible();
 
     // 태그 삭제 (React 태그의 삭제 버튼)
-    // svg 아이콘이나 button을 찾아서 클릭
-    await page
-      .locator("span")
-      .filter({ hasText: "React" })
-      .getByRole("button")
-      .click();
+    // aria-label을 사용하여 삭제 버튼 직접 찾기
+    await page.getByRole("button", { name: "React 제거" }).click();
 
     // React 태그가 사라졌는지 확인
     await expect(page.getByText("React")).not.toBeVisible();

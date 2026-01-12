@@ -258,13 +258,15 @@ export const DateRangePicker = React.forwardRef<
                   "pointer-events-none",
                 )}
               >
-                <label>{startLabel}</label>
+                <label htmlFor="date-range-start">{startLabel}</label>
               </div>
               <input
+                id="date-range-start"
                 type="text"
                 readOnly
                 value={displayValue.start}
                 placeholder="YYYY-MM-DD"
+                aria-label={startLabel}
                 className={cn(
                   "h-10 w-full bg-white pr-3 pl-14-75 text-sm",
                   "focus:outline-none",
@@ -283,13 +285,15 @@ export const DateRangePicker = React.forwardRef<
                   "pointer-events-none",
                 )}
               >
-                <label>{endLabel}</label>
+                <label htmlFor="date-range-end">{endLabel}</label>
               </div>
               <input
+                id="date-range-end"
                 type="text"
                 readOnly
                 value={displayValue.end}
                 placeholder="YYYY-MM-DD"
+                aria-label={endLabel}
                 className={cn(
                   "h-10 w-full bg-white pr-3 pl-14-75",
                   "text-sm",
