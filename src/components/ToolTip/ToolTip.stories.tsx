@@ -484,7 +484,7 @@ export const ForJsdoc: Story = {
     layout: "centered",
   },
   render: () => (
-    <div className="flex h-25 w-full items-center justify-center">
+    <div className="flex h-24 w-full items-center justify-center">
       <ToolTip content="This is a tooltip" defaultOpen={true}>
         <Button variant="outline">Hover me</Button>
       </ToolTip>

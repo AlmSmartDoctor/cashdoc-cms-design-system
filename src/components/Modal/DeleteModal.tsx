@@ -63,11 +63,12 @@ export const DeleteModal = React.forwardRef<HTMLDivElement, DeleteModalProps>(
     return (
       <Modal
         ref={ref}
-              open={open}
-              onOpenChange={onOpenChange}
-              title={title}
-              icon={<AlertTriangle className="h-15 w-15 text-cms-red-400" />}
-              footer={          <div className="flex w-full gap-2">
+        open={open}
+        onOpenChange={onOpenChange}
+        title={title}
+        icon={<AlertTriangle className="h-15 w-15 text-cms-red-400" />}
+        footer={
+          <div className="flex w-full gap-2">
             <Button
               onClick={handleCancel}
               variant="outline"

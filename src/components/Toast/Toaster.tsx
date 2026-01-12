@@ -103,7 +103,6 @@ const Toaster = ({ position = "bottom-center", ...props }: ToasterProps) => {
           ),
           title: cn(
             "group-[.toast]:text-cms-gray-900",
-            "group-[.toast]:font-bold",
             "group-[.toast]:text-sm",
             "group-[.toast]:mr-2",
             "group-[.toast]:font-bold!",
