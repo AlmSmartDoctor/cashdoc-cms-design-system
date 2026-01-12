@@ -21,6 +21,7 @@ build
 
 # Storybook
 storybook-static
+__screenshots__
 
 # Editor directories and files
 .vscode/*
