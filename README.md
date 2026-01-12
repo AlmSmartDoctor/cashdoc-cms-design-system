@@ -3,11 +3,15 @@
 Cashdoc CMS용 디자인 시스템 컴포넌트 라이브러리
 
 ## 문서
+
 Storybook과 JSDoc, 둘 중 더 편한 쪽을 보면 됩니다.
+
 ### Storybook
+
 [Storybook](https://cashdoc-cms-design-system.vercel.app/?path=/docs/components-button--docs)
 
 ### JSDoc(TSDoc)
+
 <img width="1038" height="363" alt="스크린샷 2025-12-24 오후 3 48 42" src="https://github.com/user-attachments/assets/1178fa60-30cb-436b-944c-495417179ac3" />
 
 <br />
@@ -91,8 +95,25 @@ function App() {
 - `Icons` - 아이콘 세트
 
 #
+
 <br />
 # 개발
+
+## 요구사항
+
+- **Node.js**: 18.0.0 이상
+- **pnpm**: 10.0.0 이상
+
+이 프로젝트는 pnpm v10을 사용합니다. pnpm v10의 주요 변경사항:
+
+- 빌드 스크립트 실행이 기본적으로 제한됨 (보안 강화)
+- `.npmrc` 파일에 `only-built-dependencies` 설정으로 허용된 패키지만 빌드 스크립트 실행
+
+pnpm 설치:
+
+```bash
+npm install -g pnpm@latest
+```
 
 ### 로컬 개발 서버
 

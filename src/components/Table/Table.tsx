@@ -26,6 +26,14 @@ const tableVariants = cva(
   },
 );
 
+interface TableContextValue {
+  striped?: boolean;
+  hoverable?: boolean;
+  compact?: boolean;
+}
+
+const TableContext = React.createContext<TableContextValue>({});
+
 export interface TableProps
   extends
     React.TableHTMLAttributes<HTMLTableElement>,
@@ -134,12 +142,23 @@ export interface TableProps
  * </Table>
  * ```
  * {@end-tool}
+ *
+ * ## 참고사진
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Data Display/Table/For%20Jsdoc.png?raw=true)
  */
 export const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, striped, hoverable, bordered, compact, ...props }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const tableRef = useRef<HTMLTableElement>(null);
     const [showLeftScroll, setShowLeftScroll] = useState(false);
     const [showRightScroll, setShowRightScroll] = useState(false);
+    const [tableState, setTableState] = useState({
+      striped: false,
+      hoverable: false,
+      compact: false,
+    });
+
+    React.useImperativeHandle(ref, () => tableRef.current!);
 
     const checkScroll = () => {
       const container = containerRef.current;
@@ -164,34 +183,58 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
       }
     }, []);
 
+    useEffect(() => {
+      if (tableRef.current) {
+        setTableState({
+          striped: tableRef.current.dataset.striped === "true",
+          hoverable: tableRef.current.dataset.hoverable === "true",
+          compact: tableRef.current.dataset.compact === "true",
+        });
+      }
+    }, [striped, hoverable, compact]);
+
     return (
-      <div
-        className={cn(
-          "relative w-full",
-          bordered && "border border-cms-gray-300 rounded-lg",
-        )}
-      >
-        {showLeftScroll && (
-          <div className="absolute left-0 top-0 bottom-0 z-10 flex w-8 items-center justify-center bg-linear-to-r from-white to-transparent">
-            <ChevronLeft className="h-6 w-6 text-cms-gray-400" />
+      <TableContext.Provider value={tableState}>
+        <div
+          className={cn(
+            "relative w-full",
+            bordered && "rounded-lg border border-cms-gray-300",
+          )}
+        >
+          {showLeftScroll && (
+            <div
+              className={cn(
+                "flex items-center justify-center",
+                "absolute top-0 bottom-0 left-0 z-10 w-8",
+                "bg-linear-to-r from-white to-transparent",
+              )}
+            >
+              <ChevronLeft className="h-6 w-6 text-cms-gray-400" />
+            </div>
+          )}
+          <div ref={containerRef} className="overflow-auto rounded-lg">
+            <table
+              ref={tableRef}
+              className={cn(tableVariants({ bordered }), className)}
+              data-striped={striped}
+              data-hoverable={hoverable}
+              data-compact={compact}
+              {...props}
+            />
           </div>
-        )}
-        <div ref={containerRef} className="overflow-auto rounded-lg">
-          <table
-            ref={ref}
-            className={cn(tableVariants({ bordered }), className)}
-            data-striped={striped}
-            data-hoverable={hoverable}
-            data-compact={compact}
-            {...props}
-          />
+          {showRightScroll && (
+            <div
+              className={cn(
+                "absolute top-0 right-0 bottom-0 z-10 w-8",
+                "flex items-center justify-center",
+                "bg-linear-to-l from-white to-transparent",
+              )}
+            >
+              <ChevronRight className="h-6 w-6 text-cms-gray-400" />
+            </div>
+          )}
         </div>
-        {showRightScroll && (
-          <div className="absolute right-0 top-0 bottom-0 z-10 flex w-8 items-center justify-center bg-linear-to-l from-white to-transparent">
-            <ChevronRight className="h-6 w-6 text-cms-gray-400" />
-          </div>
-        )}
-      </div>
+      </TableContext.Provider>
     );
   },
 );
@@ -305,9 +348,7 @@ export interface TableRowProps
  */
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   ({ className, selected, ...props }, ref) => {
-    const table = (ref as any)?.current?.closest("table");
-    const hoverable = table?.dataset?.hoverable === "true";
-    const striped = table?.dataset?.striped === "true";
+    const { hoverable, striped } = React.useContext(TableContext);
 
     return (
       <tr
@@ -377,7 +418,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         scope={scope}
         className={cn(
           "h-12 px-4 text-left align-middle font-semibold text-cms-gray-800",
-          "bg-amber-50 border-0",
+          "border-0 bg-amber-50",
           "[&:has([role=checkbox])]:pr-0",
           sortable && "cursor-pointer select-none hover:bg-amber-100",
           className,
@@ -437,8 +478,7 @@ export interface TableCellProps
  */
 export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({ className, align, ...props }, ref) => {
-    const table = (ref as any)?.current?.closest("table");
-    const compact = table?.dataset?.compact === "true";
+    const { compact } = React.useContext(TableContext);
 
     return (
       <td

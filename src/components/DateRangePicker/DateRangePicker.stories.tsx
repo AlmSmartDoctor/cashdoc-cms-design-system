@@ -61,7 +61,7 @@ export const Default: Story = {
   render: () => {
     const [range, setRange] = useState({ start: "", end: "" });
     return (
-      <div className="w-[600px] p-4">
+      <div className="w-150 p-4">
         <DateRangePicker value={range} onChange={setRange} />
       </div>
     );
@@ -75,7 +75,7 @@ export const WithInitialValue: Story = {
       end: "2025-01-07",
     });
     return (
-      <div className="w-[600px] p-4">
+      <div className="w-150 p-4">
         <DateRangePicker value={range} onChange={setRange} />
       </div>
     );
@@ -86,7 +86,7 @@ export const CustomLabels: Story = {
   render: () => {
     const [range, setRange] = useState({ start: "", end: "" });
     return (
-      <div className="w-[600px] p-4">
+      <div className="w-150 p-4">
         <DateRangePicker
           startLabel="등록일"
           endLabel="마감일"
@@ -106,21 +106,56 @@ export const Controlled: Story = {
     });
 
     return (
-      <div className="flex flex-col gap-4 w-[600px] p-4">
+      <div className="flex w-150 flex-col gap-4 p-4">
         <DateRangePicker value={range} onChange={setRange} />
-        <div className="p-4 bg-gray-50 rounded border border-gray-200">
-          <p className="text-sm font-medium text-gray-700">실시간 데이터 상태:</p>
-          <code className="text-xs block mt-2">
+        <div className="rounded border border-gray-200 bg-gray-50 p-4">
+          <p className="text-sm font-medium text-gray-700">
+            실시간 데이터 상태:
+          </p>
+          <code className="mt-2 block text-xs">
             {JSON.stringify(range, null, 2)}
           </code>
         </div>
         <button
           onClick={() => setRange({ start: "", end: "" })}
-          className="px-4 py-2 bg-cms-gray-800 text-white rounded-md text-sm w-fit hover:bg-cms-gray-700"
+          className="w-fit rounded-md bg-cms-gray-800 px-4 py-2 text-sm text-white hover:bg-cms-gray-700"
         >
           기간 초기화
         </button>
       </div>
     );
+  },
+};
+
+export const ForJsdoc: Story = {
+  render: () => {
+    const [range, setRange] = useState({
+      start: "2025-01-01",
+      end: "2025-01-07",
+    });
+    return (
+      <div className="flex w-150 flex-col gap-6">
+        <div>
+          <h3 className="mb-2 font-bold">Default</h3>
+          <DateRangePicker value={{ start: "", end: "" }} onChange={() => {}} />
+        </div>
+        <div>
+          <h3 className="mb-2 font-bold">With Value</h3>
+          <DateRangePicker value={range} onChange={setRange} />
+        </div>
+        <div>
+          <h3 className="mb-2 font-bold">Custom Labels</h3>
+          <DateRangePicker
+            startLabel="From"
+            endLabel="To"
+            value={{ start: "", end: "" }}
+            onChange={() => {}}
+          />
+        </div>
+      </div>
+    );
+  },
+  parameters: {
+    docs: { disable: true },
   },
 };

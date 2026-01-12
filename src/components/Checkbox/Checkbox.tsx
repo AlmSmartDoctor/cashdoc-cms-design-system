@@ -88,6 +88,9 @@ export interface CheckboxProps extends React.ComponentPropsWithoutRef<
  * - {@link RadioButton}, 하나만 선택해야 하는 경우
  * - {@link Switch}, 즉각적인 상태 반영이 필요한 경우
  * - {@link Button}, 단순 액션 실행이 필요한 경우
+ *
+ * ## 참고사진
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/Checkbox/For%20Jsdoc.png)
  */
 export const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
@@ -110,7 +113,7 @@ export const Checkbox = React.forwardRef<
           "focus-visible:ring-offset-2",
           "cursor-pointer",
           "disabled:cursor-not-allowed disabled:opacity-50",
-          "data-[state=checked]:bg-black data-[state=checked]:border-black",
+          "data-[state=checked]:border-black data-[state=checked]:bg-black",
           "transition-colors",
           className,
         )}
@@ -127,7 +130,7 @@ export const Checkbox = React.forwardRef<
           htmlFor={checkboxId}
           className={cn(
             "ml-2 text-base font-normal text-gray-500",
-            "hover:text-black transition-colors",
+            "transition-colors hover:text-black",
             disabled && "cursor-not-allowed opacity-50",
             "cursor-pointer select-none",
           )}

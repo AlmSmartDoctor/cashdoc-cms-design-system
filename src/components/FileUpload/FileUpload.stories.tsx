@@ -75,7 +75,7 @@ const BasicStory = () => {
   const [error, setError] = useState<string>("");
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <FileUpload
         value={files}
         onChange={setFiles}
@@ -84,8 +84,8 @@ const BasicStory = () => {
       />
       {error && <p className="mt-2 text-sm text-cms-red-500">{error}</p>}
       {files.length > 0 && (
-        <div className="mt-4 p-4 bg-cms-gray-100 rounded-md">
-          <h3 className="text-sm font-medium mb-2">
+        <div className="mt-4 rounded-md bg-cms-gray-100 p-4">
+          <h3 className="mb-2 text-sm font-medium">
             업로드된 파일: {files.length}개
           </h3>
         </div>
@@ -110,7 +110,7 @@ const PDFOnlyStory = () => {
   const [error, setError] = useState<string>("");
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <FileUpload
         value={files}
         onChange={setFiles}
@@ -140,7 +140,7 @@ const DocumentsStory = () => {
   const [error, setError] = useState<string>("");
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <FileUpload
         value={files}
         onChange={setFiles}
@@ -149,9 +149,12 @@ const DocumentsStory = () => {
         accept={{
           "application/pdf": [".pdf"],
           "application/msword": [".doc"],
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"],
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            [".docx"],
           "application/vnd.ms-excel": [".xls"],
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
+            ".xlsx",
+          ],
         }}
       />
       {error && <p className="mt-2 text-sm text-cms-red-500">{error}</p>}
@@ -178,7 +181,7 @@ const SingleFileStory = () => {
   const [error, setError] = useState<string>("");
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <FileUpload
         value={files}
         onChange={setFiles}
@@ -207,7 +210,7 @@ export const Disabled: Story = {
     maxFiles: 5,
   },
   render: (args) => (
-    <div className="w-[600px]">
+    <div className="w-150">
       <FileUpload {...args} />
     </div>
   ),
@@ -225,7 +228,7 @@ const LargeSizeStory = () => {
   const [error, setError] = useState<string>("");
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <FileUpload
         value={files}
         onChange={setFiles}
@@ -247,5 +250,27 @@ export const LargeSize: Story = {
         story: "대용량 파일(50MB)까지 업로드 가능한 예제입니다.",
       },
     },
+  },
+};
+
+export const ForJsdoc: Story = {
+  render: () => (
+    <div className="flex w-150 flex-col gap-6">
+      <div>
+        <h3 className="mb-2 font-bold">Default</h3>
+        <FileUpload />
+      </div>
+      <div>
+        <h3 className="mb-2 font-bold">Disabled</h3>
+        <FileUpload disabled />
+      </div>
+      <div>
+        <h3 className="mb-2 font-bold">PDF Only</h3>
+        <FileUpload accept={{ "application/pdf": [".pdf"] }} />
+      </div>
+    </div>
+  ),
+  parameters: {
+    docs: { disable: true },
   },
 };

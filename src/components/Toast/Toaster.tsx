@@ -1,5 +1,6 @@
 import { Toaster as Sonner } from "sonner";
 import { type ComponentProps } from "react";
+import { cn } from "@/utils/cn";
 
 type ToasterProps = ComponentProps<typeof Sonner>;
 
@@ -80,6 +81,9 @@ type ToasterProps = ComponentProps<typeof Sonner>;
  * See also:
  *
  * - {@link Modal}, 더 중요하거나 명시적 확인이 필요한 알림
+ *
+ * ## 참고사진
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Feedback/Toaster/For%20Jsdoc.png?raw=true)
  */
 const Toaster = ({ position = "bottom-center", ...props }: ToasterProps) => {
   return (
@@ -88,16 +92,34 @@ const Toaster = ({ position = "bottom-center", ...props }: ToasterProps) => {
       className="toaster group"
       toastOptions={{
         classNames: {
-          toast:
-            "group toast w-full flex items-center gap-3 p-4 rounded-cms-lg shadow-lg bg-cms-white text-cms-gray-900 !border !border-cms-blue-600 [&_[data-content]]:!flex-row [&_[data-content]]:!items-baseline",
-          title:
-            "group-[.toast]:text-cms-gray-900 group-[.toast]:font-bold group-[.toast]:text-sm group-[.toast]:mr-2 group-[.toast]:!font-bold",
-          description:
-            "group-[.toast]:text-cms-gray-500 group-[.toast]:text-xs group-[.toast]:font-medium",
-          actionButton:
-            "group-[.toast]:bg-cms-gray-900 group-[.toast]:text-cms-white",
-          cancelButton:
-            "group-[.toast]:bg-cms-gray-100 group-[.toast]:text-cms-gray-500",
+          toast: cn(
+            "group toast w-full flex items-center",
+            "text-cms-gray-900",
+            "rounded-cms-lg shadow-lg bg-cms-white",
+            "gap-3 p-4",
+            "border! border-cms-blue-600!",
+            "[&_[data-content]]:flex-row!",
+            "[&_[data-content]]:items-baseline!",
+          ),
+          title: cn(
+            "group-[.toast]:text-cms-gray-900",
+            "group-[.toast]:text-sm",
+            "group-[.toast]:mr-2",
+            "group-[.toast]:font-bold!",
+          ),
+          description: cn(
+            "group-[.toast]:text-cms-gray-500",
+            "group-[.toast]:text-xs",
+            "group-[.toast]:font-medium",
+          ),
+          actionButton: cn(
+            "group-[.toast]:bg-cms-gray-900",
+            "group-[.toast]:text-cms-white",
+          ),
+          cancelButton: cn(
+            "group-[.toast]:bg-cms-gray-100",
+            "group-[.toast]:text-cms-gray-500",
+          ),
         },
       }}
       {...props}

@@ -27,17 +27,17 @@ const AllIconsStory = () => {
     icons: [string, React.ComponentType<any>][];
   }) => (
     <div className="mb-10">
-      <h3 className="text-xl font-bold mb-4 text-cms-gray-800 border-b pb-2">
+      <h3 className="mb-4 border-b pb-2 text-xl font-bold text-cms-gray-800">
         {title}
       </h3>
-      <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+      <div className="grid grid-cols-4 gap-4 md:grid-cols-6 lg:grid-cols-8">
         {icons.map(([name, Icon]) => (
           <div
             key={name}
-            className="flex flex-col items-center gap-2 p-4 border border-cms-gray-200 rounded-lg hover:bg-cms-gray-50 transition-colors"
+            className="flex flex-col items-center gap-2 rounded-lg border border-cms-gray-200 p-4 transition-colors hover:bg-cms-gray-50"
           >
             <Icon className="text-cms-black" />
-            <p className="text-[10px] text-cms-gray-500 text-center font-mono leading-tight">
+            <p className="text-center font-mono text-[10px] leading-tight text-cms-gray-500">
               {name}
             </p>
           </div>
@@ -56,9 +56,7 @@ const AllIconsStory = () => {
         name.includes("Menu") ||
         name.includes("Align"),
     ),
-    "User & Profile": iconEntries.filter(
-      ([name]) => name.includes("User"),
-    ),
+    "User & Profile": iconEntries.filter(([name]) => name.includes("User")),
     "Status & Feedback": iconEntries.filter(
       ([name]) =>
         name.includes("XIcon") ||
@@ -91,31 +89,27 @@ const AllIconsStory = () => {
     ),
     "Files & Content": iconEntries.filter(
       ([name]) =>
-        (name.includes("File") && !name.includes("Import") && !name.includes("Export")) ||
+        (name.includes("File") &&
+          !name.includes("Import") &&
+          !name.includes("Export")) ||
         name.includes("Excel") ||
         name.includes("Calendar"),
     ),
-    "Media & Images": iconEntries.filter(
-      ([name]) => name.includes("Image"),
-    ),
+    "Media & Images": iconEntries.filter(([name]) => name.includes("Image")),
     "Analytics & Charts": iconEntries.filter(
-      ([name]) =>
-        name.includes("Trending") ||
-        name.includes("BarChart"),
+      ([name]) => name.includes("Trending") || name.includes("BarChart"),
     ),
-    "Payment & Cards": iconEntries.filter(
-      ([name]) => name.includes("CreditCard"),
+    "Payment & Cards": iconEntries.filter(([name]) =>
+      name.includes("CreditCard"),
     ),
-    "Books & Reading": iconEntries.filter(
-      ([name]) => name.includes("Book"),
-    ),
+    "Books & Reading": iconEntries.filter(([name]) => name.includes("Book")),
     "Brand & Custom": iconEntries.filter(
       ([name]) => name.includes("Medicash") || name.includes("Badge"),
     ),
   };
 
   return (
-    <div className="p-4 w-full max-w-6xl">
+    <div className="w-full max-w-6xl p-4">
       {Object.entries(categories).map(([title, icons]) => (
         <IconSection key={title} title={title} icons={icons as any} />
       ))}
@@ -126,6 +120,8 @@ const AllIconsStory = () => {
 export const AllIcons: Story = {
   render: () => <AllIconsStory />,
 };
+
+export const ForJsdoc: Story = AllIcons;
 
 export const Colors: Story = {
   render: () => (

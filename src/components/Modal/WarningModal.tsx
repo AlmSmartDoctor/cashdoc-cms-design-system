@@ -69,20 +69,19 @@ export const WarningModal = React.forwardRef<HTMLDivElement, WarningModalProps>(
         ref={ref}
         open={open}
         onOpenChange={onOpenChange}
-        icon={<AlertTriangle className="w-15 h-15 text-cms-orange-500" />}
         title={title}
+        icon={<AlertTriangle className="h-15 w-15 text-cms-orange-500" />}
         footer={
-          // 버튼 두 개를 가로로 배치하기 위해 flex 컨테이너 사용
           <div className="flex w-full gap-2">
             <Button
               onClick={handleCancel}
-              className="flex-1 h-12 bg-white border border-cms-gray-200 text-cms-gray-700 hover:bg-cms-gray-50"
+              className="h-12 flex-1 border border-cms-gray-200 bg-white text-cms-gray-700 hover:bg-cms-gray-50"
             >
               {cancelText}
             </Button>
             <Button
               onClick={handleConfirm}
-              className="flex-1 h-12 bg-cms-gray-850 hover:bg-cms-gray-800"
+              className="h-12 flex-1 bg-cms-gray-850 hover:bg-cms-gray-800"
             >
               {confirmText}
             </Button>

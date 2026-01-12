@@ -213,7 +213,7 @@ const ControlledExample = () => {
   const [tags, setTags] = useState<string[]>(["React", "TypeScript"]);
 
   return (
-    <div className="min-w-[400px]">
+    <div className="min-w-100">
       <TagInput
         label="제어 컴포넌트"
         value={tags}
@@ -221,9 +221,9 @@ const ControlledExample = () => {
         placeholder="태그를 입력하세요"
         maxTags={5}
       />
-      <div className="mt-4 p-3 bg-cms-gray-100 rounded-cms-sm">
-        <p className="font-cms-sm font-medium mb-2">현재 태그:</p>
-        <p className="font-cms-sm text-cms-gray-700">
+      <div className="mt-4 rounded-cms-sm bg-cms-gray-100 p-3">
+        <p className="text-cms-sm mb-2 font-medium">현재 태그:</p>
+        <p className="text-cms-sm text-cms-gray-700">
           {tags.length > 0 ? tags.join(", ") : "없음"}
         </p>
       </div>
@@ -259,7 +259,7 @@ const ValidationExample = () => {
   };
 
   return (
-    <div className="min-w-[400px]">
+    <div className="min-w-100">
       <TagInput
         label="유효성 검사 태그"
         value={tags}
@@ -305,7 +305,7 @@ const HorizontalLayoutFormExample = () => {
   const [tags3, setTags3] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col gap-4 min-w-[600px]">
+    <div className="flex min-w-100 flex-col gap-4">
       <TagInput
         label="관심 분야"
         required
@@ -344,7 +344,8 @@ export const HorizontalLayoutForm: Story = {
   parameters: {
     docs: {
       description: {
-        story: "가로 배치 레이아웃을 사용한 폼 예시입니다. 레이블 너비가 일정하게 유지되어 정렬된 모습을 보여줍니다.",
+        story:
+          "가로 배치 레이아웃을 사용한 폼 예시입니다. 레이블 너비가 일정하게 유지되어 정렬된 모습을 보여줍니다.",
       },
     },
   },
@@ -359,7 +360,7 @@ const AllStatesExample = () => {
   const [tags6, setTags6] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col gap-6 min-w-[500px]">
+    <div className="flex min-w-125 flex-col gap-6">
       <TagInput
         label="기본 상태"
         placeholder="태그를 입력하세요"
@@ -425,3 +426,5 @@ export const AllStates: Story = {
     },
   },
 };
+
+export const ForJsdoc: Story = AllStates;

@@ -171,7 +171,7 @@ export const CenterAligned: Story = {
 
 export const AllVariants: Story = {
   render: () => (
-    <div className="flex flex-col gap-4 min-w-[600px]">
+    <div className="flex min-w-150 flex-col gap-4">
       <Text variant="h1">H1 - 제목 스타일 (28px, Bold, #24272e)</Text>
       <Text variant="h2">H2 - 부제목 스타일 (24px, Semibold, #2b3240)</Text>
       <Text variant="h3">H3 - 중제목 스타일 (18px, Semibold, #24272e)</Text>
@@ -188,7 +188,7 @@ export const AllVariants: Story = {
         Caption - 보조 텍스트 스타일 (12px, Normal, #7f7f7f)
       </Text>
       <Text variant="price">Price - 15,000원 (10px, Bold, #24272e)</Text>
-      <div className="border-t pt-4 mt-4">
+      <div className="mt-4 border-t pt-4">
         <Text variant="body" decoration="underline">
           밑줄 있는 텍스트
         </Text>
@@ -212,3 +212,5 @@ export const AllVariants: Story = {
     },
   },
 };
+
+export const ForJsdoc: Story = AllVariants;

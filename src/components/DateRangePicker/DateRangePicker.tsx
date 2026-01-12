@@ -151,6 +151,9 @@ const getQuickSelectOptions = (): QuickSelectOption[] => {
  *
  * - {@link DatePicker}, 단일 날짜 선택이 필요한 경우
  * - {@link Dropdown}, 기간을 텍스트 기반의 선택지로 제공할 때
+ *
+ * ## 참고사진
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/DateRangePicker/For%20Jsdoc.png?raw=true)
  */
 export const DateRangePicker = React.forwardRef<
   HTMLDivElement,
@@ -166,6 +169,7 @@ export const DateRangePicker = React.forwardRef<
     },
     ref,
   ) => {
+    const id = React.useId();
     const [isOpen, setIsOpen] = useState(false);
     const [internalRange, setInternalRange] = useState<
       [Dayjs | undefined, Dayjs | undefined]
@@ -250,23 +254,25 @@ export const DateRangePicker = React.forwardRef<
             <div className="relative flex-1">
               <div
                 className={cn(
-                  "absolute left-3 top-0 h-full flex items-center",
+                  "absolute top-0 left-3 flex h-full items-center",
                   "text-xs text-gray-500",
                   "pointer-events-none",
                 )}
               >
-                <label>{startLabel}</label>
+                <label htmlFor={`${id}-start`}>{startLabel}</label>
               </div>
               <input
+                id={`${id}-start`}
                 type="text"
                 readOnly
                 value={displayValue.start}
                 placeholder="YYYY-MM-DD"
+                aria-label={startLabel}
                 className={cn(
-                  "w-full h-10 pl-[59px] pr-3 bg-white text-sm",
+                  "h-10 w-full bg-white pr-3 pl-14-75 text-sm",
                   "focus:outline-none",
-                  "border border-gray-300 border-r-0 rounded-l",
-                  "hover:bg-gray-50 hover:border-gray-400",
+                  "rounded-l border border-r-0 border-gray-300",
+                  "hover:border-gray-400 hover:bg-gray-50",
                   "transition-all duration-150",
                   "cursor-pointer",
                 )}
@@ -275,23 +281,25 @@ export const DateRangePicker = React.forwardRef<
             <div className="relative flex-1">
               <div
                 className={cn(
-                  "absolute left-3 top-0 h-full flex items-center",
+                  "absolute top-0 left-3 flex h-full items-center",
                   "text-xs text-gray-500",
                   "pointer-events-none",
                 )}
               >
-                <label>{endLabel}</label>
+                <label htmlFor={`${id}-end`}>{endLabel}</label>
               </div>
               <input
+                id={`${id}-end`}
                 type="text"
                 readOnly
                 value={displayValue.end}
                 placeholder="YYYY-MM-DD"
+                aria-label={endLabel}
                 className={cn(
-                  "w-full h-10 pl-[59px] pr-3 bg-white",
+                  "h-10 w-full bg-white pr-3 pl-14-75",
                   "text-sm",
-                  "border border-gray-300 rounded-r",
-                  "hover:bg-gray-50 hover:border-gray-400",
+                  "rounded-r border border-gray-300",
+                  "hover:border-gray-400 hover:bg-gray-50",
                   "focus:outline-none",
                   "transition-all duration-150",
                   "cursor-pointer",
@@ -306,7 +314,7 @@ export const DateRangePicker = React.forwardRef<
             align="start"
             sideOffset={5}
             className={cn(
-              "z-50 p-2 bg-white rounded-lg",
+              "z-50 rounded-lg bg-white p-2",
               "border border-gray-200",
               "shadow-xl",
               "data-[state=open]:animate-in",
@@ -327,8 +335,8 @@ export const DateRangePicker = React.forwardRef<
                     key={option.label}
                     onClick={() => handleQuickSelect(option)}
                     className={cn(
-                      "border-0 cursor-pointer",
-                      "w-[70px] h-[26px] px-2",
+                      "cursor-pointer border-0",
+                      "h-6-5 w-17-5 px-2",
                       "text-left text-xs text-gray-700",
                       "bg-white",
                       "transition-all duration-150",
@@ -361,11 +369,11 @@ export const DateRangePicker = React.forwardRef<
             {/* Footer */}
             <div
               className={cn(
-                "flex items-end justify-between mt-2 pt-2",
+                "mt-2 flex items-end justify-between pt-2",
                 "border-t border-gray-200",
               )}
             >
-              <div className="flex flex-col min-h-8">
+              <div className="flex min-h-8 flex-col">
                 {!fromDay || !toDay ? (
                   <span className="text-xs text-red-500">
                     종료일자를 선택해 주세요.
@@ -387,8 +395,8 @@ export const DateRangePicker = React.forwardRef<
                 <button
                   onClick={handleCancel}
                   className={cn(
-                    "w-15 h-8 cursor-pointer",
-                    "border border-gray-300 rounded bg-transparent",
+                    "h-8 w-15 cursor-pointer",
+                    "rounded border border-gray-300 bg-transparent",
                     "text-xs font-medium text-gray-700",
                     "transition-all duration-150",
                     "hover:bg-gray-50 active:scale-95",
@@ -400,9 +408,9 @@ export const DateRangePicker = React.forwardRef<
                   onClick={handleApply}
                   disabled={!fromDay || !toDay}
                   className={cn(
-                    "border-0 cursor-pointer",
-                    "w-15 h-8",
-                    "bg-blue-600 rounded",
+                    "cursor-pointer border-0",
+                    "h-8 w-15",
+                    "rounded bg-blue-600",
                     "text-xs font-medium text-cms-white",
                     "hover:bg-blue-700 active:scale-95",
                     "disabled:bg-gray-300",

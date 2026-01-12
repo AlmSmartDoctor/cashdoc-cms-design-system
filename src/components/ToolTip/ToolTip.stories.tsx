@@ -125,7 +125,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story: "기본 툴팁입니다. 마우스를 올리면 상단에 툴팁이 나타납니다.",
+      },
+    },
   },
   render: () => (
     <ToolTip content="설정 페이지로 이동합니다" defaultOpen={true}>
@@ -134,18 +139,17 @@ export const Default: Story = {
       </Button>
     </ToolTip>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story: "기본 툴팁입니다. 마우스를 올리면 상단에 툴팁이 나타납니다.",
-      },
-    },
-  },
 };
 
 export const AllPositions: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story:
+          "툴팁의 위치를 상하좌우로 지정할 수 있습니다. side prop을 사용하여 원하는 방향을 설정하세요.",
+      },
+    },
   },
   render: () => (
     <div className="flex flex-col items-center gap-12">
@@ -165,19 +169,17 @@ export const AllPositions: Story = {
       </ToolTip>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "툴팁의 위치를 상하좌우로 지정할 수 있습니다. side prop을 사용하여 원하는 방향을 설정하세요.",
-      },
-    },
-  },
 };
 
 export const WithDelay: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story:
+          "delayDuration prop으로 툴팁이 나타나기까지의 지연 시간을 조절할 수 있습니다. 우발적인 호버로 인한 깜빡임을 방지하는 데 유용합니다.",
+      },
+    },
   },
   render: () => (
     <div className="flex gap-4">
@@ -192,41 +194,40 @@ export const WithDelay: Story = {
       </ToolTip>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "delayDuration prop으로 툴팁이 나타나기까지의 지연 시간을 조절할 수 있습니다. 우발적인 호버로 인한 깜빡임을 방지하는 데 유용합니다.",
-      },
-    },
-  },
 };
 
 export const LongContent: Story = {
   parameters: {
-    docs: { disable: true },
-  },
-  render: () => (
-    <ToolTip content="이 기능은 관리자 권한이 필요합니다. 권한이 없는 사용자는 실행할 수 없으며, 관리자에게 문의하세요." defaultOpen={true}>
-      <Button variant="outline">
-        <Info className="mr-2 h-4 w-4" />
-        권한 필요
-      </Button>
-    </ToolTip>
-  ),
-  parameters: {
     docs: {
+      disable: true,
       description: {
         story:
           "긴 텍스트도 표시할 수 있습니다. 툴팁은 max-w-xs 클래스로 최대 너비가 제한되어 있어 자동으로 줄바꿈됩니다.",
       },
     },
   },
+  render: () => (
+    <ToolTip
+      content="이 기능은 관리자 권한이 필요합니다. 권한이 없는 사용자는 실행할 수 없으며, 관리자에게 문의하세요."
+      defaultOpen={true}
+    >
+      <Button variant="outline">
+        <Info className="mr-2 h-4 w-4" />
+        권한 필요
+      </Button>
+    </ToolTip>
+  ),
 };
 
 export const WithIcon: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story:
+          "아이콘 버튼과 함께 사용하는 가장 일반적인 패턴입니다. 아이콘만으로는 기능을 알기 어려울 때 툴팁으로 설명을 제공합니다.",
+      },
+    },
   },
   render: () => (
     <div className="flex gap-4">
@@ -252,19 +253,17 @@ export const WithIcon: Story = {
       </ToolTip>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "아이콘 버튼과 함께 사용하는 가장 일반적인 패턴입니다. 아이콘만으로는 기능을 알기 어려울 때 툴팁으로 설명을 제공합니다.",
-      },
-    },
-  },
 };
 
 export const WithoutArrow: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story:
+          "showArrow prop을 false로 설정하면 화살표를 숨길 수 있습니다. 미니멀한 디자인이 필요할 때 유용합니다.",
+      },
+    },
   },
   render: () => (
     <div className="flex gap-4">
@@ -276,23 +275,26 @@ export const WithoutArrow: Story = {
       </ToolTip>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "showArrow prop을 false로 설정하면 화살표를 숨길 수 있습니다. 미니멀한 디자인이 필요할 때 유용합니다.",
-      },
-    },
-  },
 };
 
 export const DifferentAlignments: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story:
+          "align prop으로 툴팁의 정렬 방식을 조절할 수 있습니다. 기본값은 center입니다.",
+      },
+    },
   },
   render: () => (
     <div className="flex flex-col gap-4">
-      <ToolTip content="시작 정렬" align="start" side="bottom" defaultOpen={true}>
+      <ToolTip
+        content="시작 정렬"
+        align="start"
+        side="bottom"
+        defaultOpen={true}
+      >
         <Button variant="outline">Align Start</Button>
       </ToolTip>
       <ToolTip content="중앙 정렬" align="center" side="bottom">
@@ -303,26 +305,24 @@ export const DifferentAlignments: Story = {
       </ToolTip>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "align prop으로 툴팁의 정렬 방식을 조절할 수 있습니다. 기본값은 center입니다.",
-      },
-    },
-  },
 };
 
 export const OnTextElement: Story = {
   parameters: {
-    docs: { disable: true },
+    docs: {
+      disable: true,
+      description: {
+        story:
+          "텍스트 요소에도 툴팁을 적용할 수 있습니다. 용어 설명이나 추가 정보를 제공할 때 유용합니다.",
+      },
+    },
   },
   render: () => (
-    <div className="w-64 p-4 border rounded">
+    <div className="w-64 rounded border p-4">
       <p className="text-sm">
         이 문장에는{" "}
         <ToolTip content="여기에 추가 설명이 표시됩니다" defaultOpen={true}>
-          <span className="underline decoration-dashed cursor-help">
+          <span className="cursor-help underline decoration-dashed">
             툴팁이 있는 텍스트
           </span>
         </ToolTip>
@@ -330,21 +330,13 @@ export const OnTextElement: Story = {
       </p>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "텍스트 요소에도 툴팁을 적용할 수 있습니다. 용어 설명이나 추가 정보를 제공할 때 유용합니다.",
-      },
-    },
-  },
 };
 
 export const Controlled: Story = {
   render: () => {
     const [open, setOpen] = useState(false);
     return (
-      <div className="flex flex-col gap-4 items-center">
+      <div className="flex flex-col items-center gap-4">
         <ToolTip
           content="프로그래밍으로 제어되는 툴팁입니다"
           open={open}
@@ -353,25 +345,13 @@ export const Controlled: Story = {
           <Button variant="outline">Controlled ToolTip</Button>
         </ToolTip>
         <div className="flex gap-2">
-          <Button
-            onClick={() => setOpen(true)}
-            variant="secondary"
-            size="sm"
-          >
+          <Button onClick={() => setOpen(true)} variant="secondary" size="sm">
             열기
           </Button>
-          <Button
-            onClick={() => setOpen(false)}
-            variant="secondary"
-            size="sm"
-          >
+          <Button onClick={() => setOpen(false)} variant="secondary" size="sm">
             닫기
           </Button>
-          <Button
-            onClick={() => setOpen(!open)}
-            variant="secondary"
-            size="sm"
-          >
+          <Button onClick={() => setOpen(!open)} variant="secondary" size="sm">
             토글
           </Button>
         </div>
@@ -395,14 +375,14 @@ export const AllStates: Story = {
   render: () => (
     <div className="flex flex-col gap-6">
       <div>
-        <h3 className="text-sm font-semibold mb-3">기본 위치 (Top)</h3>
+        <h3 className="mb-3 text-sm font-semibold">기본 위치 (Top)</h3>
         <ToolTip content="기본 툴팁">
           <Button variant="outline">Hover me</Button>
         </ToolTip>
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">다양한 위치</h3>
+        <h3 className="mb-3 text-sm font-semibold">다양한 위치</h3>
         <div className="flex gap-3">
           <ToolTip content="상단" side="top">
             <Button variant="outline" size="sm">
@@ -428,7 +408,7 @@ export const AllStates: Story = {
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">아이콘 버튼</h3>
+        <h3 className="mb-3 text-sm font-semibold">아이콘 버튼</h3>
         <div className="flex gap-2">
           <ToolTip content="설정">
             <Button variant="ghost" size="icon">
@@ -454,21 +434,21 @@ export const AllStates: Story = {
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">긴 텍스트</h3>
+        <h3 className="mb-3 text-sm font-semibold">긴 텍스트</h3>
         <ToolTip content="이 버튼을 클릭하면 현재 설정이 저장되고 메인 페이지로 이동합니다. 저장되지 않은 변경사항이 있다면 경고 메시지가 표시됩니다.">
           <Button variant="outline">긴 설명 보기</Button>
         </ToolTip>
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">화살표 없음</h3>
+        <h3 className="mb-3 text-sm font-semibold">화살표 없음</h3>
         <ToolTip content="미니멀한 툴팁" showArrow={false}>
           <Button variant="outline">No Arrow</Button>
         </ToolTip>
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">지연 시간 커스텀</h3>
+        <h3 className="mb-3 text-sm font-semibold">지연 시간 커스텀</h3>
         <div className="flex gap-2">
           <ToolTip content="즉시" delayDuration={0}>
             <Button variant="outline" size="sm">
@@ -496,4 +476,18 @@ export const AllStates: Story = {
       },
     },
   },
+};
+
+export const ForJsdoc: Story = {
+  parameters: {
+    docs: { disable: true },
+    layout: "centered",
+  },
+  render: () => (
+    <div className="flex h-24 w-full items-center justify-center">
+      <ToolTip content="This is a tooltip" defaultOpen={true}>
+        <Button variant="outline">Hover me</Button>
+      </ToolTip>
+    </div>
+  ),
 };

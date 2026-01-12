@@ -56,13 +56,13 @@ export const SuccessModal = React.forwardRef<HTMLDivElement, SuccessModalProps>(
         open={open}
         onOpenChange={onOpenChange}
         icon={
-          <CheckCircle2 className="w-15 h-15 text-cms-green-500 border-cms-green-500" />
+          <CheckCircle2 className="h-15 w-15 border-cms-green-500 text-cms-green-500" />
         }
         title={title}
         footer={
           <Button
             onClick={handleConfirm}
-            className="w-full h-12 bg-cms-gray-850 hover:bg-cms-gray-800"
+            className="h-12 w-full bg-cms-gray-850 hover:bg-cms-gray-800"
           >
             {confirmText}
           </Button>

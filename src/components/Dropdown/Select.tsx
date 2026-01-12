@@ -97,7 +97,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
         {label && (
           <label className="block text-sm font-medium text-cms-black">
             {label}
-            {required && <span className="text-cms-red-500 ml-1">*</span>}
+            {required && <span className="ml-1 text-cms-red-500">*</span>}
           </label>
         )}
 

@@ -31,6 +31,12 @@
     "declaration": true,
     "outDir": "dist"
   },
-  "include": ["src", "src/global.d.ts"],
+  "include": [
+    "src",
+    "src/global.d.ts",
+    ".storybook",
+    "vite.config.ts",
+    "playwright.config.ts"
+  ],
   "exclude": ["node_modules", "dist", "storybook-static"]
 }
