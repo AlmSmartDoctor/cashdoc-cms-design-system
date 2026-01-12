@@ -112,7 +112,7 @@ export const Basic: Story = {
           onOpenChange={setOpen}
           title="기본 모달"
           footer={
-            <div className="flex justify-between w-full gap-2">
+            <div className="flex w-full justify-between gap-2">
               <Button onClick={() => setOpen(false)} className="w-full">
                 확인
               </Button>
@@ -468,6 +468,40 @@ export const Sizes: Story = {
           }
         >
           이것은 큰 크기의 모달입니다. 더 많은 내용을 표시할 수 있습니다.
+        </Modal>
+      </div>
+    );
+  },
+};
+
+export const ForJsdoc: Story = {
+  parameters: {
+    docs: { disable: true },
+    layout: "centered",
+  },
+  render: () => {
+    // ForJsdoc: Show a static open modal for documentation screenshots.
+    // We use a state but initialize it to true.
+    const [open, setOpen] = useState(true);
+    return (
+      <div className="relative flex h-100 w-150 items-center justify-center rounded-lg bg-gray-100">
+        {/* We place a trigger button just to be semantic, but the modal is open by default */}
+        <Button onClick={() => setOpen(true)}>Open Modal</Button>
+        <Modal
+          open={open}
+          onOpenChange={setOpen}
+          title="Modal Title"
+          footer={
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={() => setOpen(false)}>Confirm</Button>
+            </div>
+          }
+        >
+          This is a representative modal for documentation. It shows the title,
+          content area, and footer actions.
         </Modal>
       </div>
     );

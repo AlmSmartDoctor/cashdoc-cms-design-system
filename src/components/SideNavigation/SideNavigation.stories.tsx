@@ -136,13 +136,13 @@ export const Default: Story = {
   render: (args) => {
     const [selectedUrl, setSelectedUrl] = useState("/home");
     return (
-      <div className="h-screen flex">
+      <div className="flex h-screen">
         <SideNavigation
           {...args}
           selectedUrl={selectedUrl}
           onMenuClick={setSelectedUrl}
         />
-        <div className="flex-1 p-8 bg-gray-50">
+        <div className="flex-1 bg-gray-50 p-8">
           <h1 className="text-2xl font-bold">선택된 URL: {selectedUrl}</h1>
           <p className="mt-4 text-gray-600">
             왼쪽 메뉴를 클릭하여 네비게이션을 테스트하세요.
@@ -161,34 +161,34 @@ export const WithHeader: Story = {
   render: (args) => {
     const [selectedUrl, setSelectedUrl] = useState("/home");
     return (
-      <div className="h-screen flex">
+      <div className="flex h-screen">
         <SideNavigation
           {...args}
           selectedUrl={selectedUrl}
           onMenuClick={setSelectedUrl}
           headerSlot={
-            <div className="p-5 flex flex-col gap-5">
+            <div className="flex flex-col gap-5 p-5">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#FFC107] rounded-full flex items-center justify-center">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FFC107]">
                   <span className="text-xl font-bold text-black">C</span>
                 </div>
                 <span className="text-xl font-bold text-white">캐시닥</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-base text-white font-semibold pl-3">
+                <span className="pl-3 text-base font-semibold text-white">
                   캐시닥병원
                 </span>
-                <button className="bg-[#FFC107] text-black rounded-2xl px-4 py-1.5 text-sm font-medium">
+                <button className="rounded-2xl bg-[#FFC107] px-4 py-1.5 text-sm font-medium text-black">
                   로그아웃
                 </button>
               </div>
-              <div className="bg-[#4C4D50] rounded px-3 py-2.5 text-sm text-gray-300">
+              <div className="rounded bg-[#4C4D50] px-3 py-2.5 text-sm text-gray-300">
                 잔액 : 329,099P
               </div>
             </div>
           }
         />
-        <div className="flex-1 p-8 bg-gray-50">
+        <div className="flex-1 bg-gray-50 p-8">
           <h1 className="text-2xl font-bold">선택된 URL: {selectedUrl}</h1>
           <p className="mt-4 text-gray-600">
             커스텀 헤더가 포함된 사이드바입니다.
@@ -214,13 +214,13 @@ export const MinimalMenus: Story = {
   render: (args) => {
     const [selectedUrl, setSelectedUrl] = useState("/home");
     return (
-      <div className="h-screen flex">
+      <div className="flex h-screen">
         <SideNavigation
           {...args}
           selectedUrl={selectedUrl}
           onMenuClick={setSelectedUrl}
         />
-        <div className="flex-1 p-8 bg-gray-50">
+        <div className="flex-1 bg-gray-50 p-8">
           <h1 className="text-2xl font-bold">선택된 URL: {selectedUrl}</h1>
         </div>
       </div>
@@ -247,13 +247,13 @@ export const OnlySubMenus: Story = {
   render: (args) => {
     const [selectedUrl, setSelectedUrl] = useState("/users/list");
     return (
-      <div className="h-screen flex">
+      <div className="flex h-screen">
         <SideNavigation
           {...args}
           selectedUrl={selectedUrl}
           onMenuClick={setSelectedUrl}
         />
-        <div className="flex-1 p-8 bg-gray-50">
+        <div className="flex-1 bg-gray-50 p-8">
           <h1 className="text-2xl font-bold">선택된 URL: {selectedUrl}</h1>
         </div>
       </div>
@@ -296,13 +296,13 @@ export const WithoutIcons: Story = {
   render: (args) => {
     const [selectedUrl, setSelectedUrl] = useState("/home");
     return (
-      <div className="h-screen flex">
+      <div className="flex h-screen">
         <SideNavigation
           {...args}
           selectedUrl={selectedUrl}
           onMenuClick={setSelectedUrl}
         />
-        <div className="flex-1 p-8 bg-gray-50">
+        <div className="flex-1 bg-gray-50 p-8">
           <h1 className="text-2xl font-bold">선택된 URL: {selectedUrl}</h1>
         </div>
       </div>
@@ -329,5 +329,40 @@ export const WithoutIcons: Story = {
         story: "아이콘 없이 텍스트만 표시하는 메뉴입니다.",
       },
     },
+  },
+};
+
+export const ForJsdoc: Story = {
+  render: (args) => {
+    const [selectedUrl, setSelectedUrl] = useState("/home");
+    return (
+      <div className="relative flex h-150 overflow-hidden rounded-lg border border-gray-200">
+        <SideNavigation
+          {...args}
+          selectedUrl={selectedUrl}
+          onMenuClick={setSelectedUrl}
+          headerSlot={
+            <div className="flex flex-col gap-5 p-5">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FFC107]">
+                  <span className="text-xl font-bold text-black">C</span>
+                </div>
+                <span className="text-xl font-bold text-white">캐시닥</span>
+              </div>
+            </div>
+          }
+        />
+        <div className="flex-1 bg-gray-50 p-8">
+          <h1 className="text-2xl font-bold">Content Area</h1>
+        </div>
+      </div>
+    );
+  },
+  args: {
+    menus: sampleMenus,
+  },
+  parameters: {
+    docs: { disable: true },
+    layout: "centered",
   },
 };

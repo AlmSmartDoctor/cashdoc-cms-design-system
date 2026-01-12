@@ -1,62 +1,7 @@
 import { cn } from "@/utils/cn";
-import { cva, VariantProps } from "class-variance-authority";
+import { VariantProps } from "class-variance-authority";
 import { ButtonHTMLAttributes, forwardRef } from "react";
-
-/**
- * 버튼 컴포넌트의 스타일 variant를 정의합니다.
- *
- * @variant default - 기본 스타일 (회색 배경)
- * @variant secondary - 보조 스타일 (밝은 회색 배경)
- * @variant outline - 테두리 스타일 (투명 배경)
- * @variant ghost - 고스트 스타일 (투명 배경, hover시 배경)
- * @variant link - 링크 스타일 (밑줄)
- *
- * @size default - 기본 크기 (h-10)
- * @size sm - 작은 크기 (h-8)
- * @size lg - 큰 크기 (h-11)
- * @size icon - 아이콘 크기 (정사각형 10x10)
- */
-export const buttonVariants = cva(
-  cn(
-    "inline-flex items-center justify-center gap-2",
-    "rounded-md ring-offset-white",
-    "text-sm font-medium",
-    "focus-visible:outline-none focus-visible:ring-2",
-    "focus-visible:ring-slate-950 focus-visible:ring-offset-2",
-    "disabled:pointer-events-none disabled:opacity-60",
-    "transition-colors cursor-pointer",
-  ),
-  {
-    variants: {
-      variant: {
-        default:
-          "border-0 bg-cms-gray-850 text-cms-white hover:bg-cms-gray-750",
-        secondary: cn(
-          "border-0 bg-cms-gray-300 text-cms-black",
-          "hover:bg-cms-gray-200 hover:text-cms-gray-800",
-        ),
-        outline: cn(
-          "border border-cms-gray-400 bg-transparent",
-          "hover:bg-cms-gray-200 hover:text-cms-gray-900",
-        ),
-
-        ghost:
-          "border-0 bg-transparent hover:bg-cms-gray-200 hover:text-cms-gray-800",
-        link: "border-0 text-cms-black underline-offset-4 hover:underline",
-      },
-      size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-8 rounded-sm px-3",
-        lg: "h-11 rounded-sm px-8",
-        icon: "h-10 w-10",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  },
-);
+import { buttonVariants } from "./variants";
 
 export interface ButtonProps
   extends
@@ -126,7 +71,7 @@ export interface ButtonProps
  *
  * ```tsx
  * <div className="flex gap-2">
- *   <Button variant="primary">저장하기</Button>
+ *   <Button variant="default">저장하기</Button>
  *   <Button variant="outline">취소</Button>
  *   <Button variant="ghost">닫기</Button>
  * </div>
@@ -153,17 +98,20 @@ export interface ButtonProps
  * ```tsx
  * <div className="flex items-center gap-2">
  *   <Button size="sm">Small</Button>
- *   <Button size="md">Medium</Button>
+ *   <Button size="default">Medium</Button>
  *   <Button size="lg">Large</Button>
  * </div>
  * ```
  * {@end-tool}
- *s
+ *
  * See also:
  *
  * - {@link TextInput}, 입력과 함께 액션이 필요한 경우
  * - {@link Modal}, 중요한 결정을 위한 버튼을 포함하는 오버레이
  * - {@link IconButton}, 아이콘만으로 구성된 버튼을 구성할 때
+ *
+ * ## 참고사진
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/Button/For%20Jsdoc.png?raw=true)
  */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {

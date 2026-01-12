@@ -112,7 +112,7 @@ const SingleImageStory = () => {
   const [error, setError] = useState<string>("");
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <ImageUpload
         value={files}
         onChange={setFiles}
@@ -122,9 +122,9 @@ const SingleImageStory = () => {
       />
       {error && <p className="mt-2 text-sm text-cms-red-500">{error}</p>}
       {files.length > 0 && (
-        <div className="mt-4 p-4 bg-cms-gray-100 rounded-md">
-          <h3 className="text-sm font-medium mb-2">업로드된 파일:</h3>
-          <ul className="text-sm space-y-1">
+        <div className="mt-4 rounded-md bg-cms-gray-100 p-4">
+          <h3 className="mb-2 text-sm font-medium">업로드된 파일:</h3>
+          <ul className="space-y-1 text-sm">
             {files.map((file, index) => (
               <li key={index}>
                 {file.name} ({(file.size / 1024).toFixed(1)} KB)
@@ -153,7 +153,7 @@ const MultipleImagesStory = () => {
   const [error, setError] = useState<string>("");
 
   return (
-    <div className="w-[800px]">
+    <div className="w-200">
       <ImageUpload
         value={files}
         onChange={setFiles}
@@ -163,8 +163,8 @@ const MultipleImagesStory = () => {
       />
       {error && <p className="mt-2 text-sm text-cms-red-500">{error}</p>}
       {files.length > 0 && (
-        <div className="mt-4 p-4 bg-cms-gray-100 rounded-md">
-          <h3 className="text-sm font-medium mb-2">
+        <div className="mt-4 rounded-md bg-cms-gray-100 p-4">
+          <h3 className="mb-2 text-sm font-medium">
             업로드된 파일: {files.length}개
           </h3>
         </div>
@@ -188,7 +188,7 @@ const NoPreviewStory = () => {
   const [files, setFiles] = useState<File[]>([]);
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <ImageUpload
         value={files}
         onChange={setFiles}
@@ -196,9 +196,9 @@ const NoPreviewStory = () => {
         showPreview={false}
       />
       {files.length > 0 && (
-        <div className="mt-4 p-4 bg-cms-gray-100 rounded-md">
-          <h3 className="text-sm font-medium mb-2">업로드된 파일:</h3>
-          <ul className="text-sm space-y-1">
+        <div className="mt-4 rounded-md bg-cms-gray-100 p-4">
+          <h3 className="mb-2 text-sm font-medium">업로드된 파일:</h3>
+          <ul className="space-y-1 text-sm">
             {files.map((file, index) => (
               <li key={index}>
                 {file.name} ({(file.size / 1024).toFixed(1)} KB)
@@ -228,7 +228,7 @@ export const Disabled: Story = {
     maxFiles: 1,
   },
   render: (args) => (
-    <div className="w-[600px]">
+    <div className="w-150">
       <ImageUpload {...args} />
     </div>
   ),
@@ -246,7 +246,7 @@ const CustomSizeStory = () => {
   const [error, setError] = useState<string>("");
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <ImageUpload
         value={files}
         onChange={setFiles}
@@ -277,7 +277,7 @@ const ValidateMinimumSizeStory = () => {
   const [error, setError] = useState<string>("");
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <ImageUpload
         value={files}
         onChange={setFiles}
@@ -296,8 +296,8 @@ const ValidateMinimumSizeStory = () => {
         최소 이미지 크기: 800x600px
       </p>
       {files.length > 0 && (
-        <div className="mt-4 p-4 bg-cms-gray-100 rounded-md">
-          <h3 className="text-sm font-medium mb-2">업로드 성공!</h3>
+        <div className="mt-4 rounded-md bg-cms-gray-100 p-4">
+          <h3 className="mb-2 text-sm font-medium">업로드 성공!</h3>
           <p className="text-sm text-cms-gray-600">{files[0].name}</p>
         </div>
       )}
@@ -322,7 +322,7 @@ const ValidateExactSizeStory = () => {
   const [error, setError] = useState<string>("");
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <ImageUpload
         value={files}
         onChange={setFiles}
@@ -341,8 +341,8 @@ const ValidateExactSizeStory = () => {
         정확한 이미지 크기: 1920x1080px
       </p>
       {files.length > 0 && (
-        <div className="mt-4 p-4 bg-cms-gray-100 rounded-md">
-          <h3 className="text-sm font-medium mb-2">업로드 성공!</h3>
+        <div className="mt-4 rounded-md bg-cms-gray-100 p-4">
+          <h3 className="mb-2 text-sm font-medium">업로드 성공!</h3>
           <p className="text-sm text-cms-gray-600">{files[0].name}</p>
         </div>
       )}
@@ -367,7 +367,7 @@ const ValidateAspectRatioStory = () => {
   const [error, setError] = useState<string>("");
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <ImageUpload
         value={files}
         onChange={setFiles}
@@ -386,8 +386,8 @@ const ValidateAspectRatioStory = () => {
       {error && <p className="mt-2 text-sm text-cms-red-500">{error}</p>}
       <p className="mt-2 text-xs text-cms-gray-400">허용 비율: 16:9 (±0.1)</p>
       {files.length > 0 && (
-        <div className="mt-4 p-4 bg-cms-gray-100 rounded-md">
-          <h3 className="text-sm font-medium mb-2">업로드 성공!</h3>
+        <div className="mt-4 rounded-md bg-cms-gray-100 p-4">
+          <h3 className="mb-2 text-sm font-medium">업로드 성공!</h3>
           <p className="text-sm text-cms-gray-600">{files[0].name}</p>
         </div>
       )}
@@ -412,7 +412,7 @@ const ValidateSquareImageStory = () => {
   const [error, setError] = useState<string>("");
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <ImageUpload
         value={files}
         onChange={setFiles}
@@ -432,8 +432,8 @@ const ValidateSquareImageStory = () => {
         정사각형 이미지만 업로드 가능 (1:1 비율)
       </p>
       {files.length > 0 && (
-        <div className="mt-4 p-4 bg-cms-gray-100 rounded-md">
-          <h3 className="text-sm font-medium mb-2">업로드 성공!</h3>
+        <div className="mt-4 rounded-md bg-cms-gray-100 p-4">
+          <h3 className="mb-2 text-sm font-medium">업로드 성공!</h3>
           <p className="text-sm text-cms-gray-600">{files[0].name}</p>
         </div>
       )}
@@ -458,7 +458,7 @@ const ValidateComplexStory = () => {
   const [error, setError] = useState<string>("");
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <ImageUpload
         value={files}
         onChange={setFiles}
@@ -490,14 +490,14 @@ const ValidateComplexStory = () => {
         }}
       />
       {error && <p className="mt-2 text-sm text-cms-red-500">{error}</p>}
-      <div className="mt-2 text-xs text-cms-gray-400 space-y-1">
+      <div className="mt-2 space-y-1 text-xs text-cms-gray-400">
         <p>• 너비: 1000px ~ 4000px</p>
         <p>• 가로 이미지만 허용 (비율 ≥ 1:1)</p>
         <p>• 최대 파일 크기: 2MB</p>
       </div>
       {files.length > 0 && (
-        <div className="mt-4 p-4 bg-cms-gray-100 rounded-md">
-          <h3 className="text-sm font-medium mb-2">업로드 성공!</h3>
+        <div className="mt-4 rounded-md bg-cms-gray-100 p-4">
+          <h3 className="mb-2 text-sm font-medium">업로드 성공!</h3>
           <p className="text-sm text-cms-gray-600">{files[0].name}</p>
         </div>
       )}
@@ -521,7 +521,7 @@ const CustomPlaceholderStory = () => {
   const [files, setFiles] = useState<File[]>([]);
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <ImageUpload
         value={files}
         onChange={setFiles}
@@ -531,8 +531,8 @@ const CustomPlaceholderStory = () => {
         placeholderActive="이미지를 드롭하세요"
       />
       {files.length > 0 && (
-        <div className="mt-4 p-4 bg-cms-gray-100 rounded-md">
-          <h3 className="text-sm font-medium mb-2">업로드된 파일:</h3>
+        <div className="mt-4 rounded-md bg-cms-gray-100 p-4">
+          <h3 className="mb-2 text-sm font-medium">업로드된 파일:</h3>
           <p className="text-sm text-cms-gray-600">{files[0].name}</p>
         </div>
       )}
@@ -569,7 +569,7 @@ const ErrorStateStory = () => {
   };
 
   return (
-    <div className="w-[600px]">
+    <div className="w-150">
       <ImageUpload
         value={files}
         onChange={handleChange}
@@ -603,5 +603,35 @@ export const ErrorState: Story = {
           "에러 상태를 표시하는 예제입니다. 검증 실패 시 빨간색 테두리가 표시됩니다.",
       },
     },
+  },
+};
+
+export const ForJsdoc: Story = {
+  render: () => (
+    <div className="flex w-150 flex-col gap-6">
+      <div>
+        <h3 className="mb-2 font-bold">Default (Max 1)</h3>
+        <ImageUpload maxFiles={1} showPreview={true} />
+      </div>
+      <div>
+        <h3 className="mb-2 font-bold">Multiple (Max 5)</h3>
+        <ImageUpload maxFiles={5} showPreview={true} />
+      </div>
+      <div>
+        <h3 className="mb-2 font-bold">Disabled</h3>
+        <ImageUpload disabled />
+      </div>
+      <div>
+        <h3 className="mb-2 font-bold">Error State</h3>
+        <ImageUpload error />
+      </div>
+      <div>
+        <h3 className="mb-2 font-bold">No Preview</h3>
+        <ImageUpload showPreview={false} />
+      </div>
+    </div>
+  ),
+  parameters: {
+    docs: { disable: true },
   },
 };

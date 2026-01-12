@@ -1,42 +1,8 @@
 import { cn } from "@/utils/cn";
-import { cva, VariantProps } from "class-variance-authority";
+import { VariantProps } from "class-variance-authority";
 import { useState, useRef, useEffect, forwardRef, KeyboardEvent } from "react";
 import { ChevronDownFillIcon, XIcon as ClearIcon } from "../icons";
-
-export const dropdownTriggerVariants = cva(
-  cn(
-    "flex items-center justify-between",
-    "rounded-md px-4 py-2.5",
-    "text-sm font-medium",
-    "outline-none",
-    "transition-all",
-    "w-full min-w-0"
-  ),
-  {
-    variants: {
-      variant: {
-        default: cn(
-          "bg-white text-cms-black border border-black",
-          "hover:bg-cms-gray-100"
-        ),
-        outline: cn(
-          "border border-cms-outline bg-transparent",
-          "hover:bg-cms-gray-200"
-        ),
-        ghost: "border-none bg-transparent hover:bg-cms-gray-200 hover:text-black",
-      },
-      size: {
-        sm: "px-3 py-2 text-xs",
-        default: "px-4 py-2.5 text-sm",
-        lg: "px-6 py-3 text-base",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-);
+import { dropdownTriggerVariants } from "./variants";
 
 export interface DropdownOption {
   value: string;
@@ -58,6 +24,7 @@ export interface DropdownProps extends VariantProps<
   clearable?: boolean;
   multiple?: boolean;
   maxHeight?: number;
+  defaultOpen?: boolean;
 }
 
 /**
@@ -140,6 +107,9 @@ export interface DropdownProps extends VariantProps<
  * - {@link Select}, 기본적인 HTML select 스타일의 컴포넌트
  * - {@link Combobox}, 입력과 선택이 결합된 컴포넌트
  * - {@link Popover}, 더 자유로운 형태의 팝오버가 필요한 경우
+ *
+ * ## 참고사진
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/Dropdown/For%20Jsdoc.png?raw=true)
  */
 export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
   (
@@ -157,15 +127,29 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       clearable = false,
       multiple = false,
       maxHeight = 200,
+      defaultOpen = false,
       ...props
     },
-    ref
+    ref,
   ) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(defaultOpen);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedValues, setSelectedValues] = useState<string[]>(
-      multiple ? (value ? [value] : []) : []
+      multiple ? (value ? value.split(",").filter(Boolean) : []) : [],
     );
+
+    useEffect(() => {
+      const nextValues = value
+        ? multiple
+          ? value.split(",").filter(Boolean)
+          : []
+        : [];
+
+      if (JSON.stringify(nextValues) !== JSON.stringify(selectedValues)) {
+        setSelectedValues(nextValues);
+      }
+    }, [value, multiple, selectedValues]);
+
     const [showScrollIndicator, setShowScrollIndicator] = useState(false);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -180,7 +164,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       : selectedOption?.label || placeholder;
 
     const filteredOptions = options.filter((option) =>
-      option.label.toLowerCase().includes(searchTerm.toLowerCase())
+      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
     const handleToggle = () => {
@@ -251,7 +235,8 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     // 스크롤 가능 여부 체크
     const checkScrollIndicator = () => {
       if (optionsListRef.current) {
-        const { scrollTop, scrollHeight, clientHeight } = optionsListRef.current;
+        const { scrollTop, scrollHeight, clientHeight } =
+          optionsListRef.current;
         const hasMoreContent = scrollHeight > clientHeight;
         const isAtBottom = scrollHeight - scrollTop - clientHeight < 1;
         setShowScrollIndicator(hasMoreContent && !isAtBottom);
@@ -283,8 +268,8 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
           type="button"
           className={cn(
             dropdownTriggerVariants({ variant, size }),
-            disabled && "opacity-50 cursor-not-allowed",
-            className
+            disabled && "cursor-not-allowed opacity-50",
+            className,
           )}
           onClick={handleToggle}
           onKeyDown={handleKeyDown}
@@ -295,30 +280,33 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         >
           <span
             className={cn(
-              "truncate flex-1 text-left",
-              !selectedOption && !multiple && "text-cms-gray-400"
+              "flex-1 truncate text-left",
+              !selectedOption && !multiple && "text-cms-gray-400",
             )}
           >
             {selectedLabel}
           </span>
 
-          <div className="flex items-center gap-2 ml-3">
+          <div className="ml-3 flex items-center gap-2">
             {clearable && (value || selectedValues.length > 0) && (
               <button
                 type="button"
                 className={cn(
                   "border-0 bg-transparent",
-                  "p-1 rounded text-cms-gray-400 transition-colors",
-                  "hover:text-cms-black"
+                  "rounded p-1 text-cms-gray-400 transition-colors",
+                  "hover:text-cms-black",
                 )}
                 onClick={handleClear}
                 aria-label="선택 취소"
               >
-                <ClearIcon className="w-3 h-3" />
+                <ClearIcon className="h-3 w-3" />
               </button>
             )}
             <ChevronDownFillIcon
-              className={cn("w-3 h-3 transition-transform duration-200", isOpen && "rotate-180")}
+              className={cn(
+                "h-3 w-3 transition-transform duration-200",
+                isOpen && "rotate-180",
+              )}
             />
           </div>
         </button>
@@ -326,15 +314,15 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         {isOpen && (
           <div
             className={cn(
-              "absolute z-50 mt-1 py-1 w-full min-w-0",
+              "absolute z-50 mt-1 w-full min-w-0 py-1",
               "rounded-md border border-cms-gray-300",
               "bg-white shadow-lg",
-              dropdownClassName
+              dropdownClassName,
             )}
             style={{ maxHeight: `${maxHeight}px` }}
           >
             {searchable && (
-              <div className="px-3 py-2 border-b border-cms-gray-200">
+              <div className="border-b border-cms-gray-200 px-3 py-2">
                 <input
                   ref={searchInputRef}
                   type="text"
@@ -345,19 +333,22 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                     "w-full px-2 py-1 text-sm",
                     "rounded outline-none",
                     "border border-cms-gray-300",
-                    "focus:ring-1 focus:ring-cms-gray-400"
+                    "focus:ring-1 focus:ring-cms-gray-400",
                   )}
                 />
               </div>
             )}
 
             <div className="relative">
-              <div
-                ref={optionsListRef}
-                className="max-h-48 overflow-y-auto"
-              >
+              <div ref={optionsListRef} className="max-h-48 overflow-y-auto">
                 {filteredOptions.length === 0 ? (
-                  <div className="px-3 py-2 text-sm text-cms-gray-400 text-center">
+                  <div
+                    className={cn(
+                      "px-3 py-2",
+                      "text-sm text-cms-gray-400",
+                      "text-center",
+                    )}
+                  >
                     {searchTerm ? "검색 결과가 없습니다" : "옵션이 없습니다"}
                   </div>
                 ) : (
@@ -373,13 +364,17 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                         className={cn(
                           "border-0",
                           "flex items-center justify-between gap-2",
-                          "w-full px-3 py-2 ",
+                          "w-full px-3 py-2",
                           "text-left text-sm",
                           "transition-colors",
                           option.disabled
-                            ? "text-cms-gray-400 cursor-not-allowed bg-white"
-                            : "text-cms-black bg-white hover:bg-cms-gray-100 cursor-pointer",
-                          isSelected && "bg-cms-gray-150 font-medium"
+                            ? "cursor-not-allowed bg-white text-cms-gray-400"
+                            : cn(
+                                "bg-white text-cms-black",
+                                "hover:bg-cms-gray-100",
+                                "cursor-pointer",
+                              ),
+                          isSelected && "bg-cms-gray-150 font-medium",
                         )}
                         onClick={() => handleOptionClick(option)}
                         disabled={option.disabled}
@@ -392,7 +387,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                             height="16"
                             viewBox="0 0 16 16"
                             fill="none"
-                            className="w-4 h-4 text-black shrink-0"
+                            className="h-4 w-4 shrink-0 text-black"
                           >
                             <path
                               d="M13.5 4.5L6 12L2.5 8.5"
@@ -410,8 +405,21 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
               </div>
 
               {showScrollIndicator && (
-                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none flex items-end justify-center pb-1">
-                  <ChevronDownFillIcon className="w-4 h-4 text-cms-gray-400 animate-bounce" />
+                <div
+                  className={cn(
+                    "flex items-end justify-center",
+                    "absolute right-0 bottom-0 left-0 h-8 pb-1",
+                    "bg-linear-to-t from-white to-transparent",
+                    "pointer-events-none",
+                  )}
+                >
+                  <ChevronDownFillIcon
+                    className={cn(
+                      "h-4 w-4",
+                      "text-cms-gray-400",
+                      "animate-bounce",
+                    )}
+                  />
                 </div>
               )}
             </div>
@@ -419,7 +427,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Dropdown.displayName = "Dropdown";

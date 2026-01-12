@@ -21,6 +21,7 @@ build
 
 # Storybook
 storybook-static
+__screenshots__
 
 # Editor directories and files
 .vscode/*
@@ -50,7 +51,6 @@ coverage
 test-results/
 playwright-report/
 playwright/.cache/
-__screenshots__/
 
 # Temporary files
 *.tmp

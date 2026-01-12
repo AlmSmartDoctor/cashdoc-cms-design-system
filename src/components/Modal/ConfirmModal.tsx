@@ -64,7 +64,7 @@ export const ConfirmModal = React.forwardRef<HTMLDivElement, ConfirmModalProps>(
         footer={
           <Button
             onClick={handleConfirm}
-            className="w-full h-12 bg-cms-gray-850 hover:bg-cms-gray-800"
+            className="h-12 w-full bg-cms-gray-850 hover:bg-cms-gray-800"
           >
             {confirmText}
           </Button>
@@ -72,7 +72,7 @@ export const ConfirmModal = React.forwardRef<HTMLDivElement, ConfirmModalProps>(
         className={className}
         size="sm"
         showCloseButton={false}
-        icon={<CheckCircle2 className="w-15 h-15 text-cms-black" />}
+        icon={<CheckCircle2 className="h-15 w-15 text-cms-black" />}
       >
         <div className="text-sm text-cms-gray-700">{message}</div>
       </Modal>

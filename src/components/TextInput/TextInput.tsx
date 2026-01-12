@@ -142,6 +142,9 @@ export interface TextInputProps
  * - {@link TagInput}, 여러 태그를 입력받는 컴포넌트
  * - {@link DatePicker}, 날짜 선택을 위한 컴포넌트
  * - {@link Dropdown}, 옵션 선택을 위한 컴포넌트
+ *
+ * ## 참고사진
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/TextInput/For%20Jsdoc.png?raw=true)
  */
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   (
@@ -197,7 +200,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
                 style={{ width: labelWidth }}
               >
                 {label}
-                {required && <span className="text-cms-red-400 ml-1">*</span>}
+                {required && <span className="ml-1 text-cms-red-400">*</span>}
               </label>
             )}
             <div className="flex-1">
@@ -217,7 +220,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
               />
             </div>
             {showCharCount && maxLength && (
-              <span className="text-sm text-cms-gray-600 shrink-0">
+              <span className="shrink-0 text-sm text-cms-gray-600">
                 {charCount} / {maxLength}
               </span>
             )}
@@ -225,12 +228,12 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         ) : (
           <>
             {hasHeader && (
-              <div className="flex justify-between items-center mb-2">
+              <div className="mb-2 flex items-center justify-between">
                 {label ? (
                   <label htmlFor={inputId} className={labelVariants()}>
                     {label}
                     {required && (
-                      <span className="text-cms-red-400 ml-1">*</span>
+                      <span className="ml-1 text-cms-red-400">*</span>
                     )}
                   </label>
                 ) : (

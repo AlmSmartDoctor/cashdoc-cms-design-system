@@ -56,12 +56,12 @@ export const ErrorModal = React.forwardRef<HTMLDivElement, ErrorModalProps>(
         ref={ref}
         open={open}
         onOpenChange={onOpenChange}
-        icon={<XCircle className="w-15 h-15 text-cms-red-400" />}
         title={title}
+        icon={<XCircle className="h-15 w-15 text-cms-red-400" />}
         footer={
           <Button
             onClick={handleConfirm}
-            className="w-full h-12 bg-cms-gray-850 hover:bg-cms-gray-800"
+            className="h-12 w-full bg-cms-gray-850 hover:bg-cms-gray-800"
           >
             {confirmText}
           </Button>

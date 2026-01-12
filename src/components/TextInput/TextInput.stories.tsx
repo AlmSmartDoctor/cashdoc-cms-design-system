@@ -266,7 +266,7 @@ export const HorizontalLayout: Story = {
 
 export const HorizontalLayoutForm: Story = {
   render: () => (
-    <div className="flex flex-col gap-4 min-w-[600px]">
+    <div className="flex min-w-150 flex-col gap-4">
       <TextInput
         label="상호(법인명)"
         required
@@ -312,7 +312,8 @@ export const HorizontalLayoutForm: Story = {
   parameters: {
     docs: {
       description: {
-        story: "가로 배치 레이아웃을 사용한 폼 예시입니다. 레이블 너비가 일정하게 유지되어 정렬된 모습을 보여줍니다.",
+        story:
+          "가로 배치 레이아웃을 사용한 폼 예시입니다. 레이블 너비가 일정하게 유지되어 정렬된 모습을 보여줍니다.",
       },
     },
   },
@@ -320,7 +321,7 @@ export const HorizontalLayoutForm: Story = {
 
 export const AllStates: Story = {
   render: () => (
-    <div className="flex flex-col gap-6 min-w-[400px]">
+    <div className="flex min-w-100 flex-col gap-6">
       <TextInput label="기본 상태" placeholder="텍스트를 입력하세요" />
 
       <TextInput
@@ -340,8 +341,8 @@ export const AllStates: Story = {
 
       <TextInput label="값이 있는 상태" value="입력된 텍스트" />
 
-      <div className="border-t pt-4 mt-2">
-        <h3 className="text-cms-lg font-semibold mb-4">다양한 타입</h3>
+      <div className="mt-2 border-t pt-4">
+        <h3 className="text-cms-lg mb-4 font-semibold">다양한 타입</h3>
 
         <div className="flex flex-col gap-4">
           <TextInput label="비밀번호" type="password" placeholder="비밀번호" />
@@ -358,8 +359,8 @@ export const AllStates: Story = {
         </div>
       </div>
 
-      <div className="border-t pt-4 mt-2">
-        <h3 className="text-cms-lg font-semibold mb-4">글자 수 제한</h3>
+      <div className="mt-2 border-t pt-4">
+        <h3 className="text-cms-lg mb-4 font-semibold">글자 수 제한</h3>
 
         <div className="flex flex-col gap-4">
           <TextInput
@@ -386,3 +387,5 @@ export const AllStates: Story = {
     },
   },
 };
+
+export const ForJsdoc: Story = AllStates;

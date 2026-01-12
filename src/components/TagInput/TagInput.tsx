@@ -181,6 +181,9 @@ export interface TagInputProps extends Omit<
  *
  * - {@link TextInput}, 단순 텍스트 입력이 필요한 경우
  * - {@link Combobox}, 목록에서 검색하여 태그를 추가하고 싶은 경우
+ *
+ * ## 참고사진
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/TagInput/For%20Jsdoc.png?raw=true)
  */
 export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
   (
@@ -280,7 +283,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
               style={{ width: labelWidth }}
             >
               {label}
-              {required && <span className="text-cms-red-400 ml-1">*</span>}
+              {required && <span className="ml-1 text-cms-red-400">*</span>}
             </label>
             <div className="flex-1">
               <div
@@ -340,7 +343,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
                 className={cn(
                   labelVariants(),
                   required &&
-                    "after:content-['*'] after:ml-1 after:text-cms-red-400",
+                    "after:ml-1 after:text-cms-red-400 after:content-['*']",
                 )}
               >
                 {label}

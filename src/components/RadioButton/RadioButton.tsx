@@ -73,6 +73,9 @@ import { cva, type VariantProps } from "class-variance-authority";
  * - {@link Checkbox}, 다중 선택이 필요한 경우
  * - {@link Dropdown}, 옵션이 많아 리스트로 숨겨야 하는 경우
  * - {@link Switch}, 단순 활성화/비활성화를 토글할 때
+ *
+ * ## 참고사진
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/RadioButton/For%20Jsdoc.png?raw=true)
  */
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitives.Root>,
