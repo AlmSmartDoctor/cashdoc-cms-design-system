@@ -1,8 +1,6 @@
 import fs from "fs";
 import path from "path";
 
-const BASE_URL =
-  "https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots";
 const SCREENSHOT_DIR = "__screenshots__";
 
 // 디렉토리 재귀 탐색

@@ -88,6 +88,12 @@
   --transition-duration-200: 200ms;
   --transition-duration-300: 300ms;
   --transition-duration-500: 500ms;
+
+  /* Custom Spacing */
+  --spacing-15: 60px;
+  --spacing-17-5: 70px;
+  --spacing-14-75: 59px;
+  --spacing-6-5: 26px;
 }
 
 /* Design System Variables 

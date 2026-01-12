@@ -9,5 +9,7 @@
     "javascriptreact",
     "typescript",
     "typescriptreact"
-  ]
+  ],
+  "tailwindcss.lint.cssConflict": "ignore",
+  "tailwindcss.lint.recommendedVariantOrder": "ignore"
 }

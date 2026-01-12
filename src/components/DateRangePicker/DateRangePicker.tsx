@@ -266,7 +266,7 @@ export const DateRangePicker = React.forwardRef<
                 value={displayValue.start}
                 placeholder="YYYY-MM-DD"
                 className={cn(
-                  "h-10 w-full bg-white pr-3 pl-14.75 text-sm",
+                  "h-10 w-full bg-white pr-3 pl-14-75 text-sm",
                   "focus:outline-none",
                   "rounded-l border border-r-0 border-gray-300",
                   "hover:border-gray-400 hover:bg-gray-50",
@@ -291,7 +291,7 @@ export const DateRangePicker = React.forwardRef<
                 value={displayValue.end}
                 placeholder="YYYY-MM-DD"
                 className={cn(
-                  "h-10 w-full bg-white pr-3 pl-14.75",
+                  "h-10 w-full bg-white pr-3 pl-14-75",
                   "text-sm",
                   "rounded-r border border-gray-300",
                   "hover:border-gray-400 hover:bg-gray-50",
@@ -331,7 +331,7 @@ export const DateRangePicker = React.forwardRef<
                     onClick={() => handleQuickSelect(option)}
                     className={cn(
                       "cursor-pointer border-0",
-                      "h-6.5 w-17.5 px-2",
+                      "h-6-5 w-17-5 px-2",
                       "text-left text-xs text-gray-700",
                       "bg-white",
                       "transition-all duration-150",

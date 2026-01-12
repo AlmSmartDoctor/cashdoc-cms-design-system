@@ -69,10 +69,9 @@ export const WarningModal = React.forwardRef<HTMLDivElement, WarningModalProps>(
         ref={ref}
         open={open}
         onOpenChange={onOpenChange}
-        icon={<AlertTriangle className="h-15 w-15 text-cms-orange-500" />}
         title={title}
+        icon={<AlertTriangle className="h-15 w-15 text-cms-orange-500" />}
         footer={
-          // 버튼 두 개를 가로로 배치하기 위해 flex 컨테이너 사용
           <div className="flex w-full gap-2">
             <Button
               onClick={handleCancel}

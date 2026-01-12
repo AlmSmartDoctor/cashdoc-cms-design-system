@@ -222,8 +222,8 @@ const ControlledExample = () => {
         maxTags={5}
       />
       <div className="mt-4 rounded-cms-sm bg-cms-gray-100 p-3">
-        <p className="font-cms-sm mb-2 font-medium">현재 태그:</p>
-        <p className="font-cms-sm text-cms-gray-700">
+        <p className="text-cms-sm mb-2 font-medium">현재 태그:</p>
+        <p className="text-cms-sm text-cms-gray-700">
           {tags.length > 0 ? tags.join(", ") : "없음"}
         </p>
       </div>

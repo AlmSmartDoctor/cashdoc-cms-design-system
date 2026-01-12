@@ -1,5 +1,5 @@
 import { cn } from "@/utils/cn";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDropzone, Accept, FileRejection } from "react-dropzone";
 import { ImageUploadIcon, XIcon as CloseIcon } from "../icons";
 import { Text } from "../Text/Text";
@@ -177,6 +177,16 @@ export const ImageUpload = ({
 }: ImageUploadProps) => {
   const [files, setFiles] = useState<File[]>(value);
 
+  const fileUrls = useMemo(() => {
+    return files.map((file) => URL.createObjectURL(file));
+  }, [files]);
+
+  useEffect(() => {
+    return () => {
+      fileUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [fileUrls]);
+
   const loadImageMetadata = (file: File): Promise<ImageMetadata> => {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -239,22 +249,26 @@ export const ImageUpload = ({
 
         if (validatedFiles.length === 0) return;
 
-        const newFiles =
-          maxFiles === 1
-            ? validatedFiles
-            : [...files, ...validatedFiles].slice(0, maxFiles);
-        setFiles(newFiles);
-        onChange?.(newFiles);
+        setFiles((prev) => {
+          const newFiles =
+            maxFiles === 1
+              ? validatedFiles
+              : [...prev, ...validatedFiles].slice(0, maxFiles);
+          onChange?.(newFiles);
+          return newFiles;
+        });
       } else {
-        const newFiles =
-          maxFiles === 1
-            ? acceptedFiles
-            : [...files, ...acceptedFiles].slice(0, maxFiles);
-        setFiles(newFiles);
-        onChange?.(newFiles);
+        setFiles((prev) => {
+          const newFiles =
+            maxFiles === 1
+              ? acceptedFiles
+              : [...prev, ...acceptedFiles].slice(0, maxFiles);
+          onChange?.(newFiles);
+          return newFiles;
+        });
       }
     },
-    [files, maxFiles, maxSize, onChange, onError, validateImage],
+    [maxFiles, maxSize, onChange, onError, validateImage],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -267,9 +281,11 @@ export const ImageUpload = ({
   });
 
   const removeFile = (index: number) => {
-    const newFiles = files.filter((_, i) => i !== index);
-    setFiles(newFiles);
-    onChange?.(newFiles);
+    setFiles((prev) => {
+      const newFiles = prev.filter((_, i) => i !== index);
+      onChange?.(newFiles);
+      return newFiles;
+    });
   };
 
   const isSingleMode = maxFiles === 1;
@@ -307,7 +323,7 @@ export const ImageUpload = ({
               )}
             >
               <img
-                src={URL.createObjectURL(files[0])}
+                src={fileUrls[0]}
                 alt={files[0].name}
                 className="max-h-full max-w-full object-contain"
               />
@@ -374,7 +390,7 @@ export const ImageUpload = ({
             >
               <div className="aspect-square bg-cms-gray-100">
                 <img
-                  src={URL.createObjectURL(file)}
+                  src={fileUrls[index]}
                   alt={file.name}
                   className="h-full w-full object-cover"
                 />

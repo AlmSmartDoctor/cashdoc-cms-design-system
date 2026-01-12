@@ -56,8 +56,8 @@ export const ErrorModal = React.forwardRef<HTMLDivElement, ErrorModalProps>(
         ref={ref}
         open={open}
         onOpenChange={onOpenChange}
-        icon={<XCircle className="h-15 w-15 text-cms-red-400" />}
         title={title}
+        icon={<XCircle className="h-15 w-15 text-cms-red-400" />}
         footer={
           <Button
             onClick={handleConfirm}
