@@ -90,7 +90,7 @@ function addScreenshotToJSDoc(content: string, screenshotPath: string): string {
   const relativePath = path.relative(SCREENSHOT_DIR, screenshotPath).replace(/\\/g, '/');
   const imageUrl = `${BASE_URL}/${relativePath}?raw=true`;
 
-  const imageSection = ` *\n * ## 참고사진\n * ![](${imageUrl})`;
+  const imageSection = `\n *\n * ## 참고사진\n * ![](${imageUrl})`;
 
   // JSDoc 블록 찾기 - 여러 패턴 시도
   // 패턴 1: export const/function
