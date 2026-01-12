@@ -96,7 +96,7 @@ export interface SwitchProps
  * - {@link RadioButton}, 여러 선택지 중 하나를 고르는 경우
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/Switch/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/Switch/For%20Jsdoc.png?raw=true)
  */
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,

@@ -220,7 +220,7 @@ const NavigationMenuItem = ({
  * - {@link Popover}, 클릭 시 일시적으로 나타나는 추가 메뉴가 필요한 경우
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Navigation/SideNavigation/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Navigation/SideNavigation/For%20Jsdoc.png?raw=true)
  */
 export const SideNavigation = React.forwardRef<
   HTMLDivElement,

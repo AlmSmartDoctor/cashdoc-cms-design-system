@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 const BASE_URL =
-  "https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots";
+  "https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots";
 const SCREENSHOT_DIR = "__screenshots__";
 
 // 디렉토리 재귀 탐색
@@ -91,7 +91,7 @@ function addScreenshotToJSDoc(content: string, screenshotPath: string): string {
   const relativePath = path
     .relative(SCREENSHOT_DIR, screenshotPath)
     .replace(/\\/g, "/");
-  const imageUrl = `${BASE_URL}/${relativePath}?raw=true`;
+  const imageUrl = `\${IMAGE_BASE}/${relativePath}`;
 
   const imageSection = `\n *\n * ## 참고사진\n * ![](${imageUrl})`;
 

@@ -158,7 +158,7 @@ export interface ImageUploadProps {
  * {@end-tool}
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/ImageUpload/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/ImageUpload/For%20Jsdoc.png?raw=true)
  */
 export const ImageUpload = ({
   value = [],

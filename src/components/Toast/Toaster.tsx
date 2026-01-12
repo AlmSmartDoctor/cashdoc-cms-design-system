@@ -83,7 +83,7 @@ type ToasterProps = ComponentProps<typeof Sonner>;
  * - {@link Modal}, 더 중요하거나 명시적 확인이 필요한 알림
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Feedback/Toaster/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Feedback/Toaster/For%20Jsdoc.png?raw=true)
  */
 const Toaster = ({ position = "bottom-center", ...props }: ToasterProps) => {
   return (

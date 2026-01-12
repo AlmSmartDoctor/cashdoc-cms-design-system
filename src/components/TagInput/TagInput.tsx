@@ -183,7 +183,7 @@ export interface TagInputProps extends Omit<
  * - {@link Combobox}, 목록에서 검색하여 태그를 추가하고 싶은 경우
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/TagInput/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/TagInput/For%20Jsdoc.png?raw=true)
  */
 export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
   (

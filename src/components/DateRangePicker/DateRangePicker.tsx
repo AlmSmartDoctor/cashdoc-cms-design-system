@@ -153,7 +153,7 @@ const getQuickSelectOptions = (): QuickSelectOption[] => {
  * - {@link Dropdown}, 기간을 텍스트 기반의 선택지로 제공할 때
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/DateRangePicker/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/DateRangePicker/For%20Jsdoc.png?raw=true)
  */
 export const DateRangePicker = React.forwardRef<
   HTMLDivElement,

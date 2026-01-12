@@ -194,7 +194,7 @@ const sizeClasses = {
  * - {@link Popover}, 비필수 부가 정보를 표시하는 컴포넌트
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Feedback/Modal/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Feedback/Modal/For%20Jsdoc.png?raw=true)
  */
 export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
   (

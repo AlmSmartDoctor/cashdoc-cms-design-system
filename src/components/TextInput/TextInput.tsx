@@ -144,7 +144,7 @@ export interface TextInputProps
  * - {@link Dropdown}, 옵션 선택을 위한 컴포넌트
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/TextInput/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/TextInput/For%20Jsdoc.png?raw=true)
  */
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   (

@@ -75,7 +75,7 @@ import { forwardRef } from "react";
  * - {@link PopoverMenuItem}, 팝오버 내부의 메뉴 항목을 구성할 때
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Feedback/Popover/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Feedback/Popover/For%20Jsdoc.png?raw=true)
  */
 const Popover = PopoverPrimitive.Root;
 

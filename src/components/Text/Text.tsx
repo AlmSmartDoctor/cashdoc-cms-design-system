@@ -95,7 +95,7 @@ export interface TextProps
  * - {@link Button}, 텍스트를 포함하는 액션 요소
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Data%20Display/Text/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Data%20Display/Text/For%20Jsdoc.png?raw=true)
  */
 export const Text = React.forwardRef<HTMLElement, TextProps>(
   (

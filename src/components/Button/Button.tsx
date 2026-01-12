@@ -111,7 +111,7 @@ export interface ButtonProps
  * - {@link IconButton}, 아이콘만으로 구성된 버튼을 구성할 때
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/Button/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/Button/For%20Jsdoc.png?raw=true)
  */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {

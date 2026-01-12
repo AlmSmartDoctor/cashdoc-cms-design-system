@@ -90,7 +90,7 @@ export interface CheckboxProps extends React.ComponentPropsWithoutRef<
  * - {@link Button}, 단순 액션 실행이 필요한 경우
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/Checkbox/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/Checkbox/For%20Jsdoc.png)
  */
 export const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,

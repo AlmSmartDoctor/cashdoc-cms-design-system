@@ -136,7 +136,7 @@ export interface TableProps
  * {@end-tool}
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Data Display/Table/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Data Display/Table/For%20Jsdoc.png?raw=true)
  */
 export const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, striped, hoverable, bordered, compact, ...props }, ref) => {

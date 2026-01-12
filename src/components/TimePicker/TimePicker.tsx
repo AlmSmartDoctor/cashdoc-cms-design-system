@@ -112,7 +112,7 @@ export interface TimePickerProps {
  * - {@link TextInput}, 단순한 텍스트 입력이 필요한 경우
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/TimePicker/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/TimePicker/For%20Jsdoc.png?raw=true)
  */
 export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
   (

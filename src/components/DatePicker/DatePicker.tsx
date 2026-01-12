@@ -104,7 +104,7 @@ export interface DatePickerProps {
  * - {@link Popover}, 일반적인 팝오버 컴포넌트
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/DatePicker/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/DatePicker/For%20Jsdoc.png?raw=true)
  */
 export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
   (

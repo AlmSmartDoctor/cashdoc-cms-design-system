@@ -196,7 +196,7 @@ const usePagination = ({
  * - {@link Button}, 단일 버튼 컴포넌트
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Data Display/Pagination/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Data Display/Pagination/For%20Jsdoc.png?raw=true)
  */
 export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
   (

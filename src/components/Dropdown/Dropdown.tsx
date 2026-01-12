@@ -109,7 +109,7 @@ export interface DropdownProps extends VariantProps<
  * - {@link Popover}, 더 자유로운 형태의 팝오버가 필요한 경우
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/Dropdown/For%20Jsdoc.png?raw=true)
+ * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/Dropdown/For%20Jsdoc.png?raw=true)
  */
 export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
   (
