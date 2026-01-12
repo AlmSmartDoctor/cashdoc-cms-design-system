@@ -169,6 +169,7 @@ export const DateRangePicker = React.forwardRef<
     },
     ref,
   ) => {
+    const id = React.useId();
     const [isOpen, setIsOpen] = useState(false);
     const [internalRange, setInternalRange] = useState<
       [Dayjs | undefined, Dayjs | undefined]
@@ -258,10 +259,10 @@ export const DateRangePicker = React.forwardRef<
                   "pointer-events-none",
                 )}
               >
-                <label htmlFor="date-range-start">{startLabel}</label>
+                <label htmlFor={`${id}-start`}>{startLabel}</label>
               </div>
               <input
-                id="date-range-start"
+                id={`${id}-start`}
                 type="text"
                 readOnly
                 value={displayValue.start}
@@ -285,10 +286,10 @@ export const DateRangePicker = React.forwardRef<
                   "pointer-events-none",
                 )}
               >
-                <label htmlFor="date-range-end">{endLabel}</label>
+                <label htmlFor={`${id}-end`}>{endLabel}</label>
               </div>
               <input
-                id="date-range-end"
+                id={`${id}-end`}
                 type="text"
                 readOnly
                 value={displayValue.end}
