@@ -1,18 +1,18 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { LoadingCircle } from './LoadingCircle';
+import type { Meta, StoryObj } from "@storybook/react";
+import { LoadingCircle } from "./LoadingCircle";
 
 const meta: Meta<typeof LoadingCircle> = {
-  title: 'Loading/LoadingCircle',
+  title: "Loading/LoadingCircle",
   component: LoadingCircle,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
     docs: {
       description: {
-        component: '로딩 상태를 나타내는 스피너 컴포넌트입니다.',
+        component: "로딩 상태를 나타내는 스피너 컴포넌트입니다.",
       },
     },
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     size: {
       control: "select",
@@ -41,25 +41,25 @@ export const Default: Story = {};
 
 export const Small: Story = {
   args: {
-    size: 'sm',
+    size: "sm",
   },
 };
 
 export const Medium: Story = {
   args: {
-    size: 'md',
+    size: "md",
   },
 };
 
 export const Large: Story = {
   args: {
-    size: 'lg',
+    size: "lg",
   },
 };
 
 export const AllSizes: Story = {
   render: () => (
-    <div className="flex gap-8 items-center">
+    <div className="flex items-center gap-8">
       <div className="flex flex-col items-center gap-2">
         <LoadingCircle size="sm" />
         <span className="text-sm">Small</span>
@@ -77,7 +77,7 @@ export const AllSizes: Story = {
   parameters: {
     docs: {
       description: {
-        story: '모든 크기의 로딩 스피너를 보여줍니다.',
+        story: "모든 크기의 로딩 스피너를 보여줍니다.",
       },
     },
   },

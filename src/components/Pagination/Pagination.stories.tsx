@@ -278,7 +278,7 @@ export const Controlled: Story = {
     const totalPages = 20;
 
     return (
-      <div className="flex flex-col gap-4 items-center">
+      <div className="flex flex-col items-center gap-4">
         <div className="flex gap-2">
           <Button
             onClick={() => setCurrentPage(1)}
@@ -326,19 +326,19 @@ export const Controlled: Story = {
 export const AllStates: Story = {
   render: () => {
     return (
-      <div className="flex flex-col gap-6 min-w-[600px]">
+      <div className="flex min-w-150 flex-col gap-6">
         <div>
-          <h3 className="text-sm font-semibold mb-2">기본 (10페이지)</h3>
+          <h3 className="mb-2 text-sm font-semibold">기본 (10페이지)</h3>
           <Pagination currentPage={1} totalPages={10} onPageChange={() => {}} />
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-2">
+          <h3 className="mb-2 text-sm font-semibold">
             많은 페이지 (50페이지, 현재 1페이지)
           </h3>
           <Pagination currentPage={1} totalPages={50} onPageChange={() => {}} />
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-2">
+          <h3 className="mb-2 text-sm font-semibold">
             중간 페이지 (50페이지, 현재 25페이지)
           </h3>
           <Pagination
@@ -348,7 +348,7 @@ export const AllStates: Story = {
           />
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-2">
+          <h3 className="mb-2 text-sm font-semibold">
             마지막 근처 (50페이지, 현재 48페이지)
           </h3>
           <Pagination
@@ -358,11 +358,11 @@ export const AllStates: Story = {
           />
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-2">적은 페이지 (5페이지)</h3>
+          <h3 className="mb-2 text-sm font-semibold">적은 페이지 (5페이지)</h3>
           <Pagination currentPage={3} totalPages={5} onPageChange={() => {}} />
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-2">이전/다음 버튼 없음</h3>
+          <h3 className="mb-2 text-sm font-semibold">이전/다음 버튼 없음</h3>
           <Pagination
             currentPage={5}
             totalPages={10}
@@ -371,7 +371,7 @@ export const AllStates: Story = {
           />
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-2">비활성화</h3>
+          <h3 className="mb-2 text-sm font-semibold">비활성화</h3>
           <Pagination
             currentPage={5}
             totalPages={10}

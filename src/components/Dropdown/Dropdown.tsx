@@ -135,8 +135,21 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     const [isOpen, setIsOpen] = useState(defaultOpen);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedValues, setSelectedValues] = useState<string[]>(
-      multiple ? (value ? [value] : []) : [],
+      multiple ? (value ? value.split(",").filter(Boolean) : []) : [],
     );
+
+    useEffect(() => {
+      const nextValues = value
+        ? multiple
+          ? value.split(",").filter(Boolean)
+          : []
+        : [];
+
+      if (JSON.stringify(nextValues) !== JSON.stringify(selectedValues)) {
+        setSelectedValues(nextValues);
+      }
+    }, [value, multiple, selectedValues]);
+
     const [showScrollIndicator, setShowScrollIndicator] = useState(false);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -255,7 +268,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
           type="button"
           className={cn(
             dropdownTriggerVariants({ variant, size }),
-            disabled && "opacity-50 cursor-not-allowed",
+            disabled && "cursor-not-allowed opacity-50",
             className,
           )}
           onClick={handleToggle}
@@ -267,31 +280,31 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         >
           <span
             className={cn(
-              "truncate flex-1 text-left",
+              "flex-1 truncate text-left",
               !selectedOption && !multiple && "text-cms-gray-400",
             )}
           >
             {selectedLabel}
           </span>
 
-          <div className="flex items-center gap-2 ml-3">
+          <div className="ml-3 flex items-center gap-2">
             {clearable && (value || selectedValues.length > 0) && (
               <button
                 type="button"
                 className={cn(
                   "border-0 bg-transparent",
-                  "p-1 rounded text-cms-gray-400 transition-colors",
+                  "rounded p-1 text-cms-gray-400 transition-colors",
                   "hover:text-cms-black",
                 )}
                 onClick={handleClear}
                 aria-label="선택 취소"
               >
-                <ClearIcon className="w-3 h-3" />
+                <ClearIcon className="h-3 w-3" />
               </button>
             )}
             <ChevronDownFillIcon
               className={cn(
-                "w-3 h-3 transition-transform duration-200",
+                "h-3 w-3 transition-transform duration-200",
                 isOpen && "rotate-180",
               )}
             />
@@ -301,7 +314,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         {isOpen && (
           <div
             className={cn(
-              "absolute z-50 mt-1 py-1 w-full min-w-0",
+              "absolute z-50 mt-1 w-full min-w-0 py-1",
               "rounded-md border border-cms-gray-300",
               "bg-white shadow-lg",
               dropdownClassName,
@@ -309,7 +322,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
             style={{ maxHeight: `${maxHeight}px` }}
           >
             {searchable && (
-              <div className="px-3 py-2 border-b border-cms-gray-200">
+              <div className="border-b border-cms-gray-200 px-3 py-2">
                 <input
                   ref={searchInputRef}
                   type="text"
@@ -351,13 +364,13 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                         className={cn(
                           "border-0",
                           "flex items-center justify-between gap-2",
-                          "w-full px-3 py-2 ",
+                          "w-full px-3 py-2",
                           "text-left text-sm",
                           "transition-colors",
                           option.disabled
-                            ? "text-cms-gray-400 cursor-not-allowed bg-white"
+                            ? "cursor-not-allowed bg-white text-cms-gray-400"
                             : cn(
-                                "text-cms-black bg-white",
+                                "bg-white text-cms-black",
                                 "hover:bg-cms-gray-100",
                                 "cursor-pointer",
                               ),
@@ -374,7 +387,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                             height="16"
                             viewBox="0 0 16 16"
                             fill="none"
-                            className="w-4 h-4 text-black shrink-0"
+                            className="h-4 w-4 shrink-0 text-black"
                           >
                             <path
                               d="M13.5 4.5L6 12L2.5 8.5"
@@ -395,14 +408,14 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                 <div
                   className={cn(
                     "flex items-end justify-center",
-                    "absolute bottom-0 left-0 right-0 h-8 pb-1",
+                    "absolute right-0 bottom-0 left-0 h-8 pb-1",
                     "bg-linear-to-t from-white to-transparent",
                     "pointer-events-none",
                   )}
                 >
                   <ChevronDownFillIcon
                     className={cn(
-                      "w-4 h-4",
+                      "h-4 w-4",
                       "text-cms-gray-400",
                       "animate-bounce",
                     )}

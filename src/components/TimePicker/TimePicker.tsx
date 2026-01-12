@@ -275,24 +275,24 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                 placeholder={placeholder}
                 disabled={disabled}
                 className={cn(
-                  "w-full h-10 px-3 border rounded bg-white text-sm",
-                  "hover:bg-gray-50 hover:border-gray-400",
+                  "h-10 w-full rounded border bg-white px-3 text-sm",
+                  "hover:border-gray-400 hover:bg-gray-50",
                   "focus:outline-none",
                   "transition-all duration-150",
                   "cursor-pointer",
                   error ? "border-red-500" : "border-gray-300",
                   disabled &&
                     cn(
-                      "bg-gray-100 cursor-not-allowed",
-                      "hover:bg-gray-100 hover:border-gray-300",
+                      "cursor-not-allowed bg-gray-100",
+                      "hover:border-gray-300 hover:bg-gray-100",
                     ),
                 )}
               />
               {showIcon && (
                 <Clock
                   className={cn(
-                    "absolute right-0 top-1/2 -translate-y-1/2",
-                    "w-4 h-4 text-gray-400",
+                    "absolute top-1/2 right-0 -translate-y-1/2",
+                    "h-4 w-4 text-gray-400",
                     disabled && "opacity-50",
                   )}
                 />
@@ -305,7 +305,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
               align="start"
               sideOffset={5}
               className={cn(
-                "z-50 bg-white rounded-lg shadow-xl",
+                "z-50 rounded-lg bg-white shadow-xl",
                 "border border-gray-200",
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",
@@ -324,7 +324,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                   <div className="flex flex-col">
                     <div
                       className={cn(
-                        "text-xs text-gray-500 text-center",
+                        "text-center text-xs text-gray-500",
                         "mb-2",
                         "font-medium",
                       )}
@@ -334,9 +334,9 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     <div
                       ref={hourScrollRef}
                       className={cn(
-                        "w-16 h-48 overflow-y-auto",
+                        "h-48 w-16 overflow-y-auto",
                         "border border-gray-200",
-                        "rounded cms-no-scrollbar",
+                        "cms-no-scrollbar rounded",
                       )}
                     >
                       {hours.map((hour) => (
@@ -345,11 +345,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                           data-value={hour}
                           onClick={() => setSelectedHour(hour)}
                           className={cn(
-                            "border-0 cursor-pointer",
-                            "w-full h-10 text-sm transition-colors",
+                            "cursor-pointer border-0",
+                            "h-10 w-full text-sm transition-colors",
                             "hover:bg-gray-100",
                             selectedHour === hour
-                              ? "bg-blue-100 text-blue-700 font-medium"
+                              ? "bg-blue-100 font-medium text-blue-700"
                               : "bg-white text-gray-700",
                           )}
                           aria-label={`${hour}${format === "24h" ? "시" : ""}`}
@@ -365,15 +365,15 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
 
                   {/* Minute Column */}
                   <div className="flex flex-col">
-                    <div className="text-xs text-gray-500 text-center mb-2 font-medium">
+                    <div className="mb-2 text-center text-xs font-medium text-gray-500">
                       {format === "24h" ? "분" : "Min"}
                     </div>
                     <div
                       ref={minuteScrollRef}
                       className={cn(
-                        "w-16 h-48 overflow-y-auto",
+                        "h-48 w-16 overflow-y-auto",
                         "border border-gray-200",
-                        "rounded cms-no-scrollbar",
+                        "cms-no-scrollbar rounded",
                       )}
                     >
                       {minutes.map((minute) => (
@@ -382,11 +382,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                           data-value={minute}
                           onClick={() => setSelectedMinute(minute)}
                           className={cn(
-                            "border-0 cursor-pointer",
-                            "w-full h-10 text-sm transition-colors",
+                            "cursor-pointer border-0",
+                            "h-10 w-full text-sm transition-colors",
                             "hover:bg-gray-100",
                             selectedMinute === minute
-                              ? "bg-blue-100 text-blue-700 font-medium"
+                              ? "bg-blue-100 font-medium text-blue-700"
                               : "bg-white text-gray-700",
                           )}
                           aria-label={`${minute}${format === "24h" ? "분" : " minutes"}`}
@@ -403,22 +403,22 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     <div className="flex flex-col">
                       <div
                         className={cn(
-                          "text-xs text-gray-500 text-center",
+                          "text-center text-xs text-gray-500",
                           "mb-2",
                           "font-medium",
                         )}
                       >
                         Period
                       </div>
-                      <div className="w-16 flex flex-col gap-1">
+                      <div className="flex w-16 flex-col gap-1">
                         <button
                           onClick={() => setSelectedPeriod("AM")}
                           className={cn(
-                            "border-0 cursor-pointer",
-                            "h-10 text-sm rounded transition-colors",
+                            "cursor-pointer border-0",
+                            "h-10 rounded text-sm transition-colors",
                             "hover:bg-gray-100",
                             selectedPeriod === "AM"
-                              ? "bg-blue-100 text-blue-700 font-medium"
+                              ? "bg-blue-100 font-medium text-blue-700"
                               : "bg-white text-gray-700",
                           )}
                           aria-label="AM"
@@ -429,11 +429,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                         <button
                           onClick={() => setSelectedPeriod("PM")}
                           className={cn(
-                            "border-0 cursor-pointer",
-                            "h-10 text-sm rounded transition-colors",
+                            "cursor-pointer border-0",
+                            "h-10 rounded text-sm transition-colors",
                             "hover:bg-gray-100",
                             selectedPeriod === "PM"
-                              ? "bg-blue-100 text-blue-700 font-medium"
+                              ? "bg-blue-100 font-medium text-blue-700"
                               : "bg-white text-gray-700",
                           )}
                           aria-label="PM"
@@ -458,7 +458,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                   <button
                     onClick={handleCancel}
                     className={cn(
-                      "w-15 h-8 rounded cursor-pointer",
+                      "h-8 w-15 cursor-pointer rounded",
                       "text-xs font-medium text-gray-700",
                       "border border-gray-300 bg-transparent",
                       "transition-all duration-150",
@@ -472,8 +472,8 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     onClick={handleApply}
                     disabled={selectedHour === null || selectedMinute === null}
                     className={cn(
-                      "border-0 cursor-pointer",
-                      "w-15 h-8 bg-blue-600 rounded",
+                      "cursor-pointer border-0",
+                      "h-8 w-15 rounded bg-blue-600",
                       "text-xs text-white",
                       "hover:bg-blue-700",
                       "active:scale-95",

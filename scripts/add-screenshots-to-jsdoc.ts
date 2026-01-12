@@ -1,8 +1,9 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
-const BASE_URL = 'https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots';
-const SCREENSHOT_DIR = '__screenshots__';
+const BASE_URL =
+  "https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots";
+const SCREENSHOT_DIR = "__screenshots__";
 
 // 디렉토리 재귀 탐색
 function walkDir(dir: string, fileList: string[] = []): string[] {
@@ -12,7 +13,7 @@ function walkDir(dir: string, fileList: string[] = []): string[] {
     const stat = fs.statSync(filePath);
     if (stat.isDirectory()) {
       walkDir(filePath, fileList);
-    } else if (file.endsWith('.png')) {
+    } else if (file.endsWith(".png")) {
       fileList.push(filePath);
     }
   }
@@ -44,7 +45,7 @@ function getComponentScreenshots(): Map<string, string[]> {
 
 // 컴포넌트 파일 찾기
 function findComponentFile(componentName: string): string | null {
-  const srcDir = 'src/components';
+  const srcDir = "src/components";
 
   function searchDir(dir: string): string | null {
     if (!fs.existsSync(dir)) return null;
@@ -70,14 +71,14 @@ function findComponentFile(componentName: string): string | null {
 // 우선순위에 따라 대표 스크린샷 선택
 function selectPrimaryScreenshot(screenshots: string[]): string | null {
   const priority = [
-    'All States.png',
-    'Default.png',
-    'Comprehensive Example.png',
-    'Basic.png',
+    "All States.png",
+    "Default.png",
+    "Comprehensive Example.png",
+    "Basic.png",
   ];
 
   for (const prio of priority) {
-    const found = screenshots.find(s => s.endsWith(prio));
+    const found = screenshots.find((s) => s.endsWith(prio));
     if (found) return found;
   }
 
@@ -87,7 +88,9 @@ function selectPrimaryScreenshot(screenshots: string[]): string | null {
 // JSDoc에 이미지 섹션 추가 (맨 밑)
 function addScreenshotToJSDoc(content: string, screenshotPath: string): string {
   // __screenshots__/Forms/TimePicker/Default.png -> Forms/TimePicker/Default.png
-  const relativePath = path.relative(SCREENSHOT_DIR, screenshotPath).replace(/\\/g, '/');
+  const relativePath = path
+    .relative(SCREENSHOT_DIR, screenshotPath)
+    .replace(/\\/g, "/");
   const imageUrl = `${BASE_URL}/${relativePath}?raw=true`;
 
   const imageSection = `\n *\n * ## 참고사진\n * ![](${imageUrl})`;
@@ -99,7 +102,8 @@ function addScreenshotToJSDoc(content: string, screenshotPath: string): string {
 
   // 패턴 2: const ComponentName = forwardRef (export 전에 선언)
   if (!match) {
-    jsdocRegex = /(\/\*\*[\s\S]*?\*\/)\s*const\s+\w+\s*=\s*(React\.)?forwardRef/;
+    jsdocRegex =
+      /(\/\*\*[\s\S]*?\*\/)\s*const\s+\w+\s*=\s*(React\.)?forwardRef/;
     match = content.match(jsdocRegex);
   }
 
@@ -110,15 +114,15 @@ function addScreenshotToJSDoc(content: string, screenshotPath: string): string {
   }
 
   if (!match) {
-    console.log('  ⚠️  JSDoc not found');
+    console.log("  ⚠️  JSDoc not found");
     return content;
   }
 
   const jsdocBlock = match[1];
 
   // 이미 참고사진 섹션이 있는지 확인
-  if (jsdocBlock.includes('## 참고사진')) {
-    console.log('  ℹ️  참고사진 section already exists');
+  if (jsdocBlock.includes("## 참고사진")) {
+    console.log("  ℹ️  참고사진 section already exists");
     return content;
   }
 
@@ -129,11 +133,13 @@ function addScreenshotToJSDoc(content: string, screenshotPath: string): string {
 
 // 메인 실행
 function main() {
-  console.log('🔍 Scanning screenshots...\n');
+  console.log("🔍 Scanning screenshots...\n");
 
   const componentScreenshots = getComponentScreenshots();
 
-  console.log(`📸 Found ${componentScreenshots.size} components with screenshots\n`);
+  console.log(
+    `📸 Found ${componentScreenshots.size} components with screenshots\n`,
+  );
 
   // 각 컴포넌트 파일 처리
   for (const [componentName, screenshots] of componentScreenshots) {
@@ -161,18 +167,18 @@ function main() {
     console.log(`   Using: ${path.basename(primaryScreenshot)}`);
 
     // 파일 읽기
-    const content = fs.readFileSync(componentFile, 'utf-8');
+    const content = fs.readFileSync(componentFile, "utf-8");
 
     // JSDoc에 이미지 추가
     const newContent = addScreenshotToJSDoc(content, primaryScreenshot);
 
     if (newContent !== content) {
-      fs.writeFileSync(componentFile, newContent, 'utf-8');
-      console.log('  ✅ Screenshot added to JSDoc');
+      fs.writeFileSync(componentFile, newContent, "utf-8");
+      console.log("  ✅ Screenshot added to JSDoc");
     }
   }
 
-  console.log('\n\n✨ Done!');
+  console.log("\n\n✨ Done!");
 }
 
 main();

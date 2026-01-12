@@ -112,7 +112,7 @@ export const Basic: Story = {
           onOpenChange={setOpen}
           title="기본 모달"
           footer={
-            <div className="flex justify-between w-full gap-2">
+            <div className="flex w-full justify-between gap-2">
               <Button onClick={() => setOpen(false)} className="w-full">
                 확인
               </Button>
@@ -484,7 +484,7 @@ export const ForJsdoc: Story = {
     // We use a state but initialize it to true.
     const [open, setOpen] = useState(true);
     return (
-      <div className="h-[400px] w-[600px] relative flex items-center justify-center bg-gray-100 rounded-lg">
+      <div className="relative flex h-100 w-150 items-center justify-center rounded-lg bg-gray-100">
         {/* We place a trigger button just to be semantic, but the modal is open by default */}
         <Button onClick={() => setOpen(true)}>Open Modal</Button>
         <Modal

@@ -192,7 +192,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
               <div
                 className={cn(
                   "flex items-center",
-                  "absolute left-3 top-0 h-full",
+                  "absolute top-0 left-3 h-full",
                   "pointer-events-none",
                 )}
               >
@@ -209,16 +209,16 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                 placeholder={placeholder}
                 disabled={disabled}
                 className={cn(
-                  "w-full h-10 pl-10 pr-3 border rounded bg-white text-sm",
-                  "hover:bg-gray-50 hover:border-gray-400",
+                  "h-10 w-full rounded border bg-white pr-3 pl-10 text-sm",
+                  "hover:border-gray-400 hover:bg-gray-50",
                   "focus:outline-none",
                   "transition-all duration-150",
                   "cursor-pointer",
                   error ? "border-red-500" : "border-gray-300",
                   disabled &&
                     cn(
-                      "bg-gray-100 cursor-not-allowed",
-                      "hover:bg-gray-100 hover:border-gray-300",
+                      "cursor-not-allowed bg-gray-100",
+                      "hover:border-gray-300 hover:bg-gray-100",
                     ),
                 )}
               />
@@ -230,7 +230,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
               align="start"
               sideOffset={5}
               className={cn(
-                "z-50 bg-white rounded-lg shadow-xl p-2",
+                "z-50 rounded-lg bg-white p-2 shadow-xl",
                 "border border-gray-200",
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",
@@ -260,11 +260,11 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
               {/* Footer */}
               <div
                 className={cn(
-                  "flex items-end justify-between mt-2 pt-2",
+                  "mt-2 flex items-end justify-between pt-2",
                   "border-t border-gray-200",
                 )}
               >
-                <div className="flex flex-col min-h-8">
+                <div className="flex min-h-8 flex-col">
                   {internalDate ? (
                     <span className="text-xs text-gray-700">
                       {internalDate.format("YYYY-MM-DD")}
@@ -280,7 +280,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                   <button
                     onClick={handleCancel}
                     className={cn(
-                      "w-15 h-8 rounded cursor-pointer",
+                      "h-8 w-15 cursor-pointer rounded",
                       "text-xs font-medium text-gray-700",
                       "border border-gray-300 bg-transparent",
                       "transition-all duration-150",
@@ -294,12 +294,12 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                     onClick={handleApply}
                     disabled={!internalDate}
                     className={cn(
-                      "border-0 cursor-pointer",
-                      "w-15 h-8 bg-blue-600 rounded",
+                      "cursor-pointer border-0",
+                      "h-8 w-15 rounded bg-blue-600",
                       "text-xs text-white",
                       "hover:bg-blue-700",
                       "active:scale-95",
-                      "disabled:bg-gray-300 ",
+                      "disabled:bg-gray-300",
                       "disabled:cursor-not-allowed",
                       "disabled:active:scale-100",
                       "transition-all duration-150",

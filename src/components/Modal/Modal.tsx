@@ -217,7 +217,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
           <DialogPrimitive.Overlay
             className={cn(
               "fixed inset-0 z-150 bg-black/50",
-              "data-[state=open]:animate-in data-[state=closed]:animate-out",
+              "data-[state=closed]:animate-out data-[state=open]:animate-in",
               "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
             )}
           />
@@ -225,13 +225,13 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
             ref={ref}
             onOpenAutoFocus={(e) => e.preventDefault()}
             className={cn(
-              "fixed left-[50%] top-[50%] z-150",
+              "fixed top-[50%] left-[50%] z-150",
               "translate-x-[-50%] translate-y-[-50%]",
               "w-full",
               sizeClasses[size],
-              "bg-white rounded-lg shadow-lg",
+              "rounded-lg bg-white shadow-lg",
               "p-6",
-              "data-[state=open]:animate-in data-[state=closed]:animate-out",
+              "data-[state=closed]:animate-out data-[state=open]:animate-in",
               "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
               "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
               className,
@@ -242,7 +242,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 <Button
                   variant="ghost"
                   size="icon"
-                  className={cn("h-6 w-6", "absolute right-4 top-4")}
+                  className={cn("h-6 w-6", "absolute top-4 right-4")}
                 >
                   <X />
                   <span className="sr-only">Close</span>
@@ -250,12 +250,12 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               </DialogPrimitive.Close>
             )}
 
-            {icon && <div className="flex justify-center mb-4">{icon}</div>}
+            {icon && <div className="mb-4 flex justify-center">{icon}</div>}
 
             {title && (
               <DialogPrimitive.Title
                 className={cn(
-                  "text-lg font-bold text-cms-gray-900 mb-2",
+                  "mb-2 text-lg font-bold text-cms-gray-900",
                   "flex items-center justify-center",
                 )}
               >

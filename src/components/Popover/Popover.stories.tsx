@@ -32,7 +32,8 @@ const meta: Meta<typeof Popover> = {
       },
     },
     onOpenChange: {
-      description: "팝오버의 열림/닫힘 상태가 변경될 때 호출되는 콜백 함수입니다.",
+      description:
+        "팝오버의 열림/닫힘 상태가 변경될 때 호출되는 콜백 함수입니다.",
       table: {
         type: { summary: "(open: boolean) => void" },
       },
@@ -117,7 +118,7 @@ export const OnCard: Story = {
   },
   render: () => (
     <div className="flex items-center justify-center p-20">
-      <div className="relative w-80 rounded-2xl border border-grayscale-200 bg-white p-6 shadow-sm">
+      <div className="border-grayscale-200 relative w-80 rounded-2xl border bg-white p-6 shadow-sm">
         <div className="absolute top-4 right-4">
           <Popover defaultOpen={true}>
             <PopoverTrigger asChild>
@@ -143,7 +144,7 @@ export const OnCard: Story = {
           </Popover>
         </div>
 
-        <h3 className="text-lg font-semibold mb-2">카드 제목</h3>
+        <h3 className="mb-2 text-lg font-semibold">카드 제목</h3>
         <p className="text-grayscale-800">
           카드 내용이 여기에 표시됩니다. 우측 상단의 케밥 메뉴를 클릭하면
           팝오버가 나타납니다.
@@ -244,7 +245,7 @@ export const ForJsdoc: Story = {
     layout: "centered",
   },
   render: () => (
-    <div className="h-[200px] w-full flex items-center justify-center">
+    <div className="flex h-50 w-full items-center justify-center">
       <Popover defaultOpen={true}>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon">

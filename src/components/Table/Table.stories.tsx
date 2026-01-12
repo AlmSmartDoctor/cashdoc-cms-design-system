@@ -470,7 +470,7 @@ export const ComplexTable: Story = {
               <TableCell>
                 <span
                   className={cn(
-                    "inline-block px-2 py-1 text-xs rounded-full",
+                    "inline-block rounded-full px-2 py-1 text-xs",
                     order.status === "완료" && "bg-green-100 text-green-800",
                     order.status === "배송중" && "bg-blue-100 text-blue-800",
                     order.status === "처리중" &&
@@ -649,7 +649,7 @@ export const HorizontalScroll: Story = {
     ];
 
     return (
-      <div className="w-[500px] border p-4 rounded-lg">
+      <div className="w-125 rounded-lg border p-4">
         <h3 className="mb-2 font-bold">가로 스크롤 확인 (Width: 500px)</h3>
         <Table striped hoverable>
           <TableHeader>
@@ -761,7 +761,7 @@ export const AllStates: Story = {
   render: () => (
     <div className="flex flex-col gap-8">
       <div>
-        <h3 className="text-sm font-semibold mb-3">기본 테이블</h3>
+        <h3 className="mb-3 text-sm font-semibold">기본 테이블</h3>
         <Table>
           <TableHeader>
             <TableRow>
@@ -783,7 +783,7 @@ export const AllStates: Story = {
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">Striped + Hoverable</h3>
+        <h3 className="mb-3 text-sm font-semibold">Striped + Hoverable</h3>
         <Table striped hoverable>
           <TableHeader>
             <TableRow>
@@ -809,7 +809,7 @@ export const AllStates: Story = {
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">Bordered + Compact</h3>
+        <h3 className="mb-3 text-sm font-semibold">Bordered + Compact</h3>
         <Table bordered compact>
           <TableHeader>
             <TableRow>
@@ -831,7 +831,7 @@ export const AllStates: Story = {
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">With Footer</h3>
+        <h3 className="mb-3 text-sm font-semibold">With Footer</h3>
         <Table striped>
           <TableHeader>
             <TableRow>

@@ -137,7 +137,7 @@ export const Disabled: Story = {
 
 export const AllVariants: Story = {
   render: () => (
-    <div className="flex gap-4 flex-wrap">
+    <div className="flex flex-wrap gap-4">
       <Button>Default</Button>
       <Button variant="secondary">Secondary</Button>
       <Button variant="outline">Outline</Button>

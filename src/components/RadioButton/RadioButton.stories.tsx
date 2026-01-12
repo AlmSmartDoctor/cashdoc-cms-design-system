@@ -161,7 +161,7 @@ export const AllVariantsAndSizes: Story = {
       <div className="flex flex-col gap-8 p-4">
         <div className="flex items-start gap-10">
           <div>
-            <h3 className="text-cms-md font-semibold mb-4">Small</h3>
+            <h3 className="text-cms-md mb-4 font-semibold">Small</h3>
             <div className="flex flex-col gap-4">
               <LabeledRadioItem
                 variant="black"
@@ -196,7 +196,7 @@ export const AllVariantsAndSizes: Story = {
             </div>
           </div>
           <div>
-            <h3 className="text-cms-md font-semibold mb-4">Medium</h3>
+            <h3 className="text-cms-md mb-4 font-semibold">Medium</h3>
             <div className="flex flex-col gap-4">
               <LabeledRadioItem
                 variant="black"
@@ -231,7 +231,7 @@ export const AllVariantsAndSizes: Story = {
             </div>
           </div>
           <div>
-            <h3 className="text-cms-md font-semibold mb-4">Large</h3>
+            <h3 className="text-cms-md mb-4 font-semibold">Large</h3>
             <div className="flex flex-col gap-4">
               <LabeledRadioItem
                 variant="black"
@@ -267,7 +267,7 @@ export const AllVariantsAndSizes: Story = {
           </div>
         </div>
         <div className="mt-4">
-          <h3 className="text-cms-md font-semibold mb-4">Disabled</h3>
+          <h3 className="text-cms-md mb-4 font-semibold">Disabled</h3>
           <RadioGroup defaultValue="Checked-md-disabled">
             <div className="flex gap-4">
               <LabeledRadioItem

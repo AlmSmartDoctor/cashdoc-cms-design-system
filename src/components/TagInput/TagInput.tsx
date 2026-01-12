@@ -283,7 +283,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
               style={{ width: labelWidth }}
             >
               {label}
-              {required && <span className="text-cms-red-400 ml-1">*</span>}
+              {required && <span className="ml-1 text-cms-red-400">*</span>}
             </label>
             <div className="flex-1">
               <div
@@ -343,7 +343,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
                 className={cn(
                   labelVariants(),
                   required &&
-                    "after:content-['*'] after:ml-1 after:text-cms-red-400",
+                    "after:ml-1 after:text-cms-red-400 after:content-['*']",
                 )}
               >
                 {label}

@@ -179,7 +179,7 @@ export const ForJsdoc: Story = {
     }, []);
 
     return (
-      <div className="h-[200px] flex items-center justify-center">
+      <div className="flex h-50 items-center justify-center">
         <Toaster {...args} />
         <Button onClick={() => toast("Another Toast")}>Show Toast</Button>
       </div>

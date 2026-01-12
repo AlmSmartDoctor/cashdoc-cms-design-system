@@ -1,8 +1,8 @@
 // Styles
-import './styles/globals.css';
+import "./styles/globals.css";
 
 // Components
-export * from './components';
+export * from "./components";
 
 // Utils
-export { cn } from './utils/cn';
+export { cn } from "./utils/cn";

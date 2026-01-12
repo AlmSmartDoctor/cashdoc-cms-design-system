@@ -110,10 +110,7 @@ export const DisabledChecked: Story = {
 const LabeledSwitch = (props: SwitchProps & { label: string }) => (
   <div className="flex items-center space-x-2">
     <Switch {...props} id={props.label} />
-    <label
-      htmlFor={props.label}
-      className="text-cms-sm capitalize min-w-[50px]"
-    >
+    <label htmlFor={props.label} className="text-cms-sm min-w-12 capitalize">
       {props.label}
     </label>
   </div>
@@ -130,7 +127,7 @@ export const AllVariants: Story = {
         <LabeledSwitch variant="blue" label="파랑" checked />
         <LabeledSwitch variant="red" label="빨강" checked />
       </div>
-      <h3 className="text-cms-md font-semibold mt-4">체크 해제</h3>
+      <h3 className="text-cms-md mt-4 font-semibold">체크 해제</h3>
       <div className="flex flex-wrap items-center gap-4">
         <LabeledSwitch variant="default" label="기본" checked={false} />
         <LabeledSwitch variant="green" label="초록" checked={false} />
@@ -138,7 +135,7 @@ export const AllVariants: Story = {
         <LabeledSwitch variant="blue" label="파랑" checked={false} />
         <LabeledSwitch variant="red" label="빨강" checked={false} />
       </div>
-      <h3 className="text-cms-md font-semibold mt-4">비활성화</h3>
+      <h3 className="text-cms-md mt-4 font-semibold">비활성화</h3>
       <div className="flex flex-wrap items-center gap-4">
         <LabeledSwitch variant="default" label="체크 해제" disabled />
         <LabeledSwitch variant="default" label="체크" disabled checked />

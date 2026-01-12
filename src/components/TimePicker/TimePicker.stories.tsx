@@ -303,7 +303,7 @@ export const Controlled: Story = {
   render: () => {
     const [time, setTime] = useState("09:00");
     return (
-      <div className="flex flex-col gap-4 min-w-[400px]">
+      <div className="flex min-w-100 flex-col gap-4">
         <TimePicker
           label="시간 선택"
           value={time}
@@ -325,11 +325,7 @@ export const Controlled: Story = {
           >
             14:30 설정
           </Button>
-          <Button
-            onClick={() => setTime("")}
-            variant="secondary"
-            size="sm"
-          >
+          <Button onClick={() => setTime("")} variant="secondary" size="sm">
             초기화
           </Button>
         </div>
@@ -349,37 +345,37 @@ export const Controlled: Story = {
 export const AllStates: Story = {
   render: () => {
     return (
-      <div className="flex flex-col gap-6 min-w-[400px]">
+      <div className="flex min-w-100 flex-col gap-6">
         <div>
-          <h3 className="text-sm font-semibold mb-2">24시간 형식</h3>
+          <h3 className="mb-2 text-sm font-semibold">24시간 형식</h3>
           <TimePicker label="기본" />
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-2">12시간 형식</h3>
+          <h3 className="mb-2 text-sm font-semibold">12시간 형식</h3>
           <TimePicker label="AM/PM" format="12h" />
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-2">값이 있는 상태</h3>
+          <h3 className="mb-2 text-sm font-semibold">값이 있는 상태</h3>
           <TimePicker label="출근 시간" value="09:00" />
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-2">헬퍼 텍스트</h3>
+          <h3 className="mb-2 text-sm font-semibold">헬퍼 텍스트</h3>
           <TimePicker label="업무 시간" helperText="업무 시간을 선택해주세요" />
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-2">에러 상태</h3>
+          <h3 className="mb-2 text-sm font-semibold">에러 상태</h3>
           <TimePicker label="시간" error errorMessage="필수 입력입니다" />
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-2">비활성화</h3>
+          <h3 className="mb-2 text-sm font-semibold">비활성화</h3>
           <TimePicker label="시간" value="14:30" disabled />
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-2">15분 단위</h3>
+          <h3 className="mb-2 text-sm font-semibold">15분 단위</h3>
           <TimePicker label="예약 시간" minuteStep={15} />
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-2">아이콘 없음</h3>
+          <h3 className="mb-2 text-sm font-semibold">아이콘 없음</h3>
           <TimePicker label="시간" showIcon={false} />
         </div>
       </div>

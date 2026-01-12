@@ -213,7 +213,7 @@ const ControlledExample = () => {
   const [tags, setTags] = useState<string[]>(["React", "TypeScript"]);
 
   return (
-    <div className="min-w-[400px]">
+    <div className="min-w-100">
       <TagInput
         label="제어 컴포넌트"
         value={tags}
@@ -221,8 +221,8 @@ const ControlledExample = () => {
         placeholder="태그를 입력하세요"
         maxTags={5}
       />
-      <div className="mt-4 p-3 bg-cms-gray-100 rounded-cms-sm">
-        <p className="font-cms-sm font-medium mb-2">현재 태그:</p>
+      <div className="mt-4 rounded-cms-sm bg-cms-gray-100 p-3">
+        <p className="font-cms-sm mb-2 font-medium">현재 태그:</p>
         <p className="font-cms-sm text-cms-gray-700">
           {tags.length > 0 ? tags.join(", ") : "없음"}
         </p>
@@ -259,7 +259,7 @@ const ValidationExample = () => {
   };
 
   return (
-    <div className="min-w-[400px]">
+    <div className="min-w-100">
       <TagInput
         label="유효성 검사 태그"
         value={tags}
@@ -305,7 +305,7 @@ const HorizontalLayoutFormExample = () => {
   const [tags3, setTags3] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col gap-4 min-w-[600px]">
+    <div className="flex min-w-100 flex-col gap-4">
       <TagInput
         label="관심 분야"
         required
@@ -360,7 +360,7 @@ const AllStatesExample = () => {
   const [tags6, setTags6] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col gap-6 min-w-[500px]">
+    <div className="flex min-w-125 flex-col gap-6">
       <TagInput
         label="기본 상태"
         placeholder="태그를 입력하세요"

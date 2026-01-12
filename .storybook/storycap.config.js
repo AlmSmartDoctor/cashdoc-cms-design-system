@@ -1,9 +1,9 @@
 module.exports = {
   // Storycap 설정
-  storybookUrl: 'http://localhost:6006',
+  storybookUrl: "http://localhost:6006",
 
   // 스크린샷 저장 경로
-  outDir: '__screenshots__',
+  outDir: "__screenshots__",
 
   // 병렬 실행 수
   parallel: 4,
@@ -25,7 +25,7 @@ module.exports = {
   },
 
   // 기본 뷰포트
-  defaultViewport: 'desktop',
+  defaultViewport: "desktop",
 
   // 스크린샷 옵션
   screenshot: {

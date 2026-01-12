@@ -283,15 +283,15 @@ export const ImageUpload = ({
           {...getRootProps()}
           className={cn(
             "relative rounded-md border-2 border-solid",
-            "transition-colors cursor-pointer",
+            "cursor-pointer transition-colors",
             "flex flex-col items-center justify-center",
-            "min-h-[200px]",
+            "min-h-50",
             error
               ? "border-red-500"
               : isDragActive
                 ? "border-cms-black bg-cms-gray-100"
                 : "border-cms-gray-300 bg-white hover:bg-cms-gray-50",
-            disabled && "opacity-50 cursor-not-allowed pointer-events-none",
+            disabled && "pointer-events-none cursor-not-allowed opacity-50",
             isSingleMode && hasFile && "p-0",
           )}
         >
@@ -301,15 +301,15 @@ export const ImageUpload = ({
             <div
               className={cn(
                 "group flex items-center justify-center",
-                "relative w-full h-full min-h-[200px]",
-                "rounded-md overflow-hidden",
+                "relative h-full min-h-50 w-full",
+                "overflow-hidden rounded-md",
                 "bg-cms-gray-100",
               )}
             >
               <img
                 src={URL.createObjectURL(files[0])}
                 alt={files[0].name}
-                className="max-w-full max-h-full object-contain"
+                className="max-h-full max-w-full object-contain"
               />
               <button
                 type="button"
@@ -319,7 +319,7 @@ export const ImageUpload = ({
                 }}
                 className={cn(
                   "absolute top-2 right-2",
-                  "w-8 h-8 rounded-full",
+                  "h-8 w-8 rounded-full",
                   "flex items-center justify-center",
                   "bg-white shadow-md",
                   "hover:bg-cms-gray-100",
@@ -328,11 +328,11 @@ export const ImageUpload = ({
                 )}
                 aria-label="파일 제거"
               >
-                <CloseIcon className="w-4 h-4" />
+                <CloseIcon className="h-4 w-4" />
               </button>
             </div>
           ) : (
-            <div className="p-6 flex flex-col items-center">
+            <div className="flex flex-col items-center p-6">
               <ImageUploadIcon className="text-cms-gray-400" />
               <Text
                 variant="emphasis"
@@ -368,7 +368,7 @@ export const ImageUpload = ({
             <div
               key={index}
               className={cn(
-                "relative group rounded-md overflow-hidden",
+                "group relative overflow-hidden rounded-md",
                 "border border-cms-gray-300",
               )}
             >
@@ -376,7 +376,7 @@ export const ImageUpload = ({
                 <img
                   src={URL.createObjectURL(file)}
                   alt={file.name}
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               </div>
               <button
@@ -387,7 +387,7 @@ export const ImageUpload = ({
                 }}
                 className={cn(
                   "absolute top-2 right-2",
-                  "w-7 h-7 rounded-full",
+                  "h-7 w-7 rounded-full",
                   "flex items-center justify-center",
                   "bg-white shadow-md",
                   "hover:bg-cms-gray-100",
@@ -396,15 +396,15 @@ export const ImageUpload = ({
                 )}
                 aria-label="파일 제거"
               >
-                <CloseIcon className="w-3 h-3" />
+                <CloseIcon className="h-3 w-3" />
               </button>
               <div
                 className={cn(
-                  "px-2 py-1.5 bg-white",
+                  "bg-white px-2 py-1.5",
                   "border-t border-cms-gray-300",
                 )}
               >
-                <Text variant="caption" className="text-cms-gray-600 truncate">
+                <Text variant="caption" className="truncate text-cms-gray-600">
                   {file.name}
                 </Text>
                 <Text variant="caption" className="text-cms-gray-400">

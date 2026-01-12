@@ -54,9 +54,9 @@ const NavigationMenuItem = ({
             }
           }}
           className={cn(
-            "border-0 group flex items-center px-5 bg-cms-gray-850",
-            "text-white font-bold text-lg",
-            "w-full h-15",
+            "group flex items-center border-0 bg-cms-gray-850 px-5",
+            "text-lg font-bold text-white",
+            "h-15 w-full",
             "transition-colors",
             "cursor-pointer",
             !isSubMenuSelected && "data-[state=open]:bg-transparent",
@@ -68,7 +68,7 @@ const NavigationMenuItem = ({
             <div
               className={cn(
                 "mr-3 flex items-center",
-                "[&>svg]:w-6 [&>svg]:h-6",
+                "[&>svg]:h-6 [&>svg]:w-6",
                 (!menu.subMenu && isSelected) || isSubMenuSelected
                   ? "text-cms-black"
                   : "text-white",
@@ -115,8 +115,8 @@ const NavigationMenuItem = ({
                 key={subItem.url}
                 onClick={() => onMenuClick(subItem.url)}
                 className={cn(
-                  "border-0 bg-transparent flex items-center",
-                  "w-full h-13 px-5 pl-14",
+                  "flex items-center border-0 bg-transparent",
+                  "h-13 w-full px-5 pl-14",
                   "cursor-pointer",
                   "transition-colors",
                   "hover:bg-cms-gray-900",
@@ -127,7 +127,7 @@ const NavigationMenuItem = ({
                     "text-base font-bold",
                     "transition-colors",
                     subSelected
-                      ? "text-cms-primary-400 font-bold"
+                      ? "font-bold text-cms-primary-400"
                       : "text-cms-white",
                   )}
                 >
@@ -237,7 +237,7 @@ export const SideNavigation = React.forwardRef<
         ref={ref}
         className={cn(
           "flex flex-col",
-          "w-70 min-w-70 max-w-70 h-full",
+          "h-full w-70 max-w-70 min-w-70",
           "bg-cms-gray-850 text-white",
           className,
         )}
@@ -248,7 +248,7 @@ export const SideNavigation = React.forwardRef<
 
         {/* Title */}
         {title && !headerSlot && (
-          <div className="px-5 py-4 border-b border-[#3a3b3e]">
+          <div className="border-b border-[#3a3b3e] px-5 py-4">
             <h2 className="text-lg font-semibold text-white">{title}</h2>
           </div>
         )}

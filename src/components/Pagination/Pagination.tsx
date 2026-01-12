@@ -247,10 +247,10 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             className={cn(
               paginationButtonVariants({ variant: "default" }),
               (disabled || currentPage === 1) &&
-                "opacity-50 cursor-not-allowed pointer-events-none",
+                "pointer-events-none cursor-not-allowed opacity-50",
             )}
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="h-4 w-4" />
           </button>
         )}
 
@@ -301,10 +301,10 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             className={cn(
               paginationButtonVariants({ variant: "default" }),
               (disabled || currentPage === totalPages) &&
-                "opacity-50 cursor-not-allowed pointer-events-none",
+                "pointer-events-none cursor-not-allowed opacity-50",
             )}
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="h-4 w-4" />
           </button>
         )}
       </nav>

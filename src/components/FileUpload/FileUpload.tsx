@@ -124,23 +124,23 @@ export const FileUpload = ({
           {...getRootProps()}
           className={cn(
             "relative rounded-md border-2 border-dashed",
-            "transition-colors cursor-pointer",
+            "cursor-pointer transition-colors",
             "flex flex-col items-center justify-center",
-            "min-h-[200px] p-6",
+            "min-h-50 p-6",
             isDragActive
               ? "border-cms-black bg-cms-gray-100"
               : "border-cms-gray-300 bg-white hover:bg-cms-gray-50",
-            disabled && "opacity-50 cursor-not-allowed pointer-events-none",
+            disabled && "pointer-events-none cursor-not-allowed opacity-50",
           )}
         >
           <input {...getInputProps()} />
           <FileUploadIcon className="text-cms-gray-400" />
-          <p className="mt-4 text-sm font-medium text-cms-black text-center">
+          <p className="mt-4 text-center text-sm font-medium text-cms-black">
             {isDragActive
               ? "파일을 여기에 놓으세요"
               : "클릭하거나 파일을 드래그하세요"}
           </p>
-          <p className="mt-1 text-xs text-cms-gray-400 text-center">
+          <p className="mt-1 text-center text-xs text-cms-gray-400">
             최대 {maxFiles}개 파일, 최대 {maxSize / 1024 / 1024}MB
           </p>
         </div>
@@ -155,15 +155,15 @@ export const FileUpload = ({
                 "flex items-center gap-2 px-3 py-2",
                 "rounded-md border border-cms-gray-300",
                 "bg-white hover:bg-cms-gray-50",
-                "transition-colors group",
+                "group transition-colors",
               )}
             >
-              <FileIcon className="w-8 h-8" />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-cms-black truncate leading-tight">
+              <FileIcon className="h-8 w-8" />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm leading-tight font-medium text-cms-black">
                   {file.name}
                 </p>
-                <p className="text-xs text-cms-gray-400 leading-tight">
+                <p className="text-xs leading-tight text-cms-gray-400">
                   {formatFileSize(file.size)}
                 </p>
               </div>
@@ -171,7 +171,7 @@ export const FileUpload = ({
                 type="button"
                 onClick={() => removeFile(index)}
                 className={cn(
-                  "w-7 h-7 rounded-full shrink-0",
+                  "h-7 w-7 shrink-0 rounded-full",
                   "flex items-center justify-center",
                   "text-cms-gray-400",
                   "hover:bg-cms-gray-100 hover:text-cms-black",
@@ -180,7 +180,7 @@ export const FileUpload = ({
                 )}
                 aria-label="파일 제거"
               >
-                <CloseIcon className="w-4 h-4" />
+                <CloseIcon className="h-4 w-4" />
               </button>
             </div>
           ))}

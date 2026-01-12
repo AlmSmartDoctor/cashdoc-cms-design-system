@@ -151,7 +151,7 @@ const VariantsStory = () => {
   });
 
   return (
-    <div className="space-y-4 w-64">
+    <div className="w-64 space-y-4">
       <Dropdown
         options={sampleOptions}
         value={values.default}
@@ -198,7 +198,7 @@ const SizesStory = () => {
   const [values, setValues] = useState({ sm: "", default: "", lg: "" });
 
   return (
-    <div className="space-y-4 w-64">
+    <div className="w-64 space-y-4">
       <Dropdown
         options={sampleOptions}
         value={values.sm}
@@ -258,7 +258,7 @@ const SearchableStory = () => {
         placeholder="검색 가능한 드롭다운"
         searchable
       />
-      <p className="mt-2 text-sm text-grayscale03">
+      <p className="text-grayscale03 mt-2 text-sm">
         선택된 값: {value || "없음"}
       </p>
     </div>
@@ -289,7 +289,7 @@ const ClearableStory = () => {
         placeholder="선택 취소 가능"
         clearable
       />
-      <p className="mt-2 text-sm text-grayscale03">
+      <p className="text-grayscale03 mt-2 text-sm">
         선택된 값: {value || "없음"}
       </p>
     </div>
@@ -320,7 +320,7 @@ const MultipleStory = () => {
         multiple
         clearable
       />
-      <p className="mt-2 text-sm text-grayscale03">
+      <p className="text-grayscale03 mt-2 text-sm">
         선택된 값들: {value || "없음"}
       </p>
     </div>
@@ -343,7 +343,7 @@ const SelectComponentStory = () => {
   const [errorValue, setErrorValue] = useState("");
 
   return (
-    <div className="space-y-6 w-64">
+    <div className="w-64 space-y-6">
       <Select
         options={sampleOptions}
         value={value}
@@ -402,10 +402,10 @@ const ComboboxComponentStory = () => {
         createable
         onCreateOption={handleCreateOption}
       />
-      <p className="mt-2 text-sm text-grayscale03">
+      <p className="text-grayscale03 mt-2 text-sm">
         선택된 값: {value || "없음"}
       </p>
-      <p className="mt-1 text-xs text-grayscale03">
+      <p className="text-grayscale03 mt-1 text-xs">
         검색해서 없으면 새로 만들 수 있습니다
       </p>
     </div>
@@ -442,7 +442,7 @@ const DisabledOptionsStory = () => {
         onValueChange={setValue}
         placeholder="일부 옵션 비활성화"
       />
-      <p className="mt-2 text-sm text-grayscale03">
+      <p className="text-grayscale03 mt-2 text-sm">
         Vue.js와 Svelte는 선택할 수 없습니다
       </p>
     </div>
@@ -517,7 +517,7 @@ const ComprehensiveExampleStory = () => {
       />
 
       <div>
-        <label className="block text-sm font-medium text-foreground mb-1">
+        <label className="text-foreground mb-1 block text-sm font-medium">
           사용하는 도구들 (다중 선택 가능)
         </label>
         <Dropdown
@@ -544,9 +544,9 @@ const ComprehensiveExampleStory = () => {
         size="lg"
       />
 
-      <div className="mt-6 p-4 bg-grayscale01 rounded-lg">
-        <h3 className="font-medium mb-2">선택된 값들:</h3>
-        <ul className="text-sm space-y-1">
+      <div className="bg-grayscale01 mt-6 rounded-lg p-4">
+        <h3 className="mb-2 font-medium">선택된 값들:</h3>
+        <ul className="space-y-1 text-sm">
           <li>프레임워크: {formData.framework || "미선택"}</li>
           <li>언어: {formData.language || "미선택"}</li>
           <li>도구들: {formData.tools || "미선택"}</li>
@@ -574,7 +574,7 @@ export const ForJsdoc: Story = {
     layout: "centered",
   },
   render: () => (
-    <div className="h-[300px] w-full flex items-start justify-center pt-10">
+    <div className="flex h-75 w-full items-start justify-center pt-10">
       <Dropdown
         options={[
           { value: "option1", label: "Option 1" },

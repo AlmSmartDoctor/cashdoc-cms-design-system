@@ -171,14 +171,14 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
       <div
         className={cn(
           "relative w-full",
-          bordered && "border border-cms-gray-300 rounded-lg",
+          bordered && "rounded-lg border border-cms-gray-300",
         )}
       >
         {showLeftScroll && (
           <div
             className={cn(
               "flex items-center justify-center",
-              "absolute left-0 top-0 bottom-0 z-10 w-8 ",
+              "absolute top-0 bottom-0 left-0 z-10 w-8",
               "bg-linear-to-r from-white to-transparent",
             )}
           >
@@ -198,7 +198,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
         {showRightScroll && (
           <div
             className={cn(
-              "absolute right-0 top-0 bottom-0 z-10 w-8",
+              "absolute top-0 right-0 bottom-0 z-10 w-8",
               "flex items-center justify-center",
               "bg-linear-to-l from-white to-transparent",
             )}
@@ -395,7 +395,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         scope={scope}
         className={cn(
           "h-12 px-4 text-left align-middle font-semibold text-cms-gray-800",
-          "bg-amber-50 border-0",
+          "border-0 bg-amber-50",
           "[&:has([role=checkbox])]:pr-0",
           sortable && "cursor-pointer select-none hover:bg-amber-100",
           className,

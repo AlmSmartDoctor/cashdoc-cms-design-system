@@ -207,7 +207,10 @@ export const LongContent: Story = {
     },
   },
   render: () => (
-    <ToolTip content="이 기능은 관리자 권한이 필요합니다. 권한이 없는 사용자는 실행할 수 없으며, 관리자에게 문의하세요." defaultOpen={true}>
+    <ToolTip
+      content="이 기능은 관리자 권한이 필요합니다. 권한이 없는 사용자는 실행할 수 없으며, 관리자에게 문의하세요."
+      defaultOpen={true}
+    >
       <Button variant="outline">
         <Info className="mr-2 h-4 w-4" />
         권한 필요
@@ -286,7 +289,12 @@ export const DifferentAlignments: Story = {
   },
   render: () => (
     <div className="flex flex-col gap-4">
-      <ToolTip content="시작 정렬" align="start" side="bottom" defaultOpen={true}>
+      <ToolTip
+        content="시작 정렬"
+        align="start"
+        side="bottom"
+        defaultOpen={true}
+      >
         <Button variant="outline">Align Start</Button>
       </ToolTip>
       <ToolTip content="중앙 정렬" align="center" side="bottom">
@@ -310,11 +318,11 @@ export const OnTextElement: Story = {
     },
   },
   render: () => (
-    <div className="w-64 p-4 border rounded">
+    <div className="w-64 rounded border p-4">
       <p className="text-sm">
         이 문장에는{" "}
         <ToolTip content="여기에 추가 설명이 표시됩니다" defaultOpen={true}>
-          <span className="underline decoration-dashed cursor-help">
+          <span className="cursor-help underline decoration-dashed">
             툴팁이 있는 텍스트
           </span>
         </ToolTip>
@@ -328,7 +336,7 @@ export const Controlled: Story = {
   render: () => {
     const [open, setOpen] = useState(false);
     return (
-      <div className="flex flex-col gap-4 items-center">
+      <div className="flex flex-col items-center gap-4">
         <ToolTip
           content="프로그래밍으로 제어되는 툴팁입니다"
           open={open}
@@ -337,25 +345,13 @@ export const Controlled: Story = {
           <Button variant="outline">Controlled ToolTip</Button>
         </ToolTip>
         <div className="flex gap-2">
-          <Button
-            onClick={() => setOpen(true)}
-            variant="secondary"
-            size="sm"
-          >
+          <Button onClick={() => setOpen(true)} variant="secondary" size="sm">
             열기
           </Button>
-          <Button
-            onClick={() => setOpen(false)}
-            variant="secondary"
-            size="sm"
-          >
+          <Button onClick={() => setOpen(false)} variant="secondary" size="sm">
             닫기
           </Button>
-          <Button
-            onClick={() => setOpen(!open)}
-            variant="secondary"
-            size="sm"
-          >
+          <Button onClick={() => setOpen(!open)} variant="secondary" size="sm">
             토글
           </Button>
         </div>
@@ -379,14 +375,14 @@ export const AllStates: Story = {
   render: () => (
     <div className="flex flex-col gap-6">
       <div>
-        <h3 className="text-sm font-semibold mb-3">기본 위치 (Top)</h3>
+        <h3 className="mb-3 text-sm font-semibold">기본 위치 (Top)</h3>
         <ToolTip content="기본 툴팁">
           <Button variant="outline">Hover me</Button>
         </ToolTip>
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">다양한 위치</h3>
+        <h3 className="mb-3 text-sm font-semibold">다양한 위치</h3>
         <div className="flex gap-3">
           <ToolTip content="상단" side="top">
             <Button variant="outline" size="sm">
@@ -412,7 +408,7 @@ export const AllStates: Story = {
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">아이콘 버튼</h3>
+        <h3 className="mb-3 text-sm font-semibold">아이콘 버튼</h3>
         <div className="flex gap-2">
           <ToolTip content="설정">
             <Button variant="ghost" size="icon">
@@ -438,21 +434,21 @@ export const AllStates: Story = {
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">긴 텍스트</h3>
+        <h3 className="mb-3 text-sm font-semibold">긴 텍스트</h3>
         <ToolTip content="이 버튼을 클릭하면 현재 설정이 저장되고 메인 페이지로 이동합니다. 저장되지 않은 변경사항이 있다면 경고 메시지가 표시됩니다.">
           <Button variant="outline">긴 설명 보기</Button>
         </ToolTip>
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">화살표 없음</h3>
+        <h3 className="mb-3 text-sm font-semibold">화살표 없음</h3>
         <ToolTip content="미니멀한 툴팁" showArrow={false}>
           <Button variant="outline">No Arrow</Button>
         </ToolTip>
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">지연 시간 커스텀</h3>
+        <h3 className="mb-3 text-sm font-semibold">지연 시간 커스텀</h3>
         <div className="flex gap-2">
           <ToolTip content="즉시" delayDuration={0}>
             <Button variant="outline" size="sm">
@@ -488,7 +484,7 @@ export const ForJsdoc: Story = {
     layout: "centered",
   },
   render: () => (
-    <div className="h-[100px] w-full flex items-center justify-center">
+    <div className="flex h-25 w-full items-center justify-center">
       <ToolTip content="This is a tooltip" defaultOpen={true}>
         <Button variant="outline">Hover me</Button>
       </ToolTip>

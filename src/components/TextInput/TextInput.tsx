@@ -200,7 +200,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
                 style={{ width: labelWidth }}
               >
                 {label}
-                {required && <span className="text-cms-red-400 ml-1">*</span>}
+                {required && <span className="ml-1 text-cms-red-400">*</span>}
               </label>
             )}
             <div className="flex-1">
@@ -220,7 +220,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
               />
             </div>
             {showCharCount && maxLength && (
-              <span className="text-sm text-cms-gray-600 shrink-0">
+              <span className="shrink-0 text-sm text-cms-gray-600">
                 {charCount} / {maxLength}
               </span>
             )}
@@ -228,12 +228,12 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         ) : (
           <>
             {hasHeader && (
-              <div className="flex justify-between items-center mb-2">
+              <div className="mb-2 flex items-center justify-between">
                 {label ? (
                   <label htmlFor={inputId} className={labelVariants()}>
                     {label}
                     {required && (
-                      <span className="text-cms-red-400 ml-1">*</span>
+                      <span className="ml-1 text-cms-red-400">*</span>
                     )}
                   </label>
                 ) : (

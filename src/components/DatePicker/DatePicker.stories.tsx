@@ -208,13 +208,10 @@ export const Controlled: Story = {
 
 export const ForJsdoc: Story = {
   render: () => (
-    <div className="flex flex-col gap-6 min-w-[400px]">
+    <div className="flex min-w-100 flex-col gap-6">
       <DatePicker label="Default" />
       <DatePicker label="With Value" value="2025-12-31" onChange={() => {}} />
-      <DatePicker
-        label="With Helper Text"
-        helperText="Please select a date"
-      />
+      <DatePicker label="With Helper Text" helperText="Please select a date" />
       <DatePicker
         label="Error State"
         error
