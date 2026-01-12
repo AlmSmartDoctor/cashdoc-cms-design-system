@@ -92,9 +92,10 @@ export interface TextProps
  * See also:
  *
  * - {@link TextInput}, 사용자의 입력을 받는 텍스트 필드
- * - {@link Button}, 텍스트를 포함하는 액션 요소 *
+ * - {@link Button}, 텍스트를 포함하는 액션 요소
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Data Display/Text/All Variants.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Data%20Display/Text/For%20Jsdoc.png?raw=true)
  */
 export const Text = React.forwardRef<HTMLElement, TextProps>(
   (
@@ -109,14 +110,16 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
     },
     ref,
   ) => {
+    const Comp = Component as React.ElementType;
+
     return (
-      <Component
+      <Comp
         className={cn(textVariants({ variant, align, decoration }), className)}
-        ref={ref as any}
+        ref={ref}
         {...props}
       >
         {children}
-      </Component>
+      </Comp>
     );
   },
 );

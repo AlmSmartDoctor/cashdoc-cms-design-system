@@ -79,9 +79,10 @@ const sizeClasses = {
  * See also:
  *
  * - {@link Button}, 버튼 자체의 로딩 상태를 지원함
- * - {@link Modal}, 로딩 상태를 포함할 수 있는 오버레이 *
+ * - {@link Modal}, 로딩 상태를 포함할 수 있는 오버레이
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Loading/LoadingCircle/Default.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Loading/LoadingCircle/For%20Jsdoc.png?raw=true)
  */
 export function LoadingCircle({ size = "lg", className }: LoadingCircleProps) {
   return (

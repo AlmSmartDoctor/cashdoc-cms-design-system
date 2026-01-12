@@ -141,9 +141,10 @@ export interface TextInputProps
  * - {@link Textarea}, 여러 줄 텍스트 입력을 위한 컴포넌트
  * - {@link TagInput}, 여러 태그를 입력받는 컴포넌트
  * - {@link DatePicker}, 날짜 선택을 위한 컴포넌트
- * - {@link Dropdown}, 옵션 선택을 위한 컴포넌트 *
+ * - {@link Dropdown}, 옵션 선택을 위한 컴포넌트
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/TextInput/All States.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/TextInput/For%20Jsdoc.png?raw=true)
  */
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   (

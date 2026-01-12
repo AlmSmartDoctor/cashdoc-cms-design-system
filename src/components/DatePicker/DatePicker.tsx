@@ -101,9 +101,10 @@ export interface DatePickerProps {
  *
  * - {@link DateRangePicker}, 기간을 선택해야 하는 경우
  * - {@link TextInput}, 단순한 텍스트 입력이 필요한 경우
- * - {@link Popover}, 일반적인 팝오버 컴포넌트 *
+ * - {@link Popover}, 일반적인 팝오버 컴포넌트
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/DatePicker/Default.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/DatePicker/For%20Jsdoc.png?raw=true)
  */
 export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
   (
@@ -167,7 +168,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     }, [value]);
 
     const disabledDays = useMemo(() => {
-      const disabled: any[] = [];
+      const disabled: Array<{ before: Date } | { after: Date }> = [];
       if (min) {
         disabled.push({ before: dayjs(min).toDate() });
       }
@@ -188,7 +189,13 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
         >
           <PopoverPrimitive.Trigger asChild>
             <div className="relative">
-              <div className="absolute left-3 top-0 h-full flex items-center pointer-events-none">
+              <div
+                className={cn(
+                  "flex items-center",
+                  "absolute left-3 top-0 h-full",
+                  "pointer-events-none",
+                )}
+              >
                 <CalendarIcon
                   size={20}
                   strokeWidth={1.5}

@@ -87,9 +87,10 @@ export interface CheckboxProps extends React.ComponentPropsWithoutRef<
  *
  * - {@link RadioButton}, 하나만 선택해야 하는 경우
  * - {@link Switch}, 즉각적인 상태 반영이 필요한 경우
- * - {@link Button}, 단순 액션 실행이 필요한 경우 *
+ * - {@link Button}, 단순 액션 실행이 필요한 경우
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/Checkbox/Default.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/Checkbox/For%20Jsdoc.png?raw=true)
  */
 export const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,

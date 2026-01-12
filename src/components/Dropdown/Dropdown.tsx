@@ -106,9 +106,10 @@ export interface DropdownProps extends VariantProps<
  *
  * - {@link Select}, 기본적인 HTML select 스타일의 컴포넌트
  * - {@link Combobox}, 입력과 선택이 결합된 컴포넌트
- * - {@link Popover}, 더 자유로운 형태의 팝오버가 필요한 경우 *
+ * - {@link Popover}, 더 자유로운 형태의 팝오버가 필요한 경우
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/Dropdown/Default.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/Dropdown/For%20Jsdoc.png?raw=true)
  */
 export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
   (
@@ -129,12 +130,12 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       defaultOpen = false,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [isOpen, setIsOpen] = useState(defaultOpen);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedValues, setSelectedValues] = useState<string[]>(
-      multiple ? (value ? [value] : []) : []
+      multiple ? (value ? [value] : []) : [],
     );
     const [showScrollIndicator, setShowScrollIndicator] = useState(false);
 
@@ -150,7 +151,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       : selectedOption?.label || placeholder;
 
     const filteredOptions = options.filter((option) =>
-      option.label.toLowerCase().includes(searchTerm.toLowerCase())
+      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
     const handleToggle = () => {
@@ -221,7 +222,8 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     // 스크롤 가능 여부 체크
     const checkScrollIndicator = () => {
       if (optionsListRef.current) {
-        const { scrollTop, scrollHeight, clientHeight } = optionsListRef.current;
+        const { scrollTop, scrollHeight, clientHeight } =
+          optionsListRef.current;
         const hasMoreContent = scrollHeight > clientHeight;
         const isAtBottom = scrollHeight - scrollTop - clientHeight < 1;
         setShowScrollIndicator(hasMoreContent && !isAtBottom);
@@ -254,7 +256,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
           className={cn(
             dropdownTriggerVariants({ variant, size }),
             disabled && "opacity-50 cursor-not-allowed",
-            className
+            className,
           )}
           onClick={handleToggle}
           onKeyDown={handleKeyDown}
@@ -266,7 +268,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
           <span
             className={cn(
               "truncate flex-1 text-left",
-              !selectedOption && !multiple && "text-cms-gray-400"
+              !selectedOption && !multiple && "text-cms-gray-400",
             )}
           >
             {selectedLabel}
@@ -279,7 +281,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                 className={cn(
                   "border-0 bg-transparent",
                   "p-1 rounded text-cms-gray-400 transition-colors",
-                  "hover:text-cms-black"
+                  "hover:text-cms-black",
                 )}
                 onClick={handleClear}
                 aria-label="선택 취소"
@@ -288,7 +290,10 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
               </button>
             )}
             <ChevronDownFillIcon
-              className={cn("w-3 h-3 transition-transform duration-200", isOpen && "rotate-180")}
+              className={cn(
+                "w-3 h-3 transition-transform duration-200",
+                isOpen && "rotate-180",
+              )}
             />
           </div>
         </button>
@@ -299,7 +304,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
               "absolute z-50 mt-1 py-1 w-full min-w-0",
               "rounded-md border border-cms-gray-300",
               "bg-white shadow-lg",
-              dropdownClassName
+              dropdownClassName,
             )}
             style={{ maxHeight: `${maxHeight}px` }}
           >
@@ -315,19 +320,22 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                     "w-full px-2 py-1 text-sm",
                     "rounded outline-none",
                     "border border-cms-gray-300",
-                    "focus:ring-1 focus:ring-cms-gray-400"
+                    "focus:ring-1 focus:ring-cms-gray-400",
                   )}
                 />
               </div>
             )}
 
             <div className="relative">
-              <div
-                ref={optionsListRef}
-                className="max-h-48 overflow-y-auto"
-              >
+              <div ref={optionsListRef} className="max-h-48 overflow-y-auto">
                 {filteredOptions.length === 0 ? (
-                  <div className="px-3 py-2 text-sm text-cms-gray-400 text-center">
+                  <div
+                    className={cn(
+                      "px-3 py-2",
+                      "text-sm text-cms-gray-400",
+                      "text-center",
+                    )}
+                  >
                     {searchTerm ? "검색 결과가 없습니다" : "옵션이 없습니다"}
                   </div>
                 ) : (
@@ -348,8 +356,12 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                           "transition-colors",
                           option.disabled
                             ? "text-cms-gray-400 cursor-not-allowed bg-white"
-                            : "text-cms-black bg-white hover:bg-cms-gray-100 cursor-pointer",
-                          isSelected && "bg-cms-gray-150 font-medium"
+                            : cn(
+                                "text-cms-black bg-white",
+                                "hover:bg-cms-gray-100",
+                                "cursor-pointer",
+                              ),
+                          isSelected && "bg-cms-gray-150 font-medium",
                         )}
                         onClick={() => handleOptionClick(option)}
                         disabled={option.disabled}
@@ -380,8 +392,21 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
               </div>
 
               {showScrollIndicator && (
-                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none flex items-end justify-center pb-1">
-                  <ChevronDownFillIcon className="w-4 h-4 text-cms-gray-400 animate-bounce" />
+                <div
+                  className={cn(
+                    "flex items-end justify-center",
+                    "absolute bottom-0 left-0 right-0 h-8 pb-1",
+                    "bg-linear-to-t from-white to-transparent",
+                    "pointer-events-none",
+                  )}
+                >
+                  <ChevronDownFillIcon
+                    className={cn(
+                      "w-4 h-4",
+                      "text-cms-gray-400",
+                      "animate-bounce",
+                    )}
+                  />
                 </div>
               )}
             </div>
@@ -389,7 +414,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Dropdown.displayName = "Dropdown";

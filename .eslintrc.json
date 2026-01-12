@@ -10,7 +10,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
     "plugin:storybook/recommended",
-    "prettier"
+    "plugin:prettier/recommended"
   ],
   "ignorePatterns": ["dist", ".eslintrc.json"],
   "parser": "@typescript-eslint/parser",
@@ -28,7 +28,8 @@
         "varsIgnorePattern": "^_",
         "caughtErrorsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "prettier/prettier": "warn"
   },
   "settings": {
     "react": {

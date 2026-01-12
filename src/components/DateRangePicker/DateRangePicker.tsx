@@ -150,9 +150,10 @@ const getQuickSelectOptions = (): QuickSelectOption[] => {
  * See also:
  *
  * - {@link DatePicker}, 단일 날짜 선택이 필요한 경우
- * - {@link Dropdown}, 기간을 텍스트 기반의 선택지로 제공할 때 *
+ * - {@link Dropdown}, 기간을 텍스트 기반의 선택지로 제공할 때
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/DateRangePicker/Default.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/DateRangePicker/For%20Jsdoc.png?raw=true)
  */
 export const DateRangePicker = React.forwardRef<
   HTMLDivElement,

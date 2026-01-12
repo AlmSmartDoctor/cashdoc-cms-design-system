@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 import { useCallback, useState } from "react";
-import { useDropzone, Accept } from "react-dropzone";
+import { useDropzone, Accept, FileRejection } from "react-dropzone";
 import { FileUploadIcon, FileIcon, XIcon as CloseIcon } from "../icons";
 
 export interface FileUploadProps {
@@ -54,9 +54,10 @@ export interface FileUploadProps {
  *   accept={{ "application/pdf": [".pdf"] }}
  * />
  * ```
- * {@end-tool} *
+ * {@end-tool}
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/FileUpload/Default.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/FileUpload/For%20Jsdoc.png?raw=true)
  */
 export const FileUpload = ({
   value = [],
@@ -71,7 +72,7 @@ export const FileUpload = ({
   const [files, setFiles] = useState<File[]>(value);
 
   const onDrop = useCallback(
-    (acceptedFiles: File[], rejectedFiles: any[]) => {
+    (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
       if (rejectedFiles.length > 0) {
         const error = rejectedFiles[0].errors[0];
         if (error.code === "file-too-large") {

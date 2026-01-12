@@ -133,9 +133,10 @@ export interface TableProps
  *   </TableBody>
  * </Table>
  * ```
- * {@end-tool} *
+ * {@end-tool}
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Data Display/Table/All States.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Data Display/Table/For%20Jsdoc.png?raw=true)
  */
 export const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, striped, hoverable, bordered, compact, ...props }, ref) => {
@@ -174,7 +175,13 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
         )}
       >
         {showLeftScroll && (
-          <div className="absolute left-0 top-0 bottom-0 z-10 flex w-8 items-center justify-center bg-linear-to-r from-white to-transparent">
+          <div
+            className={cn(
+              "flex items-center justify-center",
+              "absolute left-0 top-0 bottom-0 z-10 w-8 ",
+              "bg-linear-to-r from-white to-transparent",
+            )}
+          >
             <ChevronLeft className="h-6 w-6 text-cms-gray-400" />
           </div>
         )}
@@ -189,7 +196,13 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
           />
         </div>
         {showRightScroll && (
-          <div className="absolute right-0 top-0 bottom-0 z-10 flex w-8 items-center justify-center bg-linear-to-l from-white to-transparent">
+          <div
+            className={cn(
+              "absolute right-0 top-0 bottom-0 z-10 w-8",
+              "flex items-center justify-center",
+              "bg-linear-to-l from-white to-transparent",
+            )}
+          >
             <ChevronRight className="h-6 w-6 text-cms-gray-400" />
           </div>
         )}
@@ -307,7 +320,10 @@ export interface TableRowProps
  */
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   ({ className, selected, ...props }, ref) => {
-    const table = (ref as any)?.current?.closest("table");
+    const table =
+      typeof ref === "object" && ref && "current" in ref
+        ? ref.current?.closest("table")
+        : null;
     const hoverable = table?.dataset?.hoverable === "true";
     const striped = table?.dataset?.striped === "true";
 
@@ -439,7 +455,10 @@ export interface TableCellProps
  */
 export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({ className, align, ...props }, ref) => {
-    const table = (ref as any)?.current?.closest("table");
+    const table =
+      typeof ref === "object" && ref && "current" in ref
+        ? ref.current?.closest("table")
+        : null;
     const compact = table?.dataset?.compact === "true";
 
     return (

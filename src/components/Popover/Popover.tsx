@@ -72,9 +72,10 @@ import { forwardRef } from "react";
  *
  * - {@link Modal}, 더 중요하거나 복잡한 상호작용이 필요한 경우
  * - {@link Dropdown}, 정해진 리스트에서 값을 선택하는 것이 주 목적인 경우
- * - {@link PopoverMenuItem}, 팝오버 내부의 메뉴 항목을 구성할 때 *
+ * - {@link PopoverMenuItem}, 팝오버 내부의 메뉴 항목을 구성할 때
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Feedback/Popover/Default.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Feedback/Popover/For%20Jsdoc.png?raw=true)
  */
 const Popover = PopoverPrimitive.Root;
 

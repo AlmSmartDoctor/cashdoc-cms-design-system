@@ -192,8 +192,9 @@ const sizeClasses = {
  * - {@link DeleteModal}, 삭제 확인을 위한 모달
  * - {@link Toast}, 긴급하지 않은 알림을 위한 컴포넌트
  * - {@link Popover}, 비필수 부가 정보를 표시하는 컴포넌트
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Feedback/Modal/Basic.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Feedback/Modal/For%20Jsdoc.png?raw=true)
  */
 export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
   (
@@ -262,7 +263,9 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               </DialogPrimitive.Title>
             )}
 
-            <DialogPrimitive.Description className="text-sm text-cms-gray-700 text-center">
+            <DialogPrimitive.Description
+              className={cn("text-sm", "text-cms-gray-700", "text-center")}
+            >
               {children}
             </DialogPrimitive.Description>
 

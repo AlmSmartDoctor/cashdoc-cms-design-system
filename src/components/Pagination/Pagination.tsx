@@ -193,9 +193,10 @@ const usePagination = ({
  *
  * See also:
  *
- * - {@link Button}, 단일 버튼 컴포넌트 *
+ * - {@link Button}, 단일 버튼 컴포넌트
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Data Display/Pagination/All States.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Data Display/Pagination/For%20Jsdoc.png?raw=true)
  */
 export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
   (
@@ -282,7 +283,8 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                 paginationButtonVariants({
                   variant: isActive ? "active" : "default",
                 }),
-                disabled && "opacity-50 cursor-not-allowed pointer-events-none",
+                disabled &&
+                  cn("opacity-50", "cursor-not-allowed", "pointer-events-none"),
               )}
             >
               {page}

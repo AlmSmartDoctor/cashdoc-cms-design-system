@@ -93,9 +93,10 @@ export interface SwitchProps
  * See also:
  *
  * - {@link Checkbox}, 제출 전까지 상태를 유지해야 하는 경우
- * - {@link RadioButton}, 여러 선택지 중 하나를 고르는 경우 *
+ * - {@link RadioButton}, 여러 선택지 중 하나를 고르는 경우
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/Switch/Default.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/Switch/For%20Jsdoc.png?raw=true)
  */
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
@@ -112,7 +113,7 @@ const Switch = React.forwardRef<
         "bg-cms-white shadow-lg",
         "h-5 w-5",
         "data-[state=unchecked]:translate-x-0 cursor-pointer",
-        "data-[state=checked]:translate-x-[14px]",
+        "data-[state=checked]:translate-x-3.5",
         "transition-transform",
       )}
     />

@@ -112,7 +112,7 @@ export interface TimePickerProps {
  * - {@link TextInput}, 단순한 텍스트 입력이 필요한 경우
  *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/TimePicker/Default.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/TimePicker/For%20Jsdoc.png?raw=true)
  */
 export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
   (
@@ -322,12 +322,22 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                 <div className="flex gap-2">
                   {/* Hour Column */}
                   <div className="flex flex-col">
-                    <div className="text-xs text-gray-500 text-center mb-2 font-medium">
+                    <div
+                      className={cn(
+                        "text-xs text-gray-500 text-center",
+                        "mb-2",
+                        "font-medium",
+                      )}
+                    >
                       {format === "24h" ? "시" : "Hour"}
                     </div>
                     <div
                       ref={hourScrollRef}
-                      className="w-16 h-48 overflow-y-auto border border-gray-200 rounded cms-no-scrollbar"
+                      className={cn(
+                        "w-16 h-48 overflow-y-auto",
+                        "border border-gray-200",
+                        "rounded cms-no-scrollbar",
+                      )}
                     >
                       {hours.map((hour) => (
                         <button
@@ -360,7 +370,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     </div>
                     <div
                       ref={minuteScrollRef}
-                      className="w-16 h-48 overflow-y-auto border border-gray-200 rounded cms-no-scrollbar"
+                      className={cn(
+                        "w-16 h-48 overflow-y-auto",
+                        "border border-gray-200",
+                        "rounded cms-no-scrollbar",
+                      )}
                     >
                       {minutes.map((minute) => (
                         <button
@@ -387,7 +401,13 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                   {/* AM/PM Column for 12h format */}
                   {format === "12h" && (
                     <div className="flex flex-col">
-                      <div className="text-xs text-gray-500 text-center mb-2 font-medium">
+                      <div
+                        className={cn(
+                          "text-xs text-gray-500 text-center",
+                          "mb-2",
+                          "font-medium",
+                        )}
+                      >
                         Period
                       </div>
                       <div className="w-16 flex flex-col gap-1">

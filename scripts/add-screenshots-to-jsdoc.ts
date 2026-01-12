@@ -25,7 +25,7 @@ function getComponentScreenshots(): Map<string, string[]> {
   const screenshots = walkDir(SCREENSHOT_DIR);
 
   for (const screenshot of screenshots) {
-    const relativePath = screenshot.replace(`${SCREENSHOT_DIR}/`, '');
+    const relativePath = path.relative(SCREENSHOT_DIR, screenshot);
     const parts = relativePath.split(path.sep);
 
     if (parts.length >= 2) {
@@ -87,7 +87,7 @@ function selectPrimaryScreenshot(screenshots: string[]): string | null {
 // JSDoc에 이미지 섹션 추가 (맨 밑)
 function addScreenshotToJSDoc(content: string, screenshotPath: string): string {
   // __screenshots__/Forms/TimePicker/Default.png -> Forms/TimePicker/Default.png
-  const relativePath = screenshotPath.replace(`${SCREENSHOT_DIR}${path.sep}`, '').replace(/\\/g, '/');
+  const relativePath = path.relative(SCREENSHOT_DIR, screenshotPath).replace(/\\/g, '/');
   const imageUrl = `${BASE_URL}/${relativePath}?raw=true`;
 
   const imageSection = ` *\n * ## 참고사진\n * ![](${imageUrl})`;

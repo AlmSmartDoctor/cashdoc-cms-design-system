@@ -1,7 +1,8 @@
 import { cn } from "@/utils/cn";
 import { useCallback, useState } from "react";
-import { useDropzone, Accept } from "react-dropzone";
+import { useDropzone, Accept, FileRejection } from "react-dropzone";
 import { ImageUploadIcon, XIcon as CloseIcon } from "../icons";
+import { Text } from "../Text/Text";
 
 export interface ImageMetadata {
   width: number;
@@ -21,7 +22,10 @@ export interface ImageUploadProps {
   showPreview?: boolean;
   error?: boolean;
   onError?: (error: string) => void;
-  validateImage?: (file: File, metadata: ImageMetadata) => string | null | Promise<string | null>;
+  validateImage?: (
+    file: File,
+    metadata: ImageMetadata,
+  ) => string | null | Promise<string | null>;
   placeholder?: string;
   placeholderActive?: string;
 }
@@ -151,9 +155,10 @@ export interface ImageUploadProps {
  *   onChange={(files) => console.log(files)}
  * />
  * ```
- * {@end-tool} *
+ * {@end-tool}
+ *
  * ## 참고사진
- * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/ImageUpload/Default.png?raw=true)
+ * ![](https://github.com/AlmSmartDoctor/ccds-screenshots/blob/main/screenshots/Forms/ImageUpload/For%20Jsdoc.png?raw=true)
  */
 export const ImageUpload = ({
   value = [],
@@ -197,11 +202,13 @@ export const ImageUpload = ({
   };
 
   const onDrop = useCallback(
-    async (acceptedFiles: File[], rejectedFiles: any[]) => {
+    async (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
       if (rejectedFiles.length > 0) {
         const error = rejectedFiles[0].errors[0];
         if (error.code === "file-too-large") {
-          onError?.(`파일 크기는 ${maxSize / 1024 / 1024}MB를 초과할 수 없습니다.`);
+          onError?.(
+            `파일 크기는 ${maxSize / 1024 / 1024}MB를 초과할 수 없습니다.`,
+          );
         } else if (error.code === "file-invalid-type") {
           onError?.("지원하지 않는 파일 형식입니다.");
         } else if (error.code === "too-many-files") {
@@ -232,16 +239,22 @@ export const ImageUpload = ({
 
         if (validatedFiles.length === 0) return;
 
-        const newFiles = maxFiles === 1 ? validatedFiles : [...files, ...validatedFiles].slice(0, maxFiles);
+        const newFiles =
+          maxFiles === 1
+            ? validatedFiles
+            : [...files, ...validatedFiles].slice(0, maxFiles);
         setFiles(newFiles);
         onChange?.(newFiles);
       } else {
-        const newFiles = maxFiles === 1 ? acceptedFiles : [...files, ...acceptedFiles].slice(0, maxFiles);
+        const newFiles =
+          maxFiles === 1
+            ? acceptedFiles
+            : [...files, ...acceptedFiles].slice(0, maxFiles);
         setFiles(newFiles);
         onChange?.(newFiles);
       }
     },
-    [files, maxFiles, maxSize, onChange, onError, validateImage]
+    [files, maxFiles, maxSize, onChange, onError, validateImage],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -276,16 +289,23 @@ export const ImageUpload = ({
             error
               ? "border-red-500"
               : isDragActive
-              ? "border-cms-black bg-cms-gray-100"
-              : "border-cms-gray-300 bg-white hover:bg-cms-gray-50",
+                ? "border-cms-black bg-cms-gray-100"
+                : "border-cms-gray-300 bg-white hover:bg-cms-gray-50",
             disabled && "opacity-50 cursor-not-allowed pointer-events-none",
-            isSingleMode && hasFile && "p-0"
+            isSingleMode && hasFile && "p-0",
           )}
         >
           <input {...getInputProps()} />
 
           {isSingleMode && hasFile && showPreview ? (
-            <div className="relative w-full h-full min-h-[200px] group flex items-center justify-center bg-cms-gray-100 rounded-md overflow-hidden">
+            <div
+              className={cn(
+                "group flex items-center justify-center",
+                "relative w-full h-full min-h-[200px]",
+                "rounded-md overflow-hidden",
+                "bg-cms-gray-100",
+              )}
+            >
               <img
                 src={URL.createObjectURL(files[0])}
                 alt={files[0].name}
@@ -304,7 +324,7 @@ export const ImageUpload = ({
                   "bg-white shadow-md",
                   "hover:bg-cms-gray-100",
                   "cursor-pointer",
-                  "border-none"
+                  "border-none",
                 )}
                 aria-label="파일 제거"
               >
@@ -314,24 +334,43 @@ export const ImageUpload = ({
           ) : (
             <div className="p-6 flex flex-col items-center">
               <ImageUploadIcon className="text-cms-gray-400" />
-              <p className="mt-4 text-sm font-medium text-cms-black text-center">
+              <Text
+                variant="emphasis"
+                align="center"
+                className="mt-4 text-cms-black"
+              >
                 {isDragActive ? placeholderActive : placeholder}
-              </p>
-              <p className="mt-1 text-xs text-cms-gray-400 text-center">
+              </Text>
+              <Text
+                variant="caption"
+                align="center"
+                className="mt-1 text-cms-gray-400"
+              >
                 {maxFiles > 1 ? `최대 ${maxFiles}개` : "1개"} 파일, 최대{" "}
                 {maxSize / 1024 / 1024}MB
-              </p>
+              </Text>
             </div>
           )}
         </div>
       )}
 
       {!isSingleMode && showPreview && files.length > 0 && (
-        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 justify-items-center">
+        <div
+          className={cn(
+            "mt-4 gap-4",
+            "grid grid-cols-2",
+            "sm:grid-cols-3",
+            "md:grid-cols-4",
+            "justify-items-center",
+          )}
+        >
           {files.map((file, index) => (
             <div
               key={index}
-              className="relative group rounded-md overflow-hidden border border-cms-gray-300"
+              className={cn(
+                "relative group rounded-md overflow-hidden",
+                "border border-cms-gray-300",
+              )}
             >
               <div className="aspect-square bg-cms-gray-100">
                 <img
@@ -353,17 +392,24 @@ export const ImageUpload = ({
                   "bg-white shadow-md",
                   "hover:bg-cms-gray-100",
                   "cursor-pointer",
-                  "border-none"
+                  "border-none",
                 )}
                 aria-label="파일 제거"
               >
                 <CloseIcon className="w-3 h-3" />
               </button>
-              <div className="px-2 py-1.5 bg-white border-t border-cms-gray-300">
-                <p className="text-xs text-cms-gray-600 truncate">{file.name}</p>
-                <p className="text-xs text-cms-gray-400">
+              <div
+                className={cn(
+                  "px-2 py-1.5 bg-white",
+                  "border-t border-cms-gray-300",
+                )}
+              >
+                <Text variant="caption" className="text-cms-gray-600 truncate">
+                  {file.name}
+                </Text>
+                <Text variant="caption" className="text-cms-gray-400">
                   {(file.size / 1024).toFixed(1)} KB
-                </p>
+                </Text>
               </div>
             </div>
           ))}
