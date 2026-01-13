@@ -317,6 +317,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
               "absolute z-50 mt-1 w-full min-w-0 py-1",
               "rounded-md border border-cms-gray-300",
               "bg-white shadow-lg",
+              "cms-dropdown-show",
               dropdownClassName,
             )}
             style={{ maxHeight: `${maxHeight}px` }}
