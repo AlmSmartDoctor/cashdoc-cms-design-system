@@ -40,13 +40,7 @@ jobs:
       - name: Verify build artifacts
         run: ls -la dist
 
-      - name: Create .npmrc
-        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
