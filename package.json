@@ -73,6 +73,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-interactions": "^7.6.17",
     "@storybook/addon-links": "^7.6.17",
@@ -101,6 +103,7 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "semantic-release": "^25.0.2",
     "storybook": "^7.6.17",
     "storycap": "^5.0.1",
     "tailwindcss": "^4.1.6",
