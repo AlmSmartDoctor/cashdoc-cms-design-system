@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.1.0...v1.2.0) (2026-01-13)
+
+
+### Features
+
+* OIDC 배포로 변경 ([0f3d295](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/0f3d2954be7633da93536db38a31e05923d683b9))
+
 # [1.1.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.0.16...v1.1.0) (2026-01-13)
 
 
