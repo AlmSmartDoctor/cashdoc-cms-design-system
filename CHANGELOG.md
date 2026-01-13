@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.0.16...v1.1.0) (2026-01-13)
+
+
+### Features
+
+* 릴리즈 워크플로우 수정 ([cc8ab9b](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/cc8ab9bdc64f6b5df305e86800a64f2842026faa))
+
 # 1.0.0 (2026-01-13)
 
 
