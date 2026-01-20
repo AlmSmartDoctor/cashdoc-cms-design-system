@@ -160,7 +160,12 @@ export const FileUpload = ({
             >
               <FileIcon className="h-8 w-8" />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm leading-tight font-medium text-cms-black">
+                <p
+                  className={cn(
+                    "truncate text-sm leading-tight",
+                    "font-medium text-cms-black",
+                  )}
+                >
                   {file.name}
                 </p>
                 <p className="text-xs leading-tight text-cms-gray-400">
