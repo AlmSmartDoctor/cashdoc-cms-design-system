@@ -408,8 +408,8 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
               {showScrollIndicator && (
                 <div
                   className={cn(
-                    "flex items-end justify-center",
-                    "absolute right-0 bottom-0 left-0 h-8 pb-1",
+                    "absolute flex items-end justify-center",
+                    "right-0 bottom-0 left-0 h-8 pb-1",
                     "bg-linear-to-t from-white to-transparent",
                     "pointer-events-none",
                   )}
