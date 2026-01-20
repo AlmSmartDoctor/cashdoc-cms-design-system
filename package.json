@@ -46,6 +46,10 @@
     "tailwindcss",
     "storybook"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlmSmartDoctor/cashdoc-cms-design-system.git"
+  },
   "author": "",
   "license": "MIT",
   "engines": {
