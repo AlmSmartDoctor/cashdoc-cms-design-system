@@ -1,46 +1,126 @@
 name: Release
 
 on:
+  workflow_dispatch:
+    inputs:
+      release-type:
+        description: 'Release type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: 'patch'
   push:
     branches:
       - main
+    paths-ignore:
+      - 'CHANGELOG.md'
+      - 'package.json'
+      - '.github/**'
 
 permissions:
-  contents: write # to be able to publish a GitHub release
-  issues: write # to be able to comment on released issues
-  pull-requests: write # to be able to comment on released pull requests
-  id-token: write # to enable use of OIDC for npm provenance
+  contents: write
+  id-token: write
 
 jobs:
-  release:
-    name: Release
+  check-commits:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    outputs:
+      should-release: ${{ steps.check.outputs.should-release }}
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # required for semantic-release to check commit history
+          fetch-depth: 0
 
-      - uses: pnpm/action-setup@v4
+      - name: Check commit messages
+        id: check
+        run: |
+          LAST_COMMIT=$(git log -1 --pretty=%B)
+          if [[ "$LAST_COMMIT" =~ ^chore\(release\): ]]; then
+            echo "should-release=false" >> $GITHUB_OUTPUT
+          else
+            echo "should-release=true" >> $GITHUB_OUTPUT
+          fi
+
+  release:
+    needs: check-commits
+    # Run if it's a manual dispatch OR if it's a push that passed the check
+    if: |
+      always() && 
+      (github.event_name == 'workflow_dispatch' || (needs.check-commits.result == 'success' && needs.check-commits.outputs.should-release == 'true'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          version: 10.27.0
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9.0.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
-          cache: "pnpm"
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm run build
+        run: pnpm build
 
-      - name: Verify build artifacts
-        run: ls -la dist
+      - name: Bump version and generate changelog
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            if [ "${{ github.event.inputs.release-type }}" = "minor" ]; then
+              pnpm release:minor
+            elif [ "${{ github.event.inputs.release-type }}" = "major" ]; then
+              pnpm release:major
+            else
+              pnpm release
+            fi
+          else
+            # For push events, default to standard release (patch or auto detected by standard-version)
+            pnpm release
+          fi
 
-      - name: Release
+      - name: Push changes
+        run: |
+          git push --follow-tags origin main
+
+      - name: Get version
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Publish to NPM
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Release v${{ steps.version.outputs.version }}
+          body: |
+            🎉 New version released!
+
+            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
+          draft: false
+          prerelease: false
