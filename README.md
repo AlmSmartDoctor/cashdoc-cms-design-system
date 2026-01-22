@@ -46,7 +46,7 @@ import "@cashdoc/cashdoc-cms-design-system/dist/style.css";
 ```
 
 ```tsx
-import { Button, Modal, DatePicker } from "cashdoc-cms-design-system";
+import { Button, Modal, DatePicker } from "@cashdoc/cashdoc-cms-design-system";
 
 function App() {
   return <Button variant="default">버튼</Button>;
