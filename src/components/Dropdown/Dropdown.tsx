@@ -1,13 +1,14 @@
 import { cn } from "@/utils/cn";
 import { VariantProps } from "class-variance-authority";
 import { useState, useRef, useEffect, forwardRef, KeyboardEvent } from "react";
-import { ChevronDownFillIcon, XIcon as ClearIcon } from "../icons";
+import { ChevronDownFillIcon, ChevronRightFillIcon, XIcon as ClearIcon } from "../icons";
 import { dropdownTriggerVariants } from "./variants";
 
 export interface DropdownOption {
   value: string;
   label: string;
   disabled?: boolean;
+  children?: DropdownOption[];
 }
 
 export interface DropdownProps extends VariantProps<
@@ -137,6 +138,8 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     const [selectedValues, setSelectedValues] = useState<string[]>(
       multiple ? (value ? value.split(",").filter(Boolean) : []) : [],
     );
+    const [hoveredSubmenu, setHoveredSubmenu] = useState<{ value: string; top: number } | null>(null);
+    const optionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
     useEffect(() => {
       const nextValues = value
@@ -156,7 +159,19 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     const searchInputRef = useRef<HTMLInputElement>(null);
     const optionsListRef = useRef<HTMLDivElement>(null);
 
-    const selectedOption = options.find((option) => option.value === value);
+    // 서브메뉴 포함하여 옵션 찾기
+    const findOption = (opts: DropdownOption[], val: string): DropdownOption | undefined => {
+      for (const opt of opts) {
+        if (opt.value === val) return opt;
+        if (opt.children) {
+          const found = findOption(opt.children, val);
+          if (found) return found;
+        }
+      }
+      return undefined;
+    };
+
+    const selectedOption = findOption(options, value || "");
     const selectedLabel = multiple
       ? selectedValues.length > 0
         ? `${selectedValues.length}개 선택됨`
@@ -357,49 +372,76 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                     const isSelected = multiple
                       ? selectedValues.includes(option.value)
                       : value === option.value;
+                    const hasSubmenu = option.children && option.children.length > 0;
+                    const isSubmenuOpen = hoveredSubmenu?.value === option.value;
+
+                    const handleMouseEnter = () => {
+                      if (hasSubmenu) {
+                        const el = optionRefs.current.get(option.value);
+                        if (el && optionsListRef.current) {
+                          const optionRect = el.getBoundingClientRect();
+                          const listRect = optionsListRef.current.getBoundingClientRect();
+                          setHoveredSubmenu({
+                            value: option.value,
+                            top: optionRect.top - listRect.top + optionsListRef.current.scrollTop,
+                          });
+                        }
+                      }
+                    };
 
                     return (
-                      <button
+                      <div
                         key={option.value}
-                        type="button"
-                        className={cn(
-                          "border-0",
-                          "flex items-center justify-between gap-2",
-                          "w-full px-3 py-2",
-                          "text-left text-sm",
-                          "transition-colors",
-                          option.disabled
-                            ? "cursor-not-allowed bg-white text-cms-gray-400"
-                            : cn(
-                                "bg-white text-cms-black",
-                                "hover:bg-cms-gray-100",
-                                "cursor-pointer",
-                              ),
-                          isSelected && "bg-cms-gray-150 font-medium",
-                        )}
-                        onClick={() => handleOptionClick(option)}
-                        disabled={option.disabled}
+                        ref={(el) => {
+                          if (el) optionRefs.current.set(option.value, el);
+                        }}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={() => hasSubmenu && setHoveredSubmenu(null)}
                       >
-                        <span className="truncate">{option.label}</span>
-                        {isSelected && (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            className="h-4 w-4 shrink-0 text-black"
-                          >
-                            <path
-                              d="M13.5 4.5L6 12L2.5 8.5"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        )}
-                      </button>
+                        <button
+                          type="button"
+                          className={cn(
+                            "border-0",
+                            "flex items-center justify-between gap-2",
+                            "w-full px-3 py-2",
+                            "text-left text-sm",
+                            "transition-colors",
+                            option.disabled
+                              ? "cursor-not-allowed bg-white text-cms-gray-400"
+                              : cn(
+                                  "bg-white text-cms-black",
+                                  "hover:bg-cms-gray-100",
+                                  "cursor-pointer",
+                                ),
+                            isSelected && "bg-cms-gray-150 font-medium",
+                            isSubmenuOpen && "bg-cms-gray-100",
+                          )}
+                          onClick={() => !hasSubmenu && handleOptionClick(option)}
+                          disabled={option.disabled}
+                        >
+                          <span className="truncate">{option.label}</span>
+                          {hasSubmenu ? (
+                            <ChevronRightFillIcon className="h-3 w-3 shrink-0 text-cms-gray-400" />
+                          ) : isSelected ? (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                              className="h-4 w-4 shrink-0 text-black"
+                            >
+                              <path
+                                d="M13.5 4.5L6 12L2.5 8.5"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          ) : null}
+                        </button>
+                      </div>
                     );
                   })
                 )}
@@ -423,6 +465,76 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                   />
                 </div>
               )}
+
+              {/* Submenu - rendered outside overflow container */}
+              {hoveredSubmenu && (() => {
+                const parentOption = filteredOptions.find(o => o.value === hoveredSubmenu.value);
+                if (!parentOption?.children) return null;
+
+                return (
+                  <div
+                    className={cn(
+                      "absolute left-full z-50 ml-1 min-w-40 py-1",
+                      "rounded-md border border-cms-gray-300",
+                      "bg-white shadow-lg",
+                      "cms-dropdown-show",
+                    )}
+                    style={{ top: hoveredSubmenu.top }}
+                    onMouseEnter={() => setHoveredSubmenu(hoveredSubmenu)}
+                    onMouseLeave={() => setHoveredSubmenu(null)}
+                  >
+                    {parentOption.children.map((subOption) => {
+                      const isSubSelected = multiple
+                        ? selectedValues.includes(subOption.value)
+                        : value === subOption.value;
+
+                      return (
+                        <button
+                          key={subOption.value}
+                          type="button"
+                          className={cn(
+                            "border-0",
+                            "flex items-center justify-between gap-2",
+                            "w-full px-3 py-2",
+                            "text-left text-sm",
+                            "transition-colors",
+                            subOption.disabled
+                              ? "cursor-not-allowed bg-white text-cms-gray-400"
+                              : cn(
+                                  "bg-white text-cms-black",
+                                  "hover:bg-cms-gray-100",
+                                  "cursor-pointer",
+                                ),
+                            isSubSelected && "bg-cms-gray-150 font-medium",
+                          )}
+                          onClick={() => handleOptionClick(subOption)}
+                          disabled={subOption.disabled}
+                        >
+                          <span className="truncate">{subOption.label}</span>
+                          {isSubSelected && (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                              className="h-4 w-4 shrink-0 text-black"
+                            >
+                              <path
+                                d="M13.5 4.5L6 12L2.5 8.5"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
             </div>
           </div>
         )}

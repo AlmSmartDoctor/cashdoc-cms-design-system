@@ -587,3 +587,57 @@ export const ForJsdoc: Story = {
     </div>
   ),
 };
+
+const SubmenuStory = () => {
+  const [value, setValue] = useState("");
+
+  const optionsWithSubmenu = [
+    { value: "home", label: "홈" },
+    {
+      value: "products",
+      label: "제품",
+      children: [
+        { value: "product-a", label: "제품 A" },
+        { value: "product-b", label: "제품 B" },
+        { value: "product-c", label: "제품 C" },
+      ],
+    },
+    {
+      value: "services",
+      label: "서비스",
+      children: [
+        { value: "service-consulting", label: "컨설팅" },
+        { value: "service-development", label: "개발" },
+        { value: "service-support", label: "지원", disabled: true },
+      ],
+    },
+    { value: "about", label: "회사 소개" },
+    { value: "contact", label: "연락처" },
+  ];
+
+  return (
+    <div className="w-64">
+      <Dropdown
+        options={optionsWithSubmenu}
+        value={value}
+        onValueChange={setValue}
+        placeholder="메뉴를 선택하세요"
+      />
+      <p className="text-grayscale03 mt-2 text-sm">
+        선택된 값: {value || "없음"}
+      </p>
+    </div>
+  );
+};
+
+export const Submenu: Story = {
+  render: () => <SubmenuStory />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "서브메뉴가 있는 드롭다운입니다. 옵션에 마우스를 올리면 서브메뉴가 표시됩니다.",
+      },
+    },
+  },
+};
