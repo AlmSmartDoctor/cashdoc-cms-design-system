@@ -31,8 +31,9 @@ Storybook과 JSDoc, 둘 중 더 편한 쪽을 보면 됩니다.
 ## 설치
 
 ```bash
-pnpm install cashdoc-cms-design-system
+pnpm install @cashdoc/cashdoc-cms-design-system
 ```
+> `pnpm install cashdoc-cms-design-system`은 deprecated 되었습니다.
 
 <br />
 
