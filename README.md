@@ -42,7 +42,7 @@ pnpm install @cashdoc/cashdoc-cms-design-system
 프로젝트 최상단에서 cashdoc-cms-design-system의 `style.css` 파일을 import 후 사용하면 됩니다.
 
 ```tsx
-import "cashdoc-cms-design-system/dist/style.css";
+import "@cashdoc/cashdoc-cms-design-system/dist/style.css";
 ```
 
 ```tsx
