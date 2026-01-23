@@ -641,3 +641,52 @@ export const Submenu: Story = {
     },
   },
 };
+
+const SubmenuWithScrollStory = () => {
+  const [value, setValue] = useState("");
+
+  const optionsWithSubmenuAndScroll = [
+    { label: "대기", value: "00" },
+    { label: "전달", value: "01" },
+    {
+      label: "채팅전달",
+      value: "채팅전달",
+      children: [
+        { label: "채팅상담전달", value: "011" },
+        { label: "채팅바로전달", value: "012" },
+      ],
+    },
+    { label: "자동전달", value: "013" },
+    { label: "연결 X", value: "03" },
+    { label: "전달 X", value: "04" },
+    { label: "중복", value: "05" },
+    { label: "테스트", value: "06" },
+  ];
+
+  return (
+    <div className="w-64">
+      <Dropdown
+        options={optionsWithSubmenuAndScroll}
+        value={value}
+        onValueChange={setValue}
+        placeholder="상태를 선택하세요"
+        maxHeight={200}
+      />
+      <p className="text-grayscale03 mt-2 text-sm">
+        선택된 값: {value || "없음"}
+      </p>
+    </div>
+  );
+};
+
+export const SubmenuWithScroll: Story = {
+  render: () => <SubmenuWithScrollStory />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "스크롤이 생기는 조건에서 서브메뉴 동작을 확인하는 예제입니다.",
+      },
+    },
+  },
+};
