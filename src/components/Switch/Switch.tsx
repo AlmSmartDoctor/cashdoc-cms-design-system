@@ -3,11 +3,37 @@ import * as SwitchPrimitives from "@radix-ui/react-switch";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
 
+const DEFAULT_SWITCH_WIDTH = 40;
+const SWITCH_LABEL_OFFSET_PX = 3;
+const SWITCH_THUMB_TRAVEL_OFFSET_PX = 26;
+
+type SwitchInlineStyle = React.CSSProperties & Record<`--${string}`, string>;
+
+const resolveSwitchWidth = (width?: number | string): string => {
+  if (typeof width === "number") {
+    return `${Math.max(width, DEFAULT_SWITCH_WIDTH)}px`;
+  }
+
+  if (typeof width === "string") {
+    const trimmedWidth = width.trim();
+
+    if (!trimmedWidth) return `${DEFAULT_SWITCH_WIDTH}px`;
+
+    if (!Number.isNaN(Number(trimmedWidth))) {
+      return `${Math.max(Number(trimmedWidth), DEFAULT_SWITCH_WIDTH)}px`;
+    }
+
+    return trimmedWidth;
+  }
+
+  return `${DEFAULT_SWITCH_WIDTH}px`;
+};
+
 const switchVariants = cva(
   cn(
-    "peer inline-flex items-center transition-colors ",
+    "peer group relative inline-flex items-center transition-colors",
     "rounded-full border-2 border-transparent box-border",
-    "h-6 w-10 shrink-0 py-0.5 px-[1px]",
+    "h-6 w-[var(--switch-track-width-safe)] shrink-0 py-0.5 px-[1px]",
     "cursor-pointer",
     "focus-visible:outline-none",
     "disabled:cursor-not-allowed disabled:opacity-50",
@@ -33,7 +59,23 @@ const switchVariants = cva(
 export interface SwitchProps
   extends
     React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>,
-    VariantProps<typeof switchVariants> {}
+    VariantProps<typeof switchVariants> {
+  /**
+   * 스위치 트랙의 가로 길이입니다.
+   * - `number` 입력 시 px 단위로 처리됩니다. (예: `96`)
+   * - `string` 입력 시 CSS 길이값으로 처리됩니다. (예: `8rem`, `120px`)
+   * - 최소 길이는 기본 크기(40px)입니다.
+   */
+  width?: number | string;
+  /**
+   * 스위치가 켜짐(`checked`) 상태일 때, thumb 반대편(왼쪽 빈 영역)에 표시할 텍스트입니다.
+   */
+  checkedLabel?: React.ReactNode;
+  /**
+   * 스위치가 꺼짐(`unchecked`) 상태일 때, thumb 반대편(오른쪽 빈 영역)에 표시할 텍스트입니다.
+   */
+  uncheckedLabel?: React.ReactNode;
+}
 
 /**
  * 두 가지 상반된 상태(On/Off, 활성/비활성)를 즉각적으로 전환할 때 사용하는 컴포넌트입니다.
@@ -59,13 +101,22 @@ export interface SwitchProps
  *
  * - **Inline Component**: 주변 텍스트나 다른 요소와 자연스럽게 어우러지는 인라인 블록 형태입니다.
  * - **Thumb Animation**: 클릭 시 스위치의 '손잡이(Thumb)'가 부드럽게 좌우로 이동하며 상태 변화를 시각화합니다.
+ * - **Adjustable Width**: `width` prop으로 가로 길이를 확장할 수 있으며, 높이(24px)와 thumb 크기(20px)는 고정됩니다.
+ * - **Inner State Label**: `checkedLabel`, `uncheckedLabel`을 사용하면 스위치 내부 빈 영역에 상태 텍스트를 표시할 수 있습니다.
+ *
+ * ## Props (확장 기능)
+ *
+ * - **width**: 스위치 가로 길이 (`number | string`)
+ * - **checkedLabel**: 켜짐 상태에서 왼쪽 빈 영역에 표시할 텍스트 (`ReactNode`)
+ * - **uncheckedLabel**: 꺼짐 상태에서 오른쪽 빈 영역에 표시할 텍스트 (`ReactNode`)
  *
  * ## Usage guidelines
  *
  * ### ✅ Do (권장 사항)
  *
  * - **명확한 현재 상태 표시**: 색상 변화(회색 vs 색상)를 통해 켜져 있는지 꺼져 있는지 한눈에 알 수 있게 하세요.
- * - **레이블과 함께 사용**: 스위치 옆에 무엇을 제어하는지 설명하는 텍스트를 반드시 배치하세요.
+ * - **문맥 레이블 제공**: 스위치가 무엇을 제어하는지 외부 레이블(스위치 옆 텍스트) 또는 내부 상태 텍스트로 명확히 표현하세요.
+ * - **텍스트 길이에 맞는 폭 사용**: `checkedLabel`과 `uncheckedLabel` 길이를 고려해 `width` 값을 지정하세요.
  *
  * ### 🚫 Don't (주의/금지 사항)
  *
@@ -88,6 +139,16 @@ export interface SwitchProps
  *   <label htmlFor="airplane-mode">비행기 모드</label>
  * </div>
  * ```
+ *
+ * 내부 상태 텍스트와 가변 길이를 사용하는 스위치:
+ *
+ * ```tsx
+ * <Switch
+ *   width={96}
+ *   checkedLabel="노출"
+ *   uncheckedLabel="미노출"
+ * />
+ * ```
  * {@end-tool}
  *
  * See also:
@@ -101,24 +162,69 @@ export interface SwitchProps
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   SwitchProps
->(({ className, variant, ...props }, ref) => (
-  <SwitchPrimitives.Root
-    className={cn(switchVariants({ variant }), className)}
-    {...props}
-    ref={ref}
-  >
-    <SwitchPrimitives.Thumb
-      className={cn(
-        "pointer-events-none block rounded-full ring-0",
-        "bg-cms-white shadow-lg",
-        "h-5 w-5",
-        "cursor-pointer data-[state=unchecked]:translate-x-0",
-        "data-[state=checked]:translate-x-3.5",
-        "transition-transform",
-      )}
-    />
-  </SwitchPrimitives.Root>
-));
+>(
+  (
+    {
+      className,
+      variant,
+      width,
+      checkedLabel,
+      uncheckedLabel,
+      style,
+      ...props
+    },
+    ref,
+  ) => {
+    const resolvedWidth = resolveSwitchWidth(width);
+
+    const switchStyle: SwitchInlineStyle = {
+      ...style,
+      "--switch-track-width": resolvedWidth,
+      "--switch-track-width-safe": `max(var(--switch-track-width), ${DEFAULT_SWITCH_WIDTH}px)`,
+      "--switch-thumb-translate": `calc(var(--switch-track-width-safe) - ${SWITCH_THUMB_TRAVEL_OFFSET_PX}px)`,
+      "--switch-label-width": `calc(var(--switch-track-width-safe) - ${SWITCH_THUMB_TRAVEL_OFFSET_PX}px)`,
+    };
+
+    return (
+      <SwitchPrimitives.Root
+        className={cn(switchVariants({ variant }), className)}
+        {...props}
+        style={switchStyle}
+        ref={ref}
+      >
+        {(checkedLabel || uncheckedLabel) && (
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 left-0"
+          >
+            <span
+              className="absolute inset-y-0 flex w-[var(--switch-label-width)] items-center justify-center overflow-hidden px-1 text-[10px] leading-none font-medium text-ellipsis whitespace-nowrap text-cms-white opacity-0 transition-opacity group-data-[state=checked]:opacity-100"
+              style={{ left: `${SWITCH_LABEL_OFFSET_PX}px` }}
+            >
+              {checkedLabel}
+            </span>
+            <span
+              className="absolute inset-y-0 flex w-[var(--switch-label-width)] items-center justify-center overflow-hidden px-1 text-[10px] leading-none font-medium text-ellipsis whitespace-nowrap text-cms-gray-700 opacity-100 transition-opacity group-data-[state=checked]:opacity-0"
+              style={{ right: `${SWITCH_LABEL_OFFSET_PX}px` }}
+            >
+              {uncheckedLabel}
+            </span>
+          </span>
+        )}
+        <SwitchPrimitives.Thumb
+          className={cn(
+            "pointer-events-none relative z-10 block rounded-full ring-0",
+            "bg-cms-white shadow-lg",
+            "h-5 w-5",
+            "cursor-pointer data-[state=unchecked]:translate-x-0",
+            "data-[state=checked]:translate-x-[var(--switch-thumb-translate)]",
+            "transition-transform",
+          )}
+        />
+      </SwitchPrimitives.Root>
+    );
+  },
+);
 Switch.displayName = SwitchPrimitives.Root.displayName;
 
 export { Switch };

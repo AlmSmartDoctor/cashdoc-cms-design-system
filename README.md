@@ -33,6 +33,7 @@ Storybook과 JSDoc, 둘 중 더 편한 쪽을 보면 됩니다.
 ```bash
 pnpm install @cashdoc/cashdoc-cms-design-system
 ```
+
 > `pnpm install cashdoc-cms-design-system`은 deprecated 되었습니다.
 
 <br />
@@ -62,7 +63,7 @@ function App() {
 - `Button` - 기본 버튼
 - `Checkbox` - 체크박스
 - `RadioButton` - 라디오 버튼
-- `Switch` - 토글 스위치
+- `Switch` - 토글 스위치 (가변 길이 및 내부 상태 텍스트 지원)
 - `TextInput` - 텍스트 입력 필드
 - `TagInput` - 태그 입력 필드
 
