@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.3.0...v1.4.0) (2026-02-20)
+
+
+### Features
+
+* switch 너비 업데이트 ([2dd106f](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/2dd106f65ac4998b9e99c1ffd22ff65221af0761))
+
 ## [1.3.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.2.0...v1.3.0) (2026-01-23)
 
 
