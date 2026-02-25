@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { SideNavigation, MenuItem } from "./SideNavigation";
+import type { MenuItem } from "./SideNavigation";
+import { SideNavigation } from "./SideNavigation";
 import {
   Home,
   Users,
@@ -11,6 +12,7 @@ import {
   Star,
 } from "lucide-react";
 import { useState } from "react";
+import { cn } from "@/utils/cn";
 
 const meta: Meta<typeof SideNavigation> = {
   title: "Navigation/SideNavigation",
@@ -169,7 +171,12 @@ export const WithHeader: Story = {
           headerSlot={
             <div className="flex flex-col gap-5 p-5">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FFC107]">
+                <div
+                  className={cn(
+                    "flex h-10 w-10 items-center justify-center rounded-full",
+                    "bg-[#FFC107]",
+                  )}
+                >
                   <span className="text-xl font-bold text-black">C</span>
                 </div>
                 <span className="text-xl font-bold text-white">캐시닥</span>
@@ -178,11 +185,21 @@ export const WithHeader: Story = {
                 <span className="pl-3 text-base font-semibold text-white">
                   캐시닥병원
                 </span>
-                <button className="rounded-2xl bg-[#FFC107] px-4 py-1.5 text-sm font-medium text-black">
+                <button
+                  className={cn(
+                    "rounded-2xl bg-[#FFC107] px-4 py-1.5",
+                    "text-sm font-medium text-black",
+                  )}
+                >
                   로그아웃
                 </button>
               </div>
-              <div className="rounded bg-[#4C4D50] px-3 py-2.5 text-sm text-gray-300">
+              <div
+                className={cn(
+                  "rounded-sm bg-[#4C4D50] px-3 py-2.5",
+                  "text-sm text-gray-300",
+                )}
+              >
                 잔액 : 329,099P
               </div>
             </div>
@@ -336,7 +353,12 @@ export const ForJsdoc: Story = {
   render: (args) => {
     const [selectedUrl, setSelectedUrl] = useState("/home");
     return (
-      <div className="relative flex h-150 overflow-hidden rounded-lg border border-gray-200">
+      <div
+        className={cn(
+          "relative flex h-150 overflow-hidden rounded-l",
+          "border border-gray-200",
+        )}
+      >
         <SideNavigation
           {...args}
           selectedUrl={selectedUrl}
@@ -344,7 +366,12 @@ export const ForJsdoc: Story = {
           headerSlot={
             <div className="flex flex-col gap-5 p-5">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FFC107]">
+                <div
+                  className={cn(
+                    "flex size-10 items-center justify-center rounded-full",
+                    "bg-[#FFC107]",
+                  )}
+                >
                   <span className="text-xl font-bold text-black">C</span>
                 </div>
                 <span className="text-xl font-bold text-white">캐시닥</span>

@@ -142,22 +142,22 @@ export const WidthShowcase: Story = {
   render: () => (
     <div className="flex flex-col gap-3 p-4">
       <div className="flex items-center gap-3">
-        <span className="text-cms-sm w-14">64px</span>
+        <span className="w-14 text-sm">64px</span>
         <Switch width={64} />
         <Switch width={64} checked />
       </div>
       <div className="flex items-center gap-3">
-        <span className="text-cms-sm w-14">96px</span>
+        <span className="w-14 text-sm">96px</span>
         <Switch width={96} />
         <Switch width={96} checked />
       </div>
       <div className="flex items-center gap-3">
-        <span className="text-cms-sm w-14">140px</span>
+        <span className="w-14 text-sm">140px</span>
         <Switch width={140} />
         <Switch width={140} checked />
       </div>
       <div className="flex items-center gap-3">
-        <span className="text-cms-sm w-14">8rem</span>
+        <span className="w-14 text-sm">8rem</span>
         <Switch width="8rem" />
         <Switch width="8rem" checked />
       </div>
@@ -178,11 +178,11 @@ export const InnerLabelStateComparison: Story = {
   render: () => (
     <div className="flex flex-col gap-3 p-4">
       <div className="flex items-center gap-3">
-        <span className="text-cms-sm w-14">Unchecked</span>
+        <span className="w-14 text-sm">Unchecked</span>
         <Switch width={96} checkedLabel="노출" uncheckedLabel="미노출" />
       </div>
       <div className="flex items-center gap-3">
-        <span className="text-cms-sm w-14">Checked</span>
+        <span className="w-14 text-sm">Checked</span>
         <Switch
           width={96}
           checked
@@ -292,7 +292,7 @@ export const LongLabelCentering: Story = {
   render: () => (
     <div className="flex flex-col gap-3 p-4">
       <div className="flex items-center gap-3">
-        <span className="text-cms-sm w-20">길이 120</span>
+        <span className="w-20 text-sm">길이 120</span>
         <Switch
           width={120}
           checkedLabel="ON"
@@ -307,7 +307,7 @@ export const LongLabelCentering: Story = {
         />
       </div>
       <div className="flex items-center gap-3">
-        <span className="text-cms-sm w-20">길이 160</span>
+        <span className="w-20 text-sm">길이 160</span>
         <Switch
           width={160}
           checkedLabel="ON"
@@ -350,7 +350,7 @@ export const DisabledChecked: Story = {
 const LabeledSwitch = (props: SwitchProps & { label: string }) => (
   <div className="flex items-center space-x-2">
     <Switch {...props} id={props.label} />
-    <label htmlFor={props.label} className="text-cms-sm min-w-12 capitalize">
+    <label htmlFor={props.label} className="min-w-12 text-sm capitalize">
       {props.label}
     </label>
   </div>
@@ -359,7 +359,7 @@ const LabeledSwitch = (props: SwitchProps & { label: string }) => (
 export const AllVariants: Story = {
   render: () => (
     <div className="flex flex-col gap-4 p-4">
-      <h3 className="text-cms-md font-semibold">체크</h3>
+      <h3 className="text-base font-semibold">체크</h3>
       <div className="flex flex-wrap items-center gap-4">
         <LabeledSwitch variant="default" label="기본" checked />
         <LabeledSwitch variant="green" label="초록" checked />
@@ -367,7 +367,7 @@ export const AllVariants: Story = {
         <LabeledSwitch variant="blue" label="파랑" checked />
         <LabeledSwitch variant="red" label="빨강" checked />
       </div>
-      <h3 className="text-cms-md mt-4 font-semibold">체크 해제</h3>
+      <h3 className="mt-4 text-base font-semibold">체크 해제</h3>
       <div className="flex flex-wrap items-center gap-4">
         <LabeledSwitch variant="default" label="기본" checked={false} />
         <LabeledSwitch variant="green" label="초록" checked={false} />
@@ -375,7 +375,7 @@ export const AllVariants: Story = {
         <LabeledSwitch variant="blue" label="파랑" checked={false} />
         <LabeledSwitch variant="red" label="빨강" checked={false} />
       </div>
-      <h3 className="text-cms-md mt-4 font-semibold">비활성화</h3>
+      <h3 className="mt-4 text-base font-semibold">비활성화</h3>
       <div className="flex flex-wrap items-center gap-4">
         <LabeledSwitch variant="default" label="체크 해제" disabled />
         <LabeledSwitch variant="default" label="체크" disabled checked />
@@ -396,7 +396,7 @@ export const ForJsdoc: Story = {
   render: () => (
     <div className="flex flex-col gap-5 p-4">
       <div>
-        <h3 className="text-cms-md mb-2 font-semibold">기본 Variant</h3>
+        <h3 className="mb-2 text-base font-semibold">기본 Variant</h3>
         <div className="flex flex-wrap items-center gap-3">
           <Switch variant="default" checked />
           <Switch variant="green" checked />
@@ -407,15 +407,15 @@ export const ForJsdoc: Story = {
       </div>
 
       <div>
-        <h3 className="text-cms-md mb-2 font-semibold">길이 조절</h3>
+        <h3 className="mb-2 text-base font-semibold">길이 조절</h3>
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
-            <span className="text-cms-sm w-12">96px</span>
+            <span className="w-12 text-sm">96px</span>
             <Switch width={96} />
             <Switch width={96} checked />
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-cms-sm w-12">128px</span>
+            <span className="w-12 text-sm">128px</span>
             <Switch width={128} />
             <Switch width={128} checked />
           </div>
@@ -423,7 +423,7 @@ export const ForJsdoc: Story = {
       </div>
 
       <div>
-        <h3 className="text-cms-md mb-2 font-semibold">내부 텍스트</h3>
+        <h3 className="mb-2 text-base font-semibold">내부 텍스트</h3>
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
             <Switch width={104} checkedLabel="노출" uncheckedLabel="미노출" />

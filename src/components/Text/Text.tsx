@@ -31,11 +31,11 @@ const textVariants = cva("cms-font-pretendard cms-text-black", {
   },
 });
 
-export interface TextProps
-  extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof textVariants> {
+export type TextProps = {
   as?: "p" | "span" | "div" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "label";
   children: React.ReactNode;
-}
+} & React.HTMLAttributes<HTMLElement> &
+  VariantProps<typeof textVariants>;
 
 /**
  * 일관된 타이포그래피 시스템을 적용하기 위한 텍스트 컴포넌트입니다.

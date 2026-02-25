@@ -3,7 +3,76 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { Clock } from "lucide-react";
 import { cn } from "@/utils/cn";
 
-export interface TimePickerProps {
+type TimePeriod = "AM" | "PM";
+
+type ParsedTime = {
+  hour: number | null;
+  minute: number | null;
+  period: TimePeriod;
+};
+
+const EMPTY_TIME: ParsedTime = {
+  hour: null,
+  minute: null,
+  period: "AM",
+};
+
+const parseTimeValue = (
+  time: string | undefined,
+  format: "24h" | "12h",
+): ParsedTime => {
+  if (!time) return EMPTY_TIME;
+
+  const timeRegex24h = /^(\d{1,2}):(\d{2})$/;
+  const timeRegex12h = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i;
+
+  if (format === "24h") {
+    const match = time.match(timeRegex24h);
+    if (!match) return EMPTY_TIME;
+
+    const hour = Number.parseInt(match[1], 10);
+    const minute = Number.parseInt(match[2], 10);
+    if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return EMPTY_TIME;
+
+    return {
+      hour,
+      minute,
+      period: "AM",
+    };
+  }
+
+  const match = time.match(timeRegex12h);
+  if (!match) return EMPTY_TIME;
+
+  const hour = Number.parseInt(match[1], 10);
+  const minute = Number.parseInt(match[2], 10);
+  if (hour < 1 || hour > 12 || minute < 0 || minute > 59) return EMPTY_TIME;
+
+  return {
+    hour,
+    minute,
+    period: match[3].toUpperCase() === "PM" ? "PM" : "AM",
+  };
+};
+
+const formatTimeValue = (
+  hour: number | null,
+  minute: number | null,
+  period: TimePeriod,
+  format: "24h" | "12h",
+): string => {
+  if (hour === null || minute === null) return "";
+
+  const formattedMinute = minute.toString().padStart(2, "0");
+  if (format === "24h") {
+    const formattedHour = hour.toString().padStart(2, "0");
+    return `${formattedHour}:${formattedMinute}`;
+  }
+
+  return `${hour}:${formattedMinute} ${period}`;
+};
+
+export type TimePickerProps = {
   value?: string;
   onChange?: (time: string) => void;
   label?: string;
@@ -16,7 +85,7 @@ export interface TimePickerProps {
   className?: string;
   minuteStep?: number;
   showIcon?: boolean;
-}
+};
 
 /**
  * 사용자가 시간을 선택할 수 있게 하는 컴포넌트입니다.
@@ -132,45 +201,42 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     },
     ref,
   ) => {
+    const initialTime = parseTimeValue(value, format);
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedHour, setSelectedHour] = useState<number | null>(null);
-    const [selectedMinute, setSelectedMinute] = useState<number | null>(null);
-    const [selectedPeriod, setSelectedPeriod] = useState<"AM" | "PM">("AM");
+    const [selectedHour, setSelectedHour] = useState<number | null>(
+      initialTime.hour,
+    );
+    const [selectedMinute, setSelectedMinute] = useState<number | null>(
+      initialTime.minute,
+    );
+    const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>(
+      initialTime.period,
+    );
+    const [internalValue, setInternalValue] = useState(value ?? "");
 
     const hourScrollRef = useRef<HTMLDivElement>(null);
     const minuteScrollRef = useRef<HTMLDivElement>(null);
+    const isControlled = value !== undefined;
+    const committedValue = isControlled ? value : internalValue;
+    const parsedCommittedValue = useMemo(
+      () => parseTimeValue(committedValue, format),
+      [committedValue, format],
+    );
 
-    // Parse value and set internal state
-    useEffect(() => {
-      if (!value) {
-        setSelectedHour(null);
-        setSelectedMinute(null);
-        setSelectedPeriod("AM");
-        return;
+    const syncDraftFromCommittedValue = () => {
+      setSelectedHour(parsedCommittedValue.hour);
+      setSelectedMinute(parsedCommittedValue.minute);
+      setSelectedPeriod(parsedCommittedValue.period);
+    };
+
+    const handleOpenChange = (nextOpen: boolean) => {
+      if (disabled) return;
+      if (nextOpen) {
+        syncDraftFromCommittedValue();
       }
+      setIsOpen(nextOpen);
+    };
 
-      const timeRegex24h = /^(\d{1,2}):(\d{2})$/;
-      const timeRegex12h = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i;
-
-      if (format === "24h") {
-        const match = value.match(timeRegex24h);
-        if (match) {
-          setSelectedHour(parseInt(match[1], 10));
-          setSelectedMinute(parseInt(match[2], 10));
-        }
-      } else {
-        const match = value.match(timeRegex12h);
-        if (match) {
-          const hour = parseInt(match[1], 10);
-          const period = match[3].toUpperCase() as "AM" | "PM";
-          setSelectedHour(hour);
-          setSelectedMinute(parseInt(match[2], 10));
-          setSelectedPeriod(period);
-        }
-      }
-    }, [value, format]);
-
-    // Generate hour options
     const hours = useMemo(() => {
       if (format === "24h") {
         return Array.from({ length: 24 }, (_, i) => i);
@@ -179,7 +245,6 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       }
     }, [format]);
 
-    // Generate minute options based on step
     const minutes = useMemo(() => {
       const options: number[] = [];
       for (let i = 0; i < 60; i += minuteStep) {
@@ -188,52 +253,43 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       return options;
     }, [minuteStep]);
 
-    // Format display value
-    const displayValue = useMemo(() => {
-      if (selectedHour === null || selectedMinute === null) return "";
-
-      const formattedMinute = selectedMinute.toString().padStart(2, "0");
-
-      if (format === "24h") {
-        const formattedHour = selectedHour.toString().padStart(2, "0");
-        return `${formattedHour}:${formattedMinute}`;
-      } else {
-        return `${selectedHour}:${formattedMinute} ${selectedPeriod}`;
-      }
-    }, [selectedHour, selectedMinute, selectedPeriod, format]);
+    const draftDisplayValue = useMemo(
+      () =>
+        formatTimeValue(selectedHour, selectedMinute, selectedPeriod, format),
+      [selectedHour, selectedMinute, selectedPeriod, format],
+    );
+    const committedDisplayValue = useMemo(
+      () =>
+        formatTimeValue(
+          parsedCommittedValue.hour,
+          parsedCommittedValue.minute,
+          parsedCommittedValue.period,
+          format,
+        ),
+      [parsedCommittedValue, format],
+    );
+    const displayValue = isOpen ? draftDisplayValue : committedDisplayValue;
+    const hourAriaLabelSuffix = format === "24h" ? "시" : "";
+    const minuteAriaLabelSuffix = format === "24h" ? "분" : " minutes";
 
     const handleApply = () => {
       if (selectedHour !== null && selectedMinute !== null) {
-        onChange?.(displayValue);
+        const nextValue = formatTimeValue(
+          selectedHour,
+          selectedMinute,
+          selectedPeriod,
+          format,
+        );
+        if (!isControlled) {
+          setInternalValue(nextValue);
+        }
+        onChange?.(nextValue);
         setIsOpen(false);
       }
     };
 
     const handleCancel = () => {
-      // Reset to current value
-      if (value) {
-        const timeRegex24h = /^(\d{1,2}):(\d{2})$/;
-        const timeRegex12h = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i;
-
-        if (format === "24h") {
-          const match = value.match(timeRegex24h);
-          if (match) {
-            setSelectedHour(parseInt(match[1], 10));
-            setSelectedMinute(parseInt(match[2], 10));
-          }
-        } else {
-          const match = value.match(timeRegex12h);
-          if (match) {
-            setSelectedHour(parseInt(match[1], 10));
-            setSelectedMinute(parseInt(match[2], 10));
-            setSelectedPeriod(match[3].toUpperCase() as "AM" | "PM");
-          }
-        }
-      } else {
-        setSelectedHour(null);
-        setSelectedMinute(null);
-        setSelectedPeriod("AM");
-      }
+      syncDraftFromCommittedValue();
       setIsOpen(false);
     };
 
@@ -264,7 +320,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
         )}
         <PopoverPrimitive.Root
           open={isOpen && !disabled}
-          onOpenChange={setIsOpen}
+          onOpenChange={handleOpenChange}
         >
           <PopoverPrimitive.Trigger asChild>
             <div className="relative">
@@ -275,7 +331,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                 placeholder={placeholder}
                 disabled={disabled}
                 className={cn(
-                  "h-10 w-full rounded border bg-white px-3 text-sm",
+                  "h-10 w-full rounded-sm border bg-white px-3 text-sm",
                   "hover:border-gray-400 hover:bg-gray-50",
                   "focus:outline-none",
                   "transition-all duration-150",
@@ -292,7 +348,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                 <Clock
                   className={cn(
                     "absolute top-1/2 right-0 -translate-y-1/2",
-                    "h-4 w-4 text-gray-400",
+                    "size-4 text-gray-400",
                     disabled && "opacity-50",
                   )}
                 />
@@ -336,7 +392,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                       className={cn(
                         "h-48 w-16 overflow-y-auto",
                         "border border-gray-200",
-                        "cms-no-scrollbar rounded",
+                        "cms-no-scrollbar rounded-sm",
                       )}
                     >
                       {hours.map((hour) => (
@@ -348,16 +404,16 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                             "cursor-pointer border-0",
                             "h-10 w-full text-sm transition-colors",
                             "hover:bg-gray-100",
-                            selectedHour === hour
-                              ? "bg-blue-100 font-medium text-blue-700"
-                              : "bg-white text-gray-700",
+                            selectedHour === hour ?
+                              "bg-blue-100 font-medium text-blue-700"
+                            : "bg-white text-gray-700",
                           )}
-                          aria-label={`${hour}${format === "24h" ? "시" : ""}`}
+                          aria-label={`${hour}${hourAriaLabelSuffix}`}
                           aria-selected={selectedHour === hour}
                         >
-                          {format === "24h"
-                            ? hour.toString().padStart(2, "0")
-                            : hour}
+                          {format === "24h" ?
+                            hour.toString().padStart(2, "0")
+                          : hour}
                         </button>
                       ))}
                     </div>
@@ -365,7 +421,12 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
 
                   {/* Minute Column */}
                   <div className="flex flex-col">
-                    <div className="mb-2 text-center text-xs font-medium text-gray-500">
+                    <div
+                      className={cn(
+                        "mb-2",
+                        "text-center text-xs font-medium text-gray-500",
+                      )}
+                    >
                       {format === "24h" ? "분" : "Min"}
                     </div>
                     <div
@@ -373,7 +434,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                       className={cn(
                         "h-48 w-16 overflow-y-auto",
                         "border border-gray-200",
-                        "cms-no-scrollbar rounded",
+                        "cms-no-scrollbar rounded-sm",
                       )}
                     >
                       {minutes.map((minute) => (
@@ -385,11 +446,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                             "cursor-pointer border-0",
                             "h-10 w-full text-sm transition-colors",
                             "hover:bg-gray-100",
-                            selectedMinute === minute
-                              ? "bg-blue-100 font-medium text-blue-700"
-                              : "bg-white text-gray-700",
+                            selectedMinute === minute ?
+                              "bg-blue-100 font-medium text-blue-700"
+                            : "bg-white text-gray-700",
                           )}
-                          aria-label={`${minute}${format === "24h" ? "분" : " minutes"}`}
+                          aria-label={`${minute}${minuteAriaLabelSuffix}`}
                           aria-selected={selectedMinute === minute}
                         >
                           {minute.toString().padStart(2, "0")}
@@ -415,11 +476,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                           onClick={() => setSelectedPeriod("AM")}
                           className={cn(
                             "cursor-pointer border-0",
-                            "h-10 rounded text-sm transition-colors",
+                            "h-10 rounded-sm text-sm transition-colors",
                             "hover:bg-gray-100",
-                            selectedPeriod === "AM"
-                              ? "bg-blue-100 font-medium text-blue-700"
-                              : "bg-white text-gray-700",
+                            selectedPeriod === "AM" ?
+                              "bg-blue-100 font-medium text-blue-700"
+                            : "bg-white text-gray-700",
                           )}
                           aria-label="AM"
                           aria-selected={selectedPeriod === "AM"}
@@ -430,11 +491,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                           onClick={() => setSelectedPeriod("PM")}
                           className={cn(
                             "cursor-pointer border-0",
-                            "h-10 rounded text-sm transition-colors",
+                            "h-10 rounded-sm text-sm transition-colors",
                             "hover:bg-gray-100",
-                            selectedPeriod === "PM"
-                              ? "bg-blue-100 font-medium text-blue-700"
-                              : "bg-white text-gray-700",
+                            selectedPeriod === "PM" ?
+                              "bg-blue-100 font-medium text-blue-700"
+                            : "bg-white text-gray-700",
                           )}
                           aria-label="PM"
                           aria-selected={selectedPeriod === "PM"}
@@ -458,7 +519,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                   <button
                     onClick={handleCancel}
                     className={cn(
-                      "h-8 w-15 cursor-pointer rounded",
+                      "h-8 w-15 cursor-pointer rounded-sm",
                       "text-xs font-medium text-gray-700",
                       "border border-gray-300 bg-transparent",
                       "transition-all duration-150",
@@ -473,7 +534,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     disabled={selectedHour === null || selectedMinute === null}
                     className={cn(
                       "cursor-pointer border-0",
-                      "h-8 w-15 rounded bg-blue-600",
+                      "h-8 w-15 rounded-sm bg-blue-600",
                       "text-xs text-white",
                       "hover:bg-blue-700",
                       "active:scale-95",
@@ -494,13 +555,12 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
         {/* Helper/Error Text */}
         {(helperText || errorMessage) && (
           <div>
-            {error && errorMessage ? (
+            {error && errorMessage ?
               <p className="text-xs text-red-500">{errorMessage}</p>
-            ) : (
-              helperText && (
+            : helperText && (
                 <p className="text-xs text-gray-500">{helperText}</p>
               )
-            )}
+            }
           </div>
         )}
       </div>

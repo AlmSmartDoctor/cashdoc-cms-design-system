@@ -1,17 +1,18 @@
 import { cn } from "@/utils/cn";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useDropzone, Accept, FileRejection } from "react-dropzone";
+import type { Accept, FileRejection } from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import { ImageUploadIcon, XIcon as CloseIcon } from "../icons";
 import { Text } from "../Text/Text";
 
-export interface ImageMetadata {
+export type ImageMetadata = {
   width: number;
   height: number;
   aspectRatio: number;
   size: number;
-}
+};
 
-export interface ImageUploadProps {
+export type ImageUploadProps = {
   value?: File[];
   onChange?: (files: File[]) => void;
   maxFiles?: number;
@@ -28,7 +29,7 @@ export interface ImageUploadProps {
   ) => string | null | Promise<string | null>;
   placeholder?: string;
   placeholderActive?: string;
-}
+};
 
 /**
  * 드래그 앤 드롭 및 클릭을 통해 이미지를 업로드할 수 있는 컴포넌트입니다.
@@ -212,61 +213,65 @@ export const ImageUpload = ({
   };
 
   const onDrop = useCallback(
-    async (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-      if (rejectedFiles.length > 0) {
-        const error = rejectedFiles[0].errors[0];
-        if (error.code === "file-too-large") {
-          onError?.(
-            `파일 크기는 ${maxSize / 1024 / 1024}MB를 초과할 수 없습니다.`,
-          );
-        } else if (error.code === "file-invalid-type") {
-          onError?.("지원하지 않는 파일 형식입니다.");
-        } else if (error.code === "too-many-files") {
-          onError?.(`최대 ${maxFiles}개의 파일만 업로드할 수 있습니다.`);
-        }
-        return;
-      }
-
-      // 커스텀 검증 로직 실행
-      if (validateImage) {
-        const validatedFiles: File[] = [];
-
-        for (const file of acceptedFiles) {
-          try {
-            const metadata = await loadImageMetadata(file);
-            const validationError = await validateImage(file, metadata);
-
-            if (validationError) {
-              onError?.(validationError);
-              continue;
-            }
-
-            validatedFiles.push(file);
-          } catch (error) {
-            onError?.((error as Error).message);
+    (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+      const processDrop = async (): Promise<void> => {
+        if (rejectedFiles.length > 0) {
+          const error = rejectedFiles[0].errors[0];
+          if (error.code === "file-too-large") {
+            onError?.(
+              `파일 크기는 ${maxSize / 1024 / 1024}MB를 초과할 수 없습니다.`,
+            );
+          } else if (error.code === "file-invalid-type") {
+            onError?.("지원하지 않는 파일 형식입니다.");
+          } else if (error.code === "too-many-files") {
+            onError?.(`최대 ${maxFiles}개의 파일만 업로드할 수 있습니다.`);
           }
+          return;
         }
 
-        if (validatedFiles.length === 0) return;
+        // 커스텀 검증 로직 실행
+        if (validateImage) {
+          const validatedFiles: File[] = [];
 
-        setFiles((prev) => {
-          const newFiles =
-            maxFiles === 1
-              ? validatedFiles
-              : [...prev, ...validatedFiles].slice(0, maxFiles);
-          onChange?.(newFiles);
-          return newFiles;
-        });
-      } else {
-        setFiles((prev) => {
-          const newFiles =
-            maxFiles === 1
-              ? acceptedFiles
-              : [...prev, ...acceptedFiles].slice(0, maxFiles);
-          onChange?.(newFiles);
-          return newFiles;
-        });
-      }
+          for (const file of acceptedFiles) {
+            try {
+              const metadata = await loadImageMetadata(file);
+              const validationError = await validateImage(file, metadata);
+
+              if (validationError) {
+                onError?.(validationError);
+                continue;
+              }
+
+              validatedFiles.push(file);
+            } catch (error) {
+              onError?.((error as Error).message);
+            }
+          }
+
+          if (validatedFiles.length === 0) return;
+
+          setFiles((prev) => {
+            const newFiles =
+              maxFiles === 1 ? validatedFiles : (
+                [...prev, ...validatedFiles].slice(0, maxFiles)
+              );
+            onChange?.(newFiles);
+            return newFiles;
+          });
+        } else {
+          setFiles((prev) => {
+            const newFiles =
+              maxFiles === 1 ? acceptedFiles : (
+                [...prev, ...acceptedFiles].slice(0, maxFiles)
+              );
+            onChange?.(newFiles);
+            return newFiles;
+          });
+        }
+      };
+
+      void processDrop();
     },
     [maxFiles, maxSize, onChange, onError, validateImage],
   );
@@ -302,18 +307,16 @@ export const ImageUpload = ({
             "cursor-pointer transition-colors",
             "flex flex-col items-center justify-center",
             "min-h-50",
-            error
-              ? "border-red-500"
-              : isDragActive
-                ? "border-cms-black bg-cms-gray-100"
-                : "border-cms-gray-300 bg-white hover:bg-cms-gray-50",
+            error ? "border-red-500"
+            : isDragActive ? "border-cms-black bg-cms-gray-100"
+            : `border-cms-gray-300 bg-white hover:bg-cms-gray-50`,
             disabled && "pointer-events-none cursor-not-allowed opacity-50",
             isSingleMode && hasFile && "p-0",
           )}
         >
           <input {...getInputProps()} />
 
-          {isSingleMode && hasFile && showPreview ? (
+          {isSingleMode && hasFile && showPreview ?
             <div
               className={cn(
                 "group flex items-center justify-center",
@@ -344,11 +347,10 @@ export const ImageUpload = ({
                 )}
                 aria-label="파일 제거"
               >
-                <CloseIcon className="h-4 w-4" />
+                <CloseIcon className="size-4" />
               </button>
             </div>
-          ) : (
-            <div className="flex flex-col items-center p-6">
+          : <div className="flex flex-col items-center p-6">
               <ImageUploadIcon className="text-cms-gray-400" />
               <Text
                 variant="emphasis"
@@ -366,7 +368,7 @@ export const ImageUpload = ({
                 {maxSize / 1024 / 1024}MB
               </Text>
             </div>
-          )}
+          }
         </div>
       )}
 
@@ -412,7 +414,7 @@ export const ImageUpload = ({
                 )}
                 aria-label="파일 제거"
               >
-                <CloseIcon className="h-3 w-3" />
+                <CloseIcon className="size-3" />
               </button>
               <div
                 className={cn(

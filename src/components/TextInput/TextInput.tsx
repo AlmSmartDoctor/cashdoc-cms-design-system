@@ -4,22 +4,22 @@ import { cn } from "@/utils/cn";
 
 const textInputVariants = cva(
   cn(
-    "w-full box-border",
+    "box-border w-full",
     "px-3 py-2",
     "rounded-cms-sm",
     "border border-solid",
-    "font-normal leading-tight",
+    "leading-tight font-normal",
     "transition-colors duration-200",
     "outline-none",
-    "text-md text-cms-black",
+    "text-sm text-cms-black",
     "placeholder:text-cms-gray-500",
-    "placeholder:text-md",
+    "placeholder:text-sm",
   ),
   {
     variants: {
       variant: {
         default: cn(
-          "bg-cms-white ",
+          "bg-cms-white",
           "border-cms-gray-450",
           "focus:border-cms-gray-800",
           "disabled:bg-cms-gray-150",
@@ -44,20 +44,17 @@ const textInputVariants = cva(
   },
 );
 
-const labelVariants = cva("block text-md font-medium text-cms-black");
+const labelVariants = cva("block text-sm font-medium text-cms-black");
 
 const errorMessageVariants = cva(
-  "block text-sm font-medium text-cms-red-400 mt-1",
+  "mt-1 block text-sm font-medium text-cms-red-400",
 );
 
 const helperTextVariants = cva(
-  "block text-sm font-normal text-cms-gray-700 mt-1",
+  "mt-1 block text-sm font-normal text-cms-gray-700",
 );
 
-export interface TextInputProps
-  extends
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, "size">,
-    VariantProps<typeof textInputVariants> {
+export type TextInputProps = {
   label?: string;
   required?: boolean;
   error?: boolean;
@@ -66,7 +63,8 @@ export interface TextInputProps
   showCharCount?: boolean;
   labelLayout?: "vertical" | "horizontal";
   labelWidth?: string;
-}
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> &
+  VariantProps<typeof textInputVariants>;
 
 /**
  * 사용자로부터 텍스트, 이메일, 숫자 등의 단일 라인 데이터를 입력받는 필드입니다.
@@ -169,15 +167,16 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     },
     ref,
   ) => {
+    const generatedInputId = React.useId();
     const [internalValue, setInternalValue] = React.useState<string>(
       (value || defaultValue || "") as string,
     );
-    const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+    const inputId = id || generatedInputId;
     const finalVariant = error ? "error" : variant;
 
     const currentValue =
       value !== undefined ? (value as string) : internalValue;
-    const charCount = currentValue?.length || 0;
+    const charCount = currentValue.length;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (value === undefined) {
@@ -191,7 +190,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 
     return (
       <div className={cn("w-full", !fullWidth && "w-auto")}>
-        {isHorizontal && hasHeader ? (
+        {isHorizontal && hasHeader ?
           <div className="flex items-center gap-3">
             {label && (
               <label
@@ -225,20 +224,17 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
               </span>
             )}
           </div>
-        ) : (
-          <>
+        : <>
             {hasHeader && (
               <div className="mb-2 flex items-center justify-between">
-                {label ? (
+                {label ?
                   <label htmlFor={inputId} className={labelVariants()}>
                     {label}
                     {required && (
                       <span className="ml-1 text-cms-red-400">*</span>
                     )}
                   </label>
-                ) : (
-                  <div />
-                )}
+                : <div />}
                 {showCharCount && maxLength && (
                   <span className="text-sm text-cms-gray-600">
                     {charCount} / {maxLength}
@@ -261,7 +257,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
               {...props}
             />
           </>
-        )}
+        }
         {error && errorMessage && (
           <span className={errorMessageVariants()}>{errorMessage}</span>
         )}

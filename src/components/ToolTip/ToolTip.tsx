@@ -4,10 +4,7 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { cn } from "@/utils/cn";
 import React from "react";
 
-export interface ToolTipProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>,
-  "content"
-> {
+export type ToolTipProps = {
   /** 툴팁을 트리거하는 요소 */
   children: React.ReactNode;
   /** 툴팁에 표시할 내용 */
@@ -32,7 +29,10 @@ export interface ToolTipProps extends Omit<
   defaultOpen?: boolean;
   /** 툴팁 열림 상태 변경 시 콜백 */
   onOpenChange?: (open: boolean) => void;
-}
+} & Omit<
+  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>,
+  "content"
+>;
 
 /**
  * 마우스 호버나 포커스 시 간단한 힌트나 설명을 제공하는 툴팁 컴포넌트입니다.

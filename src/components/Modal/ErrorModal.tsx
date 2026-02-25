@@ -2,8 +2,9 @@ import React from "react";
 import { XCircle } from "lucide-react";
 import { Modal } from "./Modal";
 import { Button } from "../Button/Button";
+import { cn } from "@/utils/cn";
 
-export interface ErrorModalProps {
+export type ErrorModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title?: string;
@@ -11,7 +12,7 @@ export interface ErrorModalProps {
   confirmText?: string;
   onConfirm?: () => void;
   className?: string;
-}
+};
 
 /**
  * 시스템 오류나 사용자의 잘못된 조작으로 인해 작업이 실패했음을 알리는 모달입니다.
@@ -57,11 +58,14 @@ export const ErrorModal = React.forwardRef<HTMLDivElement, ErrorModalProps>(
         open={open}
         onOpenChange={onOpenChange}
         title={title}
-        icon={<XCircle className="h-15 w-15 text-cms-red-400" />}
+        icon={<XCircle className="size-15 text-cms-red-400" />}
         footer={
           <Button
             onClick={handleConfirm}
-            className="h-12 w-full bg-cms-gray-850 hover:bg-cms-gray-800"
+            className={cn(
+              "h-12 w-full bg-cms-gray-850",
+              "hover:bg-cms-gray-800",
+            )}
           >
             {confirmText}
           </Button>

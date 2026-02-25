@@ -5,13 +5,9 @@ const plugin = {
     "multiline-classname": {
       meta: {
         type: "suggestion",
-        fixable: "code",
         schema: [],
       },
       create(context) {
-        const escapeForTemplateLiteral = (str) =>
-          str.replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
-
         return {
           JSXAttribute(node) {
             if (node.name?.type !== "JSXIdentifier") return;
@@ -23,16 +19,10 @@ const plugin = {
               typeof node.value.value === "string" &&
               node.value.value.includes("\n")
             ) {
-              const raw = node.value.value;
-
               context.report({
                 node: node.value,
                 message:
-                  "Multiline className strings can cause hydration errors. Use a template literal/expression instead.",
-                fix(fixer) {
-                  const escaped = escapeForTemplateLiteral(raw);
-                  return fixer.replaceText(node.value, `{\`${escaped}\`}`);
-                },
+                  "Multiline className strings can cause hydration errors. Use a cn(...) expression instead.",
               });
             }
           },

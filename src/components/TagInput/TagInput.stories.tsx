@@ -222,8 +222,8 @@ const ControlledExample = () => {
         maxTags={5}
       />
       <div className="mt-4 rounded-cms-sm bg-cms-gray-100 p-3">
-        <p className="text-cms-sm mb-2 font-medium">현재 태그:</p>
-        <p className="text-cms-sm text-cms-gray-700">
+        <p className="mb-2 text-sm font-medium">현재 태그:</p>
+        <p className="text-sm text-cms-gray-700">
           {tags.length > 0 ? tags.join(", ") : "없음"}
         </p>
       </div>
@@ -245,7 +245,7 @@ export const Controlled: Story = {
 const ValidationExample = () => {
   const [tags, setTags] = useState<string[]>([]);
 
-  const validateTag = (tag: string, _currentTags: string[]) => {
+  const validateTag = (tag: string) => {
     if (tag.length < 2) {
       return "태그는 최소 2글자 이상이어야 합니다.";
     }

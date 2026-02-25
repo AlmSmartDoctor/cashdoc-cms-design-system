@@ -1,16 +1,14 @@
 import { cn } from "@/utils/cn";
 import { forwardRef } from "react";
-import { Dropdown, DropdownProps } from "./Dropdown";
+import type { DropdownProps } from "./Dropdown";
+import { Dropdown } from "./Dropdown";
 
-export interface SelectProps extends Omit<
-  DropdownProps,
-  "multiple" | "searchable" | "clearable"
-> {
+export type SelectProps = {
   label?: string;
   helperText?: string;
   error?: string;
   required?: boolean;
-}
+} & Omit<DropdownProps, "multiple" | "searchable" | "clearable">;
 
 /**
  * 사용자에게 레이블, 도움말, 에러 메시지와 함께 단일 선택 드롭다운을 제공하는 컴포넌트입니다.
@@ -104,7 +102,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
         <Dropdown
           ref={ref}
           {...props}
-          className={cn(error && "border-cms-red-500 focus:ring-cms-red-500")}
+          className={cn(error && `border-cms-red-500 focus:ring-cms-red-500`)}
         />
 
         {(helperText || error) && (

@@ -258,7 +258,7 @@ const SearchableStory = () => {
         placeholder="검색 가능한 드롭다운"
         searchable
       />
-      <p className="text-grayscale03 mt-2 text-sm">
+      <p className="mt-2 text-sm text-cms-gray-700">
         선택된 값: {value || "없음"}
       </p>
     </div>
@@ -289,7 +289,7 @@ const ClearableStory = () => {
         placeholder="선택 취소 가능"
         clearable
       />
-      <p className="text-grayscale03 mt-2 text-sm">
+      <p className="mt-2 text-sm text-cms-gray-700">
         선택된 값: {value || "없음"}
       </p>
     </div>
@@ -320,7 +320,7 @@ const MultipleStory = () => {
         multiple
         clearable
       />
-      <p className="text-grayscale03 mt-2 text-sm">
+      <p className="mt-2 text-sm text-cms-gray-700">
         선택된 값들: {value || "없음"}
       </p>
     </div>
@@ -402,10 +402,10 @@ const ComboboxComponentStory = () => {
         createable
         onCreateOption={handleCreateOption}
       />
-      <p className="text-grayscale03 mt-2 text-sm">
+      <p className="mt-2 text-sm text-cms-gray-700">
         선택된 값: {value || "없음"}
       </p>
-      <p className="text-grayscale03 mt-1 text-xs">
+      <p className="mt-1 text-xs text-cms-gray-700">
         검색해서 없으면 새로 만들 수 있습니다
       </p>
     </div>
@@ -442,7 +442,7 @@ const DisabledOptionsStory = () => {
         onValueChange={setValue}
         placeholder="일부 옵션 비활성화"
       />
-      <p className="text-grayscale03 mt-2 text-sm">
+      <p className="mt-2 text-sm text-cms-gray-700">
         Vue.js와 Svelte는 선택할 수 없습니다
       </p>
     </div>
@@ -517,7 +517,7 @@ const ComprehensiveExampleStory = () => {
       />
 
       <div>
-        <label className="text-foreground mb-1 block text-sm font-medium">
+        <label className="mb-1 block text-sm font-medium text-cms-black">
           사용하는 도구들 (다중 선택 가능)
         </label>
         <Dropdown
@@ -544,7 +544,7 @@ const ComprehensiveExampleStory = () => {
         size="lg"
       />
 
-      <div className="bg-grayscale01 mt-6 rounded-lg p-4">
+      <div className="mt-6 rounded-lg bg-cms-gray-100 p-4">
         <h3 className="mb-2 font-medium">선택된 값들:</h3>
         <ul className="space-y-1 text-sm">
           <li>프레임워크: {formData.framework || "미선택"}</li>
@@ -623,7 +623,7 @@ const SubmenuStory = () => {
         onValueChange={setValue}
         placeholder="메뉴를 선택하세요"
       />
-      <p className="text-grayscale03 mt-2 text-sm">
+      <p className="mt-2 text-sm text-cms-gray-700">
         선택된 값: {value || "없음"}
       </p>
     </div>
@@ -672,7 +672,7 @@ const SubmenuWithScrollStory = () => {
         placeholder="상태를 선택하세요"
         maxHeight={200}
       />
-      <p className="text-grayscale03 mt-2 text-sm">
+      <p className="mt-2 text-sm text-cms-gray-700">
         선택된 값: {value || "없음"}
       </p>
     </div>

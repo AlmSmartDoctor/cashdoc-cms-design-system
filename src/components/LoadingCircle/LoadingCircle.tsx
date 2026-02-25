@@ -1,9 +1,9 @@
 import { cn } from "@/utils/cn";
 
-interface LoadingCircleProps {
+type LoadingCircleProps = {
   size?: "sm" | "md" | "lg";
   className?: string;
-}
+};
 
 const sizeClasses = {
   sm: "h-4 w-4",

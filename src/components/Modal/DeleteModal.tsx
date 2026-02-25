@@ -4,7 +4,7 @@ import { Modal } from "./Modal";
 import { Button } from "../Button/Button";
 import { cn } from "@/utils/cn";
 
-export interface DeleteModalProps {
+export type DeleteModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title?: string;
@@ -14,7 +14,7 @@ export interface DeleteModalProps {
   onConfirm: () => void;
   onCancel?: () => void;
   className?: string;
-}
+};
 
 /**
  * 데이터를 삭제하거나 영구적인 작업을 수행하기 전, 사용자의 최종 승인을 받기 위한 경고 모달입니다.
@@ -66,7 +66,7 @@ export const DeleteModal = React.forwardRef<HTMLDivElement, DeleteModalProps>(
         open={open}
         onOpenChange={onOpenChange}
         title={title}
-        icon={<AlertTriangle className="h-15 w-15 text-cms-red-400" />}
+        icon={<AlertTriangle className="size-15 text-cms-red-400" />}
         footer={
           <div className="flex w-full gap-2">
             <Button
@@ -80,7 +80,8 @@ export const DeleteModal = React.forwardRef<HTMLDivElement, DeleteModalProps>(
               onClick={handleConfirm}
               className={cn(
                 "h-12 flex-1",
-                "bg-cms-red-400 hover:bg-cms-red-500",
+                "bg-cms-red-400",
+                "hover:bg-cms-red-500",
               )}
             >
               {confirmText}

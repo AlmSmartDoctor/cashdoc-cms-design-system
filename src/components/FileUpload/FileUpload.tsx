@@ -1,9 +1,10 @@
 import { cn } from "@/utils/cn";
 import { useCallback, useState } from "react";
-import { useDropzone, Accept, FileRejection } from "react-dropzone";
+import type { Accept, FileRejection } from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import { FileUploadIcon, FileIcon, XIcon as CloseIcon } from "../icons";
 
-export interface FileUploadProps {
+export type FileUploadProps = {
   value?: File[];
   onChange?: (files: File[]) => void;
   maxFiles?: number;
@@ -12,7 +13,7 @@ export interface FileUploadProps {
   disabled?: boolean;
   className?: string;
   onError?: (error: string) => void;
-}
+};
 
 /**
  * 드래그 앤 드롭 및 클릭을 통해 파일을 업로드할 수 있는 컴포넌트입니다.
@@ -127,18 +128,18 @@ export const FileUpload = ({
             "cursor-pointer transition-colors",
             "flex flex-col items-center justify-center",
             "min-h-50 p-6",
-            isDragActive
-              ? "border-cms-black bg-cms-gray-100"
-              : "border-cms-gray-300 bg-white hover:bg-cms-gray-50",
+            isDragActive ?
+              "border-cms-black bg-cms-gray-100"
+            : `border-cms-gray-300 bg-white hover:bg-cms-gray-50`,
             disabled && "pointer-events-none cursor-not-allowed opacity-50",
           )}
         >
           <input {...getInputProps()} />
           <FileUploadIcon className="text-cms-gray-400" />
           <p className="mt-4 text-center text-sm font-medium text-cms-black">
-            {isDragActive
-              ? "파일을 여기에 놓으세요"
-              : "클릭하거나 파일을 드래그하세요"}
+            {isDragActive ?
+              "파일을 여기에 놓으세요"
+            : "클릭하거나 파일을 드래그하세요"}
           </p>
           <p className="mt-1 text-center text-xs text-cms-gray-400">
             최대 {maxFiles}개 파일, 최대 {maxSize / 1024 / 1024}MB
@@ -154,7 +155,8 @@ export const FileUpload = ({
               className={cn(
                 "flex items-center gap-2 px-3 py-2",
                 "rounded-md border border-cms-gray-300",
-                "bg-white hover:bg-cms-gray-50",
+                "bg-white",
+                "hover:bg-cms-gray-50",
                 "group transition-colors",
               )}
             >
@@ -162,13 +164,13 @@ export const FileUpload = ({
               <div className="min-w-0 flex-1">
                 <p
                   className={cn(
-                    "truncate text-sm leading-tight",
+                    "truncate text-sm/tight",
                     "font-medium text-cms-black",
                   )}
                 >
                   {file.name}
                 </p>
-                <p className="text-xs leading-tight text-cms-gray-400">
+                <p className="text-xs/tight text-cms-gray-400">
                   {formatFileSize(file.size)}
                 </p>
               </div>

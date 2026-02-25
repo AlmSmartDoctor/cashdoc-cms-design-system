@@ -63,6 +63,10 @@ const meta: Meta<typeof FileUpload> = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+const DOCX_MIME_TYPE =
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+const XLSX_MIME_TYPE =
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 export const Default: Story = {
   args: {
@@ -149,12 +153,9 @@ const DocumentsStory = () => {
         accept={{
           "application/pdf": [".pdf"],
           "application/msword": [".doc"],
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-            [".docx"],
+          [DOCX_MIME_TYPE]: [".docx"],
           "application/vnd.ms-excel": [".xls"],
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
-            ".xlsx",
-          ],
+          [XLSX_MIME_TYPE]: [".xlsx"],
         }}
       />
       {error && <p className="mt-2 text-sm text-cms-red-500">{error}</p>}

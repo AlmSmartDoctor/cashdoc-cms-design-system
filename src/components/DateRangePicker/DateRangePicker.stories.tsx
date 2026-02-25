@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { DateRangePicker } from "./DateRangePicker";
+import type { DateRange } from "./DateRangePicker";
 import { useState } from "react";
+import { cn } from "@/utils/cn";
+
+const emptyRangeChangeHandler: (range: DateRange) => void = () => undefined;
 
 const meta: Meta<typeof DateRangePicker> = {
   title: "Forms/DateRangePicker",
@@ -108,7 +112,7 @@ export const Controlled: Story = {
     return (
       <div className="flex w-150 flex-col gap-4 p-4">
         <DateRangePicker value={range} onChange={setRange} />
-        <div className="rounded border border-gray-200 bg-gray-50 p-4">
+        <div className="rounded-sm border border-gray-200 bg-gray-50 p-4">
           <p className="text-sm font-medium text-gray-700">
             실시간 데이터 상태:
           </p>
@@ -118,7 +122,11 @@ export const Controlled: Story = {
         </div>
         <button
           onClick={() => setRange({ start: "", end: "" })}
-          className="w-fit rounded-md bg-cms-gray-800 px-4 py-2 text-sm text-white hover:bg-cms-gray-700"
+          className={cn(
+            "w-fit rounded-md bg-cms-gray-800 px-4 py-2",
+            "text-sm text-white",
+            "hover:bg-cms-gray-700",
+          )}
         >
           기간 초기화
         </button>
@@ -137,7 +145,10 @@ export const ForJsdoc: Story = {
       <div className="flex w-150 flex-col gap-6">
         <div>
           <h3 className="mb-2 font-bold">Default</h3>
-          <DateRangePicker value={{ start: "", end: "" }} onChange={() => {}} />
+          <DateRangePicker
+            value={{ start: "", end: "" }}
+            onChange={emptyRangeChangeHandler}
+          />
         </div>
         <div>
           <h3 className="mb-2 font-bold">With Value</h3>
@@ -149,7 +160,7 @@ export const ForJsdoc: Story = {
             startLabel="From"
             endLabel="To"
             value={{ start: "", end: "" }}
-            onChange={() => {}}
+            onChange={emptyRangeChangeHandler}
           />
         </div>
       </div>

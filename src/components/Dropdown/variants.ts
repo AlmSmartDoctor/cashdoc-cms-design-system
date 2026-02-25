@@ -6,16 +6,16 @@ export const dropdownTriggerVariants = cva(
     "flex items-center justify-between",
     "rounded-md px-4 py-2.5",
     "text-sm font-medium",
-    "focus-visible:outline-none focus-visible:ring-2",
+    "focus-visible:ring-2 focus-visible:outline-none",
     "focus-visible:ring-cms-gray-400 focus-visible:ring-offset-1",
-    "transition-colors transition-shadow",
+    "transition-all",
     "w-full min-w-0",
   ),
   {
     variants: {
       variant: {
         default: cn(
-          "bg-white text-cms-black border border-black",
+          "border border-black bg-white text-cms-black",
           "hover:bg-cms-gray-100",
         ),
         outline: cn(

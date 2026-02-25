@@ -7,6 +7,7 @@ import { ErrorModal } from "./ErrorModal";
 import { WarningModal } from "./WarningModal";
 import { SuccessModal } from "./SuccessModal";
 import { Button } from "../Button/Button";
+import { cn } from "@/utils/cn";
 
 const meta: Meta<typeof Modal> = {
   title: "Feedback/Modal",
@@ -484,7 +485,12 @@ export const ForJsdoc: Story = {
     // We use a state but initialize it to true.
     const [open, setOpen] = useState(true);
     return (
-      <div className="relative flex h-100 w-150 items-center justify-center rounded-lg bg-gray-100">
+      <div
+        className={cn(
+          "relative flex h-100 w-150 items-center justify-center",
+          "rounded-lg bg-gray-100",
+        )}
+      >
         {/* We place a trigger button just to be semantic, but the modal is open by default */}
         <Button onClick={() => setOpen(true)}>Open Modal</Button>
         <Modal

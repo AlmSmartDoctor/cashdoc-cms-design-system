@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import { cn } from "@/utils/cn";
 import { Button } from "../Button";
 
-export interface ModalProps {
+export type ModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   icon?: React.ReactNode;
@@ -14,7 +14,7 @@ export interface ModalProps {
   className?: string;
   showCloseButton?: boolean;
   size?: "sm" | "md" | "lg";
-}
+};
 
 const sizeClasses = {
   sm: "max-w-sm",
@@ -217,8 +217,10 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
           <DialogPrimitive.Overlay
             className={cn(
               "fixed inset-0 z-150 bg-black/50",
-              "data-[state=closed]:animate-out data-[state=open]:animate-in",
-              "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+              "data-[state=closed]:animate-out",
+              "data-[state=open]:animate-in",
+              "data-[state=closed]:fade-out-0",
+              "data-[state=open]:fade-in-0",
             )}
           />
           <DialogPrimitive.Content
@@ -231,9 +233,12 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               sizeClasses[size],
               "rounded-lg bg-white shadow-lg",
               "p-6",
-              "data-[state=closed]:animate-out data-[state=open]:animate-in",
-              "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-              "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+              "data-[state=closed]:animate-out",
+              "data-[state=open]:animate-in",
+              "data-[state=closed]:fade-out-0",
+              "data-[state=open]:fade-in-0",
+              "data-[state=closed]:zoom-out-95",
+              "data-[state=open]:zoom-in-95",
               className,
             )}
           >
@@ -242,7 +247,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 <Button
                   variant="ghost"
                   size="icon"
-                  className={cn("h-6 w-6", "absolute top-4 right-4")}
+                  className={cn("size-6", "absolute top-4 right-4")}
                 >
                   <X />
                   <span className="sr-only">Close</span>

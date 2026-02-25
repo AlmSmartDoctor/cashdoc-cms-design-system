@@ -123,6 +123,11 @@ const meta: Meta<typeof ToolTip> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const REQUIRED_PERMISSION_TOOLTIP =
+  "이 기능은 관리자 권한이 필요합니다. 권한이 없는 사용자는 실행할 수 없으며, 관리자에게 문의하세요.";
+const SAVE_AND_NAVIGATE_TOOLTIP =
+  "이 버튼을 클릭하면 현재 설정이 저장되고 메인 페이지로 이동합니다. 저장되지 않은 변경사항이 있다면 경고 메시지가 표시됩니다.";
+
 export const Default: Story = {
   parameters: {
     docs: {
@@ -135,7 +140,7 @@ export const Default: Story = {
   render: () => (
     <ToolTip content="설정 페이지로 이동합니다" defaultOpen={true}>
       <Button variant="ghost" size="icon">
-        <Settings className="h-4 w-4" />
+        <Settings className="size-4" />
       </Button>
     </ToolTip>
   ),
@@ -208,11 +213,11 @@ export const LongContent: Story = {
   },
   render: () => (
     <ToolTip
-      content="이 기능은 관리자 권한이 필요합니다. 권한이 없는 사용자는 실행할 수 없으며, 관리자에게 문의하세요."
+      content={REQUIRED_PERMISSION_TOOLTIP}
       defaultOpen={true}
     >
       <Button variant="outline">
-        <Info className="mr-2 h-4 w-4" />
+        <Info className="mr-2 size-4" />
         권한 필요
       </Button>
     </ToolTip>
@@ -233,22 +238,22 @@ export const WithIcon: Story = {
     <div className="flex gap-4">
       <ToolTip content="다운로드" defaultOpen={true}>
         <Button variant="ghost" size="icon">
-          <Download className="h-4 w-4" />
+          <Download className="size-4" />
         </Button>
       </ToolTip>
       <ToolTip content="설정">
         <Button variant="ghost" size="icon">
-          <Settings className="h-4 w-4" />
+          <Settings className="size-4" />
         </Button>
       </ToolTip>
       <ToolTip content="삭제" side="bottom">
         <Button variant="ghost" size="icon">
-          <Trash2 className="h-4 w-4" />
+          <Trash2 className="size-4" />
         </Button>
       </ToolTip>
       <ToolTip content="정보">
         <Button variant="ghost" size="icon">
-          <Info className="h-4 w-4" />
+          <Info className="size-4" />
         </Button>
       </ToolTip>
     </div>
@@ -318,7 +323,7 @@ export const OnTextElement: Story = {
     },
   },
   render: () => (
-    <div className="w-64 rounded border p-4">
+    <div className="w-64 rounded-sm border p-4">
       <p className="text-sm">
         이 문장에는{" "}
         <ToolTip content="여기에 추가 설명이 표시됩니다" defaultOpen={true}>
@@ -412,22 +417,22 @@ export const AllStates: Story = {
         <div className="flex gap-2">
           <ToolTip content="설정">
             <Button variant="ghost" size="icon">
-              <Settings className="h-4 w-4" />
+              <Settings className="size-4" />
             </Button>
           </ToolTip>
           <ToolTip content="다운로드">
             <Button variant="ghost" size="icon">
-              <Download className="h-4 w-4" />
+              <Download className="size-4" />
             </Button>
           </ToolTip>
           <ToolTip content="정보">
             <Button variant="ghost" size="icon">
-              <Info className="h-4 w-4" />
+              <Info className="size-4" />
             </Button>
           </ToolTip>
           <ToolTip content="삭제">
             <Button variant="ghost" size="icon">
-              <Trash2 className="h-4 w-4" />
+              <Trash2 className="size-4" />
             </Button>
           </ToolTip>
         </div>
@@ -435,7 +440,7 @@ export const AllStates: Story = {
 
       <div>
         <h3 className="mb-3 text-sm font-semibold">긴 텍스트</h3>
-        <ToolTip content="이 버튼을 클릭하면 현재 설정이 저장되고 메인 페이지로 이동합니다. 저장되지 않은 변경사항이 있다면 경고 메시지가 표시됩니다.">
+        <ToolTip content={SAVE_AND_NAVIGATE_TOOLTIP}>
           <Button variant="outline">긴 설명 보기</Button>
         </ToolTip>
       </div>

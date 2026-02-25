@@ -20,16 +20,18 @@ export const buttonVariants = cva(
     "inline-flex items-center justify-center gap-2",
     "rounded-lg ring-offset-white",
     "text-sm font-medium",
-    "focus-visible:outline-none focus-visible:ring-2",
+    "focus-visible:ring-2 focus-visible:outline-none",
     "focus-visible:ring-slate-950 focus-visible:ring-offset-2",
     "disabled:pointer-events-none disabled:opacity-60",
-    "transition-colors cursor-pointer",
+    "cursor-pointer transition-colors",
   ),
   {
     variants: {
       variant: {
-        default:
-          "border-0 bg-cms-gray-850 text-cms-white hover:bg-cms-gray-750",
+        default: cn(
+          "border-0 bg-cms-gray-850 text-cms-white",
+          "hover:bg-cms-gray-750",
+        ),
         secondary: cn(
           "border-0 bg-cms-gray-300 text-cms-black",
           "hover:bg-cms-gray-200 hover:text-cms-gray-800",
@@ -39,15 +41,20 @@ export const buttonVariants = cva(
           "hover:bg-cms-gray-200 hover:text-cms-gray-900",
         ),
 
-        ghost:
-          "border-0 bg-transparent hover:bg-cms-gray-200 hover:text-cms-gray-800",
-        link: "border-0 text-cms-black underline-offset-4 hover:underline",
+        ghost: cn(
+          "border-0 bg-transparent",
+          "hover:bg-cms-gray-200 hover:text-cms-gray-800",
+        ),
+        link: cn(
+          "border-0 text-cms-black underline-offset-4",
+          "hover:underline",
+        ),
       },
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-8 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
+        icon: "size-10",
       },
     },
     defaultVariants: {

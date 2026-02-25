@@ -74,6 +74,9 @@ const meta: Meta<typeof Pagination> = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+const noopPageChange = (page: number) => {
+  void page;
+};
 
 export const Default: Story = {
   render: () => {
@@ -163,7 +166,7 @@ export const FirstPage: Story = {
   args: {
     currentPage: 1,
     totalPages: 10,
-    onPageChange: () => {},
+    onPageChange: noopPageChange,
   },
   parameters: {
     docs: {
@@ -178,7 +181,7 @@ export const LastPage: Story = {
   args: {
     currentPage: 10,
     totalPages: 10,
-    onPageChange: () => {},
+    onPageChange: noopPageChange,
   },
   parameters: {
     docs: {
@@ -193,7 +196,7 @@ export const Disabled: Story = {
   args: {
     currentPage: 5,
     totalPages: 10,
-    onPageChange: () => {},
+    onPageChange: noopPageChange,
     disabled: true,
   },
   parameters: {
@@ -329,13 +332,21 @@ export const AllStates: Story = {
       <div className="flex min-w-150 flex-col gap-6">
         <div>
           <h3 className="mb-2 text-sm font-semibold">기본 (10페이지)</h3>
-          <Pagination currentPage={1} totalPages={10} onPageChange={() => {}} />
+          <Pagination
+            currentPage={1}
+            totalPages={10}
+            onPageChange={noopPageChange}
+          />
         </div>
         <div>
           <h3 className="mb-2 text-sm font-semibold">
             많은 페이지 (50페이지, 현재 1페이지)
           </h3>
-          <Pagination currentPage={1} totalPages={50} onPageChange={() => {}} />
+          <Pagination
+            currentPage={1}
+            totalPages={50}
+            onPageChange={noopPageChange}
+          />
         </div>
         <div>
           <h3 className="mb-2 text-sm font-semibold">
@@ -344,7 +355,7 @@ export const AllStates: Story = {
           <Pagination
             currentPage={25}
             totalPages={50}
-            onPageChange={() => {}}
+            onPageChange={noopPageChange}
           />
         </div>
         <div>
@@ -354,19 +365,23 @@ export const AllStates: Story = {
           <Pagination
             currentPage={48}
             totalPages={50}
-            onPageChange={() => {}}
+            onPageChange={noopPageChange}
           />
         </div>
         <div>
           <h3 className="mb-2 text-sm font-semibold">적은 페이지 (5페이지)</h3>
-          <Pagination currentPage={3} totalPages={5} onPageChange={() => {}} />
+          <Pagination
+            currentPage={3}
+            totalPages={5}
+            onPageChange={noopPageChange}
+          />
         </div>
         <div>
           <h3 className="mb-2 text-sm font-semibold">이전/다음 버튼 없음</h3>
           <Pagination
             currentPage={5}
             totalPages={10}
-            onPageChange={() => {}}
+            onPageChange={noopPageChange}
             showPrevNext={false}
           />
         </div>
@@ -375,7 +390,7 @@ export const AllStates: Story = {
           <Pagination
             currentPage={5}
             totalPages={10}
-            onPageChange={() => {}}
+            onPageChange={noopPageChange}
             disabled
           />
         </div>

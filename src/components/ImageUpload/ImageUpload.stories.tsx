@@ -331,7 +331,8 @@ const ValidateExactSizeStory = () => {
         showPreview={true}
         validateImage={(_, metadata) => {
           if (metadata.width !== 1920 || metadata.height !== 1080) {
-            return `이미지는 정확히 1920x1080이어야 합니다. (현재: ${metadata.width}x${metadata.height})`;
+            const currentSize = `${metadata.width}x${metadata.height}`;
+            return `이미지는 정확히 1920x1080이어야 합니다. (현재: ${currentSize})`;
           }
           return null;
         }}
@@ -378,7 +379,8 @@ const ValidateAspectRatioStory = () => {
           const targetRatio = 16 / 9;
           const tolerance = 0.1;
           if (Math.abs(metadata.aspectRatio - targetRatio) > tolerance) {
-            return `이미지 비율은 16:9여야 합니다. (현재: ${metadata.aspectRatio.toFixed(2)})`;
+            const currentRatio = metadata.aspectRatio.toFixed(2);
+            return `이미지 비율은 16:9여야 합니다. (현재: ${currentRatio})`;
           }
           return null;
         }}
@@ -422,7 +424,8 @@ const ValidateSquareImageStory = () => {
         validateImage={(_, metadata) => {
           const tolerance = 0.05;
           if (Math.abs(metadata.aspectRatio - 1) > tolerance) {
-            return `정사각형 이미지만 업로드 가능합니다. (현재 비율: ${metadata.aspectRatio.toFixed(2)})`;
+            const currentRatio = metadata.aspectRatio.toFixed(2);
+            return `정사각형 이미지만 업로드 가능합니다. (현재 비율: ${currentRatio})`;
           }
           return null;
         }}

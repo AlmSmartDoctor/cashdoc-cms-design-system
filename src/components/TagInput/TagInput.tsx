@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useId, useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
 
 const tagInputContainerVariants = cva(
   cn(
-    "flex items-center gap-2 p-2 border border-solid rounded-cms-sm",
+    "flex items-center gap-2 rounded-cms-sm border border-solid p-2",
     "min-h-[40px] w-full transition-colors duration-200",
   ),
   {
     variants: {
       readOnly: {
-        true: cn("bg-cms-gray-150 cursor-default", "border-cms-gray-450"),
+        true: cn("cursor-default bg-cms-gray-150", "border-cms-gray-450"),
         false: cn(
-          "bg-cms-white cursor-text",
+          "cursor-text bg-cms-white",
           "border-cms-gray-450",
           "hover:border-cms-gray-800",
           "focus-within:border-cms-gray-800",
@@ -33,17 +33,17 @@ const tagInputContainerVariants = cva(
 const tagVariants = cva(
   cn(
     "inline-flex items-center gap-2 px-3 py-1",
-    "bg-cms-primary-100 border border-solid border-cms-primary-200",
-    "rounded-cms-2xl text-cms-black text-md font-semibold",
+    "border border-solid border-cms-primary-200 bg-cms-primary-100",
+    "rounded-cms-2xl text-sm font-semibold text-cms-black",
   ),
 );
 
 const removeButtonVariants = cva(
   cn(
     "inline-flex items-center justify-center",
-    "w-[18px] h-[18px] p-0 border-none",
+    "h-[18px] w-[18px] border-none p-0",
     "bg-cms-gray-300 text-cms-gray-700",
-    "text-md leading-none cursor-pointer rounded-full",
+    "cursor-pointer rounded-full text-base leading-none",
     "transition-all duration-200",
     "hover:bg-cms-gray-400 hover:text-cms-black",
   ),
@@ -51,25 +51,22 @@ const removeButtonVariants = cva(
 
 const inputVariants = cva(
   cn(
-    "flex-1 min-w-[120px] outline-none border-none",
-    "text-md p-1.5",
+    "min-w-[120px] flex-1 border-none outline-none",
+    "p-1.5 text-sm",
     "placeholder:text-cms-gray-500",
-    "disabled:bg-transparent disabled:cursor-not-allowed",
+    "disabled:cursor-not-allowed disabled:bg-transparent",
   ),
 );
 
-const labelVariants = cva("block text-md font-medium text-cms-black mb-2");
+const labelVariants = cva("mb-2 block text-base font-medium text-cms-black");
 
 const helperTextVariants = cva(
-  "flex items-center gap-1 text-sm text-cms-gray-700 mt-1",
+  "mt-1 flex items-center gap-1 text-sm text-cms-gray-700",
 );
 
-const tagCountVariants = cva("text-sm text-cms-gray-750 font-bold");
+const tagCountVariants = cva("text-sm font-bold text-cms-gray-750");
 
-export interface TagInputProps extends Omit<
-  VariantProps<typeof tagInputContainerVariants>,
-  "readOnly"
-> {
+export type TagInputProps = {
   label?: string;
   required?: boolean;
   maxTags?: number;
@@ -86,7 +83,7 @@ export interface TagInputProps extends Omit<
   id?: string;
   labelLayout?: "vertical" | "horizontal";
   labelWidth?: string;
-}
+} & Omit<VariantProps<typeof tagInputContainerVariants>, "readOnly">;
 
 /**
  * 사용자가 텍스트를 입력하여 여러 개의 태그(키워드) 목록을 생성하고 관리할 수 있는 컴포넌트입니다.
@@ -210,8 +207,8 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
     const [isComposing, setIsComposing] = useState(false);
     const inputRef = React.useRef<HTMLInputElement>(null);
 
-    const inputId =
-      id || `tag-input-${Math.random().toString(36).substr(2, 9)}`;
+    const generatedInputId = useId();
+    const inputId = id || generatedInputId;
 
     useEffect(() => {
       setTags(value);
@@ -275,7 +272,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
 
     return (
       <div className={cn("w-full", className)} ref={ref}>
-        {isHorizontal && label ? (
+        {isHorizontal && label ?
           <div className="flex items-start gap-3">
             <label
               htmlFor={inputId}
@@ -335,8 +332,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
               )}
             </div>
           </div>
-        ) : (
-          <>
+        : <>
             {label && (
               <label
                 htmlFor={inputId}
@@ -397,7 +393,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
               </div>
             )}
           </>
-        )}
+        }
       </div>
     );
   },

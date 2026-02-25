@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * @license
  * This icon set incorporates path data from Lucide (https://lucide.dev)
@@ -7,13 +8,14 @@
  * Copyright (c) 2022, Lucide Contributors
  */
 
-import React, { SVGProps } from "react";
+import type { SVGProps } from "react";
+import React from "react";
 import { cn } from "@/utils/cn";
 
-export interface IconProps extends SVGProps<SVGSVGElement> {
+export type IconProps = {
   size?: number;
   strokeWidth?: number;
-}
+} & SVGProps<SVGSVGElement>;
 
 const DEFAULT_SIZE = 40;
 const DEFAULT_STROKE_WIDTH = 2.0;

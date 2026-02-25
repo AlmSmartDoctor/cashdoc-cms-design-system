@@ -134,7 +134,7 @@ const radioGroupItemVariants = cva(
 );
 
 const radioGroupIndicatorVariants = cva(
-  "flex items-center justify-center rounded-full bg-current aspect-square",
+  "flex aspect-square items-center justify-center rounded-full bg-current",
   {
     variants: {
       variant: {
@@ -158,10 +158,10 @@ const radioGroupIndicatorVariants = cva(
   },
 );
 
-export interface RadioGroupItemProps
-  extends
-    React.ComponentPropsWithoutRef<typeof RadioGroupPrimitives.Item>,
-    VariantProps<typeof radioGroupItemVariants> {}
+export type RadioGroupItemProps = {} & React.ComponentPropsWithoutRef<
+  typeof RadioGroupPrimitives.Item
+> &
+  VariantProps<typeof radioGroupItemVariants>;
 
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitives.Item>,

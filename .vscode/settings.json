@@ -4,12 +4,19 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
+  "eslint.codeActionsOnSave.rules": [
+    "!better-tailwindcss/enforce-consistent-line-wrapping",
+    "!prefer-template/multiline-classname"
+  ],
   "eslint.validate": [
     "javascript",
     "javascriptreact",
     "typescript",
     "typescriptreact"
   ],
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore",
   "tailwindcss.lint.cssConflict": "ignore",
   "tailwindcss.lint.recommendedVariantOrder": "ignore"
 }

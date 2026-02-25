@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { DayPicker } from "react-day-picker";
 import { ko } from "react-day-picker/locale";
-import dayjs, { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
 import { CalendarIcon } from "@/components/icons";
 import "react-day-picker/style.css";
 
-export interface DatePickerProps {
+export type DatePickerProps = {
   value?: string;
   onChange?: (date: string) => void;
   label?: string;
@@ -19,7 +20,7 @@ export interface DatePickerProps {
   errorMessage?: string;
   helperText?: string;
   className?: string;
-}
+};
 
 /**
  * 사용자가 달력 인터페이스를 통해 특정 날짜를 선택할 수 있게 하는 컴포넌트입니다.
@@ -124,42 +125,38 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     ref,
   ) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [internalDate, setInternalDate] = useState<Dayjs | undefined>(
+    const [draftDate, setDraftDate] = useState<Dayjs | undefined>(
       value ? dayjs(value) : undefined,
     );
-
-    useEffect(() => {
-      if (value) {
-        setInternalDate(dayjs(value));
-      } else {
-        setInternalDate(undefined);
-      }
-    }, [value]);
-
-    const selected = useMemo(() => {
-      return internalDate?.toDate();
-    }, [internalDate]);
+    const selected = draftDate?.toDate();
 
     const handleDayClick = (date: Date | undefined) => {
       if (!date) {
-        setInternalDate(undefined);
+        setDraftDate(undefined);
         return;
       }
 
       const selectedDate = dayjs(date);
-      setInternalDate(selectedDate);
+      setDraftDate(selectedDate);
     };
 
     const handleApply = () => {
-      if (internalDate) {
-        onChange?.(internalDate.format("YYYY-MM-DD"));
+      if (draftDate) {
+        onChange?.(draftDate.format("YYYY-MM-DD"));
         setIsOpen(false);
       }
     };
 
     const handleCancel = () => {
-      setInternalDate(value ? dayjs(value) : undefined);
+      setDraftDate(value ? dayjs(value) : undefined);
       setIsOpen(false);
+    };
+
+    const handleOpenChange = (nextOpen: boolean) => {
+      if (nextOpen && !disabled) {
+        setDraftDate(value ? dayjs(value) : undefined);
+      }
+      setIsOpen(nextOpen);
     };
 
     const displayValue = useMemo(() => {
@@ -168,7 +165,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     }, [value]);
 
     const disabledDays = useMemo(() => {
-      const disabled: Array<{ before: Date } | { after: Date }> = [];
+      const disabled: ({ before: Date } | { after: Date })[] = [];
       if (min) {
         disabled.push({ before: dayjs(min).toDate() });
       }
@@ -185,7 +182,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
         )}
         <PopoverPrimitive.Root
           open={isOpen && !disabled}
-          onOpenChange={setIsOpen}
+          onOpenChange={handleOpenChange}
         >
           <PopoverPrimitive.Trigger asChild>
             <div className="relative">
@@ -209,7 +206,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                 placeholder={placeholder}
                 disabled={disabled}
                 className={cn(
-                  "h-10 w-full rounded border bg-white pr-3 pl-10 text-sm",
+                  "h-10 w-full rounded-sm border bg-white pr-3 pl-10 text-sm",
                   "hover:border-gray-400 hover:bg-gray-50",
                   "focus:outline-none",
                   "transition-all duration-150",
@@ -265,9 +262,9 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                 )}
               >
                 <div className="flex min-h-8 flex-col">
-                  {internalDate ? (
+                  {draftDate ? (
                     <span className="text-xs text-gray-700">
-                      {internalDate.format("YYYY-MM-DD")}
+                      {draftDate.format("YYYY-MM-DD")}
                     </span>
                   ) : (
                     <span className="text-xs text-red-500">
@@ -280,7 +277,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                   <button
                     onClick={handleCancel}
                     className={cn(
-                      "h-8 w-15 cursor-pointer rounded",
+                      "h-8 w-15 cursor-pointer rounded-sm",
                       "text-xs font-medium text-gray-700",
                       "border border-gray-300 bg-transparent",
                       "transition-all duration-150",
@@ -292,10 +289,10 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                   </button>
                   <button
                     onClick={handleApply}
-                    disabled={!internalDate}
+                    disabled={!draftDate}
                     className={cn(
                       "cursor-pointer border-0",
-                      "h-8 w-15 rounded bg-blue-600",
+                      "h-8 w-15 rounded-sm bg-blue-600",
                       "text-xs text-white",
                       "hover:bg-blue-700",
                       "active:scale-95",

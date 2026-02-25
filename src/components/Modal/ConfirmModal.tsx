@@ -3,7 +3,7 @@ import { CheckCircle2 } from "lucide-react";
 import { Modal } from "./Modal";
 import { Button } from "../Button/Button";
 
-export interface ConfirmModalProps {
+export type ConfirmModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title?: string;
@@ -11,7 +11,7 @@ export interface ConfirmModalProps {
   confirmText?: string;
   onConfirm?: () => void;
   className?: string;
-}
+};
 
 /**
  * 사용자에게 특정 작업에 대한 최종 확인을 받기 위한 단순화된 모달 컴포넌트입니다.
@@ -72,7 +72,7 @@ export const ConfirmModal = React.forwardRef<HTMLDivElement, ConfirmModalProps>(
         className={className}
         size="sm"
         showCloseButton={false}
-        icon={<CheckCircle2 className="h-15 w-15 text-cms-black" />}
+        icon={<CheckCircle2 className="size-15 text-cms-black" />}
       >
         <div className="text-sm text-cms-gray-700">{message}</div>
       </Modal>

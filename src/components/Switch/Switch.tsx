@@ -32,8 +32,8 @@ const resolveSwitchWidth = (width?: number | string): string => {
 const switchVariants = cva(
   cn(
     "peer group relative inline-flex items-center transition-colors",
-    "rounded-full border-2 border-transparent box-border",
-    "h-6 w-[var(--switch-track-width-safe)] shrink-0 py-0.5 px-[1px]",
+    "box-border rounded-full border-2 border-transparent",
+    "h-6 w-(--switch-track-width-safe) shrink-0 px-px py-0.5",
     "cursor-pointer",
     "focus-visible:outline-none",
     "disabled:cursor-not-allowed disabled:opacity-50",
@@ -56,10 +56,7 @@ const switchVariants = cva(
   },
 );
 
-export interface SwitchProps
-  extends
-    React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>,
-    VariantProps<typeof switchVariants> {
+export type SwitchProps = {
   /**
    * 스위치 트랙의 가로 길이입니다.
    * - `number` 입력 시 px 단위로 처리됩니다. (예: `96`)
@@ -75,7 +72,8 @@ export interface SwitchProps
    * 스위치가 꺼짐(`unchecked`) 상태일 때, thumb 반대편(오른쪽 빈 영역)에 표시할 텍스트입니다.
    */
   uncheckedLabel?: React.ReactNode;
-}
+} & React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root> &
+  VariantProps<typeof switchVariants>;
 
 /**
  * 두 가지 상반된 상태(On/Off, 활성/비활성)를 즉각적으로 전환할 때 사용하는 컴포넌트입니다.
@@ -176,13 +174,15 @@ const Switch = React.forwardRef<
     ref,
   ) => {
     const resolvedWidth = resolveSwitchWidth(width);
+    const trackWidthSafe = `max(var(--switch-track-width), ${DEFAULT_SWITCH_WIDTH}px)`;
+    const thumbTravelDistance = `calc(var(--switch-track-width-safe) - ${SWITCH_THUMB_TRAVEL_OFFSET_PX}px)`;
 
     const switchStyle: SwitchInlineStyle = {
       ...style,
       "--switch-track-width": resolvedWidth,
-      "--switch-track-width-safe": `max(var(--switch-track-width), ${DEFAULT_SWITCH_WIDTH}px)`,
-      "--switch-thumb-translate": `calc(var(--switch-track-width-safe) - ${SWITCH_THUMB_TRAVEL_OFFSET_PX}px)`,
-      "--switch-label-width": `calc(var(--switch-track-width-safe) - ${SWITCH_THUMB_TRAVEL_OFFSET_PX}px)`,
+      "--switch-track-width-safe": trackWidthSafe,
+      "--switch-thumb-translate": thumbTravelDistance,
+      "--switch-label-width": thumbTravelDistance,
     };
 
     return (
@@ -195,16 +195,30 @@ const Switch = React.forwardRef<
         {(checkedLabel || uncheckedLabel) && (
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-0 left-0"
+            className="pointer-events-none absolute inset-0"
           >
             <span
-              className="absolute inset-y-0 flex w-[var(--switch-label-width)] items-center justify-center overflow-hidden px-1 text-[10px] leading-none font-medium text-ellipsis whitespace-nowrap text-cms-white opacity-0 transition-opacity group-data-[state=checked]:opacity-100"
+              className={cn(
+                "absolute inset-y-0 flex w-(--switch-label-width) items-center",
+                "justify-center overflow-hidden px-1",
+                "text-[10px] leading-none font-medium text-ellipsis",
+                "whitespace-nowrap text-cms-white",
+                "opacity-0 transition-opacity",
+                "group-data-[state=checked]:opacity-100",
+              )}
               style={{ left: `${SWITCH_LABEL_OFFSET_PX}px` }}
             >
               {checkedLabel}
             </span>
             <span
-              className="absolute inset-y-0 flex w-[var(--switch-label-width)] items-center justify-center overflow-hidden px-1 text-[10px] leading-none font-medium text-ellipsis whitespace-nowrap text-cms-gray-700 opacity-100 transition-opacity group-data-[state=checked]:opacity-0"
+              className={cn(
+                "absolute inset-y-0 flex w-(--switch-label-width) items-center",
+                "justify-center overflow-hidden px-1",
+                "text-[10px] leading-none font-medium text-ellipsis",
+                "whitespace-nowrap text-cms-gray-700 opacity-100",
+                "transition-opacity",
+                "group-data-[state=checked]:opacity-0",
+              )}
               style={{ right: `${SWITCH_LABEL_OFFSET_PX}px` }}
             >
               {uncheckedLabel}
@@ -215,9 +229,10 @@ const Switch = React.forwardRef<
           className={cn(
             "pointer-events-none relative z-10 block rounded-full ring-0",
             "bg-cms-white shadow-lg",
-            "h-5 w-5",
-            "cursor-pointer data-[state=unchecked]:translate-x-0",
-            "data-[state=checked]:translate-x-[var(--switch-thumb-translate)]",
+            "size-5",
+            "cursor-pointer",
+            "data-[state=unchecked]:translate-x-0",
+            "data-[state=checked]:translate-x-(--switch-thumb-translate)",
             "transition-transform",
           )}
         />

@@ -183,7 +183,7 @@ export const MultipleCheckboxes: Story = {
             onCheckedChange={() => toggleItem(item.id)}
           />
         ))}
-        <div className="mt-6 rounded bg-gray-50 p-4">
+        <div className="mt-6 rounded-sm bg-gray-50 p-4">
           <p className="text-sm font-medium">선택된 항목:</p>
           <p className="mt-1 text-sm text-gray-600">
             {selectedItems.length > 0 ? selectedItems.join(", ") : "없음"}

@@ -51,6 +51,7 @@ export const config = [
     settings: {
       "better-tailwindcss": {
         entryPoint: resolve(projectRoot, "src/styles/globals.css"),
+        detectComponentClasses: true,
       },
     },
     plugins: {
@@ -62,11 +63,28 @@ export const config = [
       "better-tailwindcss/enforce-canonical-classes": "error",
       "better-tailwindcss/no-unknown-classes": [
         "warn",
-        { ignore: ["toaster", "group"] },
+        {
+          ignore: [
+            "toaster",
+            "^(?:.*:)?toast$",
+            "group",
+            "^(?:.*:)?cms-",
+            "^(?:.*:)?[a-z-]+-cms-[\\w-]+(?:\\/\\d+)?$",
+            "^(?:.*:)?scrollbar-thin$",
+            "^(?:.*:)?scrollbar-(?:thumb|track)-[\\w-]+$",
+            "^(?:.*:)?scrollbar-(?:thumb|track)-\\[[^\\]]+\\]$",
+            "date-range-picker-calendar",
+            "date-picker-calendar",
+          ],
+        },
       ],
       "better-tailwindcss/enforce-consistent-line-wrapping": [
         "warn",
-        { strictness: "loose" },
+        {
+          strictness: "loose",
+          attributes: [],
+          callees: ["cn"],
+        },
       ],
     },
   },

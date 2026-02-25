@@ -1,12 +1,13 @@
 import { cn } from "@/utils/cn";
 import { useState, forwardRef } from "react";
-import { Dropdown, DropdownProps } from "./Dropdown";
+import type { DropdownProps } from "./Dropdown";
+import { Dropdown } from "./Dropdown";
 
-export interface ComboboxProps extends Omit<DropdownProps, "searchable"> {
+export type ComboboxProps = {
   loading?: boolean;
   createable?: boolean;
   onCreateOption?: (value: string) => void;
-}
+} & Omit<DropdownProps, "searchable">
 
 /**
  * 텍스트 입력과 드롭다운 선택 기능이 결합되어, 목록에서 검색하거나 새로운 옵션을 생성할 수 있는 컴포넌트입니다.

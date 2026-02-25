@@ -1,12 +1,11 @@
 import { cn } from "@/utils/cn";
-import { VariantProps } from "class-variance-authority";
-import { ButtonHTMLAttributes, forwardRef } from "react";
+import type { VariantProps } from "class-variance-authority";
+import type { ButtonHTMLAttributes } from "react";
+import { forwardRef } from "react";
 import { buttonVariants } from "./variants";
 
-export interface ButtonProps
-  extends
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+export type ButtonProps = {} & ButtonHTMLAttributes<HTMLButtonElement> &
+  VariantProps<typeof buttonVariants>;
 
 /**
  * 사용자의 클릭 동작을 통해 특정 액션을 실행하거나 페이지를 이동시키는 기본적인 컴포넌트입니다.

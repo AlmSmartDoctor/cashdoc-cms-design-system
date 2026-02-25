@@ -3,12 +3,10 @@ import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { CheckIcon } from "@/components/icons";
 import { cn } from "@/utils/cn";
 
-export interface CheckboxProps extends React.ComponentPropsWithoutRef<
-  typeof CheckboxPrimitive.Root
-> {
+export type CheckboxProps = {
   label?: string;
   id?: string;
-}
+} & React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>;
 
 /**
  * 사용자가 여러 옵션 중 하나 이상을 선택하거나, 특정 항목의 활성화 상태를 제어할 때 사용하는 컴포넌트입니다.
@@ -96,8 +94,8 @@ export const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   CheckboxProps
 >(({ className, label, id, disabled, ...props }, ref) => {
-  const checkboxId =
-    id || `checkbox-${Math.random().toString(36).substr(2, 9)}`;
+  const generatedId = React.useId();
+  const checkboxId = id ?? `checkbox-${generatedId.replace(/:/g, "")}`;
 
   return (
     <div className="flex items-center">
@@ -106,7 +104,7 @@ export const Checkbox = React.forwardRef<
         id={checkboxId}
         disabled={disabled}
         className={cn(
-          "peer h-5 w-5 shrink-0 rounded",
+          "peer size-5 shrink-0 rounded-sm",
           "border border-gray-400 bg-white",
           "focus-visible:outline-none",
           "focus-visible:ring-2",
@@ -130,9 +128,10 @@ export const Checkbox = React.forwardRef<
           htmlFor={checkboxId}
           className={cn(
             "ml-2 text-base font-normal text-gray-500",
-            "transition-colors hover:text-black",
-            disabled && "cursor-not-allowed opacity-50",
             "cursor-pointer select-none",
+            "transition-colors",
+            "hover:text-black",
+            disabled && "cursor-not-allowed opacity-50",
           )}
         >
           {label}

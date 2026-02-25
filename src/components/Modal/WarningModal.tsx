@@ -2,8 +2,9 @@ import React from "react";
 import { AlertTriangle } from "lucide-react";
 import { Modal } from "./Modal";
 import { Button } from "../Button/Button";
+import { cn } from "@/utils/cn";
 
-export interface WarningModalProps {
+export type WarningModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title?: string;
@@ -14,7 +15,7 @@ export interface WarningModalProps {
   cancelText?: string;
   onCancel?: () => void;
   className?: string;
-}
+};
 
 /**
  * 잠재적인 문제를 경고하거나 주의가 필요한 작업을 수행하기 전 사용자의 동의를 구하는 모달입니다.
@@ -70,12 +71,16 @@ export const WarningModal = React.forwardRef<HTMLDivElement, WarningModalProps>(
         open={open}
         onOpenChange={onOpenChange}
         title={title}
-        icon={<AlertTriangle className="h-15 w-15 text-cms-orange-500" />}
+        icon={<AlertTriangle className="size-15 text-cms-orange-500" />}
         footer={
           <div className="flex w-full gap-2">
             <Button
               onClick={handleCancel}
-              className="h-12 flex-1 border border-cms-gray-200 bg-white text-cms-gray-700 hover:bg-cms-gray-50"
+              className={cn(
+                "h-12 flex-1 border border-cms-gray-200 bg-white",
+                "text-cms-gray-700",
+                "hover:bg-cms-gray-50",
+              )}
             >
               {cancelText}
             </Button>

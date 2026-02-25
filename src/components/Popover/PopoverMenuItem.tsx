@@ -1,16 +1,15 @@
 "use client";
 
 import { cn } from "@/utils/cn";
-import { VariantProps } from "class-variance-authority";
-import { ButtonHTMLAttributes, forwardRef } from "react";
+import type { VariantProps } from "class-variance-authority";
+import type { ButtonHTMLAttributes } from "react";
+import { forwardRef } from "react";
 import { popoverMenuItemVariants } from "./variants";
 
-export interface PopoverMenuItemProps
-  extends
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof popoverMenuItemVariants> {
+export type PopoverMenuItemProps = {
   icon?: React.ReactNode;
-}
+} & ButtonHTMLAttributes<HTMLButtonElement> &
+  VariantProps<typeof popoverMenuItemVariants>;
 
 /**
  * Popover 내부에 배치되는 개별 액션 항목 컴포넌트입니다.

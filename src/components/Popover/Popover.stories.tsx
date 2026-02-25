@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Popover, PopoverTrigger, PopoverContent, PopoverMenuItem } from "./";
 import { MoreVertical, Trash2, Edit, Heart, Share2, Copy } from "lucide-react";
 import { Button } from "../Button";
+import { cn } from "@/utils/cn";
 
 const meta: Meta<typeof Popover> = {
   title: "Feedback/Popover",
@@ -54,17 +55,17 @@ export const Default: Story = {
       <Popover defaultOpen={true}>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon">
-            <MoreVertical className="h-5 w-5" />
+            <MoreVertical className="size-5" />
           </Button>
         </PopoverTrigger>
         <PopoverContent>
           <PopoverMenuItem
             variant="destructive"
-            icon={<Trash2 className="h-5 w-5" />}
+            icon={<Trash2 className="size-5" />}
           >
             삭제하기
           </PopoverMenuItem>
-          <PopoverMenuItem icon={<Edit className="h-5 w-5" />}>
+          <PopoverMenuItem icon={<Edit className="size-5" />}>
             수정하기
           </PopoverMenuItem>
         </PopoverContent>
@@ -83,25 +84,25 @@ export const WithMultipleActions: Story = {
       <Popover defaultOpen={true}>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon">
-            <MoreVertical className="h-5 w-5" />
+            <MoreVertical className="size-5" />
           </Button>
         </PopoverTrigger>
         <PopoverContent>
-          <PopoverMenuItem icon={<Edit className="h-5 w-5" />}>
+          <PopoverMenuItem icon={<Edit className="size-5" />}>
             수정하기
           </PopoverMenuItem>
-          <PopoverMenuItem icon={<Copy className="h-5 w-5" />}>
+          <PopoverMenuItem icon={<Copy className="size-5" />}>
             복사하기
           </PopoverMenuItem>
-          <PopoverMenuItem icon={<Share2 className="h-5 w-5" />}>
+          <PopoverMenuItem icon={<Share2 className="size-5" />}>
             공유하기
           </PopoverMenuItem>
-          <PopoverMenuItem icon={<Heart className="h-5 w-5" />}>
+          <PopoverMenuItem icon={<Heart className="size-5" />}>
             즐겨찾기
           </PopoverMenuItem>
           <PopoverMenuItem
             variant="destructive"
-            icon={<Trash2 className="h-5 w-5" />}
+            icon={<Trash2 className="size-5" />}
           >
             삭제하기
           </PopoverMenuItem>
@@ -118,24 +119,29 @@ export const OnCard: Story = {
   },
   render: () => (
     <div className="flex items-center justify-center p-20">
-      <div className="border-grayscale-200 relative w-80 rounded-2xl border bg-white p-6 shadow-sm">
+      <div
+        className={cn(
+          "relative w-80 rounded-2xl bg-white p-6 shadow-sm",
+          "border border-cms-gray-200",
+        )}
+      >
         <div className="absolute top-4 right-4">
           <Popover defaultOpen={true}>
             <PopoverTrigger asChild>
               <Button variant="ghost" size="icon">
-                <MoreVertical className="h-5 w-5" />
+                <MoreVertical className="size-5" />
               </Button>
             </PopoverTrigger>
             <PopoverContent>
               <PopoverMenuItem
                 variant="destructive"
-                icon={<Trash2 className="h-5 w-5" />}
+                icon={<Trash2 className="size-5" />}
                 onClick={() => alert("삭제하기 클릭")}
               >
                 삭제하기
               </PopoverMenuItem>
               <PopoverMenuItem
-                icon={<Edit className="h-5 w-5" />}
+                icon={<Edit className="size-5" />}
                 onClick={() => alert("수정하기 클릭")}
               >
                 수정하기
@@ -145,7 +151,7 @@ export const OnCard: Story = {
         </div>
 
         <h3 className="mb-2 text-lg font-semibold">카드 제목</h3>
-        <p className="text-grayscale-800">
+        <p className="text-cms-gray-800">
           카드 내용이 여기에 표시됩니다. 우측 상단의 케밥 메뉴를 클릭하면
           팝오버가 나타납니다.
         </p>
@@ -164,7 +170,7 @@ export const WithoutIcons: Story = {
       <Popover defaultOpen={true}>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon">
-            <MoreVertical className="h-5 w-5" />
+            <MoreVertical className="size-5" />
           </Button>
         </PopoverTrigger>
         <PopoverContent>
@@ -188,19 +194,19 @@ export const WithDisabledItems: Story = {
       <Popover defaultOpen={true}>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon">
-            <MoreVertical className="h-5 w-5" />
+            <MoreVertical className="size-5" />
           </Button>
         </PopoverTrigger>
         <PopoverContent>
-          <PopoverMenuItem icon={<Edit className="h-5 w-5" />}>
+          <PopoverMenuItem icon={<Edit className="size-5" />}>
             수정하기
           </PopoverMenuItem>
-          <PopoverMenuItem icon={<Share2 className="h-5 w-5" />} disabled>
+          <PopoverMenuItem icon={<Share2 className="size-5" />} disabled>
             공유하기 (곧 출시)
           </PopoverMenuItem>
           <PopoverMenuItem
             variant="destructive"
-            icon={<Trash2 className="h-5 w-5" />}
+            icon={<Trash2 className="size-5" />}
           >
             삭제하기
           </PopoverMenuItem>
@@ -220,17 +226,17 @@ export const AlignStart: Story = {
       <Popover defaultOpen={true}>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon">
-            <MoreVertical className="h-5 w-5" />
+            <MoreVertical className="size-5" />
           </Button>
         </PopoverTrigger>
         <PopoverContent align="start">
           <PopoverMenuItem
             variant="destructive"
-            icon={<Trash2 className="h-5 w-5" />}
+            icon={<Trash2 className="size-5" />}
           >
             삭제하기
           </PopoverMenuItem>
-          <PopoverMenuItem icon={<Edit className="h-5 w-5" />}>
+          <PopoverMenuItem icon={<Edit className="size-5" />}>
             수정하기
           </PopoverMenuItem>
         </PopoverContent>
@@ -249,14 +255,14 @@ export const ForJsdoc: Story = {
       <Popover defaultOpen={true}>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon">
-            <MoreVertical className="h-5 w-5" />
+            <MoreVertical className="size-5" />
           </Button>
         </PopoverTrigger>
         <PopoverContent>
-          <PopoverMenuItem icon={<Edit className="h-5 w-5" />}>
+          <PopoverMenuItem icon={<Edit className="size-5" />}>
             Edit
           </PopoverMenuItem>
-          <PopoverMenuItem icon={<Trash2 className="h-5 w-5" />}>
+          <PopoverMenuItem icon={<Trash2 className="size-5" />}>
             Delete
           </PopoverMenuItem>
         </PopoverContent>

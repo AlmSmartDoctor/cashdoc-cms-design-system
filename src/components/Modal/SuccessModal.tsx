@@ -2,8 +2,9 @@ import React from "react";
 import { CheckCircle2 } from "lucide-react";
 import { Modal } from "./Modal";
 import { Button } from "../Button/Button";
+import { cn } from "@/utils/cn";
 
-export interface SuccessModalProps {
+export type SuccessModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title?: string;
@@ -11,7 +12,7 @@ export interface SuccessModalProps {
   confirmText?: string;
   onConfirm?: () => void;
   className?: string;
-}
+};
 
 /**
  * 요청한 작업이 성공적으로 완료되었음을 축하하거나 알리는 모달입니다.
@@ -56,7 +57,9 @@ export const SuccessModal = React.forwardRef<HTMLDivElement, SuccessModalProps>(
         open={open}
         onOpenChange={onOpenChange}
         icon={
-          <CheckCircle2 className="h-15 w-15 border-cms-green-500 text-cms-green-500" />
+          <CheckCircle2
+            className={cn("size-15 border-cms-green-500 text-cms-green-500")}
+          />
         }
         title={title}
         footer={

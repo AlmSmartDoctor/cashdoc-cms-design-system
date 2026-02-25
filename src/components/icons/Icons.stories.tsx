@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as Icons from "./index";
+import { cn } from "@/utils/cn";
 
 const meta: Meta = {
   title: "Icons/Icons",
@@ -18,26 +19,45 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+type IconComponent = typeof Icons.CheckIcon;
+type IconEntry = [name: string, Icon: IconComponent];
+
 const AllIconsStory = () => {
   const IconSection = ({
     title,
     icons,
   }: {
     title: string;
-    icons: [string, React.ComponentType<any>][];
+    icons: IconEntry[];
   }) => (
     <div className="mb-10">
       <h3 className="mb-4 border-b pb-2 text-xl font-bold text-cms-gray-800">
         {title}
       </h3>
-      <div className="grid grid-cols-4 gap-4 md:grid-cols-6 lg:grid-cols-8">
+      <div
+        className={cn(
+          "grid grid-cols-4 gap-4",
+          "md:grid-cols-6",
+          "lg:grid-cols-8",
+        )}
+      >
         {icons.map(([name, Icon]) => (
           <div
             key={name}
-            className="flex flex-col items-center gap-2 rounded-lg border border-cms-gray-200 p-4 transition-colors hover:bg-cms-gray-50"
+            className={cn(
+              "flex flex-col items-center gap-2 rounded-lg p-4",
+              "border border-cms-gray-200",
+              "transition-colors",
+              "hover:bg-cms-gray-50",
+            )}
           >
             <Icon className="text-cms-black" />
-            <p className="text-center font-mono text-[10px] leading-tight text-cms-gray-500">
+            <p
+              className={cn(
+                "text-center font-mono",
+                "text-[10px] leading-tight text-cms-gray-500",
+              )}
+            >
               {name}
             </p>
           </div>
@@ -46,9 +66,11 @@ const AllIconsStory = () => {
     </div>
   );
 
-  const iconEntries = Object.entries(Icons);
+  const iconEntries = Object.entries(Icons).filter(
+    (entry): entry is IconEntry => typeof entry[1] === "function",
+  );
 
-  const categories = {
+  const categories: Record<string, IconEntry[]> = {
     "Navigation & Layout": iconEntries.filter(
       ([name]) =>
         name.includes("Chevron") ||
@@ -111,7 +133,7 @@ const AllIconsStory = () => {
   return (
     <div className="w-full max-w-6xl p-4">
       {Object.entries(categories).map(([title, icons]) => (
-        <IconSection key={title} title={title} icons={icons as any} />
+        <IconSection key={title} title={title} icons={icons} />
       ))}
     </div>
   );

@@ -1,19 +1,22 @@
 import { cn } from "@/utils/cn";
-import { VariantProps } from "class-variance-authority";
-import { useState, useRef, useEffect, forwardRef, KeyboardEvent } from "react";
-import { ChevronDownFillIcon, ChevronRightFillIcon, XIcon as ClearIcon } from "../icons";
+import type { VariantProps } from "class-variance-authority";
+import type { KeyboardEvent } from "react";
+import { useState, useRef, useEffect, useCallback, forwardRef } from "react";
+import {
+  ChevronDownFillIcon,
+  ChevronRightFillIcon,
+  XIcon as ClearIcon,
+} from "../icons";
 import { dropdownTriggerVariants } from "./variants";
 
-export interface DropdownOption {
+export type DropdownOption = {
   value: string;
   label: string;
   disabled?: boolean;
   children?: DropdownOption[];
-}
+};
 
-export interface DropdownProps extends VariantProps<
-  typeof dropdownTriggerVariants
-> {
+export type DropdownProps = {
   options: DropdownOption[];
   value?: string;
   placeholder?: string;
@@ -26,7 +29,7 @@ export interface DropdownProps extends VariantProps<
   multiple?: boolean;
   maxHeight?: number;
   defaultOpen?: boolean;
-}
+} & VariantProps<typeof dropdownTriggerVariants>;
 
 /**
  * 사용자가 목록에서 하나 또는 여러 개의 옵션을 선택할 수 있게 하는 컴포넌트입니다.
@@ -135,33 +138,31 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
   ) => {
     const [isOpen, setIsOpen] = useState(defaultOpen);
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedValues, setSelectedValues] = useState<string[]>(
-      multiple ? (value ? value.split(",").filter(Boolean) : []) : [],
-    );
-    const [hoveredSubmenu, setHoveredSubmenu] = useState<{ value: string; top: number } | null>(null);
+    const [internalSelectedValues, setInternalSelectedValues] = useState<
+      string[]
+    >(multiple ? (value ? value.split(",").filter(Boolean) : []) : []);
+    const selectedValues =
+      multiple && value !== undefined
+        ? value.split(",").filter(Boolean)
+        : internalSelectedValues;
+    const [hoveredSubmenu, setHoveredSubmenu] = useState<{
+      value: string;
+      top: number;
+    } | null>(null);
     const optionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
     const closeSubmenuTimeoutRef = useRef<number | null>(null);
-
-    useEffect(() => {
-      const nextValues = value
-        ? multiple
-          ? value.split(",").filter(Boolean)
-          : []
-        : [];
-
-      if (JSON.stringify(nextValues) !== JSON.stringify(selectedValues)) {
-        setSelectedValues(nextValues);
-      }
-    }, [value, multiple, selectedValues]);
 
     const [showScrollIndicator, setShowScrollIndicator] = useState(false);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const optionsListRef = useRef<HTMLDivElement>(null);
+    const optionsListRef = useRef<HTMLDivElement | null>(null);
 
     // 서브메뉴 포함하여 옵션 찾기
-    const findOption = (opts: DropdownOption[], val: string): DropdownOption | undefined => {
+    const findOption = (
+      opts: DropdownOption[],
+      val: string,
+    ): DropdownOption | undefined => {
       for (const opt of opts) {
         if (opt.value === val) return opt;
         if (opt.children) {
@@ -218,7 +219,9 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
           ? selectedValues.filter((v) => v !== option.value)
           : [...selectedValues, option.value];
 
-        setSelectedValues(newSelectedValues);
+        if (value === undefined) {
+          setInternalSelectedValues(newSelectedValues);
+        }
         onValueChange?.(newSelectedValues.join(","));
       } else {
         onValueChange?.(option.value);
@@ -229,7 +232,9 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     const handleClear = (e: React.MouseEvent) => {
       e.stopPropagation();
       if (multiple) {
-        setSelectedValues([]);
+        if (value === undefined) {
+          setInternalSelectedValues([]);
+        }
         onValueChange?.("");
       } else {
         onValueChange?.("");
@@ -268,34 +273,41 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       }
     }, [isOpen, searchable]);
 
-    // 스크롤 가능 여부 체크
-    const checkScrollIndicator = () => {
-      if (optionsListRef.current) {
-        const { scrollTop, scrollHeight, clientHeight } =
-          optionsListRef.current;
-        const hasMoreContent = scrollHeight > clientHeight;
-        const isAtBottom = scrollHeight - scrollTop - clientHeight < 1;
-        setShowScrollIndicator(hasMoreContent && !isAtBottom);
+    const updateScrollIndicator = useCallback((target?: HTMLDivElement) => {
+      const optionsList = target ?? optionsListRef.current;
+      if (!optionsList) {
+        setShowScrollIndicator(false);
+        return;
       }
-    };
 
-    // 드롭다운이 열릴 때와 옵션이 변경될 때 스크롤 인디케이터 체크
-    useEffect(() => {
-      if (isOpen) {
-        checkScrollIndicator();
-      }
-    }, [isOpen, filteredOptions]);
+      const { scrollTop, scrollHeight, clientHeight } = optionsList;
+      const hasMoreContent = scrollHeight > clientHeight;
+      const isAtBottom = scrollHeight - scrollTop - clientHeight < 1;
+      setShowScrollIndicator(hasMoreContent && !isAtBottom);
+    }, []);
 
-    // 스크롤 이벤트 리스너
-    useEffect(() => {
-      const optionsList = optionsListRef.current;
-      if (optionsList && isOpen) {
-        optionsList.addEventListener("scroll", checkScrollIndicator);
-        return () => {
-          optionsList.removeEventListener("scroll", checkScrollIndicator);
-        };
-      }
-    }, [isOpen]);
+    const scheduleScrollIndicatorUpdate = useCallback(
+      (target?: HTMLDivElement) => {
+        if (typeof window === "undefined") return;
+        window.requestAnimationFrame(() => {
+          updateScrollIndicator(target);
+        });
+      },
+      [updateScrollIndicator],
+    );
+
+    const setOptionsListNode = useCallback(
+      (node: HTMLDivElement | null) => {
+        optionsListRef.current = node;
+        if (!node) {
+          setShowScrollIndicator(false);
+          return;
+        }
+
+        scheduleScrollIndicatorUpdate(node);
+      },
+      [scheduleScrollIndicatorUpdate],
+    );
 
     return (
       <div ref={dropdownRef} className="relative w-full">
@@ -329,18 +341,18 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                 type="button"
                 className={cn(
                   "border-0 bg-transparent",
-                  "rounded p-1 text-cms-gray-400 transition-colors",
+                  "rounded-sm p-1 text-cms-gray-400 transition-colors",
                   "hover:text-cms-black",
                 )}
                 onClick={handleClear}
                 aria-label="선택 취소"
               >
-                <ClearIcon className="h-3 w-3" />
+                <ClearIcon className="size-3" />
               </button>
             )}
             <ChevronDownFillIcon
               className={cn(
-                "h-3 w-3 transition-transform duration-200",
+                "size-3 transition-transform duration-200",
                 isOpen && "rotate-180",
               )}
             />
@@ -364,11 +376,14 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                   ref={searchInputRef}
                   type="text"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    scheduleScrollIndicatorUpdate();
+                  }}
                   placeholder="검색..."
                   className={cn(
                     "w-full px-2 py-1 text-sm",
-                    "rounded outline-none",
+                    "rounded-sm outline-none",
                     "border border-cms-gray-300",
                     "focus:ring-1 focus:ring-cms-gray-400",
                   )}
@@ -384,8 +399,9 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                 )}
               >
                 <div
-                  ref={optionsListRef}
+                  ref={setOptionsListNode}
                   className="max-h-48 overflow-y-auto"
+                  onScroll={(e) => updateScrollIndicator(e.currentTarget)}
                   onMouseEnter={clearSubmenuCloseTimeout}
                   onMouseLeave={scheduleSubmenuClose}
                 >
@@ -404,8 +420,9 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                       const isSelected = multiple
                         ? selectedValues.includes(option.value)
                         : value === option.value;
-                      const hasSubmenu = option.children && option.children.length > 0;
-                      const isSubmenuOpen = hoveredSubmenu?.value === option.value;
+                      const hasSubmenu = Boolean(option.children?.length);
+                      const isSubmenuOpen =
+                        hoveredSubmenu?.value === option.value;
 
                       const handleMouseEnter = () => {
                         clearSubmenuCloseTimeout();
@@ -413,16 +430,19 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                           setHoveredSubmenu(null);
                           return;
                         }
-                        if (hasSubmenu) {
-                          const el = optionRefs.current.get(option.value);
-                          if (el && optionsListRef.current) {
-                            const optionRect = el.getBoundingClientRect();
-                            const listRect = optionsListRef.current.getBoundingClientRect();
-                            setHoveredSubmenu({
-                              value: option.value,
-                              top: optionRect.top - listRect.top + optionsListRef.current.scrollTop,
-                            });
-                          }
+
+                        const el = optionRefs.current.get(option.value);
+                        if (el && optionsListRef.current) {
+                          const optionRect = el.getBoundingClientRect();
+                          const listRect =
+                            optionsListRef.current.getBoundingClientRect();
+                          setHoveredSubmenu({
+                            value: option.value,
+                            top:
+                              optionRect.top -
+                              listRect.top +
+                              optionsListRef.current.scrollTop,
+                          });
                         }
                       };
 
@@ -433,7 +453,11 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                             if (el) optionRefs.current.set(option.value, el);
                           }}
                           onMouseEnter={handleMouseEnter}
-                          onMouseLeave={() => hasSubmenu && scheduleSubmenuClose()}
+                          onMouseLeave={() => {
+                            if (hasSubmenu) {
+                              scheduleSubmenuClose();
+                            }
+                          }}
                         >
                           <button
                             type="button"
@@ -444,7 +468,10 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                               "text-left text-sm",
                               "transition-colors",
                               option.disabled
-                                ? "cursor-not-allowed bg-white text-cms-gray-400"
+                                ? cn(
+                                    "cursor-not-allowed bg-white",
+                                    "text-cms-gray-400",
+                                  )
                                 : cn(
                                     "bg-white text-cms-black",
                                     "hover:bg-cms-gray-100",
@@ -453,12 +480,18 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                               isSelected && "bg-cms-gray-150 font-medium",
                               isSubmenuOpen && "bg-cms-gray-100",
                             )}
-                            onClick={() => !hasSubmenu && handleOptionClick(option)}
+                            onClick={() => {
+                              if (!hasSubmenu) {
+                                handleOptionClick(option);
+                              }
+                            }}
                             disabled={option.disabled}
                           >
                             <span className="truncate">{option.label}</span>
                             {hasSubmenu ? (
-                              <ChevronRightFillIcon className="h-3 w-3 shrink-0 text-cms-gray-400" />
+                              <ChevronRightFillIcon
+                                className="h-3 w-3 shrink-0 text-cms-gray-400"
+                              />
                             ) : isSelected ? (
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -485,7 +518,8 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                   {showScrollIndicator && (
                     <div
                       className={cn(
-                        "sticky bottom-0 -mt-8 flex h-8 w-full items-end justify-center pb-1",
+                        "sticky bottom-0 -mt-8 flex h-8 w-full items-end",
+                        "justify-center pb-1",
                         "bg-linear-to-t from-white to-transparent",
                         "pointer-events-none",
                       )}
@@ -503,77 +537,83 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
               </div>
 
               {/* Submenu - rendered outside overflow container */}
-              {hoveredSubmenu && (() => {
-                const parentOption = filteredOptions.find(o => o.value === hoveredSubmenu.value);
-                if (!parentOption?.children) return null;
+              {hoveredSubmenu &&
+                (() => {
+                  const parentOption = filteredOptions.find(
+                    (o) => o.value === hoveredSubmenu.value,
+                  );
+                  if (!parentOption?.children) return null;
 
-                return (
-                  <div
-                    className={cn(
-                      "absolute left-full z-50 ml-1 min-w-40 py-1",
-                      "rounded-md border border-cms-gray-300",
-                      "bg-white shadow-lg",
-                      "cms-dropdown-show",
-                    )}
-                    style={{ top: hoveredSubmenu.top }}
-                    onMouseEnter={() => {
-                      clearSubmenuCloseTimeout();
-                      setHoveredSubmenu(hoveredSubmenu);
-                    }}
-                    onMouseLeave={scheduleSubmenuClose}
-                  >
-                    {parentOption.children.map((subOption) => {
-                      const isSubSelected = multiple
-                        ? selectedValues.includes(subOption.value)
-                        : value === subOption.value;
+                  return (
+                    <div
+                      className={cn(
+                        "absolute left-full z-50 ml-1 min-w-40 py-1",
+                        "rounded-md border border-cms-gray-300",
+                        "bg-white shadow-lg",
+                        "cms-dropdown-show",
+                      )}
+                      style={{ top: hoveredSubmenu.top }}
+                      onMouseEnter={() => {
+                        clearSubmenuCloseTimeout();
+                        setHoveredSubmenu(hoveredSubmenu);
+                      }}
+                      onMouseLeave={scheduleSubmenuClose}
+                    >
+                      {parentOption.children.map((subOption) => {
+                        const isSubSelected = multiple
+                          ? selectedValues.includes(subOption.value)
+                          : value === subOption.value;
 
-                      return (
-                        <button
-                          key={subOption.value}
-                          type="button"
-                          className={cn(
-                            "border-0",
-                            "flex items-center justify-between gap-2",
-                            "w-full px-3 py-2",
-                            "text-left text-sm",
-                            "transition-colors",
-                            subOption.disabled
-                              ? "cursor-not-allowed bg-white text-cms-gray-400"
-                              : cn(
-                                  "bg-white text-cms-black",
-                                  "hover:bg-cms-gray-100",
-                                  "cursor-pointer",
-                                ),
-                            isSubSelected && "bg-cms-gray-150 font-medium",
-                          )}
-                          onClick={() => handleOptionClick(subOption)}
-                          disabled={subOption.disabled}
-                        >
-                          <span className="truncate">{subOption.label}</span>
-                          {isSubSelected && (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              viewBox="0 0 16 16"
-                              fill="none"
-                              className="h-4 w-4 shrink-0 text-black"
-                            >
-                              <path
-                                d="M13.5 4.5L6 12L2.5 8.5"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                );
-              })()}
+                        return (
+                          <button
+                            key={subOption.value}
+                            type="button"
+                            className={cn(
+                              "border-0",
+                              "flex items-center justify-between gap-2",
+                              "w-full px-3 py-2",
+                              "text-left text-sm",
+                              "transition-colors",
+                              subOption.disabled
+                                ? cn(
+                                    "cursor-not-allowed bg-white",
+                                    "text-cms-gray-400",
+                                  )
+                                : cn(
+                                    "bg-white text-cms-black",
+                                    "hover:bg-cms-gray-100",
+                                    "cursor-pointer",
+                                  ),
+                              isSubSelected && "bg-cms-gray-150 font-medium",
+                            )}
+                            onClick={() => handleOptionClick(subOption)}
+                            disabled={subOption.disabled}
+                          >
+                            <span className="truncate">{subOption.label}</span>
+                            {isSubSelected && (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                className="h-4 w-4 shrink-0 text-black"
+                              >
+                                <path
+                                  d="M13.5 4.5L6 12L2.5 8.5"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
             </div>
           </div>
         )}

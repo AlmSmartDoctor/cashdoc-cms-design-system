@@ -103,6 +103,9 @@ const meta: Meta<typeof DatePicker> = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+const noopDateChange = (date: string) => {
+  void date;
+};
 
 export const Default: Story = {
   render: () => {
@@ -210,7 +213,11 @@ export const ForJsdoc: Story = {
   render: () => (
     <div className="flex min-w-100 flex-col gap-6">
       <DatePicker label="Default" />
-      <DatePicker label="With Value" value="2025-12-31" onChange={() => {}} />
+      <DatePicker
+        label="With Value"
+        value="2025-12-31"
+        onChange={noopDateChange}
+      />
       <DatePicker label="With Helper Text" helperText="Please select a date" />
       <DatePicker
         label="Error State"

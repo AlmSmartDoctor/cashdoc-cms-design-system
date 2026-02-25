@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cva } from "class-variance-authority";
 import { cn } from "@/utils/cn";
 
-export interface PaginationProps {
+export type PaginationProps = {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
@@ -11,7 +11,7 @@ export interface PaginationProps {
   showPrevNext?: boolean;
   disabled?: boolean;
   className?: string;
-}
+};
 
 const paginationButtonVariants = cva(
   cn(
@@ -21,7 +21,7 @@ const paginationButtonVariants = cva(
     "text-sm font-medium",
     "transition-colors",
     "cursor-pointer",
-    "focus-visible:outline-none focus-visible:ring-2",
+    "focus-visible:ring-2 focus-visible:outline-none",
   ),
   {
     variants: {
@@ -32,14 +32,14 @@ const paginationButtonVariants = cva(
           "hover:bg-cms-gray-200",
         ),
         active: cn(
-          "bg-cms-primary-400 border border-cms-primary-400",
+          "border border-cms-primary-400 bg-cms-primary-400",
           "text-cms-black",
           "hover:bg-cms-primary-300",
         ),
         ellipsis: cn(
           "border-0 bg-transparent",
           "text-cms-gray-700",
-          "cursor-default pointer-events-none",
+          "pointer-events-none cursor-default",
         ),
       },
     },
@@ -250,7 +250,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                 "pointer-events-none cursor-not-allowed opacity-50",
             )}
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="size-4" />
           </button>
         )}
 
@@ -304,7 +304,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                 "pointer-events-none cursor-not-allowed opacity-50",
             )}
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="size-4" />
           </button>
         )}
       </nav>

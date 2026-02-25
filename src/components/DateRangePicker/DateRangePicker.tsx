@@ -1,27 +1,38 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { DayPicker, DateRange as DayPickerDateRange } from "react-day-picker";
+import type { DateRange as DayPickerDateRange } from "react-day-picker";
+import { DayPicker } from "react-day-picker";
 import { ko } from "react-day-picker/locale";
-import dayjs, { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
 import "react-day-picker/style.css";
 
-export interface DateRange {
+export type DateRange = {
   start: string;
   end: string;
-}
+};
 
-export interface DateRangePickerProps {
+export type DateRangePickerProps = {
   value?: DateRange;
   onChange?: (range: DateRange) => void;
   startLabel?: string;
   endLabel?: string;
   className?: string;
-}
+};
 
 type QuickSelectOption = {
   label: string;
   getValue: () => [Dayjs, Dayjs];
+};
+
+const toDayjsRange = (
+  range?: DateRange,
+): [Dayjs | undefined, Dayjs | undefined] => {
+  return [
+    range?.start ? dayjs(range.start) : undefined,
+    range?.end ? dayjs(range.end) : undefined,
+  ];
 };
 
 const getQuickSelectOptions = (): QuickSelectOption[] => {
@@ -171,23 +182,10 @@ export const DateRangePicker = React.forwardRef<
   ) => {
     const id = React.useId();
     const [isOpen, setIsOpen] = useState(false);
-    const [internalRange, setInternalRange] = useState<
+    const [draftRange, setDraftRange] = useState<
       [Dayjs | undefined, Dayjs | undefined]
-    >([
-      value?.start ? dayjs(value.start) : undefined,
-      value?.end ? dayjs(value.end) : undefined,
-    ]);
-
-    useEffect(() => {
-      if (value) {
-        setInternalRange([
-          value.start ? dayjs(value.start) : undefined,
-          value.end ? dayjs(value.end) : undefined,
-        ]);
-      }
-    }, [value]);
-
-    const [fromDay, toDay] = internalRange;
+    >(() => toDayjsRange(value));
+    const [fromDay, toDay] = draftRange;
 
     const selected: DayPickerDateRange | undefined = useMemo(() => {
       if (!fromDay) return undefined;
@@ -199,19 +197,19 @@ export const DateRangePicker = React.forwardRef<
 
     const handleQuickSelect = (option: QuickSelectOption) => {
       const [start, end] = option.getValue();
-      setInternalRange([start, end]);
+      setDraftRange([start, end]);
     };
 
     const handleDayClick = (range: DayPickerDateRange | undefined) => {
       if (!range) {
-        setInternalRange([undefined, undefined]);
+        setDraftRange([undefined, undefined]);
         return;
       }
 
       const from = range.from ? dayjs(range.from) : undefined;
       const to = range.to ? dayjs(range.to) : undefined;
 
-      setInternalRange([from, to]);
+      setDraftRange([from, to]);
     };
 
     const handleApply = () => {
@@ -225,11 +223,15 @@ export const DateRangePicker = React.forwardRef<
     };
 
     const handleCancel = () => {
-      setInternalRange([
-        value?.start ? dayjs(value.start) : undefined,
-        value?.end ? dayjs(value.end) : undefined,
-      ]);
+      setDraftRange(toDayjsRange(value));
       setIsOpen(false);
+    };
+
+    const handleOpenChange = (nextOpen: boolean) => {
+      if (nextOpen) {
+        setDraftRange(toDayjsRange(value));
+      }
+      setIsOpen(nextOpen);
     };
 
     const numberOfDays = useMemo(() => {
@@ -238,7 +240,7 @@ export const DateRangePicker = React.forwardRef<
     }, [fromDay, toDay]);
 
     const displayValue = useMemo(() => {
-      if (!value?.start || !value?.end) {
+      if (!value || !value.start || !value.end) {
         return { start: "", end: "" };
       }
       return {
@@ -248,7 +250,7 @@ export const DateRangePicker = React.forwardRef<
     }, [value]);
 
     return (
-      <PopoverPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverPrimitive.Root open={isOpen} onOpenChange={handleOpenChange}>
         <PopoverPrimitive.Trigger asChild>
           <div ref={ref} className={cn("flex items-center gap-0", className)}>
             <div className="relative flex-1">
@@ -374,12 +376,11 @@ export const DateRangePicker = React.forwardRef<
               )}
             >
               <div className="flex min-h-8 flex-col">
-                {!fromDay || !toDay ? (
+                {!fromDay || !toDay ?
                   <span className="text-xs text-red-500">
                     종료일자를 선택해 주세요.
                   </span>
-                ) : (
-                  <>
+                : <>
                     <span className="text-xs text-gray-700">
                       {fromDay.format("YYYY-MM-DD")} ~{" "}
                       {toDay.format("YYYY-MM-DD")}
@@ -388,7 +389,7 @@ export const DateRangePicker = React.forwardRef<
                       ({numberOfDays}일간)
                     </span>
                   </>
-                )}
+                }
               </div>
 
               <div className="flex gap-2">
@@ -396,10 +397,11 @@ export const DateRangePicker = React.forwardRef<
                   onClick={handleCancel}
                   className={cn(
                     "h-8 w-15 cursor-pointer",
-                    "rounded border border-gray-300 bg-transparent",
+                    "rounded-sm border border-gray-300 bg-transparent",
                     "text-xs font-medium text-gray-700",
                     "transition-all duration-150",
-                    "hover:bg-gray-50 active:scale-95",
+                    "hover:bg-gray-50",
+                    "active:scale-95",
                   )}
                 >
                   취소
@@ -410,9 +412,10 @@ export const DateRangePicker = React.forwardRef<
                   className={cn(
                     "cursor-pointer border-0",
                     "h-8 w-15",
-                    "rounded bg-blue-600",
+                    "rounded-sm bg-blue-600",
                     "text-xs font-medium text-cms-white",
-                    "hover:bg-blue-700 active:scale-95",
+                    "hover:bg-blue-700",
+                    "active:scale-95",
                     "disabled:bg-gray-300",
                     "disabled:active:scale-100",
                     "disabled:cursor-not-allowed",

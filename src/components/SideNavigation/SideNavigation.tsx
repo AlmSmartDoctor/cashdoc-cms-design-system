@@ -3,34 +3,34 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { cn } from "@/utils/cn";
 import { ChevronDown } from "lucide-react";
 
-export interface SubMenuItem {
+export type SubMenuItem = {
   url: string;
   title: string;
-}
+};
 
-export interface MenuItem {
+export type MenuItem = {
   url: string;
   title: string;
   icon?: React.ReactNode;
   subMenu?: SubMenuItem[];
-}
+};
 
-export interface SideNavigationProps {
+export type SideNavigationProps = {
   title?: string;
   menus: MenuItem[];
   selectedUrl: string;
   onMenuClick: (url: string) => void;
   headerSlot?: React.ReactNode;
   className?: string;
-}
+};
 
-interface NavigationMenuItemProps {
+type NavigationMenuItemProps = {
   menu: MenuItem;
   isOpen: boolean;
   isSelected: boolean;
   selectedUrl: string;
   onMenuClick: (url: string) => void;
-}
+};
 
 const NavigationMenuItem = ({
   menu,
@@ -39,9 +39,9 @@ const NavigationMenuItem = ({
   selectedUrl,
   onMenuClick,
 }: NavigationMenuItemProps) => {
-  const isSubMenuSelected = menu.subMenu?.some(
-    (sub) => sub.url === selectedUrl,
-  );
+  const isSubMenuSelected =
+    menu.subMenu?.some((sub) => sub.url === selectedUrl) ?? false;
+  const isMenuActive = menu.subMenu ? isSubMenuSelected : isSelected;
 
   return (
     <Accordion.Item value={menu.url} className="border-none">
@@ -68,31 +68,21 @@ const NavigationMenuItem = ({
             <div
               className={cn(
                 "mr-3 flex items-center",
-                "[&>svg]:h-6 [&>svg]:w-6",
-                (!menu.subMenu && isSelected) || isSubMenuSelected
-                  ? "text-cms-black"
-                  : "text-white",
+                "[&>svg]:size-6",
+                isMenuActive ? "text-cms-black" : "text-white",
               )}
             >
               {menu.icon}
             </div>
           )}
-          <span
-            className={cn(
-              (!menu.subMenu && isSelected) || isSubMenuSelected
-                ? "text-cms-black"
-                : "text-white",
-            )}
-          >
+          <span className={cn(isMenuActive ? "text-cms-black" : "text-white")}>
             {menu.title}
           </span>
           {menu.subMenu && (
             <ChevronDown
               className={cn(
                 "ml-auto transition-transform",
-                (!menu.subMenu && isSelected) || isSubMenuSelected
-                  ? "text-cms-black"
-                  : "text-white",
+                isMenuActive ? "text-cms-black" : "text-white",
                 isOpen && "rotate-180",
               )}
               size={20}
@@ -126,9 +116,9 @@ const NavigationMenuItem = ({
                   className={cn(
                     "text-base font-bold",
                     "transition-colors",
-                    subSelected
-                      ? "font-bold text-cms-primary-400"
-                      : "text-cms-white",
+                    subSelected ?
+                      "font-bold text-cms-primary-400"
+                    : "text-cms-white",
                   )}
                 >
                   {subItem.title}
