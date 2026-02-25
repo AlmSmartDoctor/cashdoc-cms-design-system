@@ -1,6 +1,6 @@
 {
   "name": "@cashdoc/cashdoc-cms-design-system",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Cashdoc CMS Design System",
   "type": "module",
   "main": "dist/index.umd.js",
