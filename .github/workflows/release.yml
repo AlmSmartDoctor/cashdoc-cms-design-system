@@ -25,33 +25,14 @@ permissions:
   id-token: write
 
 jobs:
-  check-commits:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    outputs:
-      should-release: ${{ steps.check.outputs.should-release }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Check commit messages
-        id: check
-        run: |
-          LAST_COMMIT=$(git log -1 --pretty=%B)
-          if [[ "$LAST_COMMIT" =~ ^chore\(release\): ]]; then
-            echo "should-release=false" >> $GITHUB_OUTPUT
-          else
-            echo "should-release=true" >> $GITHUB_OUTPUT
-          fi
-
   release:
-    needs: check-commits
-    # Run if it's a manual dispatch OR if it's a push that passed the check
     if: |
-      always() && 
-      (github.event_name == 'workflow_dispatch' || (needs.check-commits.result == 'success' && needs.check-commits.outputs.should-release == 'true'))
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'push' &&
+        !contains(github.event.head_commit.message, 'chore') &&
+        !contains(github.event.head_commit.message, 'doc')
+      )
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -83,20 +64,50 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Determine release type
+        id: release_type
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            RELEASE_TYPE="${{ github.event.inputs.release-type }}"
+          else
+            COMMIT_MESSAGE="$(git log -1 --pretty=%B | tr '[:upper:]' '[:lower:]')"
+            RELEASE_TYPE="patch"
+
+            if printf '%s\n' "$COMMIT_MESSAGE" | grep -q '\[major\]'; then
+              RELEASE_TYPE="major"
+            elif printf '%s\n' "$COMMIT_MESSAGE" | grep -q '\[minor\]'; then
+              RELEASE_TYPE="minor"
+            elif printf '%s\n' "$COMMIT_MESSAGE" | grep -q '\[patch\]'; then
+              RELEASE_TYPE="patch"
+            fi
+          fi
+
+          echo "release-type=${RELEASE_TYPE}" >> "$GITHUB_OUTPUT"
+          echo "Selected release type: ${RELEASE_TYPE}"
+
       - name: Bump version and generate changelog
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            if [ "${{ github.event.inputs.release-type }}" = "minor" ]; then
-              pnpm release:minor
-            elif [ "${{ github.event.inputs.release-type }}" = "major" ]; then
+          set -euo pipefail
+
+          RELEASE_TYPE="${{ steps.release_type.outputs.release-type }}"
+
+          case "$RELEASE_TYPE" in
+            major)
               pnpm release:major
-            else
-              pnpm release
-            fi
-          else
-            # For push events, default to standard release (patch or auto detected by standard-version)
-            pnpm release
-          fi
+              ;;
+            minor)
+              pnpm release:minor
+              ;;
+            patch|"")
+              pnpm release:patch
+              ;;
+            *)
+              echo "::error::Unsupported release type: $RELEASE_TYPE"
+              exit 1
+              ;;
+          esac
 
       - name: Push changes
         run: |

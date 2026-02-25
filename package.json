@@ -36,6 +36,7 @@
     "screenshot": "storycap http://localhost:6006 -c .storybook/storycap.config.cjs --serverCmd \"pnpm storybook\" --serverTimeout 60000 && find __screenshots__ -type f ! -name \"*For*Jsdoc*\" -delete",
     "screenshot:ci": "storycap http://localhost:6006 -c .storybook/storycap.config.cjs --serverCmd \"pnpm storybook\" --serverTimeout 120000 --verbose && find __screenshots__ -type f ! -name \"*For*Jsdoc*\" -delete",
     "release": "standard-version",
+    "release:patch": "standard-version --release-as patch",
     "release:minor": "standard-version --release-as minor",
     "release:major": "standard-version --release-as major"
   },

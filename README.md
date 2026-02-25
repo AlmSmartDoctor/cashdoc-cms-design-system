@@ -147,4 +147,14 @@ pnpm type-check
 pnpm lint
 ```
 
+### 릴리즈 버전 규칙
+
+- 수동 배포: `Actions > Release > Run workflow`에서 `patch/minor/major` 선택
+- 자동 배포(`main` push): 기본은 `patch`
+- 커밋 메시지에 `chore` 또는 `doc`이 포함되면 자동 배포 스킵
+- 커밋 메시지에 토큰을 넣으면 버전 타입 지정 가능
+- `major`: `[major]`
+- `minor`: `[minor]`
+- `patch`: `[patch]` (생략하면 기본 `patch`)
+
 <!-- trigger release workflow -->
