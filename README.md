@@ -1,5 +1,7 @@
 # Cashdoc CMS Design System
 
+📘 [CCDS Contribution Guide](./CONTRIBUTING.md)
+
 Cashdoc CMS용 디자인 시스템 컴포넌트 라이브러리
 
 ## 문서
