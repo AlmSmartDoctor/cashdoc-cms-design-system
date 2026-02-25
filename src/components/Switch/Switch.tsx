@@ -203,7 +203,8 @@ const Switch = React.forwardRef<
                 "justify-center overflow-hidden px-1",
                 "text-[10px] leading-none font-medium text-ellipsis",
                 "whitespace-nowrap text-cms-white",
-                "opacity-0 transition-opacity",
+                "invisible opacity-0 transition-opacity",
+                "group-data-[state=checked]:visible",
                 "group-data-[state=checked]:opacity-100",
               )}
               style={{ left: `${SWITCH_LABEL_OFFSET_PX}px` }}
@@ -215,8 +216,9 @@ const Switch = React.forwardRef<
                 "absolute inset-y-0 flex w-(--switch-label-width) items-center",
                 "justify-center overflow-hidden px-1",
                 "text-[10px] leading-none font-medium text-ellipsis",
-                "whitespace-nowrap text-cms-gray-700 opacity-100",
+                "visible whitespace-nowrap text-cms-gray-700 opacity-100",
                 "transition-opacity",
+                "group-data-[state=checked]:invisible",
                 "group-data-[state=checked]:opacity-0",
               )}
               style={{ right: `${SWITCH_LABEL_OFFSET_PX}px` }}

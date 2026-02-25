@@ -13,9 +13,10 @@ test.describe("DateRangePicker 컴포넌트", () => {
     const dialog = page.getByRole("dialog").last();
     await expect(dialog).toBeVisible();
 
-    // 시작일(10일) 및 종료일(20일) 선택
-    await dialog.getByRole("button", { name: /1월 10일/ }).click();
-    await dialog.getByRole("button", { name: /1월 20일/ }).click();
+    // 첫 번째 달력(현재 월)에서 시작일(10일), 종료일(20일) 선택
+    const currentMonthGrid = dialog.getByRole("grid").first();
+    await currentMonthGrid.getByRole("button", { name: /10일/ }).click();
+    await currentMonthGrid.getByRole("button", { name: /20일/ }).click();
 
     // 적용 버튼 클릭 - dialog 내에서 찾기
     await dialog.getByRole("button", { name: "적용" }).click();
