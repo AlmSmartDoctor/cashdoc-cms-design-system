@@ -54,7 +54,7 @@ type SegmentedControlsProps<T extends string | number> = {
  * {@end-tool}
  *
  * ## 참고사진
- * ![](<https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Category/SegmentedControls/For%20Jsdoc.png?raw=true>)
+ * ![](<https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/SegmentedControls/For%20Jsdoc.png?raw=true>)
  */
 const SegmentedControls = <T extends string | number>({
   options,
