@@ -55,6 +55,15 @@ const meta: Meta<typeof DateRangePicker> = {
         type: { summary: "string" },
       },
     },
+    hideQuickSelect: {
+      control: "boolean",
+      description:
+        "true일 경우 '전체', '오늘', '내일', '이번주', '이번달', '7일', '30일', '다음주', '다음달' 빠른 선택 옵션을 숨깁니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
   },
 };
 
@@ -81,6 +90,21 @@ export const WithInitialValue: Story = {
     return (
       <div className="w-150 p-4">
         <DateRangePicker value={range} onChange={setRange} />
+      </div>
+    );
+  },
+};
+
+export const HideQuickSelect: Story = {
+  render: () => {
+    const [range, setRange] = useState({ start: "", end: "" });
+    return (
+      <div className="w-150 p-4">
+        <DateRangePicker
+          value={range}
+          onChange={setRange}
+          hideQuickSelect
+        />
       </div>
     );
   },
@@ -161,6 +185,14 @@ export const ForJsdoc: Story = {
             endLabel="To"
             value={{ start: "", end: "" }}
             onChange={emptyRangeChangeHandler}
+          />
+        </div>
+        <div>
+          <h3 className="mb-2 font-bold">Hide Quick Select</h3>
+          <DateRangePicker
+            value={{ start: "", end: "" }}
+            onChange={emptyRangeChangeHandler}
+            hideQuickSelect
           />
         </div>
       </div>

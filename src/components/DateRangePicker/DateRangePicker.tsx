@@ -19,6 +19,8 @@ export type DateRangePickerProps = {
   startLabel?: string;
   endLabel?: string;
   className?: string;
+  /** true일 경우 '전체', '오늘', '내일', '이번주', '이번달', '7일', '30일', '다음주', '다음달' 빠른 선택 옵션을 숨깁니다. */
+  hideQuickSelect?: boolean;
 };
 
 type QuickSelectOption = {
@@ -177,6 +179,7 @@ export const DateRangePicker = React.forwardRef<
       startLabel = "시작일자",
       endLabel = "종료일자",
       className,
+      hideQuickSelect = false,
     },
     ref,
   ) => {
@@ -331,26 +334,28 @@ export const DateRangePicker = React.forwardRef<
           >
             <div className="flex gap-2">
               {/* Quick Select Buttons */}
-              <div className="flex flex-col border-r border-gray-200 pr-2">
-                {getQuickSelectOptions().map((option) => (
-                  <button
-                    key={option.label}
-                    onClick={() => handleQuickSelect(option)}
-                    className={cn(
-                      "cursor-pointer border-0",
-                      "h-6-5 w-17-5 px-2",
-                      "text-left text-xs text-gray-700",
-                      "bg-white",
-                      "transition-all duration-150",
-                      "hover:bg-blue-50",
-                      "hover:font-medium",
-                      "hover:text-blue-600",
-                    )}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
+              {!hideQuickSelect && (
+                <div className="flex flex-col border-r border-gray-200 pr-2">
+                  {getQuickSelectOptions().map((option) => (
+                    <button
+                      key={option.label}
+                      onClick={() => handleQuickSelect(option)}
+                      className={cn(
+                        "cursor-pointer border-0",
+                        "h-6-5 w-17-5 px-2",
+                        "text-left text-xs text-gray-700",
+                        "bg-white",
+                        "transition-all duration-150",
+                        "hover:bg-blue-50",
+                        "hover:font-medium",
+                        "hover:text-blue-600",
+                      )}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              )}
               {/* Calendar */}
               <div className="date-range-picker-calendar">
                 <DayPicker
