@@ -101,11 +101,40 @@ export const WithContent: Story = {
   },
 };
 
-export const ForJsdocs: Story = {
-  render: () => (
-    <div>
-      세그먼트 컨트롤 컴포넌트의 JSDoc 설명은 Storybook Docs 탭에서 확인할 수
-      있습니다.
-    </div>
-  ),
+export const ForJsdoc: Story = {
+  args: {
+    options: [
+      { label: "옵션 1", value: "option1" },
+      { label: "옵션 2", value: "option2" },
+      { label: "옵션 3", value: "option3" },
+    ],
+    value: "option1",
+  },
+  render: (args) => {
+    return (
+      <div className="w-100">
+        <SegmentedControls
+          {...args}
+          value="option1"
+          onChange={() => {
+            /* empty */
+          }}
+        />
+        <SegmentedControls
+          {...args}
+          value="option2"
+          onChange={() => {
+            /* empty */
+          }}
+        />
+        <SegmentedControls
+          {...args}
+          value="option3"
+          onChange={() => {
+            /* empty */
+          }}
+        />
+      </div>
+    );
+  },
 };
