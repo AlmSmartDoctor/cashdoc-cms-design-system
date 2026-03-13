@@ -94,7 +94,6 @@
   --spacing-17-5: 70px;
   --spacing-14-75: 59px;
   --spacing-6-5: 26px;
-
 }
 
 /* Design System Variables 
@@ -136,6 +135,10 @@
   --cashdoc-blue-700: #0071fe;
   --cashdoc-blue-800: #444b5a;
   --cashdoc-blue-900: #2b3240;
+
+  /* MonthRangePicker */
+  --cashdoc-month-range-selected: #0000ff;
+  --cashdoc-month-range-middle: #f0f0ff;
 
   /* Pink */
   --cashdoc-pink-100: #f2b3a2;
@@ -336,6 +339,97 @@
     .rdp-day_range_start.rdp-day_range_end
     .rdp-day_button {
     border-radius: 4px;
+  }
+
+  /* MonthRangePicker: 같은 행 내 셀은 가로로 연결 (horizontal 0), 행 간격만 적용 */
+  .month-range-picker-calendar .rdp-month_grid {
+    border-collapse: separate;
+    border-spacing: 0 0.75rem;
+  }
+
+  /* MonthRangePicker: 셀 44x44, 색칠 영역 42x42 (display: table-cell 유지하여 그리드 레이아웃 보존) */
+  .month-range-picker-calendar .rdp-day {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    max-width: 44px;
+    max-height: 44px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .month-range-picker-calendar .rdp-day_button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 선택된 month: 원만 #0000FF */
+  .month-range-picker-calendar .rdp-day_selected,
+  .month-range-picker-calendar .rdp-day_range_start,
+  .month-range-picker-calendar .rdp-day_range_end,
+  .month-range-picker-calendar .rdp-day_range_start.rdp-day_range_end {
+    background-color: transparent !important;
+  }
+
+  .month-range-picker-calendar .rdp-day_selected .rdp-day_button,
+  .month-range-picker-calendar .rdp-day_range_start .rdp-day_button,
+  .month-range-picker-calendar .rdp-day_range_end .rdp-day_button,
+  .month-range-picker-calendar
+    .rdp-day_range_start.rdp-day_range_end
+    .rdp-day_button {
+    background-color: var(--cashdoc-month-range-selected) !important;
+    color: white !important;
+    border-radius: 100% !important;
+    font-weight: 600;
+  }
+
+  /* range_start: 원 + 오른쪽으로 연결되는 사각형 (44x44px) */
+  .month-range-picker-calendar .rdp-day_range_start {
+    background: linear-gradient(
+      to right,
+      transparent 50%,
+      var(--cashdoc-month-range-middle) 50%
+    ) !important;
+    /* background-size: 44px 44px; */
+    /* background-position: center;
+    background-repeat: no-repeat; */
+  }
+
+  /* range_end: 왼쪽에서 연결되는 사각형 + 원 (44x44px) */
+  .month-range-picker-calendar .rdp-day_range_end {
+    background: linear-gradient(
+      to left,
+
+      transparent 50%,
+      var(--cashdoc-month-range-middle) 50%
+    ) !important;
+    /* background-size: 44px 44px; */
+    /* background-position: center;
+    background-repeat: no-repeat; */
+  }
+
+  /* range_middle: 44x44px 사각형, 가로로 연결, bold */
+  .month-range-picker-calendar .rdp-day_range_middle {
+    background-color: transparent !important;
+  }
+
+  .month-range-picker-calendar .rdp-day_range_middle .rdp-day_button {
+    width: 100%;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    border-radius: 0 !important;
+    background-color: var(--cashdoc-month-range-middle) !important;
+    color: #111111 !important;
+    font-weight: 600;
+    display: flex;
   }
 
   .date-range-picker-calendar .rdp-nav {
