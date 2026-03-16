@@ -4,9 +4,8 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
 import type { DateRange } from "../DateRangePicker/DateRangePicker";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
 import "react-day-picker/style.css";
-
-const TODAY = "2026-03-13";
 
 const YEARS_PER_SECTION = 10;
 
@@ -31,44 +30,48 @@ const toDayjsRange = (
   ];
 };
 
+const clampToMinMaxYears = (
+  fromYear: Dayjs,
+  toYear: Dayjs,
+  min?: string,
+  max?: string,
+): { start: Dayjs; end: Dayjs } => {
+  let start = fromYear.startOf("year");
+  let end = toYear.endOf("year");
+  if (fromYear.isAfter(toYear, "year")) {
+    [start, end] = [toYear.startOf("year"), fromYear.endOf("year")];
+  }
+  if (min) {
+    const minDate = dayjs(min);
+    if (start.isBefore(minDate, "day")) start = minDate;
+  }
+  if (max) {
+    const maxDate = dayjs(max);
+    if (end.isAfter(maxDate, "day")) end = maxDate;
+  }
+  return { start, end };
+};
+
 const toDateRangeFromYears = (
   startYear: number,
   endYear: number,
+  min?: string,
+  max?: string,
 ): DateRange => {
-  const today = dayjs(TODAY);
-  let start = dayjs(`${startYear}-01-01`);
-  let end = dayjs(`${endYear}-12-31`);
-
-  if (start.isAfter(end)) {
-    [start, end] = [end, start];
-  }
-
-  if (end.isAfter(today)) {
-    end = today;
-  }
-
+  const fromYear = dayjs(`${startYear}-01-01`);
+  const toYear = dayjs(`${endYear}-12-31`);
+  const { start, end } = clampToMinMaxYears(fromYear, toYear, min, max);
   return {
     start: start.format("YYYY-MM-DD"),
     end: end.format("YYYY-MM-DD"),
   };
 };
 
-const isYearDisabled = (
-  year: number,
-  min?: string,
-  max?: string,
-): boolean => {
-  const yearStart = dayjs(`${year}-01-01`);
-  const yearEnd = dayjs(`${year}-12-31`);
-
-  if (min) {
-    const minDate = dayjs(min);
-    if (yearEnd.isBefore(minDate, "day")) return true;
-  }
-  if (max) {
-    const maxDate = dayjs(max);
-    if (yearStart.isAfter(maxDate, "day")) return true;
-  }
+const isYearDisabled = (year: number, min?: string, max?: string): boolean => {
+  const minYear = min ? dayjs(min).year() : undefined;
+  const maxYear = max ? dayjs(max).year() : undefined;
+  if (minYear != null && year < minYear) return true;
+  if (maxYear != null && year > maxYear) return true;
   return false;
 };
 
@@ -91,7 +94,7 @@ export const YearRangePicker = React.forwardRef<
     const id = React.useId();
     const [isOpen, setIsOpen] = useState(false);
     const [baseYear, setBaseYear] = useState(() => {
-      const from = value?.start ? dayjs(value.start) : dayjs(TODAY);
+      const from = value?.start ? dayjs(value.start) : dayjs();
       return Math.floor(from.year() / 20) * 20;
     });
     const [draftRange, setDraftRange] = useState<
@@ -100,8 +103,7 @@ export const YearRangePicker = React.forwardRef<
     const [fromDay, toDay] = draftRange;
 
     const leftYears = useMemo(
-      () =>
-        Array.from({ length: YEARS_PER_SECTION }, (_, i) => baseYear + i),
+      () => Array.from({ length: YEARS_PER_SECTION }, (_, i) => baseYear + i),
       [baseYear],
     );
     const rightYears = useMemo(
@@ -126,14 +128,47 @@ export const YearRangePicker = React.forwardRef<
     const handleYearClick = (year: number) => {
       if (isYearDisabled(year, min, max)) return;
 
-      const yearStart = dayjs(`${year}-01-01`);
+      const yearDate = dayjs(`${year}-01-01`);
+      const hasSingleYear = fromDay && toDay && fromDay.isSame(toDay, "year");
 
-      if (!fromDay || (fromDay && toDay)) {
-        setDraftRange([yearStart, undefined]);
-      } else {
+      // 1. 처음: start year 선택 → start=end (해당 연도 1/1 ~ 12/31)
+      if (!fromDay || !toDay) {
+        setDraftRange([yearDate.startOf("year"), yearDate.endOf("year")]);
+        return;
+      }
+
+      // 5. single year 상태에서 같은 연도 재클릭 → clear
+      if (hasSingleYear && fromDay.isSame(yearDate, "year")) {
+        setDraftRange([undefined, undefined]);
+        return;
+      }
+
+      // 2. single year 상태에서 다른 연도 클릭 → 이전 연도=start, 이후 연도=end
+      if (hasSingleYear) {
         const [start, end] =
-          fromDay.year() <= year ? [fromDay, yearStart] : [yearStart, fromDay];
+          fromDay.isBefore(yearDate) || fromDay.isSame(yearDate, "year") ?
+            [fromDay.startOf("year"), yearDate.endOf("year")]
+          : [yearDate.startOf("year"), fromDay.endOf("year")];
         setDraftRange([start, end]);
+        return;
+      }
+
+      // 4. range 상태에서 start 또는 end 클릭 → 해당 연도로 start=end
+      const [start, end] =
+        fromDay.isBefore(toDay) || fromDay.isSame(toDay, "year") ?
+          [fromDay, toDay]
+        : [toDay, fromDay];
+      if (yearDate.isSame(start, "year") || yearDate.isSame(end, "year")) {
+        setDraftRange([yearDate, yearDate.endOf("year")]);
+        return;
+      }
+
+      // 3. range 상태에서 middle year 클릭
+      // start 이전 선택 → start 변경, 그 외(범위 내/end 이후) → end 변경
+      if (yearDate.isBefore(start, "year")) {
+        setDraftRange([yearDate, end]);
+      } else {
+        setDraftRange([start, yearDate.endOf("year")]);
       }
     };
 
@@ -158,8 +193,10 @@ export const YearRangePicker = React.forwardRef<
     const handleApply = () => {
       if (fromDay && toDay) {
         const [start, end] =
-          fromDay.year() <= toDay.year() ? [fromDay, toDay] : [toDay, fromDay];
-        const range = toDateRangeFromYears(start.year(), end.year());
+          fromDay.isBefore(toDay) || fromDay.isSame(toDay, "year") ?
+            [fromDay, toDay]
+          : [toDay, fromDay];
+        const range = toDateRangeFromYears(start.year(), end.year(), min, max);
         onChange?.(range);
         setIsOpen(false);
       }
@@ -174,20 +211,31 @@ export const YearRangePicker = React.forwardRef<
       if (nextOpen) {
         setDraftRange(toDayjsRange(value));
         setBaseYear(
-          value?.start
-            ? Math.floor(dayjs(value.start).year() / 20) * 20
-            : Math.floor(dayjs(TODAY).year() / 20) * 20,
+          value?.start ?
+            Math.floor(dayjs(value.start).year() / 20) * 20
+          : Math.floor(dayjs().year() / 20) * 20,
         );
       }
       setIsOpen(nextOpen);
     };
 
-    const numberOfYears = useMemo(() => {
+    const clampedRange = useMemo(() => {
       if (!fromDay || !toDay) return undefined;
-      const [s, e] =
-        fromDay.year() <= toDay.year() ? [fromDay, toDay] : [toDay, fromDay];
-      return e.year() - s.year() + 1;
-    }, [fromDay, toDay]);
+      const fromYear = fromDay.startOf("year");
+      const toYear = toDay.endOf("year");
+      return clampToMinMaxYears(fromYear, toYear, min, max);
+    }, [fromDay, toDay, min, max]);
+
+    const numberOfYears = useMemo(() => {
+      if (!clampedRange) return undefined;
+      const { start, end } = clampedRange;
+      return end.year() - start.year() + 1;
+    }, [clampedRange]);
+
+    const minYear = min ? dayjs(min).year() : undefined;
+    const maxYear = max ? dayjs(max).year() : undefined;
+    const isPrevDisabled = minYear != null && baseYear <= minYear;
+    const isNextDisabled = maxYear != null && baseYear + 20 > maxYear;
 
     const renderYearSection = (years: number[]) => (
       <div key={years[0]} className="rdp-month">
@@ -201,6 +249,7 @@ export const YearRangePicker = React.forwardRef<
                   const state = getYearState(year);
                   const dayClasses = cn(
                     "rdp-day",
+                    disabled && "rdp-day_disabled",
                     state === "start" && "rdp-day_selected rdp-day_range_start",
                     state === "end" && "rdp-day_selected rdp-day_range_end",
                     state === "middle" && "rdp-day_range_middle",
@@ -211,7 +260,10 @@ export const YearRangePicker = React.forwardRef<
                     <td key={year} className={dayClasses} role="gridcell">
                       <button
                         type="button"
-                        className="rdp-day_button"
+                        className={cn(
+                          "rdp-day_button",
+                          disabled && "rdp-day_button--disabled",
+                        )}
                         disabled={disabled}
                         onClick={() => handleYearClick(year)}
                       >
@@ -294,7 +346,7 @@ export const YearRangePicker = React.forwardRef<
             align="start"
             sideOffset={5}
             className={cn(
-              "z-50 w-[666px] rounded-lg bg-white p-2",
+              "z-50 rounded-lg bg-white p-2",
               "border border-gray-200",
               "shadow-xl",
               "data-[state=open]:animate-in",
@@ -307,25 +359,29 @@ export const YearRangePicker = React.forwardRef<
               "data-[side=top]:slide-in-from-bottom-2",
             )}
           >
-            <div className="date-range-picker-calendar w-[666px]">
+            <div className="date-range-picker-calendar year-range-picker-calendar">
               <div className="rdp rdp-root">
-                {/* Nav bar: prev at left, next at right, no caption */}
                 <div className="rdp-month_caption flex w-full items-center justify-between px-0">
                   <button
                     type="button"
                     className="rdp-button_previous shrink-0"
+                    disabled={isPrevDisabled}
                     onClick={() => setBaseYear((y) => y - 20)}
                     aria-label="이전 20년"
                   >
-                    ‹
+                    <ChevronLeftIcon size={16} className="text-cms-gray-600" />
                   </button>
+                  <div className="rdp-caption_label flex-1 justify-center text-center text-sm font-semibold">
+                    {baseYear} ~ {baseYear + 19}년
+                  </div>
                   <button
                     type="button"
                     className="rdp-button_next shrink-0"
+                    disabled={isNextDisabled}
                     onClick={() => setBaseYear((y) => y + 20)}
                     aria-label="다음 20년"
                   >
-                    ›
+                    <ChevronRightIcon size={16} className="text-cms-gray-600" />
                   </button>
                 </div>
                 <div className="rdp-months">
@@ -345,19 +401,19 @@ export const YearRangePicker = React.forwardRef<
               <div className="flex min-h-8 flex-col">
                 {!fromDay || !toDay ?
                   <span className="text-xs text-red-500">
-                    종료일자를 선택해 주세요.
+                    기간을 선택해 주세요.
                   </span>
-                : (
+                : clampedRange ?
                   <>
                     <span className="text-xs text-gray-700">
-                      {fromDay.format("YYYY-MM-DD")} ~{" "}
-                      {toDay.format("YYYY-MM-DD")}
+                      {clampedRange.start.format("YYYY-MM-DD")} ~{" "}
+                      {clampedRange.end.format("YYYY-MM-DD")}
                     </span>
                     <span className="text-xs text-gray-500">
                       ({numberOfYears}년)
                     </span>
                   </>
-                )}
+                : null}
               </div>
 
               <div className="flex gap-2">

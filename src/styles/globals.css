@@ -452,6 +452,110 @@
     border: none !important;
   }
 
+  /* YearRangePicker: MonthRangePicker와 동일한 rdp 구조, 연도 선택 */
+  .year-range-picker-calendar .rdp-month_grid {
+    border-collapse: separate !important;
+    border-spacing: 0 0.5rem !important;
+  }
+
+  .year-range-picker-calendar .rdp-day {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    max-width: 44px;
+    max-height: 44px;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .year-range-picker-calendar .rdp-day_button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    border: none !important;
+    border-radius: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .year-range-picker-calendar .rdp-day_button:not(.rdp-day_button--disabled) {
+    color: #111111 !important;
+    font-weight: 700;
+  }
+
+  .year-range-picker-calendar .rdp-day_disabled .rdp-day_button,
+  .year-range-picker-calendar .rdp-day_button.rdp-day_button--disabled {
+    color: #9ca3af !important;
+    font-weight: 400;
+    cursor: not-allowed;
+  }
+
+  .year-range-picker-calendar .rdp-day_selected,
+  .year-range-picker-calendar .rdp-day_range_start,
+  .year-range-picker-calendar .rdp-day_range_end,
+  .year-range-picker-calendar .rdp-day_range_start.rdp-day_range_end {
+    background-color: transparent !important;
+  }
+
+  .year-range-picker-calendar .rdp-day_selected .rdp-day_button,
+  .year-range-picker-calendar .rdp-day_range_start .rdp-day_button,
+  .year-range-picker-calendar .rdp-day_range_end .rdp-day_button,
+  .year-range-picker-calendar
+    .rdp-day_range_start.rdp-day_range_end
+    .rdp-day_button {
+    background-color: var(--cashdoc-month-range-selected) !important;
+    color: white !important;
+    border-radius: 100% !important;
+    font-weight: 600;
+  }
+
+  .year-range-picker-calendar .rdp-day_range_start:not(.rdp-day_range_end) {
+    background: linear-gradient(
+      to right,
+      transparent 50%,
+      var(--cashdoc-month-range-middle) 50%
+    ) !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .year-range-picker-calendar .rdp-day_range_end:not(.rdp-day_range_start) {
+    background: linear-gradient(
+      to left,
+      transparent 50%,
+      var(--cashdoc-month-range-middle) 50%
+    ) !important;
+    border-radius: 0 !important;
+  }
+
+  .year-range-picker-calendar .rdp-day_range_start.rdp-day_range_end {
+    background: transparent !important;
+  }
+
+  .year-range-picker-calendar .rdp-day_range_middle {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+  }
+
+  .year-range-picker-calendar .rdp-day_range_middle .rdp-day_button {
+    width: 100%;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    border-radius: 0 !important;
+    background-color: var(--cashdoc-month-range-middle) !important;
+    color: #111111 !important;
+    font-weight: 600;
+    display: flex;
+    padding: 0;
+    border: none !important;
+  }
+
   .date-range-picker-calendar .rdp-nav {
     position: absolute;
     top: 0;
