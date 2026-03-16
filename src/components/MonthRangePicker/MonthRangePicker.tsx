@@ -4,9 +4,8 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
 import type { DateRange } from "../DateRangePicker/DateRangePicker";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
 import "react-day-picker/style.css";
-
-const TODAY = "2026-03-13";
 
 const MONTH_NAMES = [
   "1월",
@@ -44,28 +43,41 @@ const toDayjsRange = (
   ];
 };
 
+const clampToMinMax = (
+  fromDay: Dayjs,
+  toDay: Dayjs,
+  min?: string,
+  max?: string,
+): { start: Dayjs; end: Dayjs } => {
+  let start = fromDay.startOf("month");
+  let end = toDay.endOf("month");
+  if (fromDay.isAfter(toDay, "month")) {
+    [start, end] = [toDay.startOf("month"), fromDay.endOf("month")];
+  }
+  if (min) {
+    const minDate = dayjs(min);
+    if (start.isBefore(minDate, "day")) start = minDate;
+  }
+  if (max) {
+    const maxDate = dayjs(max);
+    if (end.isAfter(maxDate, "day")) end = maxDate;
+  }
+  return { start, end };
+};
+
 const toDateRangeFromMonths = (
   startYear: number,
   startMonth: number,
   endYear: number,
   endMonth: number,
+  min?: string,
+  max?: string,
 ): DateRange => {
-  const today = dayjs(TODAY);
-  let start = dayjs(`${startYear}-${String(startMonth).padStart(2, "0")}-01`);
-  let end = dayjs(`${endYear}-${String(endMonth).padStart(2, "0")}-01`).endOf(
-    "month",
-  );
-
-  if (start.isAfter(end)) {
-    [start, end] = [end, start];
-  }
-  start = start.startOf("month");
-  end = end.endOf("month");
-
-  if (end.isAfter(today)) {
-    end = today;
-  }
-
+  const fromDay = dayjs(`${startYear}-${String(startMonth).padStart(2, "0")}-01`);
+  const toDay = dayjs(
+    `${endYear}-${String(endMonth).padStart(2, "0")}-01`,
+  ).endOf("month");
+  const { start, end } = clampToMinMax(fromDay, toDay, min, max);
   return {
     start: start.format("YYYY-MM-DD"),
     end: end.format("YYYY-MM-DD"),
@@ -111,7 +123,7 @@ export const MonthRangePicker = React.forwardRef<
     const id = React.useId();
     const [isOpen, setIsOpen] = useState(false);
     const [baseYear, setBaseYear] = useState(() => {
-      const from = value?.start ? dayjs(value.start) : dayjs(TODAY);
+      const from = value?.start ? dayjs(value.start) : dayjs();
       return from.year();
     });
     const [draftRange, setDraftRange] = useState<
@@ -133,15 +145,46 @@ export const MonthRangePicker = React.forwardRef<
       if (isMonthDisabled(year, month, min, max)) return;
 
       const monthDate = dayjs(`${year}-${String(month).padStart(2, "0")}-01`);
+      const hasSingleMonth = fromDay && toDay && fromDay.isSame(toDay, "month");
 
-      if (!fromDay || (fromDay && toDay)) {
-        setDraftRange([monthDate, undefined]);
-      } else {
+      // 1. 처음: start month 선택 → start=end
+      if (!fromDay || !toDay) {
+        setDraftRange([monthDate, monthDate]);
+        return;
+      }
+
+      // 5. single month 상태에서 같은 월 재클릭 → clear
+      if (hasSingleMonth && fromDay.isSame(monthDate, "month")) {
+        setDraftRange([undefined, undefined]);
+        return;
+      }
+
+      // 2. single month 상태에서 다른 월 클릭 → 이전 월=start, 이후 월=end
+      if (hasSingleMonth) {
         const [start, end] =
           fromDay.isBefore(monthDate) || fromDay.isSame(monthDate, "month") ?
             [fromDay, monthDate]
           : [monthDate, fromDay];
         setDraftRange([start, end]);
+        return;
+      }
+
+      // 4. range 상태에서 start 또는 end 클릭 → 해당 월로 start=end
+      const [start, end] =
+        fromDay.isBefore(toDay) || fromDay.isSame(toDay, "month") ?
+          [fromDay, toDay]
+        : [toDay, fromDay];
+      if (monthDate.isSame(start, "month") || monthDate.isSame(end, "month")) {
+        setDraftRange([monthDate, monthDate]);
+        return;
+      }
+
+      // 3. range 상태에서 middle month 클릭
+      // start 이전 선택 → start 변경, 그 외(범위 내/end 이후) → end 변경
+      if (monthDate.isBefore(start, "month")) {
+        setDraftRange([monthDate, end]);
+      } else {
+        setDraftRange([start, monthDate]);
       }
     };
 
@@ -187,6 +230,8 @@ export const MonthRangePicker = React.forwardRef<
           start.month() + 1,
           end.year(),
           end.month() + 1,
+          min,
+          max,
         );
         onChange?.(range);
         setIsOpen(false);
@@ -201,21 +246,26 @@ export const MonthRangePicker = React.forwardRef<
     const handleOpenChange = (nextOpen: boolean) => {
       if (nextOpen) {
         setDraftRange(toDayjsRange(value));
-        setBaseYear(
-          value?.start ? dayjs(value.start).year() : dayjs(TODAY).year(),
-        );
+        setBaseYear(value?.start ? dayjs(value.start).year() : dayjs().year());
       }
       setIsOpen(nextOpen);
     };
 
-    const numberOfMonths = useMemo(() => {
+    const clampedRange = useMemo(() => {
       if (!fromDay || !toDay) return undefined;
-      const [s, e] =
-        fromDay.isBefore(toDay) || fromDay.isSame(toDay, "month") ?
-          [fromDay, toDay]
-        : [toDay, fromDay];
-      return (e.year() - s.year()) * 12 + (e.month() - s.month()) + 1;
-    }, [fromDay, toDay]);
+      return clampToMinMax(fromDay, toDay, min, max);
+    }, [fromDay, toDay, min, max]);
+
+    const numberOfMonths = useMemo(() => {
+      if (!clampedRange) return undefined;
+      const { start, end } = clampedRange;
+      return (end.year() - start.year()) * 12 + (end.month() - start.month()) + 1;
+    }, [clampedRange]);
+
+    const minYear = min ? dayjs(min).year() : undefined;
+    const maxYear = max ? dayjs(max).year() : undefined;
+    const isPrevYearDisabled = minYear != null && baseYear <= minYear;
+    const isNextYearDisabled = maxYear != null && baseYear >= maxYear;
 
     const renderMonthSection = (year: number) => (
       <div key={year} className="rdp-month">
@@ -229,6 +279,7 @@ export const MonthRangePicker = React.forwardRef<
                   const state = getMonthState(year, month);
                   const dayClasses = cn(
                     "rdp-day",
+                    disabled && "rdp-day_disabled",
                     state === "start" && "rdp-day_selected rdp-day_range_start",
                     state === "end" && "rdp-day_selected rdp-day_range_end",
                     state === "middle" && "rdp-day_range_middle",
@@ -239,7 +290,10 @@ export const MonthRangePicker = React.forwardRef<
                     <td key={month} className={dayClasses} role="gridcell">
                       <button
                         type="button"
-                        className="rdp-day_button"
+                        className={cn(
+                          "rdp-day_button",
+                          disabled && "rdp-day_button--disabled",
+                        )}
                         disabled={disabled}
                         onClick={() => handleMonthClick(year, month)}
                       >
@@ -342,10 +396,11 @@ export const MonthRangePicker = React.forwardRef<
                   <button
                     type="button"
                     className="rdp-button_previous shrink-0"
+                    disabled={isPrevYearDisabled}
                     onClick={() => setBaseYear((y) => y - 1)}
                     aria-label="이전 연도"
                   >
-                    ‹
+                    <ChevronLeftIcon size={16} className="text-cms-gray-600" />
                   </button>
                   <div className="flex flex-1 gap-20">
                     <div className="rdp-caption_label flex-1 justify-center">
@@ -358,10 +413,11 @@ export const MonthRangePicker = React.forwardRef<
                   <button
                     type="button"
                     className="rdp-button_next shrink-0"
+                    disabled={isNextYearDisabled}
                     onClick={() => setBaseYear((y) => y + 1)}
                     aria-label="다음 연도"
                   >
-                    ›
+                    <ChevronRightIcon size={16} className="text-cms-gray-600" />
                   </button>
                 </div>
                 <div className="rdp-months">
@@ -381,17 +437,19 @@ export const MonthRangePicker = React.forwardRef<
               <div className="flex min-h-8 flex-col">
                 {!fromDay || !toDay ?
                   <span className="text-xs text-red-500">
-                    종료일자를 선택해 주세요.
+                    기간을 선택해 주세요.
                   </span>
-                : <>
+                : (
+                  <>
                     <span className="text-xs text-gray-700">
-                      {fromDay.format("YYYY-MM-DD")} ~{" "}
-                      {toDay.format("YYYY-MM-DD")}
+                      {clampedRange!.start.format("YYYY-MM-DD")} ~{" "}
+                      {clampedRange!.end.format("YYYY-MM-DD")}
                     </span>
                     <span className="text-xs text-gray-500">
                       ({numberOfMonths}개월)
                     </span>
                   </>
+                )
                 }
               </div>
 
