@@ -73,7 +73,9 @@ const toDateRangeFromMonths = (
   min?: string,
   max?: string,
 ): DateRange => {
-  const fromDay = dayjs(`${startYear}-${String(startMonth).padStart(2, "0")}-01`);
+  const fromDay = dayjs(
+    `${startYear}-${String(startMonth).padStart(2, "0")}-01`,
+  );
   const toDay = dayjs(
     `${endYear}-${String(endMonth).padStart(2, "0")}-01`,
   ).endOf("month");
@@ -104,6 +106,71 @@ const isMonthDisabled = (
   return false;
 };
 
+/**
+ * 사용자가 월 단위로 기간(시작월과 종료월)을 선택할 수 있게 하는 컴포넌트입니다.
+ *
+ * {@link MonthRangePicker}는 4×3 그리드로 1~12월을 표시하며, 두 개의 연도 섹션이
+ * 나란히 배치되어 넓은 기간을 빠르게 선택할 수 있습니다.
+ * **선택 단위는 월이지만, 반환값은 날짜(YYYY-MM-DD)입니다.**
+ * 시작월은 해당 월 1일, 종료월은 해당 월 말일로 변환되어 `DateRange`로 전달됩니다.
+ *
+ * {@link DateRangePicker}와 달리 빠른 선택 옵션은 없으며, 달력 형태의 월 그리드만 제공합니다.
+ *
+ * ## When (언제 사용해야 하는가)
+ *
+ * **사용해야 하는 경우:**
+ * - **월 단위 조회**: 월별 매출, 월별 통계 등 월 단위 집계가 필요한 조회 기간 설정
+ * - **넓은 기간 선택**: 여러 달에 걸친 기간을 날짜보다 빠르게 선택할 때
+ * - **간소화된 UI**: 일 단위 선택이 불필요하고 월 단위로 충분한 경우
+ *
+ * **사용하지 말아야 하는 경우:**
+ * - **일 단위 선택**: 특정 날짜를 지정해야 할 때 {@link DateRangePicker}를 사용하세요.
+ * - **연도 단위 선택**: 연도 단위 기간이 필요할 때 {@link YearRangePicker}를 사용하세요.
+ *
+ * ## Layout behavior
+ *
+ * - **Dual Year Grid**: 두 개의 연도(예: 2025년, 2026년)가 나란히 표시되며, 각각 4×3 월 그리드를 가집니다.
+ * - **Combined Input**: 두 개의 입력창(시작, 종료)이 하나의 그룹으로 묶여 YYYY-MM-DD 형식으로 표시됩니다.
+ * - **Range Highlight**: 선택된 기간의 월들은 시각적으로 연결되어 표시됩니다.
+ *
+ * ## Usage guidelines
+ *
+ * ### ✅ Do (권장 사항)
+ *
+ * - **적절한 레이블**: "조회 시작", "조회 종료" 등 문맥에 맞는 레이블을 사용하세요.
+ * - **min/max 설정**: 데이터 존재 기간이 제한된 경우 `min`, `max`로 선택 가능 범위를 제한하세요.
+ *
+ * ### 🚫 Don't (주의/금지 사항)
+ *
+ * - **일 단위 정확도 필요 시**: 월 선택은 해당 월 1일~말일로 변환되므로, 특정 일자 지정이 필요하면 DateRangePicker를 사용하세요.
+ *
+ * ## Accessibility
+ *
+ * - **Keyboard**: `Tab` 키로 입력창과 팝오버 내부 요소를 순차 이동할 수 있습니다.
+ * - **Screen Reader**: 시작일/종료일 레이블이 각 입력창에 연결되어 있습니다.
+ *
+ * ## Example
+ *
+ * {@tool snippet}
+ * 기본적인 월 기간 선택 (필수 prop만 사용):
+ *
+ * ```tsx
+ * const [range, setRange] = useState<DateRange>({ start: "", end: "" });
+ *
+ * <MonthRangePicker
+ *   value={range}
+ *   onChange={setRange}
+ * />
+ * ```
+ * 선택된 월은 날짜로 변환되어 반환됩니다. (예: 2025년 1월 → 2025-01-01 ~ 2025-01-31)
+ * {@end-tool}
+ *
+ * See also:
+ *
+ * - {@link DateRangePicker}, 일 단위 기간 선택
+ * - {@link YearRangePicker}, 연도 단위 기간 선택
+ *
+ */
 export const MonthRangePicker = React.forwardRef<
   HTMLDivElement,
   MonthRangePickerProps
@@ -259,7 +326,9 @@ export const MonthRangePicker = React.forwardRef<
     const numberOfMonths = useMemo(() => {
       if (!clampedRange) return undefined;
       const { start, end } = clampedRange;
-      return (end.year() - start.year()) * 12 + (end.month() - start.month()) + 1;
+      return (
+        (end.year() - start.year()) * 12 + (end.month() - start.month()) + 1
+      );
     }, [clampedRange]);
 
     const minYear = min ? dayjs(min).year() : undefined;
@@ -439,8 +508,7 @@ export const MonthRangePicker = React.forwardRef<
                   <span className="text-xs text-red-500">
                     기간을 선택해 주세요.
                   </span>
-                : (
-                  <>
+                : <>
                     <span className="text-xs text-gray-700">
                       {clampedRange!.start.format("YYYY-MM-DD")} ~{" "}
                       {clampedRange!.end.format("YYYY-MM-DD")}
@@ -449,7 +517,6 @@ export const MonthRangePicker = React.forwardRef<
                       ({numberOfMonths}개월)
                     </span>
                   </>
-                )
                 }
               </div>
 
