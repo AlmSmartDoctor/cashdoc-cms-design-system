@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import SegmentedControls from "./SegmentedControls";
+import { SegmentedControls } from "./SegmentedControls";
 import { useState } from "react";
 
 const meta: Meta<typeof SegmentedControls> = {
