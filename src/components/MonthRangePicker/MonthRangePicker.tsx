@@ -51,6 +51,7 @@ const clampToMinMax = (
 ): { start: Dayjs; end: Dayjs } => {
   let start = fromDay.startOf("month");
   let end = toDay.endOf("month");
+
   if (fromDay.isAfter(toDay, "month")) {
     [start, end] = [toDay.startOf("month"), fromDay.endOf("month")];
   }
@@ -65,6 +66,10 @@ const clampToMinMax = (
   return { start, end };
 };
 
+/** year, month를 받아 해당 월 1일 00:00:00을 반환 */
+const monthToDate = (year: number, month: number): Dayjs =>
+  dayjs(`${year}-${String(month).padStart(2, "0")}-01`);
+
 const toDateRangeFromMonths = (
   startYear: number,
   startMonth: number,
@@ -73,12 +78,8 @@ const toDateRangeFromMonths = (
   min?: string,
   max?: string,
 ): DateRange => {
-  const fromDay = dayjs(
-    `${startYear}-${String(startMonth).padStart(2, "0")}-01`,
-  );
-  const toDay = dayjs(
-    `${endYear}-${String(endMonth).padStart(2, "0")}-01`,
-  ).endOf("month");
+  const fromDay = monthToDate(startYear, startMonth);
+  const toDay = monthToDate(endYear, endMonth);
   const { start, end } = clampToMinMax(fromDay, toDay, min, max);
   return {
     start: start.format("YYYY-MM-DD"),
@@ -92,7 +93,7 @@ const isMonthDisabled = (
   min?: string,
   max?: string,
 ): boolean => {
-  const monthStart = dayjs(`${year}-${String(month).padStart(2, "0")}-01`);
+  const monthStart = monthToDate(year, month);
   const monthEnd = monthStart.endOf("month");
 
   if (min) {
@@ -211,42 +212,44 @@ export const MonthRangePicker = React.forwardRef<
     const handleMonthClick = (year: number, month: number) => {
       if (isMonthDisabled(year, month, min, max)) return;
 
-      const monthDate = dayjs(`${year}-${String(month).padStart(2, "0")}-01`);
+      const monthDate = monthToDate(year, month);
       const hasSingleMonth = fromDay && toDay && fromDay.isSame(toDay, "month");
 
-      // 1. 처음: start month 선택 → start=end
+      // 처음 선택 시: start month 선택 → start=end
       if (!fromDay || !toDay) {
         setDraftRange([monthDate, monthDate]);
         return;
       }
 
-      // 5. single month 상태에서 같은 월 재클릭 → clear
+      // single month 상태에서 같은 월 재클릭 → clear
       if (hasSingleMonth && fromDay.isSame(monthDate, "month")) {
         setDraftRange([undefined, undefined]);
         return;
       }
 
-      // 2. single month 상태에서 다른 월 클릭 → 이전 월=start, 이후 월=end
+      // single month 상태에서 다른 월 클릭 → 이전 월=start, 이후 월=end
       if (hasSingleMonth) {
         const [start, end] =
-          fromDay.isBefore(monthDate) || fromDay.isSame(monthDate, "month") ?
+          fromDay.isBefore(monthDate) ?
             [fromDay, monthDate]
           : [monthDate, fromDay];
         setDraftRange([start, end]);
         return;
       }
 
-      // 4. range 상태에서 start 또는 end 클릭 → 해당 월로 start=end
+      // range 상태 start, end 정렬 (방어코드)
       const [start, end] =
         fromDay.isBefore(toDay) || fromDay.isSame(toDay, "month") ?
           [fromDay, toDay]
         : [toDay, fromDay];
+
+      // range 상태에서 start 또는 end 클릭 → 해당 월로 start=end
       if (monthDate.isSame(start, "month") || monthDate.isSame(end, "month")) {
         setDraftRange([monthDate, monthDate]);
         return;
       }
 
-      // 3. range 상태에서 middle month 클릭
+      // range 상태에서 middle month 클릭
       // start 이전 선택 → start 변경, 그 외(범위 내/end 이후) → end 변경
       if (monthDate.isBefore(start, "month")) {
         setDraftRange([monthDate, end]);
@@ -255,17 +258,18 @@ export const MonthRangePicker = React.forwardRef<
       }
     };
 
+    // 스타일 적용을 위한 상태값
     const getMonthState = (
       year: number,
       month: number,
     ): "start" | "end" | "middle" | "start-end" | "none" => {
       if (!fromDay) return "none";
       if (!toDay) {
-        const d = dayjs(`${year}-${String(month).padStart(2, "0")}-01`);
+        const d = monthToDate(year, month);
         return fromDay.isSame(d, "month") ? "start" : "none";
       }
 
-      const monthStart = dayjs(`${year}-${String(month).padStart(2, "0")}-01`);
+      const monthStart = monthToDate(year, month);
       const fromMonth = fromDay.startOf("month");
       const toMonth = toDay.startOf("month");
 
@@ -508,16 +512,17 @@ export const MonthRangePicker = React.forwardRef<
                   <span className="text-xs text-red-500">
                     기간을 선택해 주세요.
                   </span>
-                : <>
+                : clampedRange ?
+                  <>
                     <span className="text-xs text-gray-700">
-                      {clampedRange!.start.format("YYYY-MM-DD")} ~{" "}
-                      {clampedRange!.end.format("YYYY-MM-DD")}
+                      {clampedRange.start.format("YYYY-MM-DD")} ~{" "}
+                      {clampedRange.end.format("YYYY-MM-DD")}
                     </span>
                     <span className="text-xs text-gray-500">
                       ({numberOfMonths}개월)
                     </span>
                   </>
-                }
+                : null}
               </div>
 
               <div className="flex gap-2">
