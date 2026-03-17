@@ -424,9 +424,16 @@ export const YearRangePicker = React.forwardRef<
               "data-[side=top]:slide-in-from-bottom-2",
             )}
           >
-            <div className="date-range-picker-calendar year-range-picker-calendar">
+            <div
+              className="date-range-picker-calendar year-range-picker-calendar"
+            >
               <div className="rdp rdp-root">
-                <div className="rdp-month_caption flex w-full items-center justify-between px-0">
+                <div
+                  className={cn(
+                    "rdp-month_caption flex w-full items-center",
+                    "justify-between px-0",
+                  )}
+                >
                   <button
                     type="button"
                     className="rdp-button_previous shrink-0"
@@ -436,7 +443,12 @@ export const YearRangePicker = React.forwardRef<
                   >
                     <ChevronLeftIcon size={16} className="text-cms-gray-600" />
                   </button>
-                  <div className="rdp-caption_label flex-1 justify-center text-center text-sm font-semibold">
+                  <div
+                    className={cn(
+                      "rdp-caption_label flex-1 justify-center",
+                      "text-center text-sm font-semibold",
+                    )}
+                  >
                     {baseYear} ~ {baseYear + 19}년
                   </div>
                   <button

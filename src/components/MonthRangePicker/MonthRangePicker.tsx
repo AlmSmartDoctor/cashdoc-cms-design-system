@@ -462,10 +462,17 @@ export const MonthRangePicker = React.forwardRef<
               "data-[side=top]:slide-in-from-bottom-2",
             )}
           >
-            <div className="date-range-picker-calendar month-range-picker-calendar">
+            <div
+              className="date-range-picker-calendar month-range-picker-calendar"
+            >
               <div className="rdp rdp-root">
                 {/* Full-width nav bar: prev at left, years in center, next at right */}
-                <div className="rdp-month_caption flex w-full items-center justify-between px-0">
+                <div
+                  className={cn(
+                    "rdp-month_caption flex w-full items-center",
+                    "justify-between px-0",
+                  )}
+                >
                   <button
                     type="button"
                     className="rdp-button_previous shrink-0"
@@ -476,10 +483,14 @@ export const MonthRangePicker = React.forwardRef<
                     <ChevronLeftIcon size={16} className="text-cms-gray-600" />
                   </button>
                   <div className="flex flex-1 gap-20">
-                    <div className="rdp-caption_label flex-1 justify-center">
+                    <div
+                      className="rdp-caption_label flex-1 justify-center"
+                    >
                       {baseYear}년
                     </div>
-                    <div className="rdp-caption_label flex-1 justify-center">
+                    <div
+                      className="rdp-caption_label flex-1 justify-center"
+                    >
                       {baseYear + 1}년
                     </div>
                   </div>
