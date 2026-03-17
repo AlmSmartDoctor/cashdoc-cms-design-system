@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.5.0...v1.5.1) (2026-03-17)
+
+
+### Bug Fixes
+
+* default export에서 named export로 수정 [patch] ([90417a1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/90417a17d2b99ab4bc68f3f151b3bee82a162dfd))
+* 스토리 수정 [patch] ([1c1fe48](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/1c1fe48ba0b5c0e8446b72c9f0a690ad92977819))
+
 ## [1.5.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.4.1...v1.5.0) (2026-03-16)
 
 
