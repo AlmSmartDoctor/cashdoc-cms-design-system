@@ -56,7 +56,7 @@ type SegmentedControlsProps<T extends string | number> = {
  * ## 참고사진
  * ![](<https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/SegmentedControls/For%20Jsdoc.png?raw=true>)
  */
-const SegmentedControls = <T extends string | number>({
+export const SegmentedControls = <T extends string | number>({
   options,
   value,
   onChange,
@@ -111,4 +111,4 @@ const SegmentedControls = <T extends string | number>({
   );
 };
 
-export default SegmentedControls;
+SegmentedControls.displayName = "SegmentedControls";
