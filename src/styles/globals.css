@@ -341,123 +341,20 @@
     border-radius: 4px;
   }
 
-  /* MonthRangePicker: 같은 행 내 셀은 가로로 연결 (horizontal 0), 행 간격만 적용 */
+  /* MonthRangePicker, YearRangePicker: 공통 rdp 그리드 스타일 */
   /* react-day-picker의 border-collapse: collapse를 override (collapse 시 border-spacing 무효) */
   .month-range-picker-calendar .rdp-month_grid {
     border-collapse: separate !important;
     border-spacing: 0 0.75rem !important;
   }
 
-  /* MonthRangePicker: 셀 44x44, 버튼과 동일 크기, border 없음 */
-  .month-range-picker-calendar .rdp-day {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    min-height: 44px;
-    max-width: 44px;
-    max-height: 44px;
-    padding: 0;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  .month-range-picker-calendar .rdp-day_button {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    min-height: 44px;
-    padding: 0;
-    border: none !important;
-    border-radius: 100%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* 선택 가능한 month: bold, black */
-  .month-range-picker-calendar .rdp-day_button:not(.rdp-day_button--disabled) {
-    color: #111111 !important;
-  }
-
-  /* min/max 범위 밖 disabled month: gray, 얇은 폰트 */
-  .month-range-picker-calendar .rdp-day_disabled .rdp-day_button,
-  .month-range-picker-calendar .rdp-day_button.rdp-day_button--disabled {
-    color: #9ca3af !important;
-    cursor: not-allowed;
-  }
-
-  /* 선택된 month: 원만 #0000FF */
-  .month-range-picker-calendar .rdp-day_selected,
-  .month-range-picker-calendar .rdp-day_range_start,
-  .month-range-picker-calendar .rdp-day_range_end,
-  .month-range-picker-calendar .rdp-day_range_start.rdp-day_range_end {
-    background-color: transparent !important;
-  }
-
-  .month-range-picker-calendar .rdp-day_selected .rdp-day_button,
-  .month-range-picker-calendar .rdp-day_range_start .rdp-day_button,
-  .month-range-picker-calendar .rdp-day_range_end .rdp-day_button,
-  .month-range-picker-calendar
-    .rdp-day_range_start.rdp-day_range_end
-    .rdp-day_button {
-    background-color: var(--cashdoc-month-range-selected) !important;
-    color: white !important;
-    border-radius: 100% !important;
-    font-weight: 600;
-  }
-
-  /* range_start: 원 + 오른쪽으로 연결되는 사각형 (44x44px), border-radius 없음 */
-  .month-range-picker-calendar .rdp-day_range_start:not(.rdp-day_range_end) {
-    background: linear-gradient(
-      to right,
-      transparent 50%,
-      var(--cashdoc-month-range-middle) 50%
-    ) !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-  }
-
-  /* range_end: 왼쪽에서 연결되는 사각형 + 원 (44x44px), border-radius 없음 */
-  .month-range-picker-calendar .rdp-day_range_end:not(.rdp-day_range_start) {
-    background: linear-gradient(
-      to left,
-      transparent 50%,
-      var(--cashdoc-month-range-middle) 50%
-    ) !important;
-    border-radius: 0 !important;
-  }
-
-  /* start=end 동일 월: gradient 없이 원만 표시 */
-  .month-range-picker-calendar .rdp-day_range_start.rdp-day_range_end {
-    background: transparent !important;
-  }
-
-  /* range_middle: 44x44px 사각형, 가로로 연결, bold, border-radius 없음 */
-  .month-range-picker-calendar .rdp-day_range_middle {
-    background-color: transparent !important;
-    border-radius: 0 !important;
-  }
-
-  .month-range-picker-calendar .rdp-day_range_middle .rdp-day_button {
-    width: 100%;
-    min-width: 44px;
-    height: 44px;
-    min-height: 44px;
-    border-radius: 0 !important;
-    background-color: var(--cashdoc-month-range-middle) !important;
-    color: #111111 !important;
-    font-weight: 600;
-    display: flex;
-    padding: 0;
-    border: none !important;
-  }
-
-  /* YearRangePicker: MonthRangePicker와 동일한 rdp 구조, 연도 선택 */
   .year-range-picker-calendar .rdp-month_grid {
     border-collapse: separate !important;
     border-spacing: 0 0.5rem !important;
   }
 
+  /* 셀 44x44, 버튼과 동일 크기 */
+  .month-range-picker-calendar .rdp-day,
   .year-range-picker-calendar .rdp-day {
     width: 44px;
     height: 44px;
@@ -470,6 +367,7 @@
     vertical-align: middle;
   }
 
+  .month-range-picker-calendar .rdp-day_button,
   .year-range-picker-calendar .rdp-day_button {
     width: 44px;
     height: 44px;
@@ -483,18 +381,35 @@
     justify-content: center;
   }
 
+  /* 선택 가능한 셀: black */
+  .month-range-picker-calendar .rdp-day_button:not(.rdp-day_button--disabled),
   .year-range-picker-calendar .rdp-day_button:not(.rdp-day_button--disabled) {
     color: #111111 !important;
+  }
+
+  .year-range-picker-calendar .rdp-day_button:not(.rdp-day_button--disabled) {
     font-weight: 700;
+  }
+
+  /* min/max 범위 밖 disabled: gray */
+  .month-range-picker-calendar .rdp-day_disabled .rdp-day_button,
+  .month-range-picker-calendar .rdp-day_button.rdp-day_button--disabled,
+  .year-range-picker-calendar .rdp-day_disabled .rdp-day_button,
+  .year-range-picker-calendar .rdp-day_button.rdp-day_button--disabled {
+    color: #9ca3af !important;
+    cursor: not-allowed;
   }
 
   .year-range-picker-calendar .rdp-day_disabled .rdp-day_button,
   .year-range-picker-calendar .rdp-day_button.rdp-day_button--disabled {
-    color: #9ca3af !important;
     font-weight: 400;
-    cursor: not-allowed;
   }
 
+  /* 선택된 셀: 원 배경 */
+  .month-range-picker-calendar .rdp-day_selected,
+  .month-range-picker-calendar .rdp-day_range_start,
+  .month-range-picker-calendar .rdp-day_range_end,
+  .month-range-picker-calendar .rdp-day_range_start.rdp-day_range_end,
   .year-range-picker-calendar .rdp-day_selected,
   .year-range-picker-calendar .rdp-day_range_start,
   .year-range-picker-calendar .rdp-day_range_end,
@@ -502,6 +417,12 @@
     background-color: transparent !important;
   }
 
+  .month-range-picker-calendar .rdp-day_selected .rdp-day_button,
+  .month-range-picker-calendar .rdp-day_range_start .rdp-day_button,
+  .month-range-picker-calendar .rdp-day_range_end .rdp-day_button,
+  .month-range-picker-calendar
+    .rdp-day_range_start.rdp-day_range_end
+    .rdp-day_button,
   .year-range-picker-calendar .rdp-day_selected .rdp-day_button,
   .year-range-picker-calendar .rdp-day_range_start .rdp-day_button,
   .year-range-picker-calendar .rdp-day_range_end .rdp-day_button,
@@ -514,6 +435,8 @@
     font-weight: 600;
   }
 
+  /* range_start: 원 + 오른쪽 연결 */
+  .month-range-picker-calendar .rdp-day_range_start:not(.rdp-day_range_end),
   .year-range-picker-calendar .rdp-day_range_start:not(.rdp-day_range_end) {
     background: linear-gradient(
       to right,
@@ -524,6 +447,8 @@
     border-radius: 0 !important;
   }
 
+  /* range_end: 왼쪽 연결 + 원 */
+  .month-range-picker-calendar .rdp-day_range_end:not(.rdp-day_range_start),
   .year-range-picker-calendar .rdp-day_range_end:not(.rdp-day_range_start) {
     background: linear-gradient(
       to left,
@@ -533,15 +458,20 @@
     border-radius: 0 !important;
   }
 
+  /* start=end 동일: gradient 없이 원만 */
+  .month-range-picker-calendar .rdp-day_range_start.rdp-day_range_end,
   .year-range-picker-calendar .rdp-day_range_start.rdp-day_range_end {
     background: transparent !important;
   }
 
+  /* range_middle: 가로 연결 사각형 */
+  .month-range-picker-calendar .rdp-day_range_middle,
   .year-range-picker-calendar .rdp-day_range_middle {
     background-color: transparent !important;
     border-radius: 0 !important;
   }
 
+  .month-range-picker-calendar .rdp-day_range_middle .rdp-day_button,
   .year-range-picker-calendar .rdp-day_range_middle .rdp-day_button {
     width: 100%;
     min-width: 44px;
