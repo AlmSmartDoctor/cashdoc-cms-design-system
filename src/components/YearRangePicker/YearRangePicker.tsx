@@ -194,39 +194,41 @@ export const YearRangePicker = React.forwardRef<
       const yearDate = dayjs(`${year}-01-01`);
       const hasSingleYear = fromDay && toDay && fromDay.isSame(toDay, "year");
 
-      // 1. 처음: start year 선택 → start=end (해당 연도 1/1 ~ 12/31)
+      // 처음 선택 시: start year 선택 → start=end (해당 연도 1/1 ~ 12/31)
       if (!fromDay || !toDay) {
         setDraftRange([yearDate.startOf("year"), yearDate.endOf("year")]);
         return;
       }
 
-      // 5. single year 상태에서 같은 연도 재클릭 → clear
+      // single year 상태에서 같은 연도 재클릭 → clear
       if (hasSingleYear && fromDay.isSame(yearDate, "year")) {
         setDraftRange([undefined, undefined]);
         return;
       }
 
-      // 2. single year 상태에서 다른 연도 클릭 → 이전 연도=start, 이후 연도=end
+      // single year 상태에서 다른 연도 클릭 → 이전 연도=start, 이후 연도=end
       if (hasSingleYear) {
         const [start, end] =
-          fromDay.isBefore(yearDate) || fromDay.isSame(yearDate, "year") ?
+          fromDay.isBefore(yearDate) ?
             [fromDay.startOf("year"), yearDate.endOf("year")]
           : [yearDate.startOf("year"), fromDay.endOf("year")];
         setDraftRange([start, end]);
         return;
       }
 
-      // 4. range 상태에서 start 또는 end 클릭 → 해당 연도로 start=end
+      // range 상태 start, end 정렬 (방어코드)
       const [start, end] =
         fromDay.isBefore(toDay) || fromDay.isSame(toDay, "year") ?
           [fromDay, toDay]
         : [toDay, fromDay];
+
+      // range 상태에서 start 또는 end 클릭 → 해당 연도로 start=end
       if (yearDate.isSame(start, "year") || yearDate.isSame(end, "year")) {
         setDraftRange([yearDate, yearDate.endOf("year")]);
         return;
       }
 
-      // 3. range 상태에서 middle year 클릭
+      // range 상태에서 middle year 클릭
       // start 이전 선택 → start 변경, 그 외(범위 내/end 이후) → end 변경
       if (yearDate.isBefore(start, "year")) {
         setDraftRange([yearDate, end]);
