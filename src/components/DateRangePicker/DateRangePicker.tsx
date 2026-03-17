@@ -212,8 +212,8 @@ export const DateRangePicker = React.forwardRef<
       endLabel = "종료일자",
       className,
       hideQuickSelect = false,
-      min,
-      max,
+      min = DEFAULT_MIN,
+      max = DEFAULT_MAX,
     },
     ref,
   ) => {
