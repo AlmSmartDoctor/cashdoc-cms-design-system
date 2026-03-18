@@ -19,6 +19,12 @@ export type DateRangePickerProps = {
   startLabel?: string;
   endLabel?: string;
   className?: string;
+  /** true일 경우 '전체', '오늘', '내일', '이번주', '이번달', '7일', '30일', '다음주', '다음달' 빠른 선택 옵션을 숨깁니다. */
+  hideQuickSelect?: boolean;
+  /** 선택 가능한 최소 날짜 (YYYY-MM-DD). 미설정 시 1970-01-01부터 선택 가능합니다. */
+  min?: string;
+  /** 선택 가능한 최대 날짜 (YYYY-MM-DD). 미설정 시 2099-12-31까지 선택 가능합니다. */
+  max?: string;
 };
 
 type QuickSelectOption = {
@@ -35,13 +41,40 @@ const toDayjsRange = (
   ];
 };
 
-const getQuickSelectOptions = (): QuickSelectOption[] => {
+const DEFAULT_MIN = "1970-01-01";
+const DEFAULT_MAX = "2099-12-31";
+
+/**
+ * 빠른 선택 옵션의 시작/종료 날짜가 min~max 범위 내에 있는지 검사합니다.
+ * 범위를 벗어나면 false를 반환하여 오류 메시지 표시에 사용할 수 있습니다.
+ */
+const isRangeWithinBounds = (
+  start: Dayjs,
+  end: Dayjs,
+  min?: string,
+  max?: string,
+): boolean => {
+  const minDate = min ? dayjs(min) : dayjs(DEFAULT_MIN);
+  const maxDate = max ? dayjs(max) : dayjs(DEFAULT_MAX);
+  const startInRange =
+    !start.isBefore(minDate, "day") && !start.isAfter(maxDate, "day");
+  const endInRange =
+    !end.isBefore(minDate, "day") && !end.isAfter(maxDate, "day");
+  return startInRange && endInRange;
+};
+
+const getQuickSelectOptions = (
+  min?: string,
+  max?: string,
+): QuickSelectOption[] => {
   const now = dayjs();
+  const minDate = min ? dayjs(min) : dayjs(DEFAULT_MIN);
+  const maxDate = max ? dayjs(max) : dayjs(DEFAULT_MAX);
 
   return [
     {
       label: "전체",
-      getValue: () => [dayjs("1970-01-01"), dayjs("2099-12-31")],
+      getValue: () => [minDate, maxDate],
     },
     {
       label: "오늘",
@@ -117,6 +150,7 @@ const getQuickSelectOptions = (): QuickSelectOption[] => {
  * - **적절한 시작/종료 레이블**: "시작일", "종료일" 또는 "등록일", "수정일" 등 문맥에 맞는 레이블을 사용하세요.
  * - **기간 확인 피드백**: 선택된 총 일수(예: 7일간)를 하단에 표시하여 사용자가 선택한 범위를 쉽게 인지하게 하세요.
  * - **빠른 선택 활용**: 사용자 조사의 80% 이상이 '최근 7일'이라면 해당 옵션을 눈에 띄게 배치하거나 기본값으로 고려하세요.
+ * - **min/max 설정**: 데이터 존재 기간이 제한된 경우 `min`, `max`로 선택 가능 범위를 제한하세요.
  *
  * ### 🚫 Don't (주의/금지 사항)
  *
@@ -177,6 +211,9 @@ export const DateRangePicker = React.forwardRef<
       startLabel = "시작일자",
       endLabel = "종료일자",
       className,
+      hideQuickSelect = false,
+      min = DEFAULT_MIN,
+      max = DEFAULT_MAX,
     },
     ref,
   ) => {
@@ -185,6 +222,7 @@ export const DateRangePicker = React.forwardRef<
     const [draftRange, setDraftRange] = useState<
       [Dayjs | undefined, Dayjs | undefined]
     >(() => toDayjsRange(value));
+    const [quickSelectError, setQuickSelectError] = useState(false);
     const [fromDay, toDay] = draftRange;
 
     const selected: DayPickerDateRange | undefined = useMemo(() => {
@@ -197,10 +235,16 @@ export const DateRangePicker = React.forwardRef<
 
     const handleQuickSelect = (option: QuickSelectOption) => {
       const [start, end] = option.getValue();
+      if (!isRangeWithinBounds(start, end, min, max)) {
+        setQuickSelectError(true);
+        return;
+      }
+      setQuickSelectError(false);
       setDraftRange([start, end]);
     };
 
     const handleDayClick = (range: DayPickerDateRange | undefined) => {
+      setQuickSelectError(false);
       if (!range) {
         setDraftRange([undefined, undefined]);
         return;
@@ -230,6 +274,7 @@ export const DateRangePicker = React.forwardRef<
     const handleOpenChange = (nextOpen: boolean) => {
       if (nextOpen) {
         setDraftRange(toDayjsRange(value));
+        setQuickSelectError(false);
       }
       setIsOpen(nextOpen);
     };
@@ -248,6 +293,17 @@ export const DateRangePicker = React.forwardRef<
         end: dayjs(value.end).format("YYYY-MM-DD"),
       };
     }, [value]);
+
+    const disabledDays = useMemo(() => {
+      const disabled: ({ before: Date } | { after: Date })[] = [];
+      if (min) {
+        disabled.push({ before: dayjs(min).toDate() });
+      }
+      if (max) {
+        disabled.push({ after: dayjs(max).toDate() });
+      }
+      return disabled.length > 0 ? disabled : undefined;
+    }, [min, max]);
 
     return (
       <PopoverPrimitive.Root open={isOpen} onOpenChange={handleOpenChange}>
@@ -331,26 +387,28 @@ export const DateRangePicker = React.forwardRef<
           >
             <div className="flex gap-2">
               {/* Quick Select Buttons */}
-              <div className="flex flex-col border-r border-gray-200 pr-2">
-                {getQuickSelectOptions().map((option) => (
-                  <button
-                    key={option.label}
-                    onClick={() => handleQuickSelect(option)}
-                    className={cn(
-                      "cursor-pointer border-0",
-                      "h-6-5 w-17-5 px-2",
-                      "text-left text-xs text-gray-700",
-                      "bg-white",
-                      "transition-all duration-150",
-                      "hover:bg-blue-50",
-                      "hover:font-medium",
-                      "hover:text-blue-600",
-                    )}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
+              {!hideQuickSelect && (
+                <div className="flex flex-col border-r border-gray-200 pr-2">
+                  {getQuickSelectOptions(min, max).map((option) => (
+                    <button
+                      key={option.label}
+                      onClick={() => handleQuickSelect(option)}
+                      className={cn(
+                        "cursor-pointer border-0",
+                        "h-6-5 w-17-5 px-2",
+                        "text-left text-xs text-gray-700",
+                        "bg-white",
+                        "transition-all duration-150",
+                        "hover:bg-blue-50",
+                        "hover:font-medium",
+                        "hover:text-blue-600",
+                      )}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              )}
               {/* Calendar */}
               <div className="date-range-picker-calendar">
                 <DayPicker
@@ -359,6 +417,8 @@ export const DateRangePicker = React.forwardRef<
                   onSelect={handleDayClick}
                   numberOfMonths={2}
                   locale={ko}
+                  disabled={disabledDays}
+                  excludeDisabled
                   formatters={{
                     formatCaption: (date) => {
                       return `${date.getFullYear()}년 ${date.getMonth() + 1}월`;
@@ -376,7 +436,11 @@ export const DateRangePicker = React.forwardRef<
               )}
             >
               <div className="flex min-h-8 flex-col">
-                {!fromDay || !toDay ?
+                {quickSelectError ?
+                  <span className="text-xs text-red-500">
+                    선택 가능한 기간이 아닙니다.
+                  </span>
+                : !fromDay || !toDay ?
                   <span className="text-xs text-red-500">
                     종료일자를 선택해 주세요.
                   </span>

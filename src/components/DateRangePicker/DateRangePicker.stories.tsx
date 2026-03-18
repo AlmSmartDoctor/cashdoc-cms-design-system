@@ -55,6 +55,31 @@ const meta: Meta<typeof DateRangePicker> = {
         type: { summary: "string" },
       },
     },
+    hideQuickSelect: {
+      control: "boolean",
+      description:
+        "true일 경우 '전체', '오늘', '내일', '이번주', '이번달', '7일', '30일', '다음주', '다음달' 빠른 선택 옵션을 숨깁니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    min: {
+      control: "text",
+      description:
+        "선택 가능한 최소 날짜 (YYYY-MM-DD). 미설정 시 1970-01-01부터 선택 가능합니다.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    max: {
+      control: "text",
+      description:
+        "선택 가능한 최대 날짜 (YYYY-MM-DD). 미설정 시 2099-12-31까지 선택 가능합니다.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
   },
 };
 
@@ -81,6 +106,34 @@ export const WithInitialValue: Story = {
     return (
       <div className="w-150 p-4">
         <DateRangePicker value={range} onChange={setRange} />
+      </div>
+    );
+  },
+};
+
+export const WithMinMax: Story = {
+  name: "With Min Max (2022-01-01 ~ 2026-04-01)",
+  render: () => {
+    const [range, setRange] = useState({ start: "", end: "" });
+    return (
+      <div className="w-150 p-4">
+        <DateRangePicker
+          value={range}
+          onChange={setRange}
+          min="2022-01-01"
+          max="2026-04-01"
+        />
+      </div>
+    );
+  },
+};
+
+export const HideQuickSelect: Story = {
+  render: () => {
+    const [range, setRange] = useState({ start: "", end: "" });
+    return (
+      <div className="w-150 p-4">
+        <DateRangePicker value={range} onChange={setRange} hideQuickSelect />
       </div>
     );
   },
@@ -161,6 +214,23 @@ export const ForJsdoc: Story = {
             endLabel="To"
             value={{ start: "", end: "" }}
             onChange={emptyRangeChangeHandler}
+          />
+        </div>
+        <div>
+          <h3 className="mb-2 font-bold">Hide Quick Select</h3>
+          <DateRangePicker
+            value={{ start: "", end: "" }}
+            onChange={emptyRangeChangeHandler}
+            hideQuickSelect
+          />
+        </div>
+        <div>
+          <h3 className="mb-2 font-bold">With Min/Max</h3>
+          <DateRangePicker
+            value={{ start: "", end: "" }}
+            onChange={emptyRangeChangeHandler}
+            min="2022-01-01"
+            max="2026-04-01"
           />
         </div>
       </div>

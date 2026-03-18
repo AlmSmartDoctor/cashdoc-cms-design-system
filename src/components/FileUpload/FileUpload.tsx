@@ -178,7 +178,7 @@ export const FileUpload = ({
                 type="button"
                 onClick={() => removeFile(index)}
                 className={cn(
-                  "h-7 w-7 shrink-0 rounded-full",
+                  "size-7 shrink-0 rounded-full",
                   "flex items-center justify-center",
                   "text-cms-gray-400",
                   "hover:bg-cms-gray-100 hover:text-cms-black",
@@ -187,7 +187,7 @@ export const FileUpload = ({
                 )}
                 aria-label="파일 제거"
               >
-                <CloseIcon className="h-4 w-4" />
+                <CloseIcon className="size-4" />
               </button>
             </div>
           ))}
