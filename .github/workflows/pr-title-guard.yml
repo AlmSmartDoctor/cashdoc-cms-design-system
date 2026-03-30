@@ -1,0 +1,27 @@
+name: PR Title Guard
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+jobs:
+  validate-title:
+    name: Validate PR title token
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title token
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          set -euo pipefail
+
+          echo "PR title: ${TITLE}"
+
+          if ! printf '%s\n' "${TITLE}" | grep -Eq '\[(minor|patch|major|docs|chore)\]'; then
+            echo "::error::PR title must include one of [minor], [patch], [major], [docs], [chore]"
+            exit 1
+          fi
