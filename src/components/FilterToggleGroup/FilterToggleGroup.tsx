@@ -24,6 +24,20 @@ const filterToggleGroupSizeClassMap = {
     label: "text-xs/4",
     icon: "[&>svg]:size-4",
   },
+  xl: {
+    item: "h-24 min-w-28 px-4 py-3",
+    caption: "text-sm/4",
+    value: "text-4xl",
+    label: "text-sm/4",
+    icon: "[&>svg]:size-5",
+  },
+  "2xl": {
+    item: "h-28 min-w-32 px-5 py-3.5",
+    caption: "text-sm/5",
+    value: "text-5xl",
+    label: "text-base/5",
+    icon: "[&>svg]:size-6",
+  },
 } as const;
 
 const filterToggleGroupIntentTopLineClassMap = {

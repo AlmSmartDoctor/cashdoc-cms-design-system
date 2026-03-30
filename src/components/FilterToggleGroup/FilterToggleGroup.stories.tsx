@@ -169,6 +169,24 @@ export const Sizes: Story = {
             args.onValueChange(nextStatus);
           }}
         />
+        <FilterToggleGroup
+          {...args}
+          size="xl"
+          value={selectedStatus}
+          onValueChange={(nextStatus) => {
+            setSelectedStatus(nextStatus as ReviewStatus);
+            args.onValueChange(nextStatus);
+          }}
+        />
+        <FilterToggleGroup
+          {...args}
+          size="2xl"
+          value={selectedStatus}
+          onValueChange={(nextStatus) => {
+            setSelectedStatus(nextStatus as ReviewStatus);
+            args.onValueChange(nextStatus);
+          }}
+        />
       </div>
     );
   },
