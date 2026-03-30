@@ -24,7 +24,7 @@ export const buttonVariants = cva(
     "focus-visible:ring-slate-950 focus-visible:ring-offset-2",
     "disabled:pointer-events-none disabled:opacity-60",
     "cursor-pointer scale-100 transform-gpu",
-    "transition-colors transition-transform duration-150 ease-out",
+    "transition-all duration-150 ease-out",
     "active:scale-95",
   ),
   {
