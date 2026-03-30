@@ -22,3 +22,4 @@ export * from "./Table";
 export * from "./ImageUpload";
 export * from "./FileUpload";
 export * from "./SegmentedControls";
+export * from "./FilterToggleGroup";

@@ -66,6 +66,7 @@ function App() {
 - `Checkbox` - 체크박스
 - `RadioButton` - 라디오 버튼
 - `Switch` - 토글 스위치 (가변 길이 및 내부 상태 텍스트 지원)
+- `StatusFilterCards` - 상태 집계 카드 + 단일 선택 필터 토글
 - `TextInput` - 텍스트 입력 필드
 - `TagInput` - 태그 입력 필드
 
