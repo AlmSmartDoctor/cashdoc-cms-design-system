@@ -81,6 +81,7 @@ export type FilterToggleGroupProps<T extends string | number> = {
   className?: string;
   itemClassName?: string;
   size?: FilterToggleGroupSize;
+  showIcon?: boolean;
   ariaLabel?: string;
 };
 
@@ -147,6 +148,7 @@ export const FilterToggleGroup = <T extends string | number>({
   className,
   itemClassName,
   size = "md",
+  showIcon = true,
   ariaLabel = "Status filter",
 }: FilterToggleGroupProps<T>) => {
   const handleValueChange = (newValue: string) => {
@@ -191,9 +193,10 @@ export const FilterToggleGroup = <T extends string | number>({
               "rounded-cms-md border border-cms-gray-300 bg-cms-white",
               "text-center",
               "shadow-[0_1px_3px_rgba(17,17,17,0.08)]",
-              "transition-all duration-150 ease-out",
+              "scale-100 transform-gpu transition-all duration-150 ease-out",
               "hover:bg-cms-gray-50",
               "hover:shadow-[0_2px_6px_rgba(17,17,17,0.12)]",
+              "active:scale-95",
               "before:pointer-events-none before:absolute before:inset-x-0",
               "before:top-0 before:h-1",
               "focus-visible:ring-2 focus-visible:ring-cms-blue-200",
@@ -227,7 +230,7 @@ export const FilterToggleGroup = <T extends string | number>({
                 sizeClass.value,
               )}
             >
-              {item.icon ?
+              {showIcon && item.icon ?
                 <span
                   className={cn("shrink-0", sizeClass.icon, iconColorClass)}
                 >

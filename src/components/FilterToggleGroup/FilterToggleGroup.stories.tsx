@@ -82,6 +82,7 @@ const meta: Meta<typeof FilterToggleGroup> = {
     items: reviewStatusItems,
     value: "all",
     size: "md",
+    showIcon: true,
     ariaLabel: "리뷰 상태 필터",
   },
 };
@@ -130,6 +131,28 @@ export const FullWidth: Story = {
           }}
         />
       </div>
+    );
+  },
+};
+
+export const WithoutIcons: Story = {
+  args: {
+    showIcon: false,
+  },
+  render: (args) => {
+    const [selectedStatus, setSelectedStatus] = useState<ReviewStatus>(
+      args.value as ReviewStatus,
+    );
+
+    return (
+      <FilterToggleGroup
+        {...args}
+        value={selectedStatus}
+        onValueChange={(nextStatus) => {
+          setSelectedStatus(nextStatus as ReviewStatus);
+          args.onValueChange(nextStatus);
+        }}
+      />
     );
   },
 };
