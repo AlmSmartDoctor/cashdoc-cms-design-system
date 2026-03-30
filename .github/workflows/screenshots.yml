@@ -110,7 +110,7 @@ jobs:
               console.log('Error starting screenshot count:', error);
             }
 
-            const screenshotRepo = 'AlmSmartDoctor/cashdoc-cms-design-system-screenshots';
+            const screenshotRepo = 'AlmSmartDoctor/ccds-screenshots';
             const message = `## 📸 Component Screenshots
 
             ${fileCount}개의 스크린샷이 업데이트되어 별도 저장소에 커밋되었습니다.
