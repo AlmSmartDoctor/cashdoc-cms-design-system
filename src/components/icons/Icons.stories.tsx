@@ -21,6 +21,9 @@ type Story = StoryObj<typeof meta>;
 
 type IconComponent = typeof Icons.CheckIcon;
 type IconEntry = [name: string, Icon: IconComponent];
+const isIconComponent = (value: unknown): value is IconComponent =>
+  typeof value === "function" ||
+  (typeof value === "object" && value !== null && "$$typeof" in value);
 
 const AllIconsStory = () => {
   const IconSection = ({
@@ -67,7 +70,10 @@ const AllIconsStory = () => {
   );
 
   const iconEntries = Object.entries(Icons).filter(
-    (entry): entry is IconEntry => typeof entry[1] === "function",
+    (entry): entry is IconEntry => {
+      const [name, Icon] = entry;
+      return name.endsWith("Icon") && isIconComponent(Icon);
+    },
   );
 
   const categories: Record<string, IconEntry[]> = {
@@ -98,6 +104,7 @@ const AllIconsStory = () => {
         "LinkIcon",
         "PinIcon",
         "CloseIcon",
+        "SearchIcon",
         "SettingsIcon",
       ].includes(name),
     ),

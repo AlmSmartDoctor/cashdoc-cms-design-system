@@ -281,6 +281,15 @@ export const CloseIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ),
 );
 
+export const SearchIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </IconWrapper>
+  ),
+);
+
 export const PlusIcon = React.forwardRef<SVGSVGElement, IconProps>(
   (props, ref) => (
     <IconWrapper ref={ref} {...props}>
