@@ -1,7 +1,7 @@
 name: Screenshots
 
 on:
-  pull_request:
+  push:
     branches: [main]
     paths-ignore:
       - "__screenshots__/**"
@@ -13,7 +13,6 @@ concurrency:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   capture-screenshots:
@@ -72,82 +71,3 @@ jobs:
           git add screenshots/
           git commit -m "chore: update screenshots from ${{ github.repository }}@${{ github.sha }}" || echo "No changes to commit"
           git push
-
-      - name: Comment PR with screenshots info
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const path = require('path');
-
-            const screenshotsDir = '__screenshots__';
-            let fileCount = 0;
-
-            const countPng = (dir) => {
-              try {
-                const files = fs.readdirSync(dir, { withFileTypes: true });
-                for (const file of files) {
-                  const fullPath = path.join(dir, file.name);
-                  if (file.isDirectory()) {
-                    countPng(fullPath);
-                  } else if (file.name.endsWith('.png')) {
-                    fileCount++;
-                  }
-                }
-              } catch (error) {
-                console.log('Error reading directory:', dir, error);
-              }
-            };
-
-            try {
-              if (fs.existsSync(screenshotsDir)) {
-                countPng(screenshotsDir);
-              } else {
-                console.log('Screenshots directory not found');
-              }
-            } catch (error) {
-              console.log('Error starting screenshot count:', error);
-            }
-
-            const screenshotRepo = 'AlmSmartDoctor/ccds-screenshots';
-            const message = `## 📸 Component Screenshots
-
-            ${fileCount}개의 스크린샷이 업데이트되어 별도 저장소에 커밋되었습니다.
-
-            🔗 [스크린샷 저장소 보기](https://github.com/${screenshotRepo})
-
-            스크린샷은 다음 URL 형식으로 참조할 수 있습니다:
-            \`\`\`
-            https://raw.githubusercontent.com/${screenshotRepo}/main/screenshots/[카테고리]/[파일명].png
-            \`\`\`
-
-            스크린샷의 경로나 파일명에 변경 사항이 있다면, JSDoc의 이미지 참조에 영향이 갈 수 있으니 확인 부탁드립니다.`;
-
-            // 기존 댓글 검색
-            const { data: comments } = await github.rest.issues.listComments({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            });
-
-            const botComment = comments.find(comment => {
-              return comment.user.type === 'Bot' && comment.body.includes('## 📸 Component Screenshots');
-            });
-
-            // 업데이트 또는 생성
-            if (botComment) {
-              await github.rest.issues.updateComment({
-                comment_id: botComment.id,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: message
-              });
-            } else {
-              await github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: message
-              });
-            }
