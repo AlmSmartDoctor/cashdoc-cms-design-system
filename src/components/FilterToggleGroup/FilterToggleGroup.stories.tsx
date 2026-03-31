@@ -102,7 +102,7 @@ export const Default: Story = {
         value={selectedStatus}
         onValueChange={(nextStatus) => {
           setSelectedStatus(nextStatus as ReviewStatus);
-          args.onValueChange(nextStatus);
+          args.onValueChange?.(nextStatus);
         }}
       />
     );
@@ -127,7 +127,7 @@ export const FullWidth: Story = {
           value={selectedStatus}
           onValueChange={(nextStatus) => {
             setSelectedStatus(nextStatus as ReviewStatus);
-            args.onValueChange(nextStatus);
+            args.onValueChange?.(nextStatus);
           }}
         />
       </div>
@@ -150,7 +150,7 @@ export const WithoutIcons: Story = {
         value={selectedStatus}
         onValueChange={(nextStatus) => {
           setSelectedStatus(nextStatus as ReviewStatus);
-          args.onValueChange(nextStatus);
+          args.onValueChange?.(nextStatus);
         }}
       />
     );
@@ -171,7 +171,7 @@ export const Sizes: Story = {
           value={selectedStatus}
           onValueChange={(nextStatus) => {
             setSelectedStatus(nextStatus as ReviewStatus);
-            args.onValueChange(nextStatus);
+            args.onValueChange?.(nextStatus);
           }}
         />
         <FilterToggleGroup
@@ -180,7 +180,7 @@ export const Sizes: Story = {
           value={selectedStatus}
           onValueChange={(nextStatus) => {
             setSelectedStatus(nextStatus as ReviewStatus);
-            args.onValueChange(nextStatus);
+            args.onValueChange?.(nextStatus);
           }}
         />
         <FilterToggleGroup
@@ -189,7 +189,7 @@ export const Sizes: Story = {
           value={selectedStatus}
           onValueChange={(nextStatus) => {
             setSelectedStatus(nextStatus as ReviewStatus);
-            args.onValueChange(nextStatus);
+            args.onValueChange?.(nextStatus);
           }}
         />
         <FilterToggleGroup
@@ -198,7 +198,7 @@ export const Sizes: Story = {
           value={selectedStatus}
           onValueChange={(nextStatus) => {
             setSelectedStatus(nextStatus as ReviewStatus);
-            args.onValueChange(nextStatus);
+            args.onValueChange?.(nextStatus);
           }}
         />
         <FilterToggleGroup
@@ -207,7 +207,7 @@ export const Sizes: Story = {
           value={selectedStatus}
           onValueChange={(nextStatus) => {
             setSelectedStatus(nextStatus as ReviewStatus);
-            args.onValueChange(nextStatus);
+            args.onValueChange?.(nextStatus);
           }}
         />
       </div>
