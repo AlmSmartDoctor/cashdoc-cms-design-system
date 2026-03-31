@@ -26,13 +26,6 @@ permissions:
 
 jobs:
   release:
-    if: |
-      github.event_name == 'workflow_dispatch' ||
-      (
-        github.event_name == 'push' &&
-        !contains(github.event.head_commit.message, 'chore') &&
-        !contains(github.event.head_commit.message, 'doc')
-      )
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -41,12 +34,40 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Evaluate release gate
+        id: release_gate
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "should-release=true" >> "$GITHUB_OUTPUT"
+            echo "Release gate: manual dispatch"
+            exit 0
+          fi
+
+          COMMIT_MESSAGE="$(git log -1 --pretty=%B | tr '[:upper:]' '[:lower:]')"
+          SHOULD_RELEASE="true"
+
+          if printf '%s\n' "$COMMIT_MESSAGE" | grep -Eq '(\[(docs|chore)\]|^(chore(\(|:)|docs(\(|:)|doc(\(|:)))'; then
+            SHOULD_RELEASE="false"
+          fi
+
+          echo "should-release=${SHOULD_RELEASE}" >> "$GITHUB_OUTPUT"
+          echo "Release gate result: ${SHOULD_RELEASE}"
+
+      - name: Skip release for chore/docs commit
+        if: steps.release_gate.outputs.should-release != 'true'
+        run: |
+          echo "Skipping release because the latest commit indicates docs/chore (prefix or token)."
+
       - name: Setup pnpm
+        if: steps.release_gate.outputs.should-release == 'true'
         uses: pnpm/action-setup@v4
         with:
           version: 10.27.0
 
       - name: Setup Node.js
+        if: steps.release_gate.outputs.should-release == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: '24'
@@ -54,17 +75,21 @@ jobs:
           cache: 'pnpm'
 
       - name: Configure Git
+        if: steps.release_gate.outputs.should-release == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Install dependencies
+        if: steps.release_gate.outputs.should-release == 'true'
         run: pnpm install --frozen-lockfile
 
       - name: Build
+        if: steps.release_gate.outputs.should-release == 'true'
         run: pnpm build
 
       - name: Determine release type
+        if: steps.release_gate.outputs.should-release == 'true'
         id: release_type
         run: |
           set -euo pipefail
@@ -88,6 +113,7 @@ jobs:
           echo "Selected release type: ${RELEASE_TYPE}"
 
       - name: Bump version and generate changelog
+        if: steps.release_gate.outputs.should-release == 'true'
         run: |
           set -euo pipefail
 
@@ -110,19 +136,23 @@ jobs:
           esac
 
       - name: Push changes
+        if: steps.release_gate.outputs.should-release == 'true'
         run: |
           git push --follow-tags origin main
 
       - name: Get version
+        if: steps.release_gate.outputs.should-release == 'true'
         id: version
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
       - name: Publish to NPM
+        if: steps.release_gate.outputs.should-release == 'true'
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
+        if: steps.release_gate.outputs.should-release == 'true'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
