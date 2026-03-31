@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.6.0...v1.7.0) (2026-03-31)
+
+
+### Features
+
+* Button, FilterToggleGroup, Icons 스타일 변경 및 신규 컴포넌트 추가 ([e4bc79a](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/e4bc79a937849ac737ed29ee92e9c544ba7ef9a4))
+* FilterToggleGroup 컴포넌트 추가 ([6721eca](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/6721ecabcd81a7f20876c99ecfb6c9dc0762a687))
+* xl, 2xl 사이즈 추가 ([a8afaf9](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/a8afaf979042ba5d12082867204c32a3f1702305))
+
+
+### Bug Fixes
+
+* release 토큰 파싱 오류 수정 ([633f7f8](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/633f7f8de9d5c0bd9cf5bede6ba8924c4be8f3a8))
+* undefined 대응 처리 ([741637c](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/741637cb8e59d3f096db064ea7a69fda08042c38))
+* 문서 수정 ([d81b536](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/d81b536d678a213edab9c5dfa8f18271f41facce))
+* 스크린샷 action 순서 조정 ([fec454e](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/fec454ed23d68f040ccc8438af7cba3ce0581db1))
+* 스크린샷 레포 주소 이름 수정 ([2ab4787](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/2ab4787c8378d4c2961d452309ecb1eca8bb1a83))
+* 코드래빗 리뷰 반영 ([8fca90a](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/8fca90a9ba9e858b265056ffa2e1ab618fd39cfa))
+
 ## [1.6.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.5.1...v1.6.0) (2026-03-18)
 
 ### [1.5.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.5.0...v1.5.1) (2026-03-17)
