@@ -47,10 +47,17 @@ const meta: Meta<typeof BarChart> = {
         type: { summary: "string" },
       },
     },
+    chartHeight: {
+      control: { type: "number", min: 100, step: 50 },
+      description: "플롯 영역 높이(px)입니다.",
+      table: {
+        type: { summary: "number" },
+        defaultValue: { summary: "400" },
+      },
+    },
     className: {
       control: "text",
-      description:
-        "컴포넌트에 추가할 커스텀 CSS 클래스입니다. 차트 높이는 `[--chart-height:300px]`처럼 CSS 변수로 지정합니다.",
+      description: "컴포넌트에 추가할 커스텀 CSS 클래스입니다.",
       table: {
         type: { summary: "string" },
       },
@@ -108,6 +115,28 @@ export const WithUnitLabel: Story = {
       },
     },
   },
+};
+
+export const CustomHeight: Story = {
+  args: {
+    chartData: baseData,
+    chartHeight: 250,
+    unitLabel: "건",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "chartHeight로 플롯 영역 높이를 변경할 수 있습니다.",
+      },
+    },
+  },
+};
+
+export const LotsOfData: Story = {
+  args: {
+    chartData: [...baseData, ...baseData, ...baseData],
+  },
+  tags: ["!dev"],
 };
 
 export const ForJsdoc: Story = {
