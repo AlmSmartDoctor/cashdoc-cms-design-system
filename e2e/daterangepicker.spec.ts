@@ -1,5 +1,8 @@
 import { test, expect } from "@playwright/test";
 
+// 빠른선택 + 2개월 캘린더 + 푸터 팝오버 전체가 화면 내에 들어오도록 viewport 높이 확보
+test.use({ viewport: { width: 1280, height: 900 } });
+
 test.describe("DateRangePicker 컴포넌트", () => {
   test("기본 DateRangePicker 렌더링 및 기간 선택", async ({ page }) => {
     await page.goto(
