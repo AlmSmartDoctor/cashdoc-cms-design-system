@@ -1,5 +1,8 @@
 import { test, expect } from "@playwright/test";
 
+// 빠른선택 + 2개월 캘린더 + 푸터 팝오버 전체가 화면 내에 들어오도록 viewport 높이 확보
+test.use({ viewport: { width: 1280, height: 900 } });
+
 test.describe("DateRangePicker 컴포넌트", () => {
   test("기본 DateRangePicker 렌더링 및 기간 선택", async ({ page }) => {
     await page.goto(
@@ -19,9 +22,7 @@ test.describe("DateRangePicker 컴포넌트", () => {
     await currentMonthGrid.getByRole("button", { name: /20일/ }).click();
 
     // 적용 버튼 클릭 - dialog 내에서 찾기
-    const applyButton = dialog.getByRole("button", { name: "적용" });
-    await applyButton.scrollIntoViewIfNeeded();
-    await applyButton.click();
+    await dialog.getByRole("button", { name: "적용" }).click();
 
     // 팝오버 닫힘 확인
     await expect(dialog).not.toBeVisible();
@@ -43,9 +44,7 @@ test.describe("DateRangePicker 컴포넌트", () => {
     await popover.getByRole("button", { name: "오늘", exact: true }).click();
 
     // 적용 클릭
-    const applyButton = popover.getByRole("button", { name: "적용" });
-    await applyButton.scrollIntoViewIfNeeded();
-    await applyButton.click();
+    await popover.getByRole("button", { name: "적용" }).click();
 
     // 오늘 날짜가 들어갔는지 확인 (YYYY-MM-DD 형식)
     const todayStr = new Date().toLocaleDateString("sv");
