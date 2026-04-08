@@ -19,7 +19,9 @@ test.describe("DateRangePicker 컴포넌트", () => {
     await currentMonthGrid.getByRole("button", { name: /20일/ }).click();
 
     // 적용 버튼 클릭 - dialog 내에서 찾기
-    await dialog.getByRole("button", { name: "적용" }).click();
+    const applyButton = dialog.getByRole("button", { name: "적용" });
+    await applyButton.scrollIntoViewIfNeeded();
+    await applyButton.click();
 
     // 팝오버 닫힘 확인
     await expect(dialog).not.toBeVisible();
@@ -41,7 +43,9 @@ test.describe("DateRangePicker 컴포넌트", () => {
     await popover.getByRole("button", { name: "오늘", exact: true }).click();
 
     // 적용 클릭
-    await popover.getByRole("button", { name: "적용" }).click();
+    const applyButton = popover.getByRole("button", { name: "적용" });
+    await applyButton.scrollIntoViewIfNeeded();
+    await applyButton.click();
 
     // 오늘 날짜가 들어갔는지 확인 (YYYY-MM-DD 형식)
     const todayStr = new Date().toLocaleDateString("sv");
