@@ -191,8 +191,8 @@ export const MonthRangePicker = React.forwardRef<
     const id = React.useId();
     const [isOpen, setIsOpen] = useState(false);
     const [baseYear, setBaseYear] = useState(() => {
-      const from = value?.start ? dayjs(value.start) : dayjs();
-      return from.year();
+      if (value?.start) return dayjs(value.start).year();
+      return dayjs().year() - 1;
     });
     const [draftRange, setDraftRange] = useState<
       [Dayjs | undefined, Dayjs | undefined]
@@ -317,7 +317,9 @@ export const MonthRangePicker = React.forwardRef<
     const handleOpenChange = (nextOpen: boolean) => {
       if (nextOpen) {
         setDraftRange(toDayjsRange(value));
-        setBaseYear(value?.start ? dayjs(value.start).year() : dayjs().year());
+        setBaseYear(
+        value?.start ? dayjs(value.start).year() : dayjs().year() - 1,
+      );
       }
       setIsOpen(nextOpen);
     };
