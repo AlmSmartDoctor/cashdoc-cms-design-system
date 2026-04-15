@@ -55,13 +55,23 @@ const meta: Meta<typeof DateRangePicker> = {
         type: { summary: "string" },
       },
     },
-    hideQuickSelect: {
+    quickSelectMode: {
+      control: "radio",
+      options: ["past", "future"],
+      description:
+        "빠른 선택 옵션 모드. `past`(기본): 오늘/어제/이번주/이번달/7일(과거)/30일(과거)/지난주/지난달. `future`: 오늘/내일/이번주/이번달/7일(미래)/30일(미래)/다음주/다음달. 오늘·내일·다음주 옵션은 `future` 모드를 명시해야 표시됩니다.",
+      table: {
+        type: { summary: '"past" | "future"' },
+        defaultValue: { summary: '"past"' },
+      },
+    },
+    mondayStart: {
       control: "boolean",
       description:
-        "true일 경우 '전체', '오늘', '내일', '이번주', '이번달', '7일', '30일', '다음주', '다음달' 빠른 선택 옵션을 숨깁니다.",
+        "이번주·지난주·다음주 빠른 선택의 주 시작 기준. true(기본)이면 월요일 시작(월~일), false이면 일요일 시작(일~토)으로 동작합니다.",
       table: {
         type: { summary: "boolean" },
-        defaultValue: { summary: "false" },
+        defaultValue: { summary: "true" },
       },
     },
     min: {
@@ -128,12 +138,33 @@ export const WithMinMax: Story = {
   },
 };
 
-export const HideQuickSelect: Story = {
+export const FutureMode: Story = {
+  name: "Future Mode (미래 모드)",
   render: () => {
     const [range, setRange] = useState({ start: "", end: "" });
     return (
       <div className="w-150 p-4">
-        <DateRangePicker value={range} onChange={setRange} hideQuickSelect />
+        <DateRangePicker
+          value={range}
+          onChange={setRange}
+          quickSelectMode="future"
+        />
+      </div>
+    );
+  },
+};
+
+export const SundayStart: Story = {
+  name: "Sunday Start (일요일 시작 주)",
+  render: () => {
+    const [range, setRange] = useState({ start: "", end: "" });
+    return (
+      <div className="w-150 p-4">
+        <DateRangePicker
+          value={range}
+          onChange={setRange}
+          mondayStart={false}
+        />
       </div>
     );
   },
@@ -214,14 +245,6 @@ export const ForJsdoc: Story = {
             endLabel="To"
             value={{ start: "", end: "" }}
             onChange={emptyRangeChangeHandler}
-          />
-        </div>
-        <div>
-          <h3 className="mb-2 font-bold">Hide Quick Select</h3>
-          <DateRangePicker
-            value={{ start: "", end: "" }}
-            onChange={emptyRangeChangeHandler}
-            hideQuickSelect
           />
         </div>
         <div>
