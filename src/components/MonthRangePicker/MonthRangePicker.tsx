@@ -467,6 +467,7 @@ export const MonthRangePicker = React.forwardRef<
             <div
               className="date-range-picker-calendar month-range-picker-calendar"
             >
+              {/* eslint-disable-next-line better-tailwindcss/no-unknown-classes */}
               <div className="rdp rdp-root">
                 {/* Full-width nav bar: prev at left, years in center, next at right */}
                 <div
@@ -485,16 +486,14 @@ export const MonthRangePicker = React.forwardRef<
                     <ChevronLeftIcon size={16} className="text-cms-gray-600" />
                   </button>
                   <div className="flex flex-1 gap-20">
-                    <div
-                      className="rdp-caption_label flex-1 justify-center"
-                    >
+                    {/* eslint-disable better-tailwindcss/no-unknown-classes */}
+                    <div className="rdp-caption_label flex-1 justify-center">
                       {baseYear}년
                     </div>
-                    <div
-                      className="rdp-caption_label flex-1 justify-center"
-                    >
+                    <div className="rdp-caption_label flex-1 justify-center">
                       {baseYear + 1}년
                     </div>
+                    {/* eslint-enable better-tailwindcss/no-unknown-classes */}
                   </div>
                   <button
                     type="button"

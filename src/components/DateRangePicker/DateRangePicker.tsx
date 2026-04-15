@@ -121,7 +121,10 @@ const getPastQuickSelectOptions = (
     },
     {
       label: "이번주",
-      getValue: () => [getWeekStart(now, mondayStart), getWeekEnd(now, mondayStart)],
+      getValue: () => [
+        getWeekStart(now, mondayStart),
+        getWeekEnd(now, mondayStart),
+      ],
     },
     {
       label: "이번달",
@@ -139,7 +142,10 @@ const getPastQuickSelectOptions = (
       label: "지난주",
       getValue: () => {
         const lastWeek = now.subtract(1, "week");
-        return [getWeekStart(lastWeek, mondayStart), getWeekEnd(lastWeek, mondayStart)];
+        return [
+          getWeekStart(lastWeek, mondayStart),
+          getWeekEnd(lastWeek, mondayStart),
+        ];
       },
     },
     {
@@ -176,7 +182,10 @@ const getFutureQuickSelectOptions = (
     },
     {
       label: "이번주",
-      getValue: () => [getWeekStart(now, mondayStart), getWeekEnd(now, mondayStart)],
+      getValue: () => [
+        getWeekStart(now, mondayStart),
+        getWeekEnd(now, mondayStart),
+      ],
     },
     {
       label: "이번달",
@@ -194,7 +203,10 @@ const getFutureQuickSelectOptions = (
       label: "다음주",
       getValue: () => {
         const nextWeek = now.add(1, "week");
-        return [getWeekStart(nextWeek, mondayStart), getWeekEnd(nextWeek, mondayStart)];
+        return [
+          getWeekStart(nextWeek, mondayStart),
+          getWeekEnd(nextWeek, mondayStart),
+        ];
       },
     },
     {
@@ -490,26 +502,29 @@ export const DateRangePicker = React.forwardRef<
             <div className="flex gap-2">
               {/* Quick Select Buttons */}
               <div className="flex flex-col border-r border-gray-200 pr-2">
-                {getQuickSelectOptions(quickSelectMode, mondayStart, min, max).map(
-                  (option) => (
-                    <button
-                      key={option.label}
-                      onClick={() => handleQuickSelect(option)}
-                      className={cn(
-                        "cursor-pointer border-0",
-                        "h-6-5 w-17-5 px-2",
-                        "text-left text-xs text-gray-700",
-                        "bg-white",
-                        "transition-all duration-150",
-                        "hover:bg-blue-50",
-                        "hover:font-medium",
-                        "hover:text-blue-600",
-                      )}
-                    >
-                      {option.label}
-                    </button>
-                  ),
-                )}
+                {getQuickSelectOptions(
+                  quickSelectMode,
+                  mondayStart,
+                  min,
+                  max,
+                ).map((option) => (
+                  <button
+                    key={option.label}
+                    onClick={() => handleQuickSelect(option)}
+                    className={cn(
+                      "cursor-pointer border-0",
+                      "h-6-5 w-17-5 px-2",
+                      "text-left text-xs text-gray-700",
+                      "bg-white",
+                      "transition-all duration-150",
+                      "hover:bg-blue-50",
+                      "hover:font-medium",
+                      "hover:text-blue-600",
+                    )}
+                  >
+                    {option.label}
+                  </button>
+                ))}
               </div>
               {/* Calendar */}
               <div className="date-range-picker-calendar">
