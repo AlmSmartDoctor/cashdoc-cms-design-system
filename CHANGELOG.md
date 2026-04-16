@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.8.0...v1.9.0) (2026-04-16)
+
+
+### Features
+
+* MonthRangePicker 에서 이번달 오른쪽에 배치 ([23074d7](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/23074d77a2a291e3a06cd574df26a7110d8076cd))
+
 ## [1.8.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.7.0...v1.8.0) (2026-04-08)
 
 ## [1.7.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.6.0...v1.7.0) (2026-03-31)
