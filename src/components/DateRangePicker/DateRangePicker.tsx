@@ -13,14 +13,29 @@ export type DateRange = {
   end: string;
 };
 
+export type QuickSelectMode = "past" | "future";
+
 export type DateRangePickerProps = {
   value?: DateRange;
   onChange?: (range: DateRange) => void;
   startLabel?: string;
   endLabel?: string;
   className?: string;
-  /** true일 경우 '전체', '오늘', '내일', '이번주', '이번달', '7일', '30일', '다음주', '다음달' 빠른 선택 옵션을 숨깁니다. */
-  hideQuickSelect?: boolean;
+  /**
+   * 빠른 선택 옵션의 모드를 설정합니다.
+   * - `"past"` (기본): 전체, 오늘, 어제, 이번주, 이번달, 7일(과거), 30일(과거), 지난주, 지난달
+   * - `"future"`: 전체, 오늘, 내일, 이번주, 이번달, 7일(미래), 30일(미래), 다음주, 다음달
+   *
+   * 오늘, 내일, 다음주 옵션은 `"future"` 모드를 명시적으로 지정해야 표시됩니다.
+   * @default "past"
+   */
+  quickSelectMode?: QuickSelectMode;
+  /**
+   * 이번주·지난주·다음주 빠른 선택의 주(週) 시작 기준을 설정합니다.
+   * true(기본)이면 월요일 시작(월~일), false이면 일요일 시작(일~토)으로 동작합니다.
+   * @default true
+   */
+  mondayStart?: boolean;
   /** 선택 가능한 최소 날짜 (YYYY-MM-DD). 미설정 시 1970-01-01부터 선택 가능합니다. */
   min?: string;
   /** 선택 가능한 최대 날짜 (YYYY-MM-DD). 미설정 시 2099-12-31까지 선택 가능합니다. */
@@ -63,7 +78,88 @@ const isRangeWithinBounds = (
   return startInRange && endInRange;
 };
 
-const getQuickSelectOptions = (
+/**
+ * mondayStart 옵션에 따라 주(週)의 시작일(월요일 또는 일요일)을 반환합니다.
+ */
+const getWeekStart = (date: Dayjs, mondayStart: boolean): Dayjs => {
+  if (mondayStart) {
+    const day = date.day(); // 0=일, 1=월, ..., 6=토
+    const diff = day === 0 ? -6 : 1 - day;
+    return date.add(diff, "day").startOf("day");
+  }
+  return date.startOf("week");
+};
+
+/**
+ * mondayStart 옵션에 따라 주(週)의 종료일(일요일 또는 토요일)을 반환합니다.
+ */
+const getWeekEnd = (date: Dayjs, mondayStart: boolean): Dayjs => {
+  return getWeekStart(date, mondayStart).add(6, "day").endOf("day");
+};
+
+const getPastQuickSelectOptions = (
+  mondayStart: boolean,
+  min?: string,
+  max?: string,
+): QuickSelectOption[] => {
+  const now = dayjs();
+  const minDate = min ? dayjs(min) : dayjs(DEFAULT_MIN);
+  const maxDate = max ? dayjs(max) : dayjs(DEFAULT_MAX);
+
+  return [
+    {
+      label: "전체",
+      getValue: () => [minDate, maxDate],
+    },
+    {
+      label: "오늘",
+      getValue: () => [now, now],
+    },
+    {
+      label: "어제",
+      getValue: () => [now.subtract(1, "day"), now.subtract(1, "day")],
+    },
+    {
+      label: "이번주",
+      getValue: () => [
+        getWeekStart(now, mondayStart),
+        getWeekEnd(now, mondayStart),
+      ],
+    },
+    {
+      label: "이번달",
+      getValue: () => [now.startOf("month"), now.endOf("month")],
+    },
+    {
+      label: "7일",
+      getValue: () => [now.subtract(6, "day"), now],
+    },
+    {
+      label: "30일",
+      getValue: () => [now.subtract(29, "day"), now],
+    },
+    {
+      label: "지난주",
+      getValue: () => {
+        const lastWeek = now.subtract(1, "week");
+        return [
+          getWeekStart(lastWeek, mondayStart),
+          getWeekEnd(lastWeek, mondayStart),
+        ];
+      },
+    },
+    {
+      label: "지난달",
+      getValue: () => [
+        now.subtract(1, "month").startOf("month"),
+        now.subtract(1, "month").endOf("month"),
+      ],
+    },
+  ];
+};
+
+const getFutureQuickSelectOptions = (
+  mondayStart: boolean,
   min?: string,
   max?: string,
 ): QuickSelectOption[] => {
@@ -86,7 +182,10 @@ const getQuickSelectOptions = (
     },
     {
       label: "이번주",
-      getValue: () => [now.startOf("week"), now.endOf("week")],
+      getValue: () => [
+        getWeekStart(now, mondayStart),
+        getWeekEnd(now, mondayStart),
+      ],
     },
     {
       label: "이번달",
@@ -102,10 +201,13 @@ const getQuickSelectOptions = (
     },
     {
       label: "다음주",
-      getValue: () => [
-        now.add(1, "week").startOf("week"),
-        now.add(1, "week").endOf("week"),
-      ],
+      getValue: () => {
+        const nextWeek = now.add(1, "week");
+        return [
+          getWeekStart(nextWeek, mondayStart),
+          getWeekEnd(nextWeek, mondayStart),
+        ];
+      },
     },
     {
       label: "다음달",
@@ -115,6 +217,17 @@ const getQuickSelectOptions = (
       ],
     },
   ];
+};
+
+const getQuickSelectOptions = (
+  mode: QuickSelectMode,
+  mondayStart: boolean,
+  min?: string,
+  max?: string,
+): QuickSelectOption[] => {
+  return mode === "past" ?
+      getPastQuickSelectOptions(mondayStart, min, max)
+    : getFutureQuickSelectOptions(mondayStart, min, max);
 };
 
 /**
@@ -211,7 +324,8 @@ export const DateRangePicker = React.forwardRef<
       startLabel = "시작일자",
       endLabel = "종료일자",
       className,
-      hideQuickSelect = false,
+      quickSelectMode = "past",
+      mondayStart = true,
       min = DEFAULT_MIN,
       max = DEFAULT_MAX,
     },
@@ -387,28 +501,31 @@ export const DateRangePicker = React.forwardRef<
           >
             <div className="flex gap-2">
               {/* Quick Select Buttons */}
-              {!hideQuickSelect && (
-                <div className="flex flex-col border-r border-gray-200 pr-2">
-                  {getQuickSelectOptions(min, max).map((option) => (
-                    <button
-                      key={option.label}
-                      onClick={() => handleQuickSelect(option)}
-                      className={cn(
-                        "cursor-pointer border-0",
-                        "h-6-5 w-17-5 px-2",
-                        "text-left text-xs text-gray-700",
-                        "bg-white",
-                        "transition-all duration-150",
-                        "hover:bg-blue-50",
-                        "hover:font-medium",
-                        "hover:text-blue-600",
-                      )}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-                </div>
-              )}
+              <div className="flex flex-col border-r border-gray-200 pr-2">
+                {getQuickSelectOptions(
+                  quickSelectMode,
+                  mondayStart,
+                  min,
+                  max,
+                ).map((option) => (
+                  <button
+                    key={option.label}
+                    onClick={() => handleQuickSelect(option)}
+                    className={cn(
+                      "cursor-pointer border-0",
+                      "h-6-5 w-17-5 px-2",
+                      "text-left text-xs text-gray-700",
+                      "bg-white",
+                      "transition-all duration-150",
+                      "hover:bg-blue-50",
+                      "hover:font-medium",
+                      "hover:text-blue-600",
+                    )}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
               {/* Calendar */}
               <div className="date-range-picker-calendar">
                 <DayPicker
@@ -419,6 +536,12 @@ export const DateRangePicker = React.forwardRef<
                   locale={ko}
                   disabled={disabledDays}
                   excludeDisabled
+                  defaultMonth={
+                    quickSelectMode === "past" ?
+                      dayjs().subtract(1, "month").toDate()
+                    : dayjs().toDate()
+                  }
+                  weekStartsOn={mondayStart ? 1 : 0}
                   formatters={{
                     formatCaption: (date) => {
                       return `${date.getFullYear()}년 ${date.getMonth() + 1}월`;

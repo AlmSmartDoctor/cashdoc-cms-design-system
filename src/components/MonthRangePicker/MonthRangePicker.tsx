@@ -191,8 +191,8 @@ export const MonthRangePicker = React.forwardRef<
     const id = React.useId();
     const [isOpen, setIsOpen] = useState(false);
     const [baseYear, setBaseYear] = useState(() => {
-      const from = value?.start ? dayjs(value.start) : dayjs();
-      return from.year();
+      if (value?.start) return dayjs(value.start).year();
+      return dayjs().year() - 1;
     });
     const [draftRange, setDraftRange] = useState<
       [Dayjs | undefined, Dayjs | undefined]
@@ -317,7 +317,9 @@ export const MonthRangePicker = React.forwardRef<
     const handleOpenChange = (nextOpen: boolean) => {
       if (nextOpen) {
         setDraftRange(toDayjsRange(value));
-        setBaseYear(value?.start ? dayjs(value.start).year() : dayjs().year());
+        setBaseYear(
+        value?.start ? dayjs(value.start).year() : dayjs().year() - 1,
+      );
       }
       setIsOpen(nextOpen);
     };
@@ -465,6 +467,7 @@ export const MonthRangePicker = React.forwardRef<
             <div
               className="date-range-picker-calendar month-range-picker-calendar"
             >
+              {/* eslint-disable-next-line better-tailwindcss/no-unknown-classes */}
               <div className="rdp rdp-root">
                 {/* Full-width nav bar: prev at left, years in center, next at right */}
                 <div
@@ -483,16 +486,14 @@ export const MonthRangePicker = React.forwardRef<
                     <ChevronLeftIcon size={16} className="text-cms-gray-600" />
                   </button>
                   <div className="flex flex-1 gap-20">
-                    <div
-                      className="rdp-caption_label flex-1 justify-center"
-                    >
+                    {/* eslint-disable better-tailwindcss/no-unknown-classes */}
+                    <div className="rdp-caption_label flex-1 justify-center">
                       {baseYear}년
                     </div>
-                    <div
-                      className="rdp-caption_label flex-1 justify-center"
-                    >
+                    <div className="rdp-caption_label flex-1 justify-center">
                       {baseYear + 1}년
                     </div>
+                    {/* eslint-enable better-tailwindcss/no-unknown-classes */}
                   </div>
                   <button
                     type="button"
