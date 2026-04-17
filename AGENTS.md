@@ -9,12 +9,12 @@
 
 의도에 따라 아래 파이프라인 중 하나를 실행합니다.
 
-| 커맨드                  | 설명                                                                                        |
-| ----------------------- | ------------------------------------------------------------------------------------------- |
-| `/ccds-feature {요청}`  | 신규 컴포넌트/기능 개발 — `Component → Story → Export` 흐름 준수                            |
-| `/ccds-style {요청}`    | 디자인 토큰, Tailwind 클래스, variant 규칙 개선                                             |
-| `/ccds-refactor {요청}` | 동작 변화 없는 구조 개선, 성능 최적화, 중복 제거                                            |
-| `/ccds-test {요청}`     | Storybook 기반 Playwright E2E/회귀 테스트 작성·보강                                         |
+| 커맨드                  | 설명                                                                                          |
+| ----------------------- | --------------------------------------------------------------------------------------------- |
+| `/ccds-feature {요청}`  | 신규 컴포넌트/기능 개발 — `Component → Story → Export` 흐름 준수                                |
+| `/ccds-style {요청}`    | 디자인 토큰, Tailwind 클래스, variant 규칙 개선                                               |
+| `/ccds-refactor {요청}` | 동작 변화 없는 구조 개선, 성능 최적화, 중복 제거                                              |
+| `/ccds-test {요청}`     | Storybook 기반 Playwright E2E/회귀 테스트 작성·보강                                           |
 | `/ccds-review {요청}`   | 컴포넌트/스타일/API 변경 리뷰 (Caveman 포맷 가능) + `vercel-react-best-practices` 병행 사용 |
 
 ---
@@ -58,12 +58,12 @@
 
 ## 하네스별 기본 로드 문서
 
-| 하네스           | 기본 로드 문서                                                                          |
-| ---------------- | --------------------------------------------------------------------------------------- |
-| `/ccds-feature`  | `docs/ARCHITECTURE.md`, `docs/CONVENTIONS.md`, `docs/DEVELOPMENT.md`, `docs/API.md`     |
-| `/ccds-style`    | `docs/CONVENTIONS.md`, `docs/TAILWIND_STYLING_GUIDE.md`, `docs/DEVELOPMENT.md`          |
-| `/ccds-refactor` | `docs/ARCHITECTURE.md`, `docs/CONVENTIONS.md`, `docs/TECH_DEBT.md`                      |
-| `/ccds-test`     | `docs/TESTING.md`, `docs/CONVENTIONS.md`, `docs/DEVELOPMENT.md`                         |
+| 하네스           | 기본 로드 문서                                                                           |
+| ---------------- | ---------------------------------------------------------------------------------------- |
+| `/ccds-feature`  | `docs/ARCHITECTURE.md`, `docs/CONVENTIONS.md`, `docs/DEVELOPMENT.md`, `docs/API.md`      |
+| `/ccds-style`    | `docs/CONVENTIONS.md`, `docs/TAILWIND_STYLING_GUIDE.md`, `docs/DEVELOPMENT.md`           |
+| `/ccds-refactor` | `docs/ARCHITECTURE.md`, `docs/CONVENTIONS.md`, `docs/TECH_DEBT.md`                        |
+| `/ccds-test`     | `docs/TESTING.md`, `docs/CONVENTIONS.md`, `docs/DEVELOPMENT.md`                           |
 | `/ccds-review`   | `docs/ARCHITECTURE.md`, `docs/CONVENTIONS.md`, `docs/WORKFLOWS.md`, `docs/TECH_DEBT.md` |
 
 상황에 따라 `docs/BRANCH_RELEASE_POLICY.md`를 추가 로드합니다.
@@ -186,15 +186,15 @@
 
 ## 상세 문서 인덱스
 
-| 문서                                                             | 로드 조건                                                |
-| ---------------------------------------------------------------- | -------------------------------------------------------- |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)                     | 엔트리포인트, 컴포넌트 계층, export 경계 파악 시         |
-| [docs/API.md](docs/API.md)                                       | props/event/public API 설계 또는 breaking change 판단 시 |
-| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)                       | 로컬 실행, 빌드, 컴포넌트 추가 절차 확인 시              |
-| [docs/DOCUMENTATION.md](docs/DOCUMENTATION.md)                   | JSDoc/Storybook/README 문서 동기화 규칙 확인 시          |
-| [docs/CONVENTIONS.md](docs/CONVENTIONS.md)                       | 네이밍, 파일 구조, JSDoc/Storybook 동기화 규칙 확인 시   |
-| [docs/TAILWIND_STYLING_GUIDE.md](docs/TAILWIND_STYLING_GUIDE.md) | 토큰, Tailwind, CVA variant 스타일 작업 시               |
-| [docs/TESTING.md](docs/TESTING.md)                               | Storybook 기반 Playwright 테스트 작성/수정 시            |
-| [docs/BRANCH_RELEASE_POLICY.md](docs/BRANCH_RELEASE_POLICY.md)   | 브랜치 정책, PR 타이틀 토큰, 버전 릴리즈 판단 시         |
-| [docs/WORKFLOWS.md](docs/WORKFLOWS.md)                           | PR 작성, 리뷰, 병합 전 체크 순서 확인 시                 |
-| [docs/TECH_DEBT.md](docs/TECH_DEBT.md)                           | 즉시 수정하지 않을 구조적 문제를 기록/우선순위화할 때    |
+| 문서                                                               | 로드 조건                                                       |
+| ------------------------------------------------------------------ | --------------------------------------------------------------- |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)                       | 엔트리포인트, 컴포넌트 계층, export 경계 파악 시               |
+| [docs/API.md](docs/API.md)                                         | props/event/public API 설계 또는 breaking change 판단 시       |
+| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)                         | 로컬 실행, 빌드, 컴포넌트 추가 절차 확인 시                    |
+| [docs/DOCUMENTATION.md](docs/DOCUMENTATION.md)                     | JSDoc/Storybook/README 문서 동기화 규칙 확인 시                |
+| [docs/CONVENTIONS.md](docs/CONVENTIONS.md)                         | 네이밍, 파일 구조, JSDoc/Storybook 동기화 규칙 확인 시         |
+| [docs/TAILWIND_STYLING_GUIDE.md](docs/TAILWIND_STYLING_GUIDE.md)   | 토큰, Tailwind, CVA variant 스타일 작업 시                     |
+| [docs/TESTING.md](docs/TESTING.md)                                 | Storybook 기반 Playwright 테스트 작성/수정 시                  |
+| [docs/BRANCH_RELEASE_POLICY.md](docs/BRANCH_RELEASE_POLICY.md)     | 브랜치 정책, PR 타이틀 토큰, 버전 릴리즈 판단 시               |
+| [docs/WORKFLOWS.md](docs/WORKFLOWS.md)                             | PR 작성, 리뷰, 병합 전 체크 순서 확인 시                       |
+| [docs/TECH_DEBT.md](docs/TECH_DEBT.md)                             | 즉시 수정하지 않을 구조적 문제를 기록/우선순위화할 때          |
