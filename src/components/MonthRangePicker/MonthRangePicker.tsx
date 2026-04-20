@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
@@ -205,6 +205,25 @@ export const MonthRangePicker = React.forwardRef<
     const [endInput, setEndInput] = useState(() =>
       value?.end ? dayjs(value.end).format("YYYY-MM") : "",
     );
+    const [inputError, setInputError] = useState<string | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const startInputRef = useRef<HTMLInputElement>(null);
+    const endInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+      if (!inputError) return;
+      const timer = window.setTimeout(() => setInputError(null), 2500);
+      return () => window.clearTimeout(timer);
+    }, [inputError]);
+
+    const setContainerRef = (node: HTMLDivElement | null) => {
+      containerRef.current = node;
+      if (typeof ref === "function") {
+        ref(node);
+      } else if (ref) {
+        ref.current = node;
+      }
+    };
 
     const displayValue = useMemo(() => {
       if (!value || !value.start || !value.end) {
@@ -482,85 +501,121 @@ export const MonthRangePicker = React.forwardRef<
       </div>
     );
 
+    const handleStartEnter = () => {
+      if (startInput) {
+        const parsed = parseMonthInput(startInput, "start");
+        if (!parsed) {
+          setInputError("유효한 일자를 입력하세요.");
+          return;
+        }
+        const clamped = clampMonth(parsed, "start");
+        applyDraft([clamped, toDay]);
+        setBaseYear(clamped.year());
+        setInputError(null);
+      }
+      endInputRef.current?.focus();
+    };
+
+    const handleEndEnter = () => {
+      if (endInput) {
+        const parsed = parseMonthInput(endInput, "end");
+        if (!parsed) {
+          setInputError("유효한 일자를 입력하세요.");
+          return;
+        }
+        setInputError(null);
+      }
+      handleApply();
+    };
+
     return (
       <PopoverPrimitive.Root open={isOpen} onOpenChange={handleOpenChange}>
-        <PopoverPrimitive.Trigger asChild>
-          <div ref={ref} className={cn("flex items-center gap-0", className)}>
-            <div className="relative flex-1">
-              <div
-                className={cn(
-                  "absolute top-0 left-3 flex h-full items-center",
-                  "text-xs text-gray-500",
-                  "pointer-events-none",
-                )}
-              >
-                <label htmlFor={`${id}-start`}>{startLabel}</label>
+        <PopoverPrimitive.Anchor asChild>
+          <div ref={setContainerRef} className={className}>
+            {inputError && (
+              <div className="mb-1 text-xs text-red-500">{inputError}</div>
+            )}
+            <div className="flex items-center gap-0">
+              <div className="relative flex-1">
+                <div
+                  className={cn(
+                    "absolute top-0 left-3 flex h-full items-center",
+                    "text-xs text-gray-500",
+                    "pointer-events-none",
+                  )}
+                >
+                  <label htmlFor={`${id}-start`}>{startLabel}</label>
+                </div>
+                <input
+                  ref={startInputRef}
+                  id={`${id}-start`}
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  maxLength={isOpen ? 7 : 10}
+                  value={startFieldValue}
+                  onChange={handleStartInputChange}
+                  onFocus={() => setIsOpen(true)}
+                  onBlur={commitStartInput}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleStartEnter();
+                    }
+                  }}
+                  placeholder={isOpen ? "YYYY-MM" : "YYYY-MM-DD"}
+                  aria-label={startLabel}
+                  className={cn(
+                    "h-10 w-full bg-white pr-3 pl-14-75 text-sm",
+                    "focus:outline-none",
+                    "rounded-l border border-r-0 border-gray-300",
+                    "hover:border-gray-400 hover:bg-gray-50",
+                    "transition-all duration-150",
+                  )}
+                />
               </div>
-              <input
-                id={`${id}-start`}
-                type="text"
-                inputMode="numeric"
-                autoComplete="off"
-                maxLength={isOpen ? 7 : 10}
-                value={startFieldValue}
-                onChange={handleStartInputChange}
-                onBlur={commitStartInput}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    commitStartInput();
-                  }
-                }}
-                placeholder={isOpen ? "YYYY-MM" : "YYYY-MM-DD"}
-                aria-label={startLabel}
-                className={cn(
-                  "h-10 w-full bg-white pr-3 pl-14-75 text-sm",
-                  "focus:outline-none",
-                  "rounded-l border border-r-0 border-gray-300",
-                  "hover:border-gray-400 hover:bg-gray-50",
-                  "transition-all duration-150",
-                )}
-              />
-            </div>
-            <div className="relative flex-1">
-              <div
-                className={cn(
-                  "absolute top-0 left-3 flex h-full items-center",
-                  "text-xs text-gray-500",
-                  "pointer-events-none",
-                )}
-              >
-                <label htmlFor={`${id}-end`}>{endLabel}</label>
+              <div className="relative flex-1">
+                <div
+                  className={cn(
+                    "absolute top-0 left-3 flex h-full items-center",
+                    "text-xs text-gray-500",
+                    "pointer-events-none",
+                  )}
+                >
+                  <label htmlFor={`${id}-end`}>{endLabel}</label>
+                </div>
+                <input
+                  ref={endInputRef}
+                  id={`${id}-end`}
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  maxLength={isOpen ? 7 : 10}
+                  value={endFieldValue}
+                  onChange={handleEndInputChange}
+                  onFocus={() => setIsOpen(true)}
+                  onBlur={commitEndInput}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleEndEnter();
+                    }
+                  }}
+                  placeholder={isOpen ? "YYYY-MM" : "YYYY-MM-DD"}
+                  aria-label={endLabel}
+                  className={cn(
+                    "h-10 w-full bg-white pr-3 pl-14-75",
+                    "text-sm",
+                    "rounded-r border border-gray-300",
+                    "hover:border-gray-400 hover:bg-gray-50",
+                    "focus:outline-none",
+                    "transition-all duration-150",
+                  )}
+                />
               </div>
-              <input
-                id={`${id}-end`}
-                type="text"
-                inputMode="numeric"
-                autoComplete="off"
-                maxLength={isOpen ? 7 : 10}
-                value={endFieldValue}
-                onChange={handleEndInputChange}
-                onBlur={commitEndInput}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    commitEndInput();
-                  }
-                }}
-                placeholder={isOpen ? "YYYY-MM" : "YYYY-MM-DD"}
-                aria-label={endLabel}
-                className={cn(
-                  "h-10 w-full bg-white pr-3 pl-14-75",
-                  "text-sm",
-                  "rounded-r border border-gray-300",
-                  "hover:border-gray-400 hover:bg-gray-50",
-                  "focus:outline-none",
-                  "transition-all duration-150",
-                )}
-              />
             </div>
           </div>
-        </PopoverPrimitive.Trigger>
+        </PopoverPrimitive.Anchor>
 
         <PopoverPrimitive.Portal>
           <PopoverPrimitive.Content
@@ -568,6 +623,12 @@ export const MonthRangePicker = React.forwardRef<
             sideOffset={5}
             // Popover 열릴 때 input 에서 포커스가 빠지지 않도록 방지.
             onOpenAutoFocus={(e) => e.preventDefault()}
+            // input 영역 클릭으로는 popover 가 닫히지 않도록.
+            onPointerDownOutside={(e) => {
+              if (containerRef.current?.contains(e.target as Node)) {
+                e.preventDefault();
+              }
+            }}
             className={cn(
               "z-50 rounded-lg bg-white p-2",
               "border border-gray-200",
