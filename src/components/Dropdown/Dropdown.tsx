@@ -2,6 +2,7 @@ import { cn } from "@/utils/cn";
 import type { VariantProps } from "class-variance-authority";
 import type { KeyboardEvent } from "react";
 import { useState, useRef, useEffect, useCallback, forwardRef } from "react";
+import { useScrollIndicator } from "@/hooks/useScrollIndicator";
 import {
   ChevronDownFillIcon,
   ChevronRightFillIcon,
@@ -152,11 +153,15 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     const optionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
     const closeSubmenuTimeoutRef = useRef<number | null>(null);
 
-    const [showScrollIndicator, setShowScrollIndicator] = useState(false);
+    const {
+      ref: setOptionsListNode,
+      nodeRef: optionsListRef,
+      showEnd: showScrollIndicator,
+      refresh: refreshScrollIndicator,
+    } = useScrollIndicator<HTMLDivElement>("y");
 
     const dropdownRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const optionsListRef = useRef<HTMLDivElement | null>(null);
 
     // 서브메뉴 포함하여 옵션 찾기
     const findOption = (
@@ -204,6 +209,29 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         setHoveredSubmenu(null);
       }, 300);
     };
+
+    const handleOptionMouseEnter = useCallback(
+      (option: DropdownOption, hasSubmenu: boolean) => {
+        clearSubmenuCloseTimeout();
+        if (!hasSubmenu) {
+          setHoveredSubmenu(null);
+          return;
+        }
+        const el = optionRefs.current.get(option.value);
+        if (el && optionsListRef.current) {
+          const optionRect = el.getBoundingClientRect();
+          const listRect = optionsListRef.current.getBoundingClientRect();
+          setHoveredSubmenu({
+            value: option.value,
+            top:
+              optionRect.top -
+              listRect.top +
+              optionsListRef.current.scrollTop,
+          });
+        }
+      },
+      [optionsListRef],
+    );
 
     useEffect(() => {
       return () => {
@@ -273,42 +301,6 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       }
     }, [isOpen, searchable]);
 
-    const updateScrollIndicator = useCallback((target?: HTMLDivElement) => {
-      const optionsList = target ?? optionsListRef.current;
-      if (!optionsList) {
-        setShowScrollIndicator(false);
-        return;
-      }
-
-      const { scrollTop, scrollHeight, clientHeight } = optionsList;
-      const hasMoreContent = scrollHeight > clientHeight;
-      const isAtBottom = scrollHeight - scrollTop - clientHeight < 1;
-      setShowScrollIndicator(hasMoreContent && !isAtBottom);
-    }, []);
-
-    const scheduleScrollIndicatorUpdate = useCallback(
-      (target?: HTMLDivElement) => {
-        if (typeof window === "undefined") return;
-        window.requestAnimationFrame(() => {
-          updateScrollIndicator(target);
-        });
-      },
-      [updateScrollIndicator],
-    );
-
-    const setOptionsListNode = useCallback(
-      (node: HTMLDivElement | null) => {
-        optionsListRef.current = node;
-        if (!node) {
-          setShowScrollIndicator(false);
-          return;
-        }
-
-        scheduleScrollIndicatorUpdate(node);
-      },
-      [scheduleScrollIndicatorUpdate],
-    );
-
     return (
       <div ref={dropdownRef} className="relative w-full">
         <button
@@ -362,7 +354,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         {isOpen && (
           <div
             className={cn(
-              "absolute z-50 mt-1 w-full min-w-0 py-1",
+              "z-cms-overlay absolute mt-1 w-full min-w-0 py-1",
               "rounded-md border border-cms-gray-300",
               "bg-white shadow-lg",
               "cms-dropdown-show",
@@ -378,7 +370,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                   value={searchTerm}
                   onChange={(e) => {
                     setSearchTerm(e.target.value);
-                    scheduleScrollIndicatorUpdate();
+                    requestAnimationFrame(() => refreshScrollIndicator());
                   }}
                   placeholder="검색..."
                   className={cn(
@@ -401,7 +393,6 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                 <div
                   ref={setOptionsListNode}
                   className="max-h-48 overflow-y-auto"
-                  onScroll={(e) => updateScrollIndicator(e.currentTarget)}
                   onMouseEnter={clearSubmenuCloseTimeout}
                   onMouseLeave={scheduleSubmenuClose}
                 >
@@ -424,35 +415,15 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                       const isSubmenuOpen =
                         hoveredSubmenu?.value === option.value;
 
-                      const handleMouseEnter = () => {
-                        clearSubmenuCloseTimeout();
-                        if (!hasSubmenu) {
-                          setHoveredSubmenu(null);
-                          return;
-                        }
-
-                        const el = optionRefs.current.get(option.value);
-                        if (el && optionsListRef.current) {
-                          const optionRect = el.getBoundingClientRect();
-                          const listRect =
-                            optionsListRef.current.getBoundingClientRect();
-                          setHoveredSubmenu({
-                            value: option.value,
-                            top:
-                              optionRect.top -
-                              listRect.top +
-                              optionsListRef.current.scrollTop,
-                          });
-                        }
-                      };
-
                       return (
                         <div
                           key={option.value}
                           ref={(el) => {
                             if (el) optionRefs.current.set(option.value, el);
                           }}
-                          onMouseEnter={handleMouseEnter}
+                          onMouseEnter={() =>
+                            handleOptionMouseEnter(option, hasSubmenu)
+                          }
                           onMouseLeave={() => {
                             if (hasSubmenu) {
                               scheduleSubmenuClose();
@@ -547,7 +518,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                   return (
                     <div
                       className={cn(
-                        "absolute left-full z-50 ml-1 min-w-40 py-1",
+                        "z-cms-overlay absolute left-full ml-1 min-w-40 py-1",
                         "rounded-md border border-cms-gray-300",
                         "bg-white shadow-lg",
                         "cms-dropdown-show",

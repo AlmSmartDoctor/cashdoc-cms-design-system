@@ -3,8 +3,10 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
-import type { DateRange } from "../DateRangePicker/DateRangePicker";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
+import { useDisclosure } from "@/hooks/useDisclosure";
+import { toDayjsRange } from "@/utils/dateRange";
+import type { DateRange } from "@/utils/dateRange";
 import "react-day-picker/style.css";
 
 const YEARS_PER_SECTION = 10;
@@ -19,15 +21,6 @@ export type YearRangePickerProps = {
   min?: string;
   /** 선택 가능한 최대 날짜 (YYYY-MM-DD) */
   max?: string;
-};
-
-const toDayjsRange = (
-  range?: DateRange,
-): [Dayjs | undefined, Dayjs | undefined] => {
-  return [
-    range?.start ? dayjs(range.start) : undefined,
-    range?.end ? dayjs(range.end) : undefined,
-  ];
 };
 
 const clampToMinMaxYears = (
@@ -155,7 +148,7 @@ export const YearRangePicker = React.forwardRef<
     ref,
   ) => {
     const id = React.useId();
-    const [isOpen, setIsOpen] = useState(false);
+    const { isOpen, onOpenChange: setIsOpen } = useDisclosure();
     const [baseYear, setBaseYear] = useState(() => {
       const from = value?.start ? dayjs(value.start) : dayjs();
       return Math.floor(from.year() / 20) * 20;
@@ -411,7 +404,7 @@ export const YearRangePicker = React.forwardRef<
             align="start"
             sideOffset={5}
             className={cn(
-              "z-50 rounded-lg bg-white p-2",
+              "z-cms-overlay rounded-lg bg-white p-2",
               "border border-gray-200",
               "shadow-xl",
               "data-[state=open]:animate-in",

@@ -216,7 +216,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
         <DialogPrimitive.Portal>
           <DialogPrimitive.Overlay
             className={cn(
-              "fixed inset-0 z-150 bg-cms-black/50",
+              "z-cms-modal fixed inset-0 bg-cms-black/50",
               "data-[state=closed]:animate-out",
               "data-[state=open]:animate-in",
               "data-[state=closed]:fade-out-0",
@@ -227,7 +227,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
             ref={ref}
             onOpenAutoFocus={(e) => e.preventDefault()}
             className={cn(
-              "fixed top-[50%] left-[50%] z-150",
+              "z-cms-modal fixed top-[50%] left-[50%]",
               "translate-x-[-50%] translate-y-[-50%]",
               "w-full",
               sizeClasses[size],

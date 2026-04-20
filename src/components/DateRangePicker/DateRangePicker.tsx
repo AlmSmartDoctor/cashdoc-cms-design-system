@@ -6,12 +6,11 @@ import { ko } from "react-day-picker/locale";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
+import { useDisclosure } from "@/hooks/useDisclosure";
+import { toDayjsRange } from "@/utils/dateRange";
+export type { DateRange } from "@/utils/dateRange";
+import type { DateRange } from "@/utils/dateRange";
 import "react-day-picker/style.css";
-
-export type DateRange = {
-  start: string;
-  end: string;
-};
 
 export type QuickSelectMode = "past" | "future";
 
@@ -45,15 +44,6 @@ export type DateRangePickerProps = {
 type QuickSelectOption = {
   label: string;
   getValue: () => [Dayjs, Dayjs];
-};
-
-const toDayjsRange = (
-  range?: DateRange,
-): [Dayjs | undefined, Dayjs | undefined] => {
-  return [
-    range?.start ? dayjs(range.start) : undefined,
-    range?.end ? dayjs(range.end) : undefined,
-  ];
 };
 
 const DEFAULT_MIN = "1970-01-01";
@@ -332,7 +322,7 @@ export const DateRangePicker = React.forwardRef<
     ref,
   ) => {
     const id = React.useId();
-    const [isOpen, setIsOpen] = useState(false);
+    const { isOpen, onOpenChange: setIsOpen } = useDisclosure();
     const [draftRange, setDraftRange] = useState<
       [Dayjs | undefined, Dayjs | undefined]
     >(() => toDayjsRange(value));
@@ -486,7 +476,7 @@ export const DateRangePicker = React.forwardRef<
             align="start"
             sideOffset={5}
             className={cn(
-              "z-50 rounded-lg bg-white p-2",
+              "z-cms-overlay rounded-lg bg-white p-2",
               "border border-gray-200",
               "shadow-xl",
               "data-[state=open]:animate-in",

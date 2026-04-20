@@ -168,24 +168,26 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     ref,
   ) => {
     const generatedInputId = React.useId();
+    const isControlled = value !== undefined;
     const [internalValue, setInternalValue] = React.useState<string>(
-      (value || defaultValue || "") as string,
+      (defaultValue as string | undefined) ?? "",
     );
     const inputId = id || generatedInputId;
     const errorMessageId = `${inputId}-error`;
     const helperTextId = `${inputId}-helper`;
     const finalVariant = error ? "error" : variant;
 
-    const currentValue =
-      value !== undefined ? (value as string) : internalValue;
+    const currentValue = isControlled ? (value as string) : internalValue;
     const charCount = currentValue.length;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (value === undefined) {
+      if (!isControlled) {
         setInternalValue(e.target.value);
       }
       onChange?.(e);
     };
+
+    const valueProps = isControlled ? { value } : { defaultValue };
 
     const hasHeader = label || (showCharCount && maxLength);
     const isHorizontal = labelLayout === "horizontal";
@@ -217,8 +219,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
                   className,
                 )}
                 maxLength={maxLength}
-                value={value}
-                defaultValue={defaultValue}
+                {...valueProps}
                 onChange={handleChange}
                 required={required}
                 aria-invalid={error || undefined}
@@ -258,8 +259,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
                 className,
               )}
               maxLength={maxLength}
-              value={value}
-              defaultValue={defaultValue}
+              {...valueProps}
               onChange={handleChange}
               required={required}
               aria-invalid={error || undefined}

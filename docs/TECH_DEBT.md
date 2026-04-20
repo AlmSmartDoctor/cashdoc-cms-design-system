@@ -227,6 +227,13 @@
 - ✅ 토큰 치환: Checkbox / Modal에서 `gray/black/white`, `bg-white`, `rounded-lg` → `cms-*` 토큰
 - ✅ BarChart recharts 의존성 복구: `pnpm install` 누락 해소, 타입 체크 통과
 - ✅ Lint 정리: turbo 규칙 비활성화(비해당 모노레포), `rdp-*` allowlist 추가, 불필요한 옵셔널 체인·conditional 제거. 결과적으로 `pnpm lint` warning 18 → 0
+- ✅ z-index 평면화 + 커스텀 가이드: `--z-cms-overlay: 50`, `--z-cms-modal: 150` 2토큰으로 단순화. 소비 앱이 CSS 변수로 전역 override 가능. `docs/TAILWIND_STYLING_GUIDE.md` 섹션 7에 사용법 기록.
+- ✅ Dropdown 옵션 map의 `onMouseEnter` 핸들러를 `useCallback`으로 추출하여 렌더별 재할당 제거.
+- ✅ Table의 `checkScroll`을 `useCallback`으로 안정화하고 `useEffect` deps 정합성 확보.
+- ✅ `useDisclosure` 훅 (`src/hooks/useDisclosure.ts`) 추출 후 DatePicker / DateRangePicker / MonthRangePicker / YearRangePicker / TimePicker에 적용. Popover disclosure 상태 패턴 단일화.
+- ✅ `useScrollIndicator` 훅 (`src/hooks/useScrollIndicator.ts`) 추출 후 Table(horizontal), Dropdown(vertical)에 적용. 스크롤 리스너 + 인디케이터 로직 공용화.
+- ✅ `dateRange` utils (`src/utils/dateRange.ts`) 분리: `toDayjsRange`, `formatDateRange`, `normalizeDateRange`, `ISO_DATE_FORMAT` 공통화. DateRangePicker / MonthRangePicker / YearRangePicker에서 사용. `DateRange` 타입 원천을 `@/utils/dateRange`로 이동하고 기존 export는 re-export로 하위 호환 유지.
+- ✅ TextInput controlled/uncontrolled 혼합 정리: `value` / `defaultValue`를 동시에 전달하는 패턴 제거. `isControlled` 분기로 한 쪽만 전달하도록 수정해 React controlled/uncontrolled 경고 가능성 제거.
 
 ## 8. 다음 단계
 

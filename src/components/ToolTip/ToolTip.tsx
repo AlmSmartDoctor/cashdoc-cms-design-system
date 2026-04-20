@@ -161,7 +161,7 @@ export const ToolTip = React.forwardRef<
               sideOffset={sideOffset}
               align={align}
               className={cn(
-                "z-50 px-3 py-1.5",
+                "z-cms-overlay px-3 py-1.5",
                 "rounded-md",
                 "bg-cms-black text-cms-white",
                 "text-xs font-medium",

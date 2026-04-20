@@ -6,6 +6,7 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
 import { CalendarIcon } from "@/components/icons";
+import { useDisclosure } from "@/hooks/useDisclosure";
 import "react-day-picker/style.css";
 
 export type DatePickerProps = {
@@ -124,7 +125,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     },
     ref,
   ) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const { isOpen, onOpenChange: setIsOpen } = useDisclosure();
     const [draftDate, setDraftDate] = useState<Dayjs | undefined>(
       value ? dayjs(value) : undefined,
     );
@@ -227,7 +228,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
               align="start"
               sideOffset={5}
               className={cn(
-                "z-50 rounded-lg bg-white p-2 shadow-xl",
+                "z-cms-overlay rounded-lg bg-white p-2 shadow-xl",
                 "border border-gray-200",
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",
