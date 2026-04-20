@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.9.0...v1.9.1) (2026-04-20)
+
+
+### Bug Fixes
+
+* 스위치 깨지는 문제 수정 ([1322a75](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/1322a75ef6db64a47a02eca0275660a528288f85))
+
 ## [1.9.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.8.0...v1.9.0) (2026-04-16)
 
 
