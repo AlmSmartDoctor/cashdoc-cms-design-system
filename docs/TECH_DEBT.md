@@ -225,6 +225,8 @@
 - ✅ Export 보강: Dropdown / SegmentedControls / Month·YearRangePicker 배럴에 타입 re-export, Modal 패밀리 Button import 통일
 - ✅ TextInput 접근성: `aria-invalid`, `aria-describedby` 연결 + error/helper id 부여
 - ✅ 토큰 치환: Checkbox / Modal에서 `gray/black/white`, `bg-white`, `rounded-lg` → `cms-*` 토큰
+- ✅ BarChart recharts 의존성 복구: `pnpm install` 누락 해소, 타입 체크 통과
+- ✅ Lint 정리: turbo 규칙 비활성화(비해당 모노레포), `rdp-*` allowlist 추가, 불필요한 옵셔널 체인·conditional 제거. 결과적으로 `pnpm lint` warning 18 → 0
 
 ## 8. 다음 단계
 

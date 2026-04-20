@@ -262,15 +262,14 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                 )}
               >
                 <div className="flex min-h-8 flex-col">
-                  {draftDate ? (
+                  {draftDate ?
                     <span className="text-xs text-gray-700">
                       {draftDate.format("YYYY-MM-DD")}
                     </span>
-                  ) : (
-                    <span className="text-xs text-red-500">
+                  : <span className="text-xs text-red-500">
                       날짜를 선택해 주세요.
                     </span>
-                  )}
+                  }
                 </div>
 
                 <div className="flex gap-2">
@@ -313,13 +312,12 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
         {/* Helper/Error Text */}
         {(helperText || errorMessage) && (
           <div>
-            {error && errorMessage ? (
+            {error && errorMessage ?
               <p className="text-xs text-red-500">{errorMessage}</p>
-            ) : (
-              helperText && (
+            : helperText && (
                 <p className="text-xs text-gray-500">{helperText}</p>
               )
-            )}
+            }
           </div>
         )}
       </div>

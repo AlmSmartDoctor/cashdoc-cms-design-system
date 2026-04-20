@@ -247,16 +247,14 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 <Button
                   variant="ghost"
                   size="icon"
-                  className={cn("size-6", "absolute top-4 right-4")}
+                  className="absolute top-4 right-4 size-6"
                 >
                   <X />
                   <span className="sr-only">Close</span>
                 </Button>
               </DialogPrimitive.Close>
             )}
-
             {icon && <div className="mb-4 flex justify-center">{icon}</div>}
-
             {title && (
               <DialogPrimitive.Title
                 className={cn(
@@ -267,13 +265,11 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 {title}
               </DialogPrimitive.Title>
             )}
-
             <DialogPrimitive.Description
-              className={cn("text-sm", "text-cms-gray-700", "text-center")}
+              className={cn("text-center text-sm text-cms-gray-700")}
             >
               {children}
             </DialogPrimitive.Description>
-
             {footer && <div className="mt-6">{footer}</div>}
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>

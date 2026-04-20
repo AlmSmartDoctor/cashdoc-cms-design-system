@@ -10,7 +10,7 @@ const tagInputContainerVariants = cva(
   {
     variants: {
       readOnly: {
-        true: cn("cursor-default bg-cms-gray-150", "border-cms-gray-450"),
+        true: "cursor-default border-cms-gray-450 bg-cms-gray-150",
         false: cn(
           "cursor-text bg-cms-white",
           "border-cms-gray-450",
