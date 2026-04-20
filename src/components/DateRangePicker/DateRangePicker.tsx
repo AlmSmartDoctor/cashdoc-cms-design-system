@@ -6,6 +6,7 @@ import { ko } from "react-day-picker/locale";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
+import { formatDateDigits, parseDateInput } from "@/utils/dateInputFormat";
 import "react-day-picker/style.css";
 
 export type DateRange = {
@@ -338,6 +339,20 @@ export const DateRangePicker = React.forwardRef<
     >(() => toDayjsRange(value));
     const [quickSelectError, setQuickSelectError] = useState(false);
     const [fromDay, toDay] = draftRange;
+    const [startInput, setStartInput] = useState(() =>
+      value?.start ? dayjs(value.start).format("YYYY-MM-DD") : "",
+    );
+    const [endInput, setEndInput] = useState(() =>
+      value?.end ? dayjs(value.end).format("YYYY-MM-DD") : "",
+    );
+
+    const clampDay = (d: Dayjs): Dayjs => {
+      const minDate = dayjs(min);
+      const maxDate = dayjs(max);
+      if (d.isBefore(minDate, "day")) return minDate;
+      if (d.isAfter(maxDate, "day")) return maxDate;
+      return d;
+    };
 
     const selected: DayPickerDateRange | undefined = useMemo(() => {
       if (!fromDay) return undefined;
@@ -355,12 +370,16 @@ export const DateRangePicker = React.forwardRef<
       }
       setQuickSelectError(false);
       setDraftRange([start, end]);
+      setStartInput(start.format("YYYY-MM-DD"));
+      setEndInput(end.format("YYYY-MM-DD"));
     };
 
     const handleDayClick = (range: DayPickerDateRange | undefined) => {
       setQuickSelectError(false);
       if (!range) {
         setDraftRange([undefined, undefined]);
+        setStartInput("");
+        setEndInput("");
         return;
       }
 
@@ -368,6 +387,52 @@ export const DateRangePicker = React.forwardRef<
       const to = range.to ? dayjs(range.to) : undefined;
 
       setDraftRange([from, to]);
+      setStartInput(from ? from.format("YYYY-MM-DD") : "");
+      setEndInput(to ? to.format("YYYY-MM-DD") : "");
+    };
+
+    const handleStartInputChange = (
+      e: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+      setStartInput(formatDateDigits(e.target.value));
+    };
+
+    const handleEndInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEndInput(formatDateDigits(e.target.value));
+    };
+
+    const commitStartInput = () => {
+      const parsed = parseDateInput(startInput, "start");
+      if (!parsed) {
+        setStartInput(fromDay ? fromDay.format("YYYY-MM-DD") : "");
+        return;
+      }
+      const clamped = clampDay(parsed);
+      const next: [Dayjs | undefined, Dayjs | undefined] =
+        toDay && clamped.isAfter(toDay, "day") ?
+          [toDay, clamped]
+        : [clamped, toDay];
+      setDraftRange(next);
+      setStartInput(next[0] ? next[0].format("YYYY-MM-DD") : "");
+      setEndInput(next[1] ? next[1].format("YYYY-MM-DD") : "");
+      setQuickSelectError(false);
+    };
+
+    const commitEndInput = () => {
+      const parsed = parseDateInput(endInput, "end");
+      if (!parsed) {
+        setEndInput(toDay ? toDay.format("YYYY-MM-DD") : "");
+        return;
+      }
+      const clamped = clampDay(parsed);
+      const next: [Dayjs | undefined, Dayjs | undefined] =
+        fromDay && clamped.isBefore(fromDay, "day") ?
+          [clamped, fromDay]
+        : [fromDay, clamped];
+      setDraftRange(next);
+      setStartInput(next[0] ? next[0].format("YYYY-MM-DD") : "");
+      setEndInput(next[1] ? next[1].format("YYYY-MM-DD") : "");
+      setQuickSelectError(false);
     };
 
     const handleApply = () => {
@@ -382,12 +447,20 @@ export const DateRangePicker = React.forwardRef<
 
     const handleCancel = () => {
       setDraftRange(toDayjsRange(value));
+      setStartInput(
+        value?.start ? dayjs(value.start).format("YYYY-MM-DD") : "",
+      );
+      setEndInput(value?.end ? dayjs(value.end).format("YYYY-MM-DD") : "");
       setIsOpen(false);
     };
 
     const handleOpenChange = (nextOpen: boolean) => {
       if (nextOpen) {
         setDraftRange(toDayjsRange(value));
+        setStartInput(
+          value?.start ? dayjs(value.start).format("YYYY-MM-DD") : "",
+        );
+        setEndInput(value?.end ? dayjs(value.end).format("YYYY-MM-DD") : "");
         setQuickSelectError(false);
       }
       setIsOpen(nextOpen);
@@ -407,6 +480,9 @@ export const DateRangePicker = React.forwardRef<
         end: dayjs(value.end).format("YYYY-MM-DD"),
       };
     }, [value]);
+
+    const startFieldValue = isOpen ? startInput : displayValue.start;
+    const endFieldValue = isOpen ? endInput : displayValue.end;
 
     const disabledDays = useMemo(() => {
       const disabled: ({ before: Date } | { after: Date })[] = [];
@@ -436,8 +512,18 @@ export const DateRangePicker = React.forwardRef<
               <input
                 id={`${id}-start`}
                 type="text"
-                readOnly
-                value={displayValue.start}
+                inputMode="numeric"
+                autoComplete="off"
+                maxLength={10}
+                value={startFieldValue}
+                onChange={handleStartInputChange}
+                onBlur={commitStartInput}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    commitStartInput();
+                  }
+                }}
                 placeholder="YYYY-MM-DD"
                 aria-label={startLabel}
                 className={cn(
@@ -446,7 +532,6 @@ export const DateRangePicker = React.forwardRef<
                   "rounded-l border border-r-0 border-gray-300",
                   "hover:border-gray-400 hover:bg-gray-50",
                   "transition-all duration-150",
-                  "cursor-pointer",
                 )}
               />
             </div>
@@ -463,8 +548,18 @@ export const DateRangePicker = React.forwardRef<
               <input
                 id={`${id}-end`}
                 type="text"
-                readOnly
-                value={displayValue.end}
+                inputMode="numeric"
+                autoComplete="off"
+                maxLength={10}
+                value={endFieldValue}
+                onChange={handleEndInputChange}
+                onBlur={commitEndInput}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    commitEndInput();
+                  }
+                }}
                 placeholder="YYYY-MM-DD"
                 aria-label={endLabel}
                 className={cn(
@@ -474,7 +569,6 @@ export const DateRangePicker = React.forwardRef<
                   "hover:border-gray-400 hover:bg-gray-50",
                   "focus:outline-none",
                   "transition-all duration-150",
-                  "cursor-pointer",
                 )}
               />
             </div>

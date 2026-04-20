@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
 import type { DateRange } from "../DateRangePicker/DateRangePicker";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
+import { formatYearDigits, parseYearInput } from "@/utils/dateInputFormat";
 import "react-day-picker/style.css";
 
 const YEARS_PER_SECTION = 10;
@@ -164,6 +165,12 @@ export const YearRangePicker = React.forwardRef<
       [Dayjs | undefined, Dayjs | undefined]
     >(() => toDayjsRange(value));
     const [fromDay, toDay] = draftRange;
+    const [startInput, setStartInput] = useState(() =>
+      value?.start ? dayjs(value.start).format("YYYY") : "",
+    );
+    const [endInput, setEndInput] = useState(() =>
+      value?.end ? dayjs(value.end).format("YYYY") : "",
+    );
 
     const leftYears = useMemo(
       () => Array.from({ length: YEARS_PER_SECTION }, (_, i) => baseYear + i),
@@ -188,6 +195,21 @@ export const YearRangePicker = React.forwardRef<
       };
     }, [value]);
 
+    const startFieldValue = isOpen ? startInput : displayValue.start;
+    const endFieldValue = isOpen ? endInput : displayValue.end;
+
+    const syncInputsFromDraft = (
+      next: [Dayjs | undefined, Dayjs | undefined],
+    ) => {
+      setStartInput(next[0] ? next[0].format("YYYY") : "");
+      setEndInput(next[1] ? next[1].format("YYYY") : "");
+    };
+
+    const applyDraft = (next: [Dayjs | undefined, Dayjs | undefined]) => {
+      setDraftRange(next);
+      syncInputsFromDraft(next);
+    };
+
     const handleYearClick = (year: number) => {
       if (isYearDisabled(year, min, max)) return;
 
@@ -196,13 +218,13 @@ export const YearRangePicker = React.forwardRef<
 
       // 처음 선택 시: start year 선택 → start=end (해당 연도 1/1 ~ 12/31)
       if (!fromDay || !toDay) {
-        setDraftRange([yearDate.startOf("year"), yearDate.endOf("year")]);
+        applyDraft([yearDate.startOf("year"), yearDate.endOf("year")]);
         return;
       }
 
       // single year 상태에서 같은 연도 재클릭 → clear
       if (hasSingleYear && fromDay.isSame(yearDate, "year")) {
-        setDraftRange([undefined, undefined]);
+        applyDraft([undefined, undefined]);
         return;
       }
 
@@ -212,7 +234,7 @@ export const YearRangePicker = React.forwardRef<
           fromDay.isBefore(yearDate) ?
             [fromDay.startOf("year"), yearDate.endOf("year")]
           : [yearDate.startOf("year"), fromDay.endOf("year")];
-        setDraftRange([start, end]);
+        applyDraft([start, end]);
         return;
       }
 
@@ -224,17 +246,70 @@ export const YearRangePicker = React.forwardRef<
 
       // range 상태에서 start 또는 end 클릭 → 해당 연도로 start=end
       if (yearDate.isSame(start, "year") || yearDate.isSame(end, "year")) {
-        setDraftRange([yearDate, yearDate.endOf("year")]);
+        applyDraft([yearDate, yearDate.endOf("year")]);
         return;
       }
 
       // range 상태에서 middle year 클릭
       // start 이전 선택 → start 변경, 그 외(범위 내/end 이후) → end 변경
       if (yearDate.isBefore(start, "year")) {
-        setDraftRange([yearDate, end]);
+        applyDraft([yearDate, end]);
       } else {
-        setDraftRange([start, yearDate.endOf("year")]);
+        applyDraft([start, yearDate.endOf("year")]);
       }
+    };
+
+    const clampYear = (d: Dayjs, mode: "start" | "end"): Dayjs => {
+      let result = mode === "start" ? d.startOf("year") : d.endOf("year");
+      if (min) {
+        const minDate = dayjs(min);
+        if (result.isBefore(minDate, "day")) result = minDate;
+      }
+      if (max) {
+        const maxDate = dayjs(max);
+        if (result.isAfter(maxDate, "day")) result = maxDate;
+      }
+      return result;
+    };
+
+    const handleStartInputChange = (
+      e: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+      setStartInput(formatYearDigits(e.target.value));
+    };
+
+    const handleEndInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEndInput(formatYearDigits(e.target.value));
+    };
+
+    const commitStartInput = () => {
+      const parsed = parseYearInput(startInput, "start");
+      if (!parsed) {
+        setStartInput(fromDay ? fromDay.format("YYYY") : "");
+        return;
+      }
+      const clamped = clampYear(parsed, "start");
+      const next: [Dayjs | undefined, Dayjs | undefined] =
+        toDay && clamped.isAfter(toDay, "year") ?
+          [toDay.startOf("year"), clamped.endOf("year")]
+        : [clamped, toDay];
+      applyDraft(next);
+      const anchor = next[0]?.year() ?? clamped.year();
+      setBaseYear(Math.floor(anchor / 20) * 20);
+    };
+
+    const commitEndInput = () => {
+      const parsed = parseYearInput(endInput, "end");
+      if (!parsed) {
+        setEndInput(toDay ? toDay.format("YYYY") : "");
+        return;
+      }
+      const clamped = clampYear(parsed, "end");
+      const next: [Dayjs | undefined, Dayjs | undefined] =
+        fromDay && clamped.isBefore(fromDay, "year") ?
+          [clamped.startOf("year"), fromDay.endOf("year")]
+        : [fromDay, clamped];
+      applyDraft(next);
     };
 
     const getYearState = (
@@ -269,12 +344,16 @@ export const YearRangePicker = React.forwardRef<
 
     const handleCancel = () => {
       setDraftRange(toDayjsRange(value));
+      setStartInput(value?.start ? dayjs(value.start).format("YYYY") : "");
+      setEndInput(value?.end ? dayjs(value.end).format("YYYY") : "");
       setIsOpen(false);
     };
 
     const handleOpenChange = (nextOpen: boolean) => {
       if (nextOpen) {
         setDraftRange(toDayjsRange(value));
+        setStartInput(value?.start ? dayjs(value.start).format("YYYY") : "");
+        setEndInput(value?.end ? dayjs(value.end).format("YYYY") : "");
         setBaseYear(
           value?.start ?
             Math.floor(dayjs(value.start).year() / 20) * 20
@@ -361,9 +440,19 @@ export const YearRangePicker = React.forwardRef<
               <input
                 id={`${id}-start`}
                 type="text"
-                readOnly
-                value={displayValue.start}
-                placeholder="YYYY-MM-DD"
+                inputMode="numeric"
+                autoComplete="off"
+                maxLength={isOpen ? 4 : 10}
+                value={startFieldValue}
+                onChange={handleStartInputChange}
+                onBlur={commitStartInput}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    commitStartInput();
+                  }
+                }}
+                placeholder={isOpen ? "YYYY" : "YYYY-MM-DD"}
                 aria-label={startLabel}
                 className={cn(
                   "h-10 w-full bg-white pr-3 pl-14-75 text-sm",
@@ -371,7 +460,6 @@ export const YearRangePicker = React.forwardRef<
                   "rounded-l border border-r-0 border-gray-300",
                   "hover:border-gray-400 hover:bg-gray-50",
                   "transition-all duration-150",
-                  "cursor-pointer",
                 )}
               />
             </div>
@@ -388,9 +476,19 @@ export const YearRangePicker = React.forwardRef<
               <input
                 id={`${id}-end`}
                 type="text"
-                readOnly
-                value={displayValue.end}
-                placeholder="YYYY-MM-DD"
+                inputMode="numeric"
+                autoComplete="off"
+                maxLength={isOpen ? 4 : 10}
+                value={endFieldValue}
+                onChange={handleEndInputChange}
+                onBlur={commitEndInput}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    commitEndInput();
+                  }
+                }}
+                placeholder={isOpen ? "YYYY" : "YYYY-MM-DD"}
                 aria-label={endLabel}
                 className={cn(
                   "h-10 w-full bg-white pr-3 pl-14-75",
@@ -399,7 +497,6 @@ export const YearRangePicker = React.forwardRef<
                   "hover:border-gray-400 hover:bg-gray-50",
                   "focus:outline-none",
                   "transition-all duration-150",
-                  "cursor-pointer",
                 )}
               />
             </div>

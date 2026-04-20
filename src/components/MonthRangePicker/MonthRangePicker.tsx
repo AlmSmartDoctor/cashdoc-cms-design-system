@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
 import type { DateRange } from "../DateRangePicker/DateRangePicker";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
+import { formatMonthDigits, parseMonthInput } from "@/utils/dateInputFormat";
 import "react-day-picker/style.css";
 
 const MONTH_NAMES = [
@@ -198,6 +199,12 @@ export const MonthRangePicker = React.forwardRef<
       [Dayjs | undefined, Dayjs | undefined]
     >(() => toDayjsRange(value));
     const [fromDay, toDay] = draftRange;
+    const [startInput, setStartInput] = useState(() =>
+      value?.start ? dayjs(value.start).format("YYYY-MM") : "",
+    );
+    const [endInput, setEndInput] = useState(() =>
+      value?.end ? dayjs(value.end).format("YYYY-MM") : "",
+    );
 
     const displayValue = useMemo(() => {
       if (!value || !value.start || !value.end) {
@@ -209,6 +216,21 @@ export const MonthRangePicker = React.forwardRef<
       };
     }, [value]);
 
+    const startFieldValue = isOpen ? startInput : displayValue.start;
+    const endFieldValue = isOpen ? endInput : displayValue.end;
+
+    const syncInputsFromDraft = (
+      next: [Dayjs | undefined, Dayjs | undefined],
+    ) => {
+      setStartInput(next[0] ? next[0].format("YYYY-MM") : "");
+      setEndInput(next[1] ? next[1].format("YYYY-MM") : "");
+    };
+
+    const applyDraft = (next: [Dayjs | undefined, Dayjs | undefined]) => {
+      setDraftRange(next);
+      syncInputsFromDraft(next);
+    };
+
     const handleMonthClick = (year: number, month: number) => {
       if (isMonthDisabled(year, month, min, max)) return;
 
@@ -217,13 +239,13 @@ export const MonthRangePicker = React.forwardRef<
 
       // 처음 선택 시: start month 선택 → start=end
       if (!fromDay || !toDay) {
-        setDraftRange([monthDate, monthDate]);
+        applyDraft([monthDate, monthDate]);
         return;
       }
 
       // single month 상태에서 같은 월 재클릭 → clear
       if (hasSingleMonth && fromDay.isSame(monthDate, "month")) {
-        setDraftRange([undefined, undefined]);
+        applyDraft([undefined, undefined]);
         return;
       }
 
@@ -233,7 +255,7 @@ export const MonthRangePicker = React.forwardRef<
           fromDay.isBefore(monthDate) ?
             [fromDay, monthDate]
           : [monthDate, fromDay];
-        setDraftRange([start, end]);
+        applyDraft([start, end]);
         return;
       }
 
@@ -245,17 +267,69 @@ export const MonthRangePicker = React.forwardRef<
 
       // range 상태에서 start 또는 end 클릭 → 해당 월로 start=end
       if (monthDate.isSame(start, "month") || monthDate.isSame(end, "month")) {
-        setDraftRange([monthDate, monthDate]);
+        applyDraft([monthDate, monthDate]);
         return;
       }
 
       // range 상태에서 middle month 클릭
       // start 이전 선택 → start 변경, 그 외(범위 내/end 이후) → end 변경
       if (monthDate.isBefore(start, "month")) {
-        setDraftRange([monthDate, end]);
+        applyDraft([monthDate, end]);
       } else {
-        setDraftRange([start, monthDate]);
+        applyDraft([start, monthDate]);
       }
+    };
+
+    const clampMonth = (d: Dayjs, mode: "start" | "end"): Dayjs => {
+      let result = mode === "start" ? d.startOf("month") : d.endOf("month");
+      if (min) {
+        const minDate = dayjs(min);
+        if (result.isBefore(minDate, "day")) result = minDate;
+      }
+      if (max) {
+        const maxDate = dayjs(max);
+        if (result.isAfter(maxDate, "day")) result = maxDate;
+      }
+      return result;
+    };
+
+    const handleStartInputChange = (
+      e: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+      setStartInput(formatMonthDigits(e.target.value));
+    };
+
+    const handleEndInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEndInput(formatMonthDigits(e.target.value));
+    };
+
+    const commitStartInput = () => {
+      const parsed = parseMonthInput(startInput, "start");
+      if (!parsed) {
+        setStartInput(fromDay ? fromDay.format("YYYY-MM") : "");
+        return;
+      }
+      const clamped = clampMonth(parsed, "start");
+      const next: [Dayjs | undefined, Dayjs | undefined] =
+        toDay && clamped.isAfter(toDay, "month") ?
+          [toDay.startOf("month"), clamped.endOf("month")]
+        : [clamped, toDay];
+      applyDraft(next);
+      setBaseYear(next[0]?.year() ?? baseYear);
+    };
+
+    const commitEndInput = () => {
+      const parsed = parseMonthInput(endInput, "end");
+      if (!parsed) {
+        setEndInput(toDay ? toDay.format("YYYY-MM") : "");
+        return;
+      }
+      const clamped = clampMonth(parsed, "end");
+      const next: [Dayjs | undefined, Dayjs | undefined] =
+        fromDay && clamped.isBefore(fromDay, "month") ?
+          [clamped.startOf("month"), fromDay.endOf("month")]
+        : [fromDay, clamped];
+      applyDraft(next);
     };
 
     // 스타일 적용을 위한 상태값
@@ -311,12 +385,16 @@ export const MonthRangePicker = React.forwardRef<
 
     const handleCancel = () => {
       setDraftRange(toDayjsRange(value));
+      setStartInput(value?.start ? dayjs(value.start).format("YYYY-MM") : "");
+      setEndInput(value?.end ? dayjs(value.end).format("YYYY-MM") : "");
       setIsOpen(false);
     };
 
     const handleOpenChange = (nextOpen: boolean) => {
       if (nextOpen) {
         setDraftRange(toDayjsRange(value));
+        setStartInput(value?.start ? dayjs(value.start).format("YYYY-MM") : "");
+        setEndInput(value?.end ? dayjs(value.end).format("YYYY-MM") : "");
         setBaseYear(
         value?.start ? dayjs(value.start).year() : dayjs().year() - 1,
       );
@@ -401,9 +479,19 @@ export const MonthRangePicker = React.forwardRef<
               <input
                 id={`${id}-start`}
                 type="text"
-                readOnly
-                value={displayValue.start}
-                placeholder="YYYY-MM-DD"
+                inputMode="numeric"
+                autoComplete="off"
+                maxLength={isOpen ? 7 : 10}
+                value={startFieldValue}
+                onChange={handleStartInputChange}
+                onBlur={commitStartInput}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    commitStartInput();
+                  }
+                }}
+                placeholder={isOpen ? "YYYY-MM" : "YYYY-MM-DD"}
                 aria-label={startLabel}
                 className={cn(
                   "h-10 w-full bg-white pr-3 pl-14-75 text-sm",
@@ -411,7 +499,6 @@ export const MonthRangePicker = React.forwardRef<
                   "rounded-l border border-r-0 border-gray-300",
                   "hover:border-gray-400 hover:bg-gray-50",
                   "transition-all duration-150",
-                  "cursor-pointer",
                 )}
               />
             </div>
@@ -428,9 +515,19 @@ export const MonthRangePicker = React.forwardRef<
               <input
                 id={`${id}-end`}
                 type="text"
-                readOnly
-                value={displayValue.end}
-                placeholder="YYYY-MM-DD"
+                inputMode="numeric"
+                autoComplete="off"
+                maxLength={isOpen ? 7 : 10}
+                value={endFieldValue}
+                onChange={handleEndInputChange}
+                onBlur={commitEndInput}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    commitEndInput();
+                  }
+                }}
+                placeholder={isOpen ? "YYYY-MM" : "YYYY-MM-DD"}
                 aria-label={endLabel}
                 className={cn(
                   "h-10 w-full bg-white pr-3 pl-14-75",
@@ -439,7 +536,6 @@ export const MonthRangePicker = React.forwardRef<
                   "hover:border-gray-400 hover:bg-gray-50",
                   "focus:outline-none",
                   "transition-all duration-150",
-                  "cursor-pointer",
                 )}
               />
             </div>
