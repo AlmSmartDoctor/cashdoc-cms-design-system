@@ -3,12 +3,16 @@ import { forwardRef } from "react";
 import type { DropdownProps } from "./Dropdown";
 import { Dropdown } from "./Dropdown";
 
+// Select는 단일 선택 전용이므로 `multiple`과 `selectAll`이 항상 제외된다.
 export type SelectProps = {
   label?: string;
   helperText?: string;
   error?: string;
   required?: boolean;
-} & Omit<DropdownProps, "multiple" | "searchable" | "clearable">;
+} & Omit<
+  Extract<DropdownProps, { multiple?: false }>,
+  "multiple" | "searchable" | "clearable" | "selectAll"
+>;
 
 /**
  * 사용자에게 레이블, 도움말, 에러 메시지와 함께 단일 선택 드롭다운을 제공하는 컴포넌트입니다.

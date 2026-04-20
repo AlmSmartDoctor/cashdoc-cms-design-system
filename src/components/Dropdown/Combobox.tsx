@@ -7,7 +7,7 @@ export type ComboboxProps = {
   loading?: boolean;
   createable?: boolean;
   onCreateOption?: (value: string) => void;
-} & Omit<DropdownProps, "searchable">
+} & Omit<DropdownProps, "searchable">;
 
 /**
  * 텍스트 입력과 드롭다운 선택 기능이 결합되어, 목록에서 검색하거나 새로운 옵션을 생성할 수 있는 컴포넌트입니다.
@@ -116,21 +116,48 @@ export const Combobox = forwardRef<HTMLButtonElement, ComboboxProps>(
         : []),
     ];
 
+    const handleChange = (value: string) => {
+      if (value.startsWith("__create__")) {
+        const createValue = value.replace("__create__", "");
+        onCreateOption?.(createValue);
+      } else {
+        props.onValueChange?.(value);
+      }
+    };
+
+    // `DropdownProps`의 구분 유니온 오버로드를 만족시키기 위해 `multiple`에 따라 분기한다.
+    // 스프레드에서 `multiple`/`selectAll` 좁히기가 풀리지 않도록 별도로 분리한다.
+    const { multiple, selectAll, ...rest } = props as Omit<
+      ComboboxProps,
+      "multiple" | "selectAll"
+    > & { multiple?: boolean; selectAll?: boolean };
+
+    if (multiple === true) {
+      return (
+        <Dropdown
+          {...rest}
+          ref={ref}
+          options={optionsWithCreate}
+          searchable={true}
+          multiple={true}
+          selectAll={selectAll}
+          dropdownClassName={cn(
+            loading && "opacity-75",
+            props.dropdownClassName,
+          )}
+          onValueChange={handleChange}
+        />
+      );
+    }
+
     return (
       <Dropdown
+        {...rest}
         ref={ref}
-        {...props}
         options={optionsWithCreate}
         searchable={true}
         dropdownClassName={cn(loading && "opacity-75", props.dropdownClassName)}
-        onValueChange={(value) => {
-          if (value.startsWith("__create__")) {
-            const createValue = value.replace("__create__", "");
-            onCreateOption?.(createValue);
-          } else {
-            props.onValueChange?.(value);
-          }
-        }}
+        onValueChange={handleChange}
       />
     );
   },

@@ -338,6 +338,52 @@ export const Multiple: Story = {
   },
 };
 
+const SelectAllStory = () => {
+  const [value, setValue] = useState("");
+
+  const largeOptions = [
+    ...sampleOptions,
+    { value: "ember", label: "Ember.js" },
+    { value: "backbone", label: "Backbone.js" },
+    { value: "jquery", label: "jQuery" },
+    { value: "vanilla", label: "Vanilla JS" },
+    { value: "alpine", label: "Alpine.js" },
+  ];
+
+  return (
+    <div className="w-64">
+      <Dropdown
+        options={largeOptions}
+        value={value}
+        onValueChange={setValue}
+        placeholder="전체 선택이 가능한 다중 선택"
+        multiple
+        searchable
+        selectAll
+        clearable
+      />
+      <p className="mt-2 text-sm text-cms-gray-700">
+        선택된 값들: {value || "없음"}
+      </p>
+      <p className="mt-1 text-xs text-cms-gray-700">
+        검색어를 입력한 후 "모두 선택"을 누르면 필터링된 항목만 선택됩니다.
+      </p>
+    </div>
+  );
+};
+
+export const SelectAll: Story = {
+  render: () => <SelectAllStory />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "`selectAll` 속성을 통해 상단에 '모두 선택' 버튼이 추가됩니다. `multiple={true}`가 필수이며, 검색 중에는 필터링된 옵션만 선택됩니다.",
+      },
+    },
+  },
+};
+
 const SelectComponentStory = () => {
   const [value, setValue] = useState("");
   const [errorValue, setErrorValue] = useState("");
