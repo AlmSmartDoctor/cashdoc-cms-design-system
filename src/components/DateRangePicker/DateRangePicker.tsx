@@ -436,13 +436,38 @@ export const DateRangePicker = React.forwardRef<
     };
 
     const handleApply = () => {
-      if (fromDay && toDay) {
-        onChange?.({
-          start: fromDay.format("YYYY-MM-DD"),
-          end: toDay.format("YYYY-MM-DD"),
-        });
-        setIsOpen(false);
+      // 타이핑 중 blur 가 아직 안 된 경우를 위해 input 문자열을 다시 파싱해 반영.
+      const parsedStart = startInput
+        ? (parseDateInput(startInput, "start") ?? null)
+        : null;
+      const parsedEnd = endInput
+        ? (parseDateInput(endInput, "end") ?? null)
+        : null;
+
+      // input 에 값이 있지만 파싱이 실패하면 유효하지 않은 포맷 → 적용 취소.
+      if (startInput && !parsedStart) {
+        setStartInput(fromDay ? fromDay.format("YYYY-MM-DD") : "");
+        return;
       }
+      if (endInput && !parsedEnd) {
+        setEndInput(toDay ? toDay.format("YYYY-MM-DD") : "");
+        return;
+      }
+
+      let finalStart = parsedStart ? clampDay(parsedStart) : fromDay;
+      let finalEnd = parsedEnd ? clampDay(parsedEnd) : toDay;
+
+      if (!finalStart || !finalEnd) return;
+      if (finalStart.isAfter(finalEnd, "day")) {
+        [finalStart, finalEnd] = [finalEnd, finalStart];
+      }
+      if (!finalStart.isValid() || !finalEnd.isValid()) return;
+
+      onChange?.({
+        start: finalStart.format("YYYY-MM-DD"),
+        end: finalEnd.format("YYYY-MM-DD"),
+      });
+      setIsOpen(false);
     };
 
     const handleCancel = () => {
@@ -579,6 +604,8 @@ export const DateRangePicker = React.forwardRef<
           <PopoverPrimitive.Content
             align="start"
             sideOffset={5}
+            // Popover 열릴 때 input 에서 포커스가 빠지지 않도록 방지.
+            onOpenAutoFocus={(e) => e.preventDefault()}
             className={cn(
               "z-50 rounded-lg bg-white p-2",
               "border border-gray-200",

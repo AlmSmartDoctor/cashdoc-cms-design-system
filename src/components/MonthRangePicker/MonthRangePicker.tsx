@@ -365,22 +365,42 @@ export const MonthRangePicker = React.forwardRef<
     };
 
     const handleApply = () => {
-      if (fromDay && toDay) {
-        const [start, end] =
-          fromDay.isBefore(toDay) || fromDay.isSame(toDay, "month") ?
-            [fromDay, toDay]
-          : [toDay, fromDay];
-        const range = toDateRangeFromMonths(
-          start.year(),
-          start.month() + 1,
-          end.year(),
-          end.month() + 1,
-          min,
-          max,
-        );
-        onChange?.(range);
-        setIsOpen(false);
+      // 타이핑 중 blur 가 아직 안 된 경우를 위해 input 문자열을 다시 파싱해 반영.
+      const parsedStart = startInput
+        ? (parseMonthInput(startInput, "start") ?? null)
+        : null;
+      const parsedEnd = endInput
+        ? (parseMonthInput(endInput, "end") ?? null)
+        : null;
+
+      if (startInput && !parsedStart) {
+        setStartInput(fromDay ? fromDay.format("YYYY-MM") : "");
+        return;
       }
+      if (endInput && !parsedEnd) {
+        setEndInput(toDay ? toDay.format("YYYY-MM") : "");
+        return;
+      }
+
+      let finalStart = parsedStart ? clampMonth(parsedStart, "start") : fromDay;
+      let finalEnd = parsedEnd ? clampMonth(parsedEnd, "end") : toDay;
+
+      if (!finalStart || !finalEnd) return;
+      if (finalStart.isAfter(finalEnd, "month")) {
+        [finalStart, finalEnd] = [finalEnd, finalStart];
+      }
+      if (!finalStart.isValid() || !finalEnd.isValid()) return;
+
+      const range = toDateRangeFromMonths(
+        finalStart.year(),
+        finalStart.month() + 1,
+        finalEnd.year(),
+        finalEnd.month() + 1,
+        min,
+        max,
+      );
+      onChange?.(range);
+      setIsOpen(false);
     };
 
     const handleCancel = () => {
@@ -546,6 +566,8 @@ export const MonthRangePicker = React.forwardRef<
           <PopoverPrimitive.Content
             align="start"
             sideOffset={5}
+            // Popover 열릴 때 input 에서 포커스가 빠지지 않도록 방지.
+            onOpenAutoFocus={(e) => e.preventDefault()}
             className={cn(
               "z-50 rounded-lg bg-white p-2",
               "border border-gray-200",
