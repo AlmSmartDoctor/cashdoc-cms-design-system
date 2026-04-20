@@ -229,10 +229,12 @@ const Switch = React.forwardRef<
         )}
         <SwitchPrimitives.Thumb
           className={cn(
-            "pointer-events-none relative z-10 block rounded-full ring-0",
+            "pointer-events-none absolute top-1/2 left-px z-10 block",
+            "rounded-full ring-0",
             "bg-cms-white shadow-lg",
             "size-5",
             "cursor-pointer",
+            "-translate-y-1/2",
             "data-[state=unchecked]:translate-x-0",
             "data-[state=checked]:translate-x-(--switch-thumb-translate)",
             "transition-transform",
