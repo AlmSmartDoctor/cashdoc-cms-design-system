@@ -216,7 +216,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
         <DialogPrimitive.Portal>
           <DialogPrimitive.Overlay
             className={cn(
-              "fixed inset-0 z-150 bg-black/50",
+              "fixed inset-0 z-150 bg-cms-black/50",
               "data-[state=closed]:animate-out",
               "data-[state=open]:animate-in",
               "data-[state=closed]:fade-out-0",
@@ -231,7 +231,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               "translate-x-[-50%] translate-y-[-50%]",
               "w-full",
               sizeClasses[size],
-              "rounded-lg bg-white shadow-lg",
+              "rounded-cms-lg bg-cms-white shadow-lg",
               "p-6",
               "data-[state=closed]:animate-out",
               "data-[state=open]:animate-in",

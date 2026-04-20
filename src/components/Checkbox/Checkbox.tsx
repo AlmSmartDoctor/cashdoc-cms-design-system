@@ -105,20 +105,21 @@ export const Checkbox = React.forwardRef<
         disabled={disabled}
         className={cn(
           "peer size-5 shrink-0 rounded-sm",
-          "border border-gray-400 bg-white",
+          "border border-cms-gray-400 bg-cms-white",
           "focus-visible:outline-none",
           "focus-visible:ring-2",
           "focus-visible:ring-offset-2",
           "cursor-pointer",
           "disabled:cursor-not-allowed disabled:opacity-50",
-          "data-[state=checked]:border-black data-[state=checked]:bg-black",
+          "data-[state=checked]:border-cms-black",
+          "data-[state=checked]:bg-cms-black",
           "transition-colors",
           className,
         )}
         {...props}
       >
         <CheckboxPrimitive.Indicator
-          className={cn("flex items-center justify-center", "text-white")}
+          className={cn("flex items-center justify-center", "text-cms-white")}
         >
           <CheckIcon size={14} strokeWidth={3} className="scale-150" />
         </CheckboxPrimitive.Indicator>
@@ -127,10 +128,10 @@ export const Checkbox = React.forwardRef<
         <label
           htmlFor={checkboxId}
           className={cn(
-            "ml-2 text-base font-normal text-gray-500",
+            "ml-2 text-base font-normal text-cms-gray-500",
             "cursor-pointer select-none",
             "transition-colors",
-            "hover:text-black",
+            "hover:text-cms-black",
             disabled && "cursor-not-allowed opacity-50",
           )}
         >

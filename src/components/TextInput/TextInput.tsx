@@ -172,6 +172,8 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       (value || defaultValue || "") as string,
     );
     const inputId = id || generatedInputId;
+    const errorMessageId = `${inputId}-error`;
+    const helperTextId = `${inputId}-helper`;
     const finalVariant = error ? "error" : variant;
 
     const currentValue =
@@ -187,6 +189,10 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 
     const hasHeader = label || (showCharCount && maxLength);
     const isHorizontal = labelLayout === "horizontal";
+    const describedBy =
+      error && errorMessage ? errorMessageId
+      : helperText ? helperTextId
+      : undefined;
 
     return (
       <div className={cn("w-full", !fullWidth && "w-auto")}>
@@ -215,6 +221,8 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
                 defaultValue={defaultValue}
                 onChange={handleChange}
                 required={required}
+                aria-invalid={error || undefined}
+                aria-describedby={describedBy}
                 {...props}
               />
             </div>
@@ -254,15 +262,21 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
               defaultValue={defaultValue}
               onChange={handleChange}
               required={required}
+              aria-invalid={error || undefined}
+              aria-describedby={describedBy}
               {...props}
             />
           </>
         }
         {error && errorMessage && (
-          <span className={errorMessageVariants()}>{errorMessage}</span>
+          <span id={errorMessageId} className={errorMessageVariants()}>
+            {errorMessage}
+          </span>
         )}
         {!error && helperText && (
-          <span className={helperTextVariants()}>{helperText}</span>
+          <span id={helperTextId} className={helperTextVariants()}>
+            {helperText}
+          </span>
         )}
       </div>
     );
