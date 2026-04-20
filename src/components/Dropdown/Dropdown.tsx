@@ -366,6 +366,25 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
 
     return (
       <div ref={dropdownRef} className="relative w-full">
+        {selectAll && (
+          <div className="mb-1 flex justify-start">
+            <button
+              type="button"
+              onClick={handleSelectAll}
+              disabled={disabled}
+              className={cn(
+                "border-0 bg-transparent p-0",
+                "text-xs text-cms-gray-700 underline underline-offset-2",
+                "hover:text-cms-black",
+                "focus:text-cms-black focus:outline-none",
+                "cursor-pointer",
+                disabled && "cursor-not-allowed opacity-50",
+              )}
+            >
+              모두 선택
+            </button>
+          </div>
+        )}
         <button
           ref={ref}
           type="button"
@@ -417,39 +436,16 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
         {isOpen && (
           <div
             className={cn(
-              "absolute z-50 mt-1 w-full min-w-0 py-1",
-              "rounded-md border border-cms-gray-300",
+              "absolute z-50 mt-1 flex w-full min-w-0 flex-col py-1",
+              "overflow-hidden rounded-md border border-cms-gray-300",
               "bg-white shadow-lg",
               "cms-dropdown-show",
               dropdownClassName,
             )}
             style={{ maxHeight: `${maxHeight}px` }}
           >
-            {selectAll && (
-              <div
-                className={cn(
-                  "flex justify-start border-b border-cms-gray-200",
-                  "px-3 py-2",
-                )}
-              >
-                <button
-                  type="button"
-                  onClick={handleSelectAll}
-                  className={cn(
-                    "border-0 bg-transparent p-0",
-                    "text-xs text-cms-gray-700 underline underline-offset-2",
-                    "hover:text-cms-black",
-                    "focus:text-cms-black focus:outline-none",
-                    "cursor-pointer",
-                  )}
-                >
-                  모두 선택
-                </button>
-              </div>
-            )}
-
             {searchable && (
-              <div className="border-b border-cms-gray-200 px-3 py-2">
+              <div className="flex-none border-b border-cms-gray-200 px-3 py-2">
                 <input
                   ref={searchInputRef}
                   type="text"
@@ -469,16 +465,16 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
               </div>
             )}
 
-            <div className="relative">
+            <div className="relative min-h-0 flex-1">
               <div
                 className={cn(
-                  "overflow-hidden",
+                  "h-full overflow-hidden",
                   searchable ? "rounded-b-md" : "rounded-md",
                 )}
               >
                 <div
                   ref={setOptionsListNode}
-                  className="max-h-48 overflow-y-auto"
+                  className="h-full overflow-y-auto"
                   onScroll={(e) => updateScrollIndicator(e.currentTarget)}
                   onMouseEnter={clearSubmenuCloseTimeout}
                   onMouseLeave={scheduleSubmenuClose}
