@@ -589,11 +589,16 @@ export const YearRangePicker = React.forwardRef<
             sideOffset={5}
             // Popover 열릴 때 input 에서 포커스가 빠지지 않도록 방지.
             onOpenAutoFocus={(e) => e.preventDefault()}
-            // input 영역 클릭으로는 popover 가 닫히지 않도록.
+            // input 영역을 클릭하거나 포커스가 옮겨져도 popover 가 닫히지 않도록.
+            // CustomEvent 의 target 은 Content 자신이므로, 실제 DOM 이벤트는
+            // detail.originalEvent.target 을 통해 확인.
             onPointerDownOutside={(e) => {
-              if (containerRef.current?.contains(e.target as Node)) {
-                e.preventDefault();
-              }
+              const t = e.detail.originalEvent.target as Node | null;
+              if (t && containerRef.current?.contains(t)) e.preventDefault();
+            }}
+            onFocusOutside={(e) => {
+              const t = e.detail.originalEvent.target as Node | null;
+              if (t && containerRef.current?.contains(t)) e.preventDefault();
             }}
             className={cn(
               "z-50 rounded-lg bg-white p-2",
