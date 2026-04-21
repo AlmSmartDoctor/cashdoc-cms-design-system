@@ -11,6 +11,8 @@ import { toDayjsRange } from "@/utils/dateRange";
 export type { DateRange } from "@/utils/dateRange";
 import type { DateRange } from "@/utils/dateRange";
 import {
+  DEFAULT_MAX,
+  DEFAULT_MIN,
   getQuickSelectOptions,
   isRangeWithinBounds,
   type QuickSelectMode,
@@ -142,8 +144,8 @@ export const DateRangePicker = React.forwardRef<
       className,
       quickSelectMode = "past",
       mondayStart = true,
-      min = "1970-01-01",
-      max = "2099-12-31",
+      min = DEFAULT_MIN,
+      max = DEFAULT_MAX,
     },
     ref,
   ) => {

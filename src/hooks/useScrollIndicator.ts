@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 export type UseScrollIndicatorReturn<T extends HTMLElement> = {
   ref: (node: T | null) => void;
-  nodeRef: React.MutableRefObject<T | null>;
+  nodeRef: React.RefObject<T | null>;
   showStart: boolean;
   showEnd: boolean;
   refresh: () => void;

@@ -8,8 +8,8 @@ export type QuickSelectOption = {
   getValue: () => [Dayjs, Dayjs];
 };
 
-const DEFAULT_MIN = "1970-01-01";
-const DEFAULT_MAX = "2099-12-31";
+export const DEFAULT_MIN = "1970-01-01";
+export const DEFAULT_MAX = "2099-12-31";
 
 /**
  * 빠른 선택 옵션의 시작/종료 날짜가 min~max 범위 내에 있는지 검사합니다.
