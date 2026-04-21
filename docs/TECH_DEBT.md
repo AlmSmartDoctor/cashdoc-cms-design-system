@@ -178,13 +178,15 @@
   - owner: TBD
   - target: TBD
 
-- [P3] `Dropdown.tsx`, `DateRangePicker.tsx`가 600줄 이상으로 단일 파일 집중도가 높음
-  - 위치: `src/components/Dropdown/Dropdown.tsx` (~625줄), `src/components/DateRangePicker/DateRangePicker.tsx` (~623줄)
-  - 증상: 옵션 렌더링/검색/스크롤/서브메뉴 또는 달력/빠른 선택/범위 검증 로직이 한 파일에 집약되어 있습니다.
+- [P3] `Dropdown.tsx` 600줄 이상으로 단일 파일 집중도가 높음 (DateRangePicker는 부분 해소 완료)
+  - 위치: `src/components/Dropdown/Dropdown.tsx` (~617줄)
+  - 증상: 옵션 렌더링/검색/서브메뉴 로직이 한 파일에 집약되어 있습니다. 내부 hook(`useDisclosure`, `useScrollIndicator`)과 onMouseEnter `useCallback` 추출은 이미 완료됐으나, 파일 자체 분할은 state 스레딩이 복잡해 테스트 커버리지 없이 진행하면 회귀 위험이 큽니다.
   - 영향: 기능 단위 테스트와 회귀 추적이 어렵습니다. 한 영역 수정이 다른 영역에 영향을 주기 쉽습니다.
-  - 제안: 하위 요소(`DropdownSearch`, `DropdownMenu`, `DropdownSubmenu`, `QuickSelectPanel` 등)로 분해하고 상위는 오케스트레이션만 담당합니다.
+  - 제안: Playwright 스토리 기반 E2E로 옵션 선택·검색·다중 선택·서브메뉴 hover·키보드 탐색 시나리오를 먼저 확보한 뒤 `DropdownSearch`, `DropdownOptionRow`, `DropdownSubmenu`를 단계적으로 추출합니다. **테스트 선행이 전제**이며 별도 PR로 다룹니다.
   - owner: TBD
-  - target: TBD
+  - target: 테스트 추가 후 별도 PR
+
+- ✅ DateRangePicker QuickSelect 분리 완료 (2026-04-21): `quickSelectOptions.ts`로 추출. 613 → ~439줄.
 
 ### 6.6 빌드 & 의존성
 
@@ -234,6 +236,11 @@
 - ✅ `useScrollIndicator` 훅 (`src/hooks/useScrollIndicator.ts`) 추출 후 Table(horizontal), Dropdown(vertical)에 적용. 스크롤 리스너 + 인디케이터 로직 공용화.
 - ✅ `dateRange` utils (`src/utils/dateRange.ts`) 분리: `toDayjsRange`, `formatDateRange`, `normalizeDateRange`, `ISO_DATE_FORMAT` 공통화. DateRangePicker / MonthRangePicker / YearRangePicker에서 사용. `DateRange` 타입 원천을 `@/utils/dateRange`로 이동하고 기존 export는 re-export로 하위 호환 유지.
 - ✅ TextInput controlled/uncontrolled 혼합 정리: `value` / `defaultValue`를 동시에 전달하는 패턴 제거. `isControlled` 분기로 한 쪽만 전달하도록 수정해 React controlled/uncontrolled 경고 가능성 제거.
+- ✅ Modal 초기/닫힘 포커스 복원: `onOpenAutoFocus` 내부 `preventDefault` 제거하여 Radix 기본 동작(모달 내 첫 focusable 요소로 이동)을 복원. 커스텀이 필요한 소비 앱을 위해 `onOpenAutoFocus` / `onCloseAutoFocus` prop을 공개 API로 추가하고 JSDoc에 사용법 기록.
+- ✅ TagInput controlled/uncontrolled 단일화: `value`가 정의됐을 때만 controlled로 동작하고 그 외에는 `defaultValue` 기반 uncontrolled로 동작하도록 분기. 기존의 `useEffect`로 `value`를 덮어쓰는 패턴 제거. 내부 변경은 `commitTags`로 단일 경로 처리.
+- ✅ TagInput `alert()` 제거: 브라우저 `alert`를 컴포넌트 내부 인라인 에러 메시지로 대체. 소비 앱이 toast 등 커스텀 표시를 원할 경우 `onError?: (message: string) => void` 콜백을 사용할 수 있도록 공개. 다음 성공 액션(태그 추가/삭제) 시 에러 상태 자동 해제.
+- ✅ Dropdown `onValuesChange` 병행 API: 다중 모드에서 배열로 변경을 받을 수 있는 `onValuesChange?: (values: string[]) => void` 콜백을 새로 공개. `onValuesChange`가 제공되면 기존의 콤마 문자열 `onValueChange` 대신 우선 호출하고, 단일 모드에서는 동작하지 않음. 기존 `onValueChange`는 하위 호환 유지.
+- ✅ DateRangePicker QuickSelect 유틸 분리: 613줄 단일 파일에서 `quickSelectOptions.ts` (~183줄, 순수 함수 + 타입)로 분리하여 본 파일을 ~439줄로 축소. `QuickSelectMode`, `QuickSelectOption`, `getQuickSelectOptions`, `isRangeWithinBounds`를 내부 공용화.
 
 ## 8. 다음 단계
 

@@ -21,7 +21,19 @@ export type DropdownProps = {
   options: DropdownOption[];
   value?: string;
   placeholder?: string;
+  /**
+   * 선택 변경 콜백.
+   * - 단일 모드: 선택된 값 한 개.
+   * - 다중 모드(`multiple=true`): 콤마(`,`)로 구분된 문자열.
+   *   새로운 소비 코드는 `onValuesChange`를 사용하세요.
+   */
   onValueChange?: (value: string) => void;
+  /**
+   * 다중 모드 전용 콜백. 선택된 값을 배열로 받습니다.
+   * `multiple=true`에서 `onValueChange`보다 우선 호출됩니다.
+   * 단일 모드에서는 호출되지 않습니다.
+   */
+  onValuesChange?: (values: string[]) => void;
   disabled?: boolean;
   className?: string;
   dropdownClassName?: string;
@@ -123,6 +135,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       value,
       placeholder = "선택하세요",
       onValueChange,
+      onValuesChange,
       disabled = false,
       className,
       dropdownClassName,
@@ -239,6 +252,14 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       };
     }, []);
 
+    const emitMultipleChange = (nextValues: string[]) => {
+      if (onValuesChange) {
+        onValuesChange(nextValues);
+      } else {
+        onValueChange?.(nextValues.join(","));
+      }
+    };
+
     const handleOptionClick = (option: DropdownOption) => {
       if (option.disabled) return;
 
@@ -250,7 +271,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         if (value === undefined) {
           setInternalSelectedValues(newSelectedValues);
         }
-        onValueChange?.(newSelectedValues.join(","));
+        emitMultipleChange(newSelectedValues);
       } else {
         onValueChange?.(option.value);
         setIsOpen(false);
@@ -263,7 +284,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         if (value === undefined) {
           setInternalSelectedValues([]);
         }
-        onValueChange?.("");
+        emitMultipleChange([]);
       } else {
         onValueChange?.("");
       }

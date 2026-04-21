@@ -14,6 +14,18 @@ export type ModalProps = {
   className?: string;
   showCloseButton?: boolean;
   size?: "sm" | "md" | "lg";
+  /**
+   * 모달이 열릴 때 발생하는 초기 포커스 이벤트입니다.
+   * 기본적으로 Radix가 모달 안의 첫 번째 포커스 가능한 요소로 포커스를 이동시킵니다.
+   * `event.preventDefault()`를 호출하면 기본 포커스 이동을 막을 수 있습니다.
+   */
+  onOpenAutoFocus?: (event: Event) => void;
+  /**
+   * 모달이 닫힐 때 발생하는 포커스 반환 이벤트입니다.
+   * 기본적으로 Radix가 모달을 연 트리거 요소로 포커스를 되돌립니다.
+   * `event.preventDefault()`를 호출하면 기본 동작을 막을 수 있습니다.
+   */
+  onCloseAutoFocus?: (event: Event) => void;
 };
 
 const sizeClasses = {
@@ -208,6 +220,8 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
       className,
       showCloseButton = true,
       size = "md",
+      onOpenAutoFocus,
+      onCloseAutoFocus,
     },
     ref,
   ) => {
@@ -225,7 +239,8 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
           />
           <DialogPrimitive.Content
             ref={ref}
-            onOpenAutoFocus={(e) => e.preventDefault()}
+            onOpenAutoFocus={onOpenAutoFocus}
+            onCloseAutoFocus={onCloseAutoFocus}
             className={cn(
               "z-cms-modal fixed top-[50%] left-[50%]",
               "translate-x-[-50%] translate-y-[-50%]",
