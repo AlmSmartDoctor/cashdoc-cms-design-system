@@ -168,25 +168,35 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     ref,
   ) => {
     const generatedInputId = React.useId();
+    const isControlled = value !== undefined;
+    const toDisplayString = (inputValue: typeof value): string =>
+      inputValue == null ? "" : String(inputValue);
     const [internalValue, setInternalValue] = React.useState<string>(
-      (value || defaultValue || "") as string,
+      toDisplayString(defaultValue),
     );
     const inputId = id || generatedInputId;
+    const errorMessageId = `${inputId}-error`;
+    const helperTextId = `${inputId}-helper`;
     const finalVariant = error ? "error" : variant;
 
-    const currentValue =
-      value !== undefined ? (value as string) : internalValue;
+    const currentValue = isControlled ? toDisplayString(value) : internalValue;
     const charCount = currentValue.length;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (value === undefined) {
+      if (!isControlled) {
         setInternalValue(e.target.value);
       }
       onChange?.(e);
     };
 
+    const valueProps = isControlled ? { value } : { defaultValue };
+
     const hasHeader = label || (showCharCount && maxLength);
     const isHorizontal = labelLayout === "horizontal";
+    const describedBy =
+      error && errorMessage ? errorMessageId
+      : helperText ? helperTextId
+      : undefined;
 
     return (
       <div className={cn("w-full", !fullWidth && "w-auto")}>
@@ -211,10 +221,11 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
                   className,
                 )}
                 maxLength={maxLength}
-                value={value}
-                defaultValue={defaultValue}
+                {...valueProps}
                 onChange={handleChange}
                 required={required}
+                aria-invalid={error || undefined}
+                aria-describedby={describedBy}
                 {...props}
               />
             </div>
@@ -250,19 +261,24 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
                 className,
               )}
               maxLength={maxLength}
-              value={value}
-              defaultValue={defaultValue}
+              {...valueProps}
               onChange={handleChange}
               required={required}
+              aria-invalid={error || undefined}
+              aria-describedby={describedBy}
               {...props}
             />
           </>
         }
         {error && errorMessage && (
-          <span className={errorMessageVariants()}>{errorMessage}</span>
+          <span id={errorMessageId} className={errorMessageVariants()}>
+            {errorMessage}
+          </span>
         )}
         {!error && helperText && (
-          <span className={helperTextVariants()}>{helperText}</span>
+          <span id={helperTextId} className={helperTextVariants()}>
+            {helperText}
+          </span>
         )}
       </div>
     );

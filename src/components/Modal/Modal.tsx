@@ -14,6 +14,18 @@ export type ModalProps = {
   className?: string;
   showCloseButton?: boolean;
   size?: "sm" | "md" | "lg";
+  /**
+   * 모달이 열릴 때 발생하는 초기 포커스 이벤트입니다.
+   * 기본적으로 Radix가 모달 안의 첫 번째 포커스 가능한 요소로 포커스를 이동시킵니다.
+   * `event.preventDefault()`를 호출하면 기본 포커스 이동을 막을 수 있습니다.
+   */
+  onOpenAutoFocus?: (event: Event) => void;
+  /**
+   * 모달이 닫힐 때 발생하는 포커스 반환 이벤트입니다.
+   * 기본적으로 Radix가 모달을 연 트리거 요소로 포커스를 되돌립니다.
+   * `event.preventDefault()`를 호출하면 기본 동작을 막을 수 있습니다.
+   */
+  onCloseAutoFocus?: (event: Event) => void;
 };
 
 const sizeClasses = {
@@ -208,6 +220,8 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
       className,
       showCloseButton = true,
       size = "md",
+      onOpenAutoFocus,
+      onCloseAutoFocus,
     },
     ref,
   ) => {
@@ -216,7 +230,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
         <DialogPrimitive.Portal>
           <DialogPrimitive.Overlay
             className={cn(
-              "fixed inset-0 z-150 bg-black/50",
+              "z-cms-modal fixed inset-0 bg-cms-black/50",
               "data-[state=closed]:animate-out",
               "data-[state=open]:animate-in",
               "data-[state=closed]:fade-out-0",
@@ -225,13 +239,14 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
           />
           <DialogPrimitive.Content
             ref={ref}
-            onOpenAutoFocus={(e) => e.preventDefault()}
+            onOpenAutoFocus={onOpenAutoFocus}
+            onCloseAutoFocus={onCloseAutoFocus}
             className={cn(
-              "fixed top-[50%] left-[50%] z-150",
+              "z-cms-modal fixed top-[50%] left-[50%]",
               "translate-x-[-50%] translate-y-[-50%]",
               "w-full",
               sizeClasses[size],
-              "rounded-lg bg-white shadow-lg",
+              "rounded-cms-lg bg-cms-white shadow-lg",
               "p-6",
               "data-[state=closed]:animate-out",
               "data-[state=open]:animate-in",
@@ -247,16 +262,14 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 <Button
                   variant="ghost"
                   size="icon"
-                  className={cn("size-6", "absolute top-4 right-4")}
+                  className="absolute top-4 right-4 size-6"
                 >
                   <X />
                   <span className="sr-only">Close</span>
                 </Button>
               </DialogPrimitive.Close>
             )}
-
             {icon && <div className="mb-4 flex justify-center">{icon}</div>}
-
             {title && (
               <DialogPrimitive.Title
                 className={cn(
@@ -267,13 +280,11 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 {title}
               </DialogPrimitive.Title>
             )}
-
             <DialogPrimitive.Description
-              className={cn("text-sm", "text-cms-gray-700", "text-center")}
+              className={cn("text-center text-sm text-cms-gray-700")}
             >
               {children}
             </DialogPrimitive.Description>
-
             {footer && <div className="mt-6">{footer}</div>}
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>

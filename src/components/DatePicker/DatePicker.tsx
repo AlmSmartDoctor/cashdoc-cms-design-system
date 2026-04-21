@@ -6,6 +6,7 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
 import { CalendarIcon } from "@/components/icons";
+import { useDisclosure } from "@/hooks/useDisclosure";
 import "react-day-picker/style.css";
 
 export type DatePickerProps = {
@@ -124,7 +125,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     },
     ref,
   ) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const { isOpen, onOpenChange: setIsOpen } = useDisclosure();
     const [draftDate, setDraftDate] = useState<Dayjs | undefined>(
       value ? dayjs(value) : undefined,
     );
@@ -227,7 +228,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
               align="start"
               sideOffset={5}
               className={cn(
-                "z-50 rounded-lg bg-white p-2 shadow-xl",
+                "z-cms-overlay rounded-lg bg-white p-2 shadow-xl",
                 "border border-gray-200",
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",
@@ -262,15 +263,14 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                 )}
               >
                 <div className="flex min-h-8 flex-col">
-                  {draftDate ? (
+                  {draftDate ?
                     <span className="text-xs text-gray-700">
                       {draftDate.format("YYYY-MM-DD")}
                     </span>
-                  ) : (
-                    <span className="text-xs text-red-500">
+                  : <span className="text-xs text-red-500">
                       날짜를 선택해 주세요.
                     </span>
-                  )}
+                  }
                 </div>
 
                 <div className="flex gap-2">
@@ -313,13 +313,12 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
         {/* Helper/Error Text */}
         {(helperText || errorMessage) && (
           <div>
-            {error && errorMessage ? (
+            {error && errorMessage ?
               <p className="text-xs text-red-500">{errorMessage}</p>
-            ) : (
-              helperText && (
+            : helperText && (
                 <p className="text-xs text-gray-500">{helperText}</p>
               )
-            )}
+            }
           </div>
         )}
       </div>

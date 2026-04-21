@@ -1,13 +1,13 @@
 import * as ToggleGroup from "@radix-ui/react-toggle-group";
 import { cn } from "@/utils/cn";
 
-type Option<T extends string | number> = {
+export type SegmentedControlsOption<T extends string | number> = {
   label: string;
   value: T;
 };
 
-type SegmentedControlsProps<T extends string | number> = {
-  options: Option<T>[];
+export type SegmentedControlsProps<T extends string | number> = {
+  options: SegmentedControlsOption<T>[];
   value: T;
   onChange: (value: T) => void;
   className?: string;

@@ -23,6 +23,7 @@ className={cn(
 ```
 
 권장:
+
 - 베이스 클래스
 - 상태/variant 클래스
 - 외부 `className` override
@@ -44,3 +45,33 @@ className={cn(
 - 템플릿 문자열로 긴 `className` 조합
 - 동일 의미 클래스 반복 복붙
 - 이유 없는 `!important` 사용
+
+## 7. z-index 레이어
+
+`src/styles/globals.css`에서 두 레이어만 정의합니다.
+
+- `z-cms-overlay` (기본 `50`) — Popover, Tooltip, Dropdown, DatePicker 등 플로팅 UI 공용
+- `z-cms-modal` (기본 `150`) — Dialog 오버레이 + Content
+
+같은 레이어끼리는 DOM 순서로 겹침이 결정됩니다.
+
+### 프로젝트 전역 override
+
+소비 앱의 글로벌 CSS에서 `:root` 스코프의 변수를 덮어 쓰면 일괄 조정됩니다.
+
+```css
+:root {
+  --z-cms-overlay: 9000;
+  --z-cms-modal: 9100;
+}
+```
+
+### 단일 컴포넌트만 조정
+
+컴포넌트 `className`에 Tailwind arbitrary value를 전달하면 해당 인스턴스만 바뀝니다.
+
+```tsx
+<Popover className="z-9999">
+  …
+</Popover>
+```

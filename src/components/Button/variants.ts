@@ -23,7 +23,7 @@ export const buttonVariants = cva(
     "focus-visible:ring-2 focus-visible:outline-none",
     "focus-visible:ring-slate-950 focus-visible:ring-offset-2",
     "disabled:pointer-events-none disabled:opacity-60",
-    "cursor-pointer scale-100 transform-gpu",
+    "scale-100 transform-gpu cursor-pointer",
     "transition-all duration-150 ease-out",
     "active:scale-95",
   ),
@@ -47,10 +47,7 @@ export const buttonVariants = cva(
           "border-0 bg-transparent",
           "hover:bg-cms-gray-200 hover:text-cms-gray-800",
         ),
-        link: cn(
-          "border-0 text-cms-black underline-offset-4",
-          "hover:underline",
-        ),
+        link: "border-0 text-cms-black underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-4 py-2",

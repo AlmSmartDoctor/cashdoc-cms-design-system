@@ -3,8 +3,10 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
-import type { DateRange } from "../DateRangePicker/DateRangePicker";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
+import { useDisclosure } from "@/hooks/useDisclosure";
+import { toDayjsRange } from "@/utils/dateRange";
+import type { DateRange } from "@/utils/dateRange";
 import "react-day-picker/style.css";
 
 const MONTH_NAMES = [
@@ -32,15 +34,6 @@ export type MonthRangePickerProps = {
   min?: string;
   /** 선택 가능한 최대 날짜 (YYYY-MM-DD) */
   max?: string;
-};
-
-const toDayjsRange = (
-  range?: DateRange,
-): [Dayjs | undefined, Dayjs | undefined] => {
-  return [
-    range?.start ? dayjs(range.start) : undefined,
-    range?.end ? dayjs(range.end) : undefined,
-  ];
 };
 
 const clampToMinMax = (
@@ -189,7 +182,7 @@ export const MonthRangePicker = React.forwardRef<
     ref,
   ) => {
     const id = React.useId();
-    const [isOpen, setIsOpen] = useState(false);
+    const { isOpen, onOpenChange: setIsOpen } = useDisclosure();
     const [baseYear, setBaseYear] = useState(() => {
       if (value?.start) return dayjs(value.start).year();
       return dayjs().year() - 1;
@@ -451,7 +444,7 @@ export const MonthRangePicker = React.forwardRef<
             align="start"
             sideOffset={5}
             className={cn(
-              "z-50 rounded-lg bg-white p-2",
+              "z-cms-overlay rounded-lg bg-white p-2",
               "border border-gray-200",
               "shadow-xl",
               "data-[state=open]:animate-in",
@@ -467,7 +460,7 @@ export const MonthRangePicker = React.forwardRef<
             <div
               className="date-range-picker-calendar month-range-picker-calendar"
             >
-              {/* eslint-disable-next-line better-tailwindcss/no-unknown-classes */}
+              { }
               <div className="rdp rdp-root">
                 {/* Full-width nav bar: prev at left, years in center, next at right */}
                 <div
@@ -486,14 +479,14 @@ export const MonthRangePicker = React.forwardRef<
                     <ChevronLeftIcon size={16} className="text-cms-gray-600" />
                   </button>
                   <div className="flex flex-1 gap-20">
-                    {/* eslint-disable better-tailwindcss/no-unknown-classes */}
+                    { }
                     <div className="rdp-caption_label flex-1 justify-center">
                       {baseYear}년
                     </div>
                     <div className="rdp-caption_label flex-1 justify-center">
                       {baseYear + 1}년
                     </div>
-                    {/* eslint-enable better-tailwindcss/no-unknown-classes */}
+                    { }
                   </div>
                   <button
                     type="button"

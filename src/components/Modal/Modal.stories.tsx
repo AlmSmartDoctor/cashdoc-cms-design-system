@@ -6,7 +6,7 @@ import { DeleteModal } from "./DeleteModal";
 import { ErrorModal } from "./ErrorModal";
 import { WarningModal } from "./WarningModal";
 import { SuccessModal } from "./SuccessModal";
-import { Button } from "../Button/Button";
+import { Button } from "../Button";
 import { cn } from "@/utils/cn";
 
 const meta: Meta<typeof Modal> = {

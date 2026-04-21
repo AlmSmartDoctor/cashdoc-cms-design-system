@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
+import { useScrollIndicator } from "@/hooks/useScrollIndicator";
 import {
   ChevronUp,
   ChevronDown,
@@ -143,9 +144,11 @@ export type TableProps = {
  */
 export const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, striped, hoverable, bordered, compact, ...props }, ref) => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [showLeftScroll, setShowLeftScroll] = useState(false);
-    const [showRightScroll, setShowRightScroll] = useState(false);
+    const {
+      ref: containerRef,
+      showStart: showLeftScroll,
+      showEnd: showRightScroll,
+    } = useScrollIndicator<HTMLDivElement>("x");
     const tableState = React.useMemo(
       () => ({
         striped: Boolean(striped),
@@ -154,29 +157,6 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
       }),
       [striped, hoverable, compact],
     );
-
-    const checkScroll = () => {
-      const container = containerRef.current;
-      if (!container) return;
-
-      const { scrollLeft, scrollWidth, clientWidth } = container;
-      setShowLeftScroll(scrollLeft > 0);
-      setShowRightScroll(scrollLeft < scrollWidth - clientWidth - 1);
-    };
-
-    useEffect(() => {
-      const container = containerRef.current;
-      if (container) {
-        checkScroll();
-        container.addEventListener("scroll", checkScroll);
-        window.addEventListener("resize", checkScroll);
-
-        return () => {
-          container.removeEventListener("scroll", checkScroll);
-          window.removeEventListener("resize", checkScroll);
-        };
-      }
-    }, []);
 
     return (
       <TableContext.Provider value={tableState}>
