@@ -169,15 +169,17 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ) => {
     const generatedInputId = React.useId();
     const isControlled = value !== undefined;
+    const toDisplayString = (inputValue: typeof value): string =>
+      inputValue == null ? "" : String(inputValue);
     const [internalValue, setInternalValue] = React.useState<string>(
-      (defaultValue as string | undefined) ?? "",
+      toDisplayString(defaultValue),
     );
     const inputId = id || generatedInputId;
     const errorMessageId = `${inputId}-error`;
     const helperTextId = `${inputId}-helper`;
     const finalVariant = error ? "error" : variant;
 
-    const currentValue = isControlled ? (value as string) : internalValue;
+    const currentValue = isControlled ? toDisplayString(value) : internalValue;
     const charCount = currentValue.length;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

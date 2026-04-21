@@ -247,6 +247,15 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
 
     const generatedInputId = useId();
     const inputId = id || generatedInputId;
+    const helperTextId = `${inputId}-helper`;
+    const errorMessageId = `${inputId}-error`;
+    const describedBy =
+      [
+        !noLimit ? helperTextId : undefined,
+        errorMessage ? errorMessageId : undefined,
+      ]
+        .filter(Boolean)
+        .join(" ") || undefined;
 
     const handleCompositionStart = () => {
       setIsComposing(true);
@@ -278,6 +287,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
             return;
           }
           if (validationResult === false) {
+            raiseError("유효하지 않은 태그입니다.");
             return;
           }
         }
@@ -352,10 +362,12 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
                   onCompositionEnd={handleCompositionEnd}
                   placeholder={tags.length === 0 ? placeholder : ""}
                   disabled={isInputDisabled}
+                  aria-invalid={errorMessage ? true : undefined}
+                  aria-describedby={describedBy}
                 />
               </div>
               {!noLimit && (
-                <div className={helperTextVariants()}>
+                <div id={helperTextId} className={helperTextVariants()}>
                   최대 {maxTags}개 까지 선택할 수 있습니다.
                   <span className={tagCountVariants()}>
                     ({tags.length} / {maxTags})
@@ -363,7 +375,11 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
                 </div>
               )}
               {errorMessage && (
-                <span role="alert" className={errorMessageVariants()}>
+                <span
+                  id={errorMessageId}
+                  role="alert"
+                  className={errorMessageVariants()}
+                >
                   {errorMessage}
                 </span>
               )}
@@ -419,10 +435,12 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
                 onCompositionEnd={handleCompositionEnd}
                 placeholder={tags.length === 0 ? placeholder : ""}
                 disabled={isInputDisabled}
+                aria-invalid={errorMessage ? true : undefined}
+                aria-describedby={describedBy}
               />
             </div>
             {!noLimit && (
-              <div className={helperTextVariants()}>
+              <div id={helperTextId} className={helperTextVariants()}>
                 최대 {maxTags}개 까지 선택할 수 있습니다.
                 <span className={tagCountVariants()}>
                   ({tags.length} / {maxTags})
@@ -430,7 +448,11 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
               </div>
             )}
             {errorMessage && (
-              <span role="alert" className={errorMessageVariants()}>
+              <span
+                id={errorMessageId}
+                role="alert"
+                className={errorMessageVariants()}
+              >
                 {errorMessage}
               </span>
             )}
