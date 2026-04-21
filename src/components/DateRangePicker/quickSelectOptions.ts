@@ -32,14 +32,16 @@ export const isRangeWithinBounds = (
 
 /**
  * mondayStart 옵션에 따라 주(週)의 시작일(월요일 또는 일요일)을 반환합니다.
+ * dayjs의 `startOf("week")`는 locale의 `weekStart`에 의존하므로,
+ * 의도한 주 시작일을 보장하기 위해 양쪽 브랜치 모두 명시적 산술을 사용합니다.
  */
 const getWeekStart = (date: Dayjs, mondayStart: boolean): Dayjs => {
+  const day = date.day(); // 0=일, 1=월, ..., 6=토
   if (mondayStart) {
-    const day = date.day(); // 0=일, 1=월, ..., 6=토
     const diff = day === 0 ? -6 : 1 - day;
     return date.add(diff, "day").startOf("day");
   }
-  return date.startOf("week");
+  return date.subtract(day, "day").startOf("day");
 };
 
 /**
@@ -54,7 +56,6 @@ const getPastQuickSelectOptions = (
   min?: string,
   max?: string,
 ): QuickSelectOption[] => {
-  const now = dayjs();
   const minDate = min ? dayjs(min) : dayjs(DEFAULT_MIN);
   const maxDate = max ? dayjs(max) : dayjs(DEFAULT_MAX);
 
@@ -65,35 +66,50 @@ const getPastQuickSelectOptions = (
     },
     {
       label: "오늘",
-      getValue: () => [now, now],
+      getValue: () => {
+        const now = dayjs();
+        return [now, now];
+      },
     },
     {
       label: "어제",
-      getValue: () => [now.subtract(1, "day"), now.subtract(1, "day")],
+      getValue: () => {
+        const yesterday = dayjs().subtract(1, "day");
+        return [yesterday, yesterday];
+      },
     },
     {
       label: "이번주",
-      getValue: () => [
-        getWeekStart(now, mondayStart),
-        getWeekEnd(now, mondayStart),
-      ],
+      getValue: () => {
+        const now = dayjs();
+        return [getWeekStart(now, mondayStart), getWeekEnd(now, mondayStart)];
+      },
     },
     {
       label: "이번달",
-      getValue: () => [now.startOf("month"), now.endOf("month")],
+      getValue: () => {
+        const now = dayjs();
+        return [now.startOf("month"), now.endOf("month")];
+      },
     },
     {
       label: "7일",
-      getValue: () => [now.subtract(6, "day"), now],
+      getValue: () => {
+        const now = dayjs();
+        return [now.subtract(6, "day"), now];
+      },
     },
     {
       label: "30일",
-      getValue: () => [now.subtract(29, "day"), now],
+      getValue: () => {
+        const now = dayjs();
+        return [now.subtract(29, "day"), now];
+      },
     },
     {
       label: "지난주",
       getValue: () => {
-        const lastWeek = now.subtract(1, "week");
+        const lastWeek = dayjs().subtract(1, "week");
         return [
           getWeekStart(lastWeek, mondayStart),
           getWeekEnd(lastWeek, mondayStart),
@@ -102,10 +118,10 @@ const getPastQuickSelectOptions = (
     },
     {
       label: "지난달",
-      getValue: () => [
-        now.subtract(1, "month").startOf("month"),
-        now.subtract(1, "month").endOf("month"),
-      ],
+      getValue: () => {
+        const lastMonth = dayjs().subtract(1, "month");
+        return [lastMonth.startOf("month"), lastMonth.endOf("month")];
+      },
     },
   ];
 };
@@ -115,7 +131,6 @@ const getFutureQuickSelectOptions = (
   min?: string,
   max?: string,
 ): QuickSelectOption[] => {
-  const now = dayjs();
   const minDate = min ? dayjs(min) : dayjs(DEFAULT_MIN);
   const maxDate = max ? dayjs(max) : dayjs(DEFAULT_MAX);
 
@@ -126,35 +141,50 @@ const getFutureQuickSelectOptions = (
     },
     {
       label: "오늘",
-      getValue: () => [now, now],
+      getValue: () => {
+        const now = dayjs();
+        return [now, now];
+      },
     },
     {
       label: "내일",
-      getValue: () => [now.add(1, "day"), now.add(1, "day")],
+      getValue: () => {
+        const tomorrow = dayjs().add(1, "day");
+        return [tomorrow, tomorrow];
+      },
     },
     {
       label: "이번주",
-      getValue: () => [
-        getWeekStart(now, mondayStart),
-        getWeekEnd(now, mondayStart),
-      ],
+      getValue: () => {
+        const now = dayjs();
+        return [getWeekStart(now, mondayStart), getWeekEnd(now, mondayStart)];
+      },
     },
     {
       label: "이번달",
-      getValue: () => [now.startOf("month"), now.endOf("month")],
+      getValue: () => {
+        const now = dayjs();
+        return [now.startOf("month"), now.endOf("month")];
+      },
     },
     {
       label: "7일",
-      getValue: () => [now, now.add(6, "day")],
+      getValue: () => {
+        const now = dayjs();
+        return [now, now.add(6, "day")];
+      },
     },
     {
       label: "30일",
-      getValue: () => [now, now.add(29, "day")],
+      getValue: () => {
+        const now = dayjs();
+        return [now, now.add(29, "day")];
+      },
     },
     {
       label: "다음주",
       getValue: () => {
-        const nextWeek = now.add(1, "week");
+        const nextWeek = dayjs().add(1, "week");
         return [
           getWeekStart(nextWeek, mondayStart),
           getWeekEnd(nextWeek, mondayStart),
@@ -163,10 +193,10 @@ const getFutureQuickSelectOptions = (
     },
     {
       label: "다음달",
-      getValue: () => [
-        now.add(1, "month").startOf("month"),
-        now.add(1, "month").endOf("month"),
-      ],
+      getValue: () => {
+        const nextMonth = dayjs().add(1, "month");
+        return [nextMonth.startOf("month"), nextMonth.endOf("month")];
+      },
     },
   ];
 };
