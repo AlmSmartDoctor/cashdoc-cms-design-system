@@ -384,7 +384,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
     return (
       <div ref={dropdownRef} className="relative w-full">
         {selectAll && (
-          <div className="mb-1 flex justify-start gap-2">
+          <div className="mb-1 flex justify-start -space-x-4">
             <Button
               variant="underline"
               type="button"

@@ -16,11 +16,20 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["default", "secondary", "outline", "ghost", "link", "underline"],
+      options: [
+        "default",
+        "secondary",
+        "outline",
+        "ghost",
+        "link",
+        "underline",
+      ],
       description:
         "버튼의 스타일 변형입니다. 페이지 내 버튼의 중요도와 맥락에 따라 선택하세요. default는 주요 액션, secondary는 보조 액션, underline은 텍스트 형태의 인라인 액션에 사용합니다.",
       table: {
-        type: { summary: "default | secondary | outline | ghost | link | underline" },
+        type: {
+          summary: "default | secondary | outline | ghost | link | underline",
+        },
         defaultValue: { summary: "default" },
       },
     },
@@ -118,6 +127,14 @@ export const Underline: Story = {
   args: {
     variant: "underline",
     children: "모두 선택",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "배경 없이 항상 밑줄이 표시되는 텍스트 형태의 버튼입니다. 다중 선택 드롭다운 상단의 '모두 선택'·'해제'처럼 보조적인 인라인 액션에 사용합니다. `active:scale-95` 등 공통 인터랙션 스타일이 그대로 적용됩니다.",
+      },
+    },
   },
 };
 

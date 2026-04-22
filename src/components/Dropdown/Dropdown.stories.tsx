@@ -69,6 +69,15 @@ const meta: Meta<typeof Dropdown> = {
         defaultValue: { summary: "false" },
       },
     },
+    selectAll: {
+      control: "boolean",
+      description:
+        "`multiple={true}`일 때만 사용 가능합니다. 드롭다운 트리거 위에 '모두 선택' 버튼과 '해제' 버튼을 표시합니다. 검색(`searchable`) 중에는 현재 필터링된 옵션들만 선택합니다. `selectAll={true}`를 `multiple={false}`와 함께 사용하면 런타임 에러가 발생합니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
     options: {
       description: "드롭다운에 표시될 옵션 목록입니다.",
       table: {

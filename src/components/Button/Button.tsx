@@ -79,17 +79,6 @@ export type ButtonProps = {} & ButtonHTMLAttributes<HTMLButtonElement> &
  * {@end-tool}
  *
  * {@tool snippet}
- * 인라인 텍스트 액션 버튼 (`underline` variant):
- *
- * ```tsx
- * <div className="flex gap-2">
- *   <Button variant="underline" onClick={handleSelectAll}>모두 선택</Button>
- *   <Button variant="underline" onClick={handleClear}>해제</Button>
- * </div>
- * ```
- * {@end-tool}
- *
- * {@tool snippet}
  * 아이콘과 로딩 상태가 포함된 버튼:
  *
  * ```tsx
