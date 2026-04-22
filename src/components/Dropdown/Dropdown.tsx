@@ -2,6 +2,7 @@ import { cn } from "@/utils/cn";
 import type { VariantProps } from "class-variance-authority";
 import type { KeyboardEvent, RefAttributes } from "react";
 import { useState, useRef, useEffect, useCallback, forwardRef } from "react";
+import { useScrollIndicator } from "@/hooks/useScrollIndicator";
 import {
   ChevronDownFillIcon,
   ChevronRightFillIcon,
@@ -21,7 +22,19 @@ type DropdownPropsBase = {
   options: DropdownOption[];
   value?: string;
   placeholder?: string;
+  /**
+   * 선택 변경 콜백.
+   * - 단일 모드: 선택된 값 한 개.
+   * - 다중 모드(`multiple=true`): 콤마(`,`)로 구분된 문자열.
+   *   새로운 소비 코드는 `onValuesChange`를 사용하세요.
+   */
   onValueChange?: (value: string) => void;
+  /**
+   * 다중 모드 전용 콜백. 선택된 값을 배열로 받습니다.
+   * `multiple=true`에서 `onValueChange`보다 우선 호출됩니다.
+   * 단일 모드에서는 호출되지 않습니다.
+   */
+  onValuesChange?: (values: string[]) => void;
   disabled?: boolean;
   className?: string;
   dropdownClassName?: string;
@@ -157,6 +170,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       value,
       placeholder = "선택하세요",
       onValueChange,
+      onValuesChange,
       disabled = false,
       className,
       dropdownClassName,
@@ -199,11 +213,15 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
     const optionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
     const closeSubmenuTimeoutRef = useRef<number | null>(null);
 
-    const [showScrollIndicator, setShowScrollIndicator] = useState(false);
+    const {
+      ref: setOptionsListNode,
+      nodeRef: optionsListRef,
+      showEnd: showScrollIndicator,
+      refresh: refreshScrollIndicator,
+    } = useScrollIndicator<HTMLDivElement>("y");
 
     const dropdownRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const optionsListRef = useRef<HTMLDivElement | null>(null);
 
     // 서브메뉴 포함하여 옵션 찾기
     const findOption = (
@@ -253,11 +271,40 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       }, 300);
     };
 
+    const handleOptionMouseEnter = useCallback(
+      (option: DropdownOption, hasSubmenu: boolean) => {
+        clearSubmenuCloseTimeout();
+        if (!hasSubmenu) {
+          setHoveredSubmenu(null);
+          return;
+        }
+        const el = optionRefs.current.get(option.value);
+        if (el && optionsListRef.current) {
+          const optionRect = el.getBoundingClientRect();
+          const listRect = optionsListRef.current.getBoundingClientRect();
+          setHoveredSubmenu({
+            value: option.value,
+            top:
+              optionRect.top - listRect.top + optionsListRef.current.scrollTop,
+          });
+        }
+      },
+      [optionsListRef],
+    );
+
     useEffect(() => {
       return () => {
         clearSubmenuCloseTimeout();
       };
     }, []);
+
+    const emitMultipleChange = (nextValues: string[]) => {
+      if (onValuesChange) {
+        onValuesChange(nextValues);
+      } else {
+        onValueChange?.(nextValues.join(","));
+      }
+    };
 
     const handleOptionClick = (option: DropdownOption) => {
       if (option.disabled) return;
@@ -271,7 +318,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
         if (value === undefined) {
           setInternalSelectedValues(newSelectedValues);
         }
-        onValueChange?.(newSelectedValues.join(","));
+        emitMultipleChange(newSelectedValues);
       } else {
         onValueChange?.(option.value);
         setIsOpen(false);
@@ -296,7 +343,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
         if (value === undefined) {
           setInternalSelectedValues([]);
         }
-        onValueChange?.("");
+        emitMultipleChange([]);
       } else {
         onValueChange?.("");
       }
@@ -333,42 +380,6 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
         searchInputRef.current.focus();
       }
     }, [isOpen, searchable]);
-
-    const updateScrollIndicator = useCallback((target?: HTMLDivElement) => {
-      const optionsList = target ?? optionsListRef.current;
-      if (!optionsList) {
-        setShowScrollIndicator(false);
-        return;
-      }
-
-      const { scrollTop, scrollHeight, clientHeight } = optionsList;
-      const hasMoreContent = scrollHeight > clientHeight;
-      const isAtBottom = scrollHeight - scrollTop - clientHeight < 1;
-      setShowScrollIndicator(hasMoreContent && !isAtBottom);
-    }, []);
-
-    const scheduleScrollIndicatorUpdate = useCallback(
-      (target?: HTMLDivElement) => {
-        if (typeof window === "undefined") return;
-        window.requestAnimationFrame(() => {
-          updateScrollIndicator(target);
-        });
-      },
-      [updateScrollIndicator],
-    );
-
-    const setOptionsListNode = useCallback(
-      (node: HTMLDivElement | null) => {
-        optionsListRef.current = node;
-        if (!node) {
-          setShowScrollIndicator(false);
-          return;
-        }
-
-        scheduleScrollIndicatorUpdate(node);
-      },
-      [scheduleScrollIndicatorUpdate],
-    );
 
     return (
       <div ref={dropdownRef} className="relative w-full">
@@ -443,8 +454,8 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
         {isOpen && (
           <div
             className={cn(
-              "absolute z-50 mt-1 flex w-full min-w-0 flex-col py-1",
-              "overflow-hidden rounded-md border border-cms-gray-300",
+              "z-cms-overlay absolute mt-1 w-full min-w-0 py-1",
+              "rounded-md border border-cms-gray-300",
               "bg-white shadow-lg",
               "cms-dropdown-show",
               dropdownClassName,
@@ -459,7 +470,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                   value={searchTerm}
                   onChange={(e) => {
                     setSearchTerm(e.target.value);
-                    scheduleScrollIndicatorUpdate();
+                    requestAnimationFrame(() => refreshScrollIndicator());
                   }}
                   placeholder="검색..."
                   className={cn(
@@ -481,8 +492,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
               >
                 <div
                   ref={setOptionsListNode}
-                  className="h-full overflow-y-auto"
-                  onScroll={(e) => updateScrollIndicator(e.currentTarget)}
+                  className="max-h-48 overflow-y-auto"
                   onMouseEnter={clearSubmenuCloseTimeout}
                   onMouseLeave={scheduleSubmenuClose}
                 >
@@ -505,35 +515,15 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                       const isSubmenuOpen =
                         hoveredSubmenu?.value === option.value;
 
-                      const handleMouseEnter = () => {
-                        clearSubmenuCloseTimeout();
-                        if (!hasSubmenu) {
-                          setHoveredSubmenu(null);
-                          return;
-                        }
-
-                        const el = optionRefs.current.get(option.value);
-                        if (el && optionsListRef.current) {
-                          const optionRect = el.getBoundingClientRect();
-                          const listRect =
-                            optionsListRef.current.getBoundingClientRect();
-                          setHoveredSubmenu({
-                            value: option.value,
-                            top:
-                              optionRect.top -
-                              listRect.top +
-                              optionsListRef.current.scrollTop,
-                          });
-                        }
-                      };
-
                       return (
                         <div
                           key={option.value}
                           ref={(el) => {
                             if (el) optionRefs.current.set(option.value, el);
                           }}
-                          onMouseEnter={handleMouseEnter}
+                          onMouseEnter={() =>
+                            handleOptionMouseEnter(option, hasSubmenu)
+                          }
                           onMouseLeave={() => {
                             if (hasSubmenu) {
                               scheduleSubmenuClose();
@@ -626,7 +616,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                   return (
                     <div
                       className={cn(
-                        "absolute left-full z-50 ml-1 min-w-40 py-1",
+                        "z-cms-overlay absolute left-full ml-1 min-w-40 py-1",
                         "rounded-md border border-cms-gray-300",
                         "bg-white shadow-lg",
                         "cms-dropdown-show",

@@ -75,6 +75,7 @@ export const config = [
             "^(?:.*:)?scrollbar-(?:thumb|track)-\\[[^\\]]+\\]$",
             "date-range-picker-calendar",
             "date-picker-calendar",
+            "^rdp-",
           ],
         },
       ],

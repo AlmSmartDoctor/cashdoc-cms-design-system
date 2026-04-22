@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { Clock } from "lucide-react";
 import { cn } from "@/utils/cn";
+import { useDisclosure } from "@/hooks/useDisclosure";
 
 type TimePeriod = "AM" | "PM";
 
@@ -202,7 +203,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     ref,
   ) => {
     const initialTime = parseTimeValue(value, format);
-    const [isOpen, setIsOpen] = useState(false);
+    const { isOpen, onOpenChange: setIsOpen } = useDisclosure();
     const [selectedHour, setSelectedHour] = useState<number | null>(
       initialTime.hour,
     );
@@ -361,7 +362,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
               align="start"
               sideOffset={5}
               className={cn(
-                "z-50 rounded-lg bg-white shadow-xl",
+                "z-cms-overlay rounded-lg bg-white shadow-xl",
                 "border border-gray-200",
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",

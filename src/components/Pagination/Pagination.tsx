@@ -283,8 +283,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                 paginationButtonVariants({
                   variant: isActive ? "active" : "default",
                 }),
-                disabled &&
-                  cn("opacity-50", "cursor-not-allowed", "pointer-events-none"),
+                disabled && "pointer-events-none cursor-not-allowed opacity-50",
               )}
             >
               {page}

@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useState } from "react";
+import React, { useId, useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
 
@@ -10,7 +10,7 @@ const tagInputContainerVariants = cva(
   {
     variants: {
       readOnly: {
-        true: cn("cursor-default bg-cms-gray-150", "border-cms-gray-450"),
+        true: "cursor-default border-cms-gray-450 bg-cms-gray-150",
         false: cn(
           "cursor-text bg-cms-white",
           "border-cms-gray-450",
@@ -64,6 +64,10 @@ const helperTextVariants = cva(
   "mt-1 flex items-center gap-1 text-sm text-cms-gray-700",
 );
 
+const errorMessageVariants = cva(
+  "mt-1 block text-sm font-medium text-cms-red-400",
+);
+
 const tagCountVariants = cva("text-sm font-bold text-cms-gray-750");
 
 export type TagInputProps = {
@@ -71,8 +75,21 @@ export type TagInputProps = {
   required?: boolean;
   maxTags?: number;
   placeholder?: string;
+  /**
+   * Controlled 모드 값. 제공 시 내부 상태가 아닌 이 값을 그대로 사용합니다.
+   * 제공하지 않으면 uncontrolled 모드로 내부 상태를 사용하며
+   * 초기값은 `defaultValue`에서 가져옵니다.
+   */
   value?: string[];
+  /** Uncontrolled 모드 초기값. `value`가 없을 때만 사용합니다. */
+  defaultValue?: string[];
   onChange?: (tags: string[]) => void;
+  /**
+   * 태그 추가가 실패했을 때 호출됩니다.
+   * 소비 앱이 toast 등으로 커스텀 알림을 띄우고 싶을 때 사용하세요.
+   * 제공하지 않아도 컴포넌트는 `helperText` 영역에 메시지를 자동 표시합니다.
+   */
+  onError?: (message: string) => void;
   readOnly?: boolean;
   noLimit?: boolean;
   validateTag?: (
@@ -189,8 +206,10 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
       required = false,
       maxTags = 2,
       placeholder = "태그를 입력하세요",
-      value = [],
+      value,
+      defaultValue,
       onChange,
+      onError,
       readOnly = false,
       layout = "row",
       noLimit = false,
@@ -202,17 +221,41 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
     },
     ref,
   ) => {
-    const [tags, setTags] = useState<string[]>(value);
+    const isControlled = value !== undefined;
+    const [internalTags, setInternalTags] = useState<string[]>(
+      defaultValue ?? [],
+    );
+    const tags = isControlled ? value : internalTags;
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    const commitTags = (next: string[]) => {
+      if (!isControlled) {
+        setInternalTags(next);
+      }
+      setErrorMessage(null);
+      onChange?.(next);
+    };
+
+    const raiseError = (message: string) => {
+      setErrorMessage(message);
+      onError?.(message);
+    };
+
     const [inputValue, setInputValue] = useState("");
     const [isComposing, setIsComposing] = useState(false);
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     const generatedInputId = useId();
     const inputId = id || generatedInputId;
-
-    useEffect(() => {
-      setTags(value);
-    }, [value]);
+    const helperTextId = `${inputId}-helper`;
+    const errorMessageId = `${inputId}-error`;
+    const describedBy =
+      [
+        !noLimit ? helperTextId : undefined,
+        errorMessage ? errorMessageId : undefined,
+      ]
+        .filter(Boolean)
+        .join(" ") || undefined;
 
     const handleCompositionStart = () => {
       setIsComposing(true);
@@ -228,37 +271,36 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
         const newTag = inputValue.trim();
 
         if (!noLimit && tags.length >= maxTags) {
-          alert(`최대 ${maxTags}개까지만 추가할 수 있습니다.`);
+          raiseError(`최대 ${maxTags}개까지만 추가할 수 있습니다.`);
           return;
         }
 
         if (tags.includes(newTag)) {
-          alert("이미 존재하는 태그입니다.");
+          raiseError("이미 존재하는 태그입니다.");
           return;
         }
 
         if (validateTag) {
           const validationResult = validateTag(newTag, tags);
           if (typeof validationResult === "string") {
-            alert(validationResult);
+            raiseError(validationResult);
             return;
           }
           if (validationResult === false) {
+            raiseError("유효하지 않은 태그입니다.");
             return;
           }
         }
 
         const newTags = [...tags, newTag];
-        setTags(newTags);
+        commitTags(newTags);
         setInputValue("");
-        onChange?.(newTags);
       }
     };
 
     const removeTag = (indexToRemove: number) => {
       const newTags = tags.filter((_, index) => index !== indexToRemove);
-      setTags(newTags);
-      onChange?.(newTags);
+      commitTags(newTags);
     };
 
     const handleContainerClick = () => {
@@ -320,15 +362,26 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
                   onCompositionEnd={handleCompositionEnd}
                   placeholder={tags.length === 0 ? placeholder : ""}
                   disabled={isInputDisabled}
+                  aria-invalid={errorMessage ? true : undefined}
+                  aria-describedby={describedBy}
                 />
               </div>
               {!noLimit && (
-                <div className={helperTextVariants()}>
+                <div id={helperTextId} className={helperTextVariants()}>
                   최대 {maxTags}개 까지 선택할 수 있습니다.
                   <span className={tagCountVariants()}>
                     ({tags.length} / {maxTags})
                   </span>
                 </div>
+              )}
+              {errorMessage && (
+                <span
+                  id={errorMessageId}
+                  role="alert"
+                  className={errorMessageVariants()}
+                >
+                  {errorMessage}
+                </span>
               )}
             </div>
           </div>
@@ -382,15 +435,26 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
                 onCompositionEnd={handleCompositionEnd}
                 placeholder={tags.length === 0 ? placeholder : ""}
                 disabled={isInputDisabled}
+                aria-invalid={errorMessage ? true : undefined}
+                aria-describedby={describedBy}
               />
             </div>
             {!noLimit && (
-              <div className={helperTextVariants()}>
+              <div id={helperTextId} className={helperTextVariants()}>
                 최대 {maxTags}개 까지 선택할 수 있습니다.
                 <span className={tagCountVariants()}>
                   ({tags.length} / {maxTags})
                 </span>
               </div>
+            )}
+            {errorMessage && (
+              <span
+                id={errorMessageId}
+                role="alert"
+                className={errorMessageVariants()}
+              >
+                {errorMessage}
+              </span>
             )}
           </>
         }

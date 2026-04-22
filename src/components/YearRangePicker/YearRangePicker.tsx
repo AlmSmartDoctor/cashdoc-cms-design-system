@@ -3,9 +3,11 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
-import type { DateRange } from "../DateRangePicker/DateRangePicker";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
 import { formatYearDigits, parseYearInput } from "@/utils/dateInputFormat";
+import { useDisclosure } from "@/hooks/useDisclosure";
+import { toDayjsRange } from "@/utils/dateRange";
+import type { DateRange } from "@/utils/dateRange";
 import "react-day-picker/style.css";
 
 const YEARS_PER_SECTION = 10;
@@ -20,15 +22,6 @@ export type YearRangePickerProps = {
   min?: string;
   /** 선택 가능한 최대 날짜 (YYYY-MM-DD) */
   max?: string;
-};
-
-const toDayjsRange = (
-  range?: DateRange,
-): [Dayjs | undefined, Dayjs | undefined] => {
-  return [
-    range?.start ? dayjs(range.start) : undefined,
-    range?.end ? dayjs(range.end) : undefined,
-  ];
 };
 
 const clampToMinMaxYears = (
@@ -156,7 +149,7 @@ export const YearRangePicker = React.forwardRef<
     ref,
   ) => {
     const id = React.useId();
-    const [isOpen, setIsOpen] = useState(false);
+    const { isOpen, onOpenChange: setIsOpen } = useDisclosure();
     const [baseYear, setBaseYear] = useState(() => {
       const from = value?.start ? dayjs(value.start) : dayjs();
       return Math.floor(from.year() / 20) * 20;
@@ -291,9 +284,7 @@ export const YearRangePicker = React.forwardRef<
       return result;
     };
 
-    const handleStartInputChange = (
-      e: React.ChangeEvent<HTMLInputElement>,
-    ) => {
+    const handleStartInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setStartInput(formatYearDigits(e.target.value));
     };
 
@@ -351,12 +342,10 @@ export const YearRangePicker = React.forwardRef<
 
     const handleApply = () => {
       // 타이핑 중 blur 가 아직 안 된 경우를 위해 input 문자열을 다시 파싱해 반영.
-      const parsedStart = startInput
-        ? (parseYearInput(startInput, "start") ?? null)
-        : null;
-      const parsedEnd = endInput
-        ? (parseYearInput(endInput, "end") ?? null)
-        : null;
+      const parsedStart =
+        startInput ? (parseYearInput(startInput, "start") ?? null) : null;
+      const parsedEnd =
+        endInput ? (parseYearInput(endInput, "end") ?? null) : null;
 
       if (startInput && !parsedStart) {
         setStartInput(fromDay ? fromDay.format("YYYY") : "");
@@ -601,7 +590,7 @@ export const YearRangePicker = React.forwardRef<
               if (t && containerRef.current?.contains(t)) e.preventDefault();
             }}
             className={cn(
-              "z-50 rounded-lg bg-white p-2",
+              "z-cms-overlay rounded-lg bg-white p-2",
               "border border-gray-200",
               "shadow-xl",
               "data-[state=open]:animate-in",
@@ -614,9 +603,7 @@ export const YearRangePicker = React.forwardRef<
               "data-[side=top]:slide-in-from-bottom-2",
             )}
           >
-            <div
-              className="date-range-picker-calendar year-range-picker-calendar"
-            >
+            <div className="date-range-picker-calendar year-range-picker-calendar">
               <div className="rdp rdp-root">
                 <div
                   className={cn(
