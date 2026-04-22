@@ -16,11 +16,11 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["default", "secondary", "outline", "ghost", "link"],
+      options: ["default", "secondary", "outline", "ghost", "link", "underline"],
       description:
-        "버튼의 스타일 변형입니다. 페이지 내 버튼의 중요도와 맥락에 따라 선택하세요. default는 주요 액션, secondary는 보조 액션에 사용합니다.",
+        "버튼의 스타일 변형입니다. 페이지 내 버튼의 중요도와 맥락에 따라 선택하세요. default는 주요 액션, secondary는 보조 액션, underline은 텍스트 형태의 인라인 액션에 사용합니다.",
       table: {
-        type: { summary: "default | secondary | outline | ghost | link" },
+        type: { summary: "default | secondary | outline | ghost | link | underline" },
         defaultValue: { summary: "default" },
       },
     },
@@ -114,6 +114,13 @@ export const Link: Story = {
   },
 };
 
+export const Underline: Story = {
+  args: {
+    variant: "underline",
+    children: "모두 선택",
+  },
+};
+
 export const Small: Story = {
   args: {
     size: "sm",
@@ -143,6 +150,7 @@ export const AllVariants: Story = {
       <Button variant="outline">Outline</Button>
       <Button variant="ghost">Ghost</Button>
       <Button variant="link">Link</Button>
+      <Button variant="underline">Underline</Button>
     </div>
   ),
   parameters: {

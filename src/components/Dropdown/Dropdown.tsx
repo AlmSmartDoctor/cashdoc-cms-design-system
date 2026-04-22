@@ -8,6 +8,7 @@ import {
   XIcon as ClearIcon,
 } from "../icons";
 import { dropdownTriggerVariants } from "./variants";
+import { Button } from "../Button";
 
 export type DropdownOption = {
   value: string;
@@ -174,20 +175,23 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
     // Defense in depth: the discriminated union prevents this at compile time,
     // but a dynamic `any` cast could still slip through.
     if (selectAll && !multiple) {
-      throw new Error(
-        "Dropdown: selectAll={true} requires multiple={true}.",
-      );
+      throw new Error("Dropdown: selectAll={true} requires multiple={true}.");
     }
 
     const [isOpen, setIsOpen] = useState(defaultOpen);
     const [searchTerm, setSearchTerm] = useState("");
     const [internalSelectedValues, setInternalSelectedValues] = useState<
       string[]
-    >(multiple ? (value ? value.split(",").filter(Boolean) : []) : []);
+    >(
+      multiple ?
+        value ? value.split(",").filter(Boolean)
+        : []
+      : [],
+    );
     const selectedValues =
-      multiple && value !== undefined
-        ? value.split(",").filter(Boolean)
-        : internalSelectedValues;
+      multiple && value !== undefined ?
+        value.split(",").filter(Boolean)
+      : internalSelectedValues;
     const [hoveredSubmenu, setHoveredSubmenu] = useState<{
       value: string;
       top: number;
@@ -217,9 +221,10 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
     };
 
     const selectedOption = findOption(options, value || "");
-    const selectedLabel = multiple
-      ? selectedValues.length > 0
-        ? `${selectedValues.length}개 선택됨`
+    const selectedLabel =
+      multiple ?
+        selectedValues.length > 0 ?
+          `${selectedValues.length}개 선택됨`
         : placeholder
       : selectedOption?.label || placeholder;
 
@@ -258,8 +263,9 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       if (option.disabled) return;
 
       if (multiple) {
-        const newSelectedValues = selectedValues.includes(option.value)
-          ? selectedValues.filter((v) => v !== option.value)
+        const newSelectedValues =
+          selectedValues.includes(option.value) ?
+            selectedValues.filter((v) => v !== option.value)
           : [...selectedValues, option.value];
 
         if (value === undefined) {
@@ -367,22 +373,23 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
     return (
       <div ref={dropdownRef} className="relative w-full">
         {selectAll && (
-          <div className="mb-1 flex justify-start">
-            <button
+          <div className="mb-1 flex justify-start gap-2">
+            <Button
+              variant="underline"
               type="button"
               onClick={handleSelectAll}
               disabled={disabled}
-              className={cn(
-                "border-0 bg-transparent p-0",
-                "text-xs text-cms-gray-700 underline underline-offset-2",
-                "hover:text-cms-black",
-                "focus:text-cms-black focus:outline-none",
-                "cursor-pointer",
-                disabled && "cursor-not-allowed opacity-50",
-              )}
             >
               모두 선택
-            </button>
+            </Button>
+            <Button
+              variant="underline"
+              type="button"
+              onClick={handleClear}
+              disabled={disabled}
+            >
+              해제
+            </Button>
           </div>
         )}
         <button
@@ -445,7 +452,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
             style={{ maxHeight: `${maxHeight}px` }}
           >
             {searchable && (
-              <div className="flex-none border-b border-cms-gray-200 px-3 py-2">
+              <div className="flex border-b border-cms-gray-200 px-3 py-2">
                 <input
                   ref={searchInputRef}
                   type="text"
@@ -479,7 +486,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                   onMouseEnter={clearSubmenuCloseTimeout}
                   onMouseLeave={scheduleSubmenuClose}
                 >
-                  {filteredOptions.length === 0 ? (
+                  {filteredOptions.length === 0 ?
                     <div
                       className={cn(
                         "px-3 py-2",
@@ -489,10 +496,10 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                     >
                       {searchTerm ? "검색 결과가 없습니다" : "옵션이 없습니다"}
                     </div>
-                  ) : (
-                    filteredOptions.map((option) => {
-                      const isSelected = multiple
-                        ? selectedValues.includes(option.value)
+                  : filteredOptions.map((option) => {
+                      const isSelected =
+                        multiple ?
+                          selectedValues.includes(option.value)
                         : value === option.value;
                       const hasSubmenu = Boolean(option.children?.length);
                       const isSubmenuOpen =
@@ -541,16 +548,16 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                               "w-full px-3 py-2",
                               "text-left text-sm",
                               "transition-colors",
-                              option.disabled
-                                ? cn(
-                                    "cursor-not-allowed bg-white",
-                                    "text-cms-gray-400",
-                                  )
-                                : cn(
-                                    "bg-white text-cms-black",
-                                    "hover:bg-cms-gray-100",
-                                    "cursor-pointer",
-                                  ),
+                              option.disabled ?
+                                cn(
+                                  "cursor-not-allowed bg-white",
+                                  "text-cms-gray-400",
+                                )
+                              : cn(
+                                  "bg-white text-cms-black",
+                                  "hover:bg-cms-gray-100",
+                                  "cursor-pointer",
+                                ),
                               isSelected && "bg-cms-gray-150 font-medium",
                               isSubmenuOpen && "bg-cms-gray-100",
                             )}
@@ -562,11 +569,9 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                             disabled={option.disabled}
                           >
                             <span className="truncate">{option.label}</span>
-                            {hasSubmenu ? (
-                              <ChevronRightFillIcon
-                                className="h-3 w-3 shrink-0 text-cms-gray-400"
-                              />
-                            ) : isSelected ? (
+                            {hasSubmenu ?
+                              <ChevronRightFillIcon className="h-3 w-3 shrink-0 text-cms-gray-400" />
+                            : isSelected ?
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="16"
@@ -583,12 +588,12 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                                   strokeLinejoin="round"
                                 />
                               </svg>
-                            ) : null}
+                            : null}
                           </button>
                         </div>
                       );
                     })
-                  )}
+                  }
                   {showScrollIndicator && (
                     <div
                       className={cn(
@@ -634,8 +639,9 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                       onMouseLeave={scheduleSubmenuClose}
                     >
                       {parentOption.children.map((subOption) => {
-                        const isSubSelected = multiple
-                          ? selectedValues.includes(subOption.value)
+                        const isSubSelected =
+                          multiple ?
+                            selectedValues.includes(subOption.value)
                           : value === subOption.value;
 
                         return (
@@ -648,16 +654,16 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                               "w-full px-3 py-2",
                               "text-left text-sm",
                               "transition-colors",
-                              subOption.disabled
-                                ? cn(
-                                    "cursor-not-allowed bg-white",
-                                    "text-cms-gray-400",
-                                  )
-                                : cn(
-                                    "bg-white text-cms-black",
-                                    "hover:bg-cms-gray-100",
-                                    "cursor-pointer",
-                                  ),
+                              subOption.disabled ?
+                                cn(
+                                  "cursor-not-allowed bg-white",
+                                  "text-cms-gray-400",
+                                )
+                              : cn(
+                                  "bg-white text-cms-black",
+                                  "hover:bg-cms-gray-100",
+                                  "cursor-pointer",
+                                ),
                               isSubSelected && "bg-cms-gray-150 font-medium",
                             )}
                             onClick={() => handleOptionClick(subOption)}
@@ -704,14 +710,14 @@ DropdownInternal.displayName = "Dropdown";
 type DropdownComponent = {
   // 두 시그니처를 합치면 `selectAll={true}` + `multiple={false}`가 허용되어
   // 컴파일 타임 방어가 사라지므로 분리된 오버로드를 유지한다.
-  /* eslint-disable @typescript-eslint/unified-signatures */
+
   (
     props: DropdownPropsSingle & RefAttributes<HTMLButtonElement>,
   ): ReturnType<typeof DropdownInternal>;
   (
     props: DropdownPropsMultiple & RefAttributes<HTMLButtonElement>,
   ): ReturnType<typeof DropdownInternal>;
-  /* eslint-enable @typescript-eslint/unified-signatures */
+
   displayName?: string;
 };
 

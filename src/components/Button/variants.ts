@@ -9,6 +9,7 @@ import { cn } from "@/utils/cn";
  * @variant outline - 테두리 스타일 (투명 배경)
  * @variant ghost - 고스트 스타일 (투명 배경, hover시 배경)
  * @variant link - 링크 스타일 (밑줄)
+ * @variant underline - 밑줄 텍스트 스타일 (배경 없음, 항상 밑줄)
  *
  * @size default - 기본 크기 (h-10)
  * @size sm - 작은 크기 (h-8)
@@ -50,6 +51,12 @@ export const buttonVariants = cva(
         link: cn(
           "border-0 text-cms-black underline-offset-4",
           "hover:underline",
+        ),
+        underline: cn(
+          "border-0 bg-transparent p-0",
+          "text-cms-gray-700 underline underline-offset-2",
+          "hover:text-cms-black",
+          "focus:text-cms-black focus:outline-none",
         ),
       },
       size: {
