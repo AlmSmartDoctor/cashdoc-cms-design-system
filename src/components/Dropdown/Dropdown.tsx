@@ -493,7 +493,9 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                               renderOption(option)
                             : <span className="truncate">{option.label}</span>}
                             {hasSubmenu ?
-                              <ChevronRightFillIcon className="h-3 w-3 shrink-0 text-cms-gray-400" />
+                              <ChevronRightFillIcon
+                                className="h-3 w-3 shrink-0 text-cms-gray-400"
+                              />
                             : isSelected ?
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
