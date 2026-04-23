@@ -560,7 +560,9 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                           >
                             <span className="truncate">{option.label}</span>
                             {hasSubmenu ?
-                              <ChevronRightFillIcon className="h-3 w-3 shrink-0 text-cms-gray-400" />
+                              <ChevronRightFillIcon
+                                className="h-3 w-3 shrink-0 text-cms-gray-400"
+                              />
                             : isSelected ?
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -698,15 +700,17 @@ DropdownInternal.displayName = "Dropdown";
 // `selectAll={true}`는 `multiple={true}`와만 호환되도록 TS가 강제한다.
 // `ForwardRefExoticComponent`는 상속하지 않는다(상속하면 베이스 시그니처가 유니온을 무효화함).
 type DropdownComponent = {
-  // 두 시그니처를 합치면 `selectAll={true}` + `multiple={false}`가 허용되어
-  // 컴파일 타임 방어가 사라지므로 분리된 오버로드를 유지한다.
+  // 합치면 union 검사 방식으로 인해 `selectAll={true}` + `multiple={false}` 조합이 허용되므로
+  // 분리된 오버로드를 유지한다.
 
   (
     props: DropdownPropsSingle & RefAttributes<HTMLButtonElement>,
   ): ReturnType<typeof DropdownInternal>;
+  /* eslint-disable @typescript-eslint/unified-signatures */
   (
     props: DropdownPropsMultiple & RefAttributes<HTMLButtonElement>,
   ): ReturnType<typeof DropdownInternal>;
+  /* eslint-enable @typescript-eslint/unified-signatures */
 
   displayName?: string;
 };
