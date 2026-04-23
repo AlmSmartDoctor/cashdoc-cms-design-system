@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 import type { VariantProps } from "class-variance-authority";
-import type { KeyboardEvent } from "react";
+import type { KeyboardEvent, ReactNode } from "react";
 import { useState, useRef, useEffect, useCallback, forwardRef } from "react";
 import { useScrollIndicator } from "@/hooks/useScrollIndicator";
 import {
@@ -42,6 +42,8 @@ export type DropdownProps = {
   multiple?: boolean;
   maxHeight?: number;
   defaultOpen?: boolean;
+  renderOption?: (option: DropdownOption) => ReactNode;
+  onSearchChange?: (value: string) => void;
 } & VariantProps<typeof dropdownTriggerVariants>;
 
 /**
@@ -146,6 +148,8 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       multiple = false,
       maxHeight = 200,
       defaultOpen = false,
+      renderOption,
+      onSearchChange,
       ...props
     },
     ref,
@@ -154,11 +158,16 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     const [searchTerm, setSearchTerm] = useState("");
     const [internalSelectedValues, setInternalSelectedValues] = useState<
       string[]
-    >(multiple ? (value ? value.split(",").filter(Boolean) : []) : []);
+    >(
+      multiple ?
+        value ? value.split(",").filter(Boolean)
+        : []
+      : [],
+    );
     const selectedValues =
-      multiple && value !== undefined
-        ? value.split(",").filter(Boolean)
-        : internalSelectedValues;
+      multiple && value !== undefined ?
+        value.split(",").filter(Boolean)
+      : internalSelectedValues;
     const [hoveredSubmenu, setHoveredSubmenu] = useState<{
       value: string;
       top: number;
@@ -192,9 +201,10 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     };
 
     const selectedOption = findOption(options, value || "");
-    const selectedLabel = multiple
-      ? selectedValues.length > 0
-        ? `${selectedValues.length}개 선택됨`
+    const selectedLabel =
+      multiple ?
+        selectedValues.length > 0 ?
+          `${selectedValues.length}개 선택됨`
         : placeholder
       : selectedOption?.label || placeholder;
 
@@ -237,9 +247,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
           setHoveredSubmenu({
             value: option.value,
             top:
-              optionRect.top -
-              listRect.top +
-              optionsListRef.current.scrollTop,
+              optionRect.top - listRect.top + optionsListRef.current.scrollTop,
           });
         }
       },
@@ -264,8 +272,9 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       if (option.disabled) return;
 
       if (multiple) {
-        const newSelectedValues = selectedValues.includes(option.value)
-          ? selectedValues.filter((v) => v !== option.value)
+        const newSelectedValues =
+          selectedValues.includes(option.value) ?
+            selectedValues.filter((v) => v !== option.value)
           : [...selectedValues, option.value];
 
         if (value === undefined) {
@@ -391,6 +400,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                   value={searchTerm}
                   onChange={(e) => {
                     setSearchTerm(e.target.value);
+                    onSearchChange?.(e.target.value);
                     requestAnimationFrame(() => refreshScrollIndicator());
                   }}
                   placeholder="검색..."
@@ -417,7 +427,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                   onMouseEnter={clearSubmenuCloseTimeout}
                   onMouseLeave={scheduleSubmenuClose}
                 >
-                  {filteredOptions.length === 0 ? (
+                  {filteredOptions.length === 0 ?
                     <div
                       className={cn(
                         "px-3 py-2",
@@ -427,10 +437,10 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                     >
                       {searchTerm ? "검색 결과가 없습니다" : "옵션이 없습니다"}
                     </div>
-                  ) : (
-                    filteredOptions.map((option) => {
-                      const isSelected = multiple
-                        ? selectedValues.includes(option.value)
+                  : filteredOptions.map((option) => {
+                      const isSelected =
+                        multiple ?
+                          selectedValues.includes(option.value)
                         : value === option.value;
                       const hasSubmenu = Boolean(option.children?.length);
                       const isSubmenuOpen =
@@ -459,16 +469,16 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                               "w-full px-3 py-2",
                               "text-left text-sm",
                               "transition-colors",
-                              option.disabled
-                                ? cn(
-                                    "cursor-not-allowed bg-white",
-                                    "text-cms-gray-400",
-                                  )
-                                : cn(
-                                    "bg-white text-cms-black",
-                                    "hover:bg-cms-gray-100",
-                                    "cursor-pointer",
-                                  ),
+                              option.disabled ?
+                                cn(
+                                  "cursor-not-allowed bg-white",
+                                  "text-cms-gray-400",
+                                )
+                              : cn(
+                                  "bg-white text-cms-black",
+                                  "hover:bg-cms-gray-100",
+                                  "cursor-pointer",
+                                ),
                               isSelected && "bg-cms-gray-150 font-medium",
                               isSubmenuOpen && "bg-cms-gray-100",
                             )}
@@ -479,12 +489,12 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                             }}
                             disabled={option.disabled}
                           >
-                            <span className="truncate">{option.label}</span>
-                            {hasSubmenu ? (
-                              <ChevronRightFillIcon
-                                className="h-3 w-3 shrink-0 text-cms-gray-400"
-                              />
-                            ) : isSelected ? (
+                            {renderOption ?
+                              renderOption(option)
+                            : <span className="truncate">{option.label}</span>}
+                            {hasSubmenu ?
+                              <ChevronRightFillIcon className="h-3 w-3 shrink-0 text-cms-gray-400" />
+                            : isSelected ?
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="16"
@@ -501,12 +511,12 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                                   strokeLinejoin="round"
                                 />
                               </svg>
-                            ) : null}
+                            : null}
                           </button>
                         </div>
                       );
                     })
-                  )}
+                  }
                   {showScrollIndicator && (
                     <div
                       className={cn(
@@ -552,8 +562,9 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                       onMouseLeave={scheduleSubmenuClose}
                     >
                       {parentOption.children.map((subOption) => {
-                        const isSubSelected = multiple
-                          ? selectedValues.includes(subOption.value)
+                        const isSubSelected =
+                          multiple ?
+                            selectedValues.includes(subOption.value)
                           : value === subOption.value;
 
                         return (
@@ -566,16 +577,16 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                               "w-full px-3 py-2",
                               "text-left text-sm",
                               "transition-colors",
-                              subOption.disabled
-                                ? cn(
-                                    "cursor-not-allowed bg-white",
-                                    "text-cms-gray-400",
-                                  )
-                                : cn(
-                                    "bg-white text-cms-black",
-                                    "hover:bg-cms-gray-100",
-                                    "cursor-pointer",
-                                  ),
+                              subOption.disabled ?
+                                cn(
+                                  "cursor-not-allowed bg-white",
+                                  "text-cms-gray-400",
+                                )
+                              : cn(
+                                  "bg-white text-cms-black",
+                                  "hover:bg-cms-gray-100",
+                                  "cursor-pointer",
+                                ),
                               isSubSelected && "bg-cms-gray-150 font-medium",
                             )}
                             onClick={() => handleOptionClick(subOption)}

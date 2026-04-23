@@ -104,6 +104,20 @@ const meta: Meta<typeof Dropdown> = {
         defaultValue: { summary: "200" },
       },
     },
+    renderOption: {
+      description:
+        "각 옵션 항목의 렌더링을 커스터마이징하는 함수입니다. 제공하지 않으면 기본값으로 `option.label`을 표시합니다. 옵션에 부가 정보를 함께 표시해야 할 때 사용하세요.",
+      table: {
+        type: { summary: "(option: DropdownOption) => ReactNode" },
+      },
+    },
+    onSearchChange: {
+      description:
+        "검색어가 변경될 때 호출되는 콜백 함수입니다. `searchable={true}`일 때만 동작합니다.",
+      table: {
+        type: { summary: "(value: string) => void" },
+      },
+    },
   },
 };
 
@@ -684,8 +698,7 @@ export const SubmenuWithScroll: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "스크롤이 생기는 조건에서 서브메뉴 동작을 확인하는 예제입니다.",
+        story: "스크롤이 생기는 조건에서 서브메뉴 동작을 확인하는 예제입니다.",
       },
     },
   },
