@@ -42,7 +42,17 @@ export type DropdownProps = {
   multiple?: boolean;
   maxHeight?: number;
   defaultOpen?: boolean;
+  /**
+   * 각 옵션 항목의 렌더링을 커스터마이징하는 함수.
+   * 제공하지 않으면 `option.label`을 기본으로 표시합니다.
+   * 옵션에 부가 정보(예: 설명, 주소)를 함께 표시해야 할 때 사용하세요.
+   */
   renderOption?: (option: DropdownOption) => ReactNode;
+  /**
+   * 검색어가 변경될 때 호출되는 콜백.
+   * API 호출 등 외부에서 옵션을 동적으로 갱신해야 할 때 사용하세요.
+   * `searchable={true}`일 때만 동작합니다.
+   */
   onSearchChange?: (value: string) => void;
 } & VariantProps<typeof dropdownTriggerVariants>;
 
