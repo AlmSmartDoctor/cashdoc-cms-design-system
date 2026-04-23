@@ -225,7 +225,10 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     const handleToggle = () => {
       if (!disabled) {
         setIsOpen(!isOpen);
-        setSearchTerm("");
+        if (searchTerm) {
+          setSearchTerm("");
+          onSearchChange?.("");
+        }
       }
     };
 
