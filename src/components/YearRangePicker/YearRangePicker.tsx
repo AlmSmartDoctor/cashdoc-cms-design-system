@@ -603,7 +603,9 @@ export const YearRangePicker = React.forwardRef<
               "data-[side=top]:slide-in-from-bottom-2",
             )}
           >
-            <div className="date-range-picker-calendar year-range-picker-calendar">
+            <div
+              className="date-range-picker-calendar year-range-picker-calendar"
+            >
               <div className="rdp rdp-root">
                 <div
                   className={cn(

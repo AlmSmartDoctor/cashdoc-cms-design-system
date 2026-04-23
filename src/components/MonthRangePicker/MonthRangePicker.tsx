@@ -637,7 +637,9 @@ export const MonthRangePicker = React.forwardRef<
               "data-[side=top]:slide-in-from-bottom-2",
             )}
           >
-            <div className="date-range-picker-calendar month-range-picker-calendar">
+            <div
+              className="date-range-picker-calendar month-range-picker-calendar"
+            >
               {}
               <div className="rdp rdp-root">
                 {/* Full-width nav bar: prev at left, years in center, next at right */}
