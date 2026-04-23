@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 import type { VariantProps } from "class-variance-authority";
-import type { KeyboardEvent } from "react";
+import type { KeyboardEvent, RefAttributes } from "react";
 import { useState, useRef, useEffect, useCallback, forwardRef } from "react";
 import { useScrollIndicator } from "@/hooks/useScrollIndicator";
 import {
@@ -9,6 +9,7 @@ import {
   XIcon as ClearIcon,
 } from "../icons";
 import { dropdownTriggerVariants } from "./variants";
+import { Button } from "../Button";
 
 export type DropdownOption = {
   value: string;
@@ -17,7 +18,7 @@ export type DropdownOption = {
   children?: DropdownOption[];
 };
 
-export type DropdownProps = {
+type DropdownPropsBase = {
   options: DropdownOption[];
   value?: string;
   placeholder?: string;
@@ -39,10 +40,29 @@ export type DropdownProps = {
   dropdownClassName?: string;
   searchable?: boolean;
   clearable?: boolean;
-  multiple?: boolean;
   maxHeight?: number;
   defaultOpen?: boolean;
 } & VariantProps<typeof dropdownTriggerVariants>;
+
+type DropdownPropsSingle = DropdownPropsBase & {
+  multiple?: false;
+  selectAll?: false;
+};
+
+type DropdownPropsMultiple = DropdownPropsBase & {
+  multiple: true;
+  selectAll?: boolean;
+};
+
+// 공개 타입: `selectAll: true`는 `multiple: true`에서만 허용되도록 강제하는 구분 유니온.
+export type DropdownProps = DropdownPropsSingle | DropdownPropsMultiple;
+
+// 내부 구현에서 사용하는 느슨한 props 타입. forwardRef 시그니처가 유니온을 다루면
+// Storybook Meta/Omit 유틸이 제대로 추론하지 못하므로 내부에서는 완화된 형태를 사용한다.
+type DropdownPropsInternal = DropdownPropsBase & {
+  multiple?: boolean;
+  selectAll?: boolean;
+};
 
 /**
  * 사용자가 목록에서 하나 또는 여러 개의 옵션을 선택할 수 있게 하는 컴포넌트입니다.
@@ -119,6 +139,21 @@ export type DropdownProps = {
  * ```
  * {@end-tool}
  *
+ * {@tool snippet}
+ * 전체 선택 버튼이 포함된 다중 선택 드롭다운. `selectAll`은 `multiple={true}`일 때만 허용되며,
+ * 검색 중이라면 현재 필터링된 옵션들만 선택합니다:
+ *
+ * ```tsx
+ * <Dropdown
+ *   options={options}
+ *   multiple={true}
+ *   selectAll={true}
+ *   searchable={true}
+ *   placeholder="태그 선택"
+ * />
+ * ```
+ * {@end-tool}
+ *
  * See also:
  *
  * - {@link Select}, 기본적인 HTML select 스타일의 컴포넌트
@@ -128,7 +163,7 @@ export type DropdownProps = {
  * ## 참고사진
  * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/Dropdown/For%20Jsdoc.png?raw=true)
  */
-export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
+const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
   (
     {
       options,
@@ -144,21 +179,33 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       searchable = false,
       clearable = false,
       multiple = false,
+      selectAll = false,
       maxHeight = 200,
       defaultOpen = false,
       ...props
     },
     ref,
   ) => {
+    // Defense in depth: the discriminated union prevents this at compile time,
+    // but a dynamic `any` cast could still slip through.
+    if (selectAll && !multiple) {
+      throw new Error("Dropdown: selectAll={true} requires multiple={true}.");
+    }
+
     const [isOpen, setIsOpen] = useState(defaultOpen);
     const [searchTerm, setSearchTerm] = useState("");
     const [internalSelectedValues, setInternalSelectedValues] = useState<
       string[]
-    >(multiple ? (value ? value.split(",").filter(Boolean) : []) : []);
+    >(
+      multiple ?
+        value ? value.split(",").filter(Boolean)
+        : []
+      : [],
+    );
     const selectedValues =
-      multiple && value !== undefined
-        ? value.split(",").filter(Boolean)
-        : internalSelectedValues;
+      multiple && value !== undefined ?
+        value.split(",").filter(Boolean)
+      : internalSelectedValues;
     const [hoveredSubmenu, setHoveredSubmenu] = useState<{
       value: string;
       top: number;
@@ -192,9 +239,10 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
     };
 
     const selectedOption = findOption(options, value || "");
-    const selectedLabel = multiple
-      ? selectedValues.length > 0
-        ? `${selectedValues.length}개 선택됨`
+    const selectedLabel =
+      multiple ?
+        selectedValues.length > 0 ?
+          `${selectedValues.length}개 선택됨`
         : placeholder
       : selectedOption?.label || placeholder;
 
@@ -237,9 +285,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
           setHoveredSubmenu({
             value: option.value,
             top:
-              optionRect.top -
-              listRect.top +
-              optionsListRef.current.scrollTop,
+              optionRect.top - listRect.top + optionsListRef.current.scrollTop,
           });
         }
       },
@@ -264,8 +310,9 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
       if (option.disabled) return;
 
       if (multiple) {
-        const newSelectedValues = selectedValues.includes(option.value)
-          ? selectedValues.filter((v) => v !== option.value)
+        const newSelectedValues =
+          selectedValues.includes(option.value) ?
+            selectedValues.filter((v) => v !== option.value)
           : [...selectedValues, option.value];
 
         if (value === undefined) {
@@ -276,6 +323,18 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
         onValueChange?.(option.value);
         setIsOpen(false);
       }
+    };
+
+    const handleSelectAll = () => {
+      if (!multiple) return;
+      const selectable = filteredOptions
+        .filter((o) => !o.disabled)
+        .map((o) => o.value);
+      const merged = Array.from(new Set([...selectedValues, ...selectable]));
+      if (value === undefined) {
+        setInternalSelectedValues(merged);
+      }
+      onValueChange?.(merged.join(","));
     };
 
     const handleClear = (e: React.MouseEvent) => {
@@ -324,6 +383,26 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
 
     return (
       <div ref={dropdownRef} className="relative w-full">
+        {selectAll && (
+          <div className="mb-1 flex justify-start -space-x-4">
+            <Button
+              variant="underline"
+              type="button"
+              onClick={handleSelectAll}
+              disabled={disabled}
+            >
+              모두 선택
+            </Button>
+            <Button
+              variant="underline"
+              type="button"
+              onClick={handleClear}
+              disabled={disabled}
+            >
+              해제
+            </Button>
+          </div>
+        )}
         <button
           ref={ref}
           type="button"
@@ -384,7 +463,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
             style={{ maxHeight: `${maxHeight}px` }}
           >
             {searchable && (
-              <div className="border-b border-cms-gray-200 px-3 py-2">
+              <div className="flex border-b border-cms-gray-200 px-3 py-2">
                 <input
                   ref={searchInputRef}
                   type="text"
@@ -404,10 +483,10 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
               </div>
             )}
 
-            <div className="relative">
+            <div className="relative min-h-0 flex-1">
               <div
                 className={cn(
-                  "overflow-hidden",
+                  "h-full overflow-hidden",
                   searchable ? "rounded-b-md" : "rounded-md",
                 )}
               >
@@ -417,7 +496,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                   onMouseEnter={clearSubmenuCloseTimeout}
                   onMouseLeave={scheduleSubmenuClose}
                 >
-                  {filteredOptions.length === 0 ? (
+                  {filteredOptions.length === 0 ?
                     <div
                       className={cn(
                         "px-3 py-2",
@@ -427,10 +506,10 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                     >
                       {searchTerm ? "검색 결과가 없습니다" : "옵션이 없습니다"}
                     </div>
-                  ) : (
-                    filteredOptions.map((option) => {
-                      const isSelected = multiple
-                        ? selectedValues.includes(option.value)
+                  : filteredOptions.map((option) => {
+                      const isSelected =
+                        multiple ?
+                          selectedValues.includes(option.value)
                         : value === option.value;
                       const hasSubmenu = Boolean(option.children?.length);
                       const isSubmenuOpen =
@@ -459,16 +538,16 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                               "w-full px-3 py-2",
                               "text-left text-sm",
                               "transition-colors",
-                              option.disabled
-                                ? cn(
-                                    "cursor-not-allowed bg-white",
-                                    "text-cms-gray-400",
-                                  )
-                                : cn(
-                                    "bg-white text-cms-black",
-                                    "hover:bg-cms-gray-100",
-                                    "cursor-pointer",
-                                  ),
+                              option.disabled ?
+                                cn(
+                                  "cursor-not-allowed bg-white",
+                                  "text-cms-gray-400",
+                                )
+                              : cn(
+                                  "bg-white text-cms-black",
+                                  "hover:bg-cms-gray-100",
+                                  "cursor-pointer",
+                                ),
                               isSelected && "bg-cms-gray-150 font-medium",
                               isSubmenuOpen && "bg-cms-gray-100",
                             )}
@@ -480,11 +559,11 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                             disabled={option.disabled}
                           >
                             <span className="truncate">{option.label}</span>
-                            {hasSubmenu ? (
+                            {hasSubmenu ?
                               <ChevronRightFillIcon
                                 className="h-3 w-3 shrink-0 text-cms-gray-400"
                               />
-                            ) : isSelected ? (
+                            : isSelected ?
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="16"
@@ -501,12 +580,12 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                                   strokeLinejoin="round"
                                 />
                               </svg>
-                            ) : null}
+                            : null}
                           </button>
                         </div>
                       );
                     })
-                  )}
+                  }
                   {showScrollIndicator && (
                     <div
                       className={cn(
@@ -552,8 +631,9 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                       onMouseLeave={scheduleSubmenuClose}
                     >
                       {parentOption.children.map((subOption) => {
-                        const isSubSelected = multiple
-                          ? selectedValues.includes(subOption.value)
+                        const isSubSelected =
+                          multiple ?
+                            selectedValues.includes(subOption.value)
                           : value === subOption.value;
 
                         return (
@@ -566,16 +646,16 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
                               "w-full px-3 py-2",
                               "text-left text-sm",
                               "transition-colors",
-                              subOption.disabled
-                                ? cn(
-                                    "cursor-not-allowed bg-white",
-                                    "text-cms-gray-400",
-                                  )
-                                : cn(
-                                    "bg-white text-cms-black",
-                                    "hover:bg-cms-gray-100",
-                                    "cursor-pointer",
-                                  ),
+                              subOption.disabled ?
+                                cn(
+                                  "cursor-not-allowed bg-white",
+                                  "text-cms-gray-400",
+                                )
+                              : cn(
+                                  "bg-white text-cms-black",
+                                  "hover:bg-cms-gray-100",
+                                  "cursor-pointer",
+                                ),
                               isSubSelected && "bg-cms-gray-150 font-medium",
                             )}
                             onClick={() => handleOptionClick(subOption)}
@@ -614,4 +694,25 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
   },
 );
 
-Dropdown.displayName = "Dropdown";
+DropdownInternal.displayName = "Dropdown";
+
+// 공개 컴포넌트 타입. 호출 시그니처를 오버로드로 선언하여
+// `selectAll={true}`는 `multiple={true}`와만 호환되도록 TS가 강제한다.
+// `ForwardRefExoticComponent`는 상속하지 않는다(상속하면 베이스 시그니처가 유니온을 무효화함).
+type DropdownComponent = {
+  // 합치면 union 검사 방식으로 인해 `selectAll={true}` + `multiple={false}` 조합이 허용되므로
+  // 분리된 오버로드를 유지한다.
+
+  (
+    props: DropdownPropsSingle & RefAttributes<HTMLButtonElement>,
+  ): ReturnType<typeof DropdownInternal>;
+  /* eslint-disable @typescript-eslint/unified-signatures */
+  (
+    props: DropdownPropsMultiple & RefAttributes<HTMLButtonElement>,
+  ): ReturnType<typeof DropdownInternal>;
+  /* eslint-enable @typescript-eslint/unified-signatures */
+
+  displayName?: string;
+};
+
+export const Dropdown = DropdownInternal as unknown as DropdownComponent;
