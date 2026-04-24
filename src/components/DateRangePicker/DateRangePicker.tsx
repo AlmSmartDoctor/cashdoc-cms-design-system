@@ -385,14 +385,20 @@ export const DateRangePicker = React.forwardRef<
         <PopoverPrimitive.Anchor asChild>
           <div ref={setContainerRef} className={className}>
             {inputError && (
-              <div className="mb-1 text-xs text-red-500">{inputError}</div>
+              <div
+                id={`${id}-error`}
+                role="alert"
+                className="mb-1 text-xs text-cms-red-500"
+              >
+                {inputError}
+              </div>
             )}
             <div className="flex items-center gap-0">
               <div className="relative flex-1">
                 <div
                   className={cn(
                     "absolute top-0 left-3 flex h-full items-center",
-                    "text-xs text-gray-500",
+                    "text-xs text-cms-gray-500",
                     "pointer-events-none",
                   )}
                 >
@@ -417,11 +423,13 @@ export const DateRangePicker = React.forwardRef<
                   }}
                   placeholder="YYYY-MM-DD"
                   aria-label={startLabel}
+                  aria-invalid={inputError ? true : undefined}
+                  aria-describedby={inputError ? `${id}-error` : undefined}
                   className={cn(
-                    "h-10 w-full bg-white pr-3 pl-14-75 text-sm",
+                    "h-10 w-full bg-cms-white pr-3 pl-14-75 text-sm",
                     "focus:outline-none",
-                    "rounded-l border border-r-0 border-gray-300",
-                    "hover:border-gray-400 hover:bg-gray-50",
+                    "rounded-l border border-r-0 border-cms-gray-300",
+                    "hover:border-cms-gray-400 hover:bg-cms-gray-100",
                     "transition-all duration-150",
                   )}
                 />
@@ -430,7 +438,7 @@ export const DateRangePicker = React.forwardRef<
                 <div
                   className={cn(
                     "absolute top-0 left-3 flex h-full items-center",
-                    "text-xs text-gray-500",
+                    "text-xs text-cms-gray-500",
                     "pointer-events-none",
                   )}
                 >
@@ -455,11 +463,13 @@ export const DateRangePicker = React.forwardRef<
                   }}
                   placeholder="YYYY-MM-DD"
                   aria-label={endLabel}
+                  aria-invalid={inputError ? true : undefined}
+                  aria-describedby={inputError ? `${id}-error` : undefined}
                   className={cn(
-                    "h-10 w-full bg-white pr-3 pl-14-75",
+                    "h-10 w-full bg-cms-white pr-3 pl-14-75",
                     "text-sm",
-                    "rounded-r border border-gray-300",
-                    "hover:border-gray-400 hover:bg-gray-50",
+                    "rounded-r border border-cms-gray-300",
+                    "hover:border-cms-gray-400 hover:bg-cms-gray-100",
                     "focus:outline-none",
                     "transition-all duration-150",
                   )}
@@ -487,8 +497,8 @@ export const DateRangePicker = React.forwardRef<
               if (t && containerRef.current?.contains(t)) e.preventDefault();
             }}
             className={cn(
-              "z-cms-overlay rounded-lg bg-white p-2",
-              "border border-gray-200",
+              "z-cms-overlay rounded-lg bg-cms-white p-2",
+              "border border-cms-gray-200",
               "shadow-xl",
               "data-[state=open]:animate-in",
               "data-[state=closed]:animate-out",
@@ -502,7 +512,7 @@ export const DateRangePicker = React.forwardRef<
           >
             <div className="flex gap-2">
               {/* Quick Select Buttons */}
-              <div className="flex flex-col border-r border-gray-200 pr-2">
+              <div className="flex flex-col border-r border-cms-gray-200 pr-2">
                 {getQuickSelectOptions(
                   quickSelectMode,
                   mondayStart,
@@ -511,16 +521,17 @@ export const DateRangePicker = React.forwardRef<
                 ).map((option) => (
                   <button
                     key={option.label}
+                    type="button"
                     onClick={() => handleQuickSelect(option)}
                     className={cn(
                       "cursor-pointer border-0",
                       "h-6-5 w-17-5 px-2",
-                      "text-left text-xs text-gray-700",
-                      "bg-white",
+                      "text-left text-xs text-cms-gray-700",
+                      "bg-cms-white",
                       "transition-all duration-150",
-                      "hover:bg-blue-50",
+                      "hover:bg-cms-blue-100",
                       "hover:font-medium",
-                      "hover:text-blue-600",
+                      "hover:text-cms-blue-600",
                     )}
                   >
                     {option.label}
@@ -556,24 +567,24 @@ export const DateRangePicker = React.forwardRef<
             <div
               className={cn(
                 "mt-2 flex items-end justify-between pt-2",
-                "border-t border-gray-200",
+                "border-t border-cms-gray-200",
               )}
             >
               <div className="flex min-h-8 flex-col">
                 {quickSelectError ?
-                  <span className="text-xs text-red-500">
+                  <span className="text-xs text-cms-red-500">
                     선택 가능한 기간이 아닙니다.
                   </span>
                 : !fromDay || !toDay ?
-                  <span className="text-xs text-red-500">
+                  <span className="text-xs text-cms-red-500">
                     종료일자를 선택해 주세요.
                   </span>
                 : <>
-                    <span className="text-xs text-gray-700">
+                    <span className="text-xs text-cms-gray-700">
                       {fromDay.format("YYYY-MM-DD")} ~{" "}
                       {toDay.format("YYYY-MM-DD")}
                     </span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-cms-gray-500">
                       ({numberOfDays}일간)
                     </span>
                   </>
@@ -582,29 +593,31 @@ export const DateRangePicker = React.forwardRef<
 
               <div className="flex gap-2">
                 <button
+                  type="button"
                   onClick={handleCancel}
                   className={cn(
                     "h-8 w-15 cursor-pointer",
-                    "rounded-sm border border-gray-300 bg-transparent",
-                    "text-xs font-medium text-gray-700",
+                    "rounded-sm border border-cms-gray-300 bg-transparent",
+                    "text-xs font-medium text-cms-gray-700",
                     "transition-all duration-150",
-                    "hover:bg-gray-50",
+                    "hover:bg-cms-gray-100",
                     "active:scale-95",
                   )}
                 >
                   취소
                 </button>
                 <button
+                  type="button"
                   onClick={handleApply}
                   disabled={!fromDay || !toDay}
                   className={cn(
                     "cursor-pointer border-0",
                     "h-8 w-15",
-                    "rounded-sm bg-blue-600",
+                    "rounded-sm bg-cms-blue-700",
                     "text-xs font-medium text-cms-white",
-                    "hover:bg-blue-700",
+                    "hover:bg-cms-blue-800",
                     "active:scale-95",
-                    "disabled:bg-gray-300",
+                    "disabled:bg-cms-gray-300",
                     "disabled:active:scale-100",
                     "disabled:cursor-not-allowed",
                     "transition-all duration-150",

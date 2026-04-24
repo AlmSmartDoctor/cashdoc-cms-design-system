@@ -171,7 +171,8 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
               className={cn(
                 "flex items-center justify-center",
                 "absolute inset-y-0 left-0 z-10 w-8",
-                "bg-linear-to-r from-white to-transparent",
+                "bg-linear-to-r from-cms-white to-transparent",
+                "pointer-events-none",
               )}
             >
               <ChevronLeft className="size-6 text-cms-gray-400" />
@@ -192,7 +193,8 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
               className={cn(
                 "absolute inset-y-0 right-0 z-10 w-8",
                 "flex items-center justify-center",
-                "bg-linear-to-l from-white to-transparent",
+                "bg-linear-to-l from-cms-white to-transparent",
+                "pointer-events-none",
               )}
             >
               <ChevronRight className="size-6 text-cms-gray-400" />
@@ -370,25 +372,17 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
       return <ChevronsUpDown className="ml-2 size-4 opacity-50" />;
     };
 
-    const content = (
-      <>
-        {children}
-        {getSortIcon()}
-      </>
-    );
-
     return (
       <th
         ref={ref}
         scope={scope}
         className={cn(
           "h-12 px-4 text-left align-middle font-semibold text-cms-gray-800",
-          "border-0 bg-amber-50",
+          "border-0 bg-cms-primary-50",
           "[&:has([role=checkbox])]:pr-0",
-          sortable && "cursor-pointer select-none hover:bg-amber-100",
+          sortable && "hover:bg-cms-primary-100",
           className,
         )}
-        onClick={sortable ? onSort : undefined}
         aria-sort={
           sortDirection === "asc" ? "ascending"
           : sortDirection === "desc" ?
@@ -398,8 +392,25 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         {...props}
       >
         {sortable ?
-          <div className="flex items-center">{content}</div>
-        : content}
+          <button
+            type="button"
+            onClick={onSort}
+            className={cn(
+              "flex w-full items-center",
+              "cursor-pointer border-0 bg-transparent p-0 select-none",
+              "font-[inherit] text-inherit",
+              "focus-visible:outline-2 focus-visible:outline-offset-2",
+              "focus-visible:outline-cms-primary-400",
+            )}
+          >
+            {children}
+            {getSortIcon()}
+          </button>
+        : <>
+            {children}
+            {getSortIcon()}
+          </>
+        }
       </th>
     );
   },

@@ -83,7 +83,7 @@ export const SegmentedControls = <T extends string | number>({
       onValueChange={handleValueChange}
       className={cn(
         "my-3 flex overflow-hidden rounded-lg",
-        "border border-gray-300",
+        "border border-cms-gray-300",
         className,
       )}
       aria-label="View selection"
@@ -98,10 +98,10 @@ export const SegmentedControls = <T extends string | number>({
             "cursor-pointer outline-none",
             "hover:opacity-90",
             "border-none",
-            "bg-gray-100 font-normal text-[#666]",
-            "data-[state=on]:bg-[#222]",
+            "bg-cms-gray-150 font-normal text-cms-gray-750",
+            "data-[state=on]:bg-cms-gray-850",
             "data-[state=on]:font-semibold",
-            "data-[state=on]:text-white",
+            "data-[state=on]:text-cms-white",
           )}
         >
           {option.label}

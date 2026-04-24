@@ -241,6 +241,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         {/* Previous Button */}
         {showPrevNext && (
           <button
+            type="button"
             onClick={handlePrevious}
             disabled={disabled || currentPage === 1}
             aria-label="이전 페이지"
@@ -275,6 +276,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
           return (
             <button
               key={page}
+              type="button"
               onClick={() => handlePageClick(page)}
               disabled={disabled}
               aria-label={`페이지 ${page}${isActive ? " (현재 페이지)" : "로 이동"}`}
@@ -294,6 +296,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         {/* Next Button */}
         {showPrevNext && (
           <button
+            type="button"
             onClick={handleNext}
             disabled={disabled || currentPage === totalPages}
             aria-label="다음 페이지"

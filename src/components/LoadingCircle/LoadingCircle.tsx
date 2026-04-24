@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 
-type LoadingCircleProps = {
+export type LoadingCircleProps = {
   size?: "sm" | "md" | "lg";
   className?: string;
 };

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Accept, FileRejection } from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 import { ImageUploadIcon, XIcon as CloseIcon } from "../icons";
-import { Text } from "../Text/Text";
+import { Text } from "../Text";
 
 export type ImageMetadata = {
   width: number;

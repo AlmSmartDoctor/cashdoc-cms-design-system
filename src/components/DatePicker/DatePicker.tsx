@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useId, useMemo, useState } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { DayPicker } from "react-day-picker";
 import { ko } from "react-day-picker/locale";
@@ -125,6 +125,14 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     },
     ref,
   ) => {
+    const reactId = useId();
+    const inputId = `${reactId}-input`;
+    const errorId = `${reactId}-error`;
+    const helperId = `${reactId}-helper`;
+    const describedBy =
+      error && errorMessage ? errorId
+      : helperText ? helperId
+      : undefined;
     const { isOpen, onOpenChange: setIsOpen } = useDisclosure();
     const [draftDate, setDraftDate] = useState<Dayjs | undefined>(
       value ? dayjs(value) : undefined,
@@ -179,7 +187,12 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     return (
       <div ref={ref} className={cn("flex flex-col gap-1", className)}>
         {label && (
-          <label className="text-sm font-medium text-gray-700">{label}</label>
+          <label
+            htmlFor={inputId}
+            className="text-sm font-medium text-cms-gray-700"
+          >
+            {label}
+          </label>
         )}
         <PopoverPrimitive.Root
           open={isOpen && !disabled}
@@ -197,26 +210,33 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                 <CalendarIcon
                   size={20}
                   strokeWidth={1.5}
-                  className={cn("text-gray-400", disabled && "text-gray-300")}
+                  className={cn(
+                    "text-cms-gray-400",
+                    disabled && "text-cms-gray-300",
+                  )}
                 />
               </div>
               <input
+                id={inputId}
                 type="text"
                 readOnly
                 value={displayValue}
                 placeholder={placeholder}
                 disabled={disabled}
+                aria-invalid={error || undefined}
+                aria-describedby={describedBy}
                 className={cn(
-                  "h-10 w-full rounded-sm border bg-white pr-3 pl-10 text-sm",
-                  "hover:border-gray-400 hover:bg-gray-50",
+                  "h-10 w-full rounded-sm border bg-cms-white pr-3 pl-10",
+                  "text-sm",
+                  "hover:border-cms-gray-400 hover:bg-cms-gray-100",
                   "focus:outline-none",
                   "transition-all duration-150",
                   "cursor-pointer",
-                  error ? "border-red-500" : "border-gray-300",
+                  error ? "border-cms-red-500" : "border-cms-gray-300",
                   disabled &&
                     cn(
-                      "cursor-not-allowed bg-gray-100",
-                      "hover:border-gray-300 hover:bg-gray-100",
+                      "cursor-not-allowed bg-cms-gray-150",
+                      "hover:border-cms-gray-300 hover:bg-cms-gray-150",
                     ),
                 )}
               />
@@ -228,8 +248,8 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
               align="start"
               sideOffset={5}
               className={cn(
-                "z-cms-overlay rounded-lg bg-white p-2 shadow-xl",
-                "border border-gray-200",
+                "z-cms-overlay rounded-lg bg-cms-white p-2 shadow-xl",
+                "border border-cms-gray-200",
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",
                 "data-[state=closed]:fade-out-0",
@@ -259,15 +279,15 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
               <div
                 className={cn(
                   "mt-2 flex items-end justify-between pt-2",
-                  "border-t border-gray-200",
+                  "border-t border-cms-gray-200",
                 )}
               >
                 <div className="flex min-h-8 flex-col">
                   {draftDate ?
-                    <span className="text-xs text-gray-700">
+                    <span className="text-xs text-cms-gray-700">
                       {draftDate.format("YYYY-MM-DD")}
                     </span>
-                  : <span className="text-xs text-red-500">
+                  : <span className="text-xs text-cms-red-500">
                       날짜를 선택해 주세요.
                     </span>
                   }
@@ -275,28 +295,30 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
 
                 <div className="flex gap-2">
                   <button
+                    type="button"
                     onClick={handleCancel}
                     className={cn(
                       "h-8 w-15 cursor-pointer rounded-sm",
-                      "text-xs font-medium text-gray-700",
-                      "border border-gray-300 bg-transparent",
+                      "text-xs font-medium text-cms-gray-700",
+                      "border border-cms-gray-300 bg-transparent",
                       "transition-all duration-150",
                       "active:scale-95",
-                      "hover:bg-gray-50",
+                      "hover:bg-cms-gray-100",
                     )}
                   >
                     취소
                   </button>
                   <button
+                    type="button"
                     onClick={handleApply}
                     disabled={!draftDate}
                     className={cn(
                       "cursor-pointer border-0",
-                      "h-8 w-15 rounded-sm bg-blue-600",
-                      "text-xs text-white",
-                      "hover:bg-blue-700",
+                      "h-8 w-15 rounded-sm bg-cms-blue-700",
+                      "text-xs text-cms-white",
+                      "hover:bg-cms-blue-800",
                       "active:scale-95",
-                      "disabled:bg-gray-300",
+                      "disabled:bg-cms-gray-300",
                       "disabled:cursor-not-allowed",
                       "disabled:active:scale-100",
                       "transition-all duration-150",
@@ -314,9 +336,13 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
         {(helperText || errorMessage) && (
           <div>
             {error && errorMessage ?
-              <p className="text-xs text-red-500">{errorMessage}</p>
+              <p id={errorId} className="text-xs text-cms-red-500">
+                {errorMessage}
+              </p>
             : helperText && (
-                <p className="text-xs text-gray-500">{helperText}</p>
+                <p id={helperId} className="text-xs text-cms-gray-500">
+                  {helperText}
+                </p>
               )
             }
           </div>

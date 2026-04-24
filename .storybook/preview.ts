@@ -36,7 +36,7 @@ const preview: Preview = {
     (Story) =>
       React.createElement(
         "div",
-        { className: "cashdoc-ds" },
+        { className: "cms-cashdoc-ds" },
         React.createElement(Story),
       ),
   ],

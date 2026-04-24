@@ -115,9 +115,9 @@ type DropdownPropsInternal = DropdownPropsBase & {
  *
  * ## Accessibility
  *
- * - **Keyboard Interaction**: `Enter`나 `Space`로 열고, 화살표 키로 이동하며, `Esc`로 닫을 수 있습니다.
- * - **Screen Reader**: `aria-expanded`, `aria-haspopup` 등의 속성을 통해 드롭다운의 상태와 역할을 스크린 리더에 전달합니다.
- * - **Focus Management**: 드롭다운이 열리면 검색창이나 첫 번째 옵션으로 포커스가 이동합니다.
+ * - **Keyboard Interaction**: `Enter`나 `Space`로 열고, `Esc`로 닫을 수 있습니다. 옵션 간 화살표 키 탐색은 현재 제공하지 않으며 Tab으로 이동합니다.
+ * - **Screen Reader**: 트리거는 `aria-expanded`/`aria-haspopup="listbox"`, 목록은 `role="listbox"`, 각 옵션은 `role="option"`과 `aria-selected`를 제공합니다.
+ * - **Focus Management**: `searchable={true}`이면 드롭다운이 열릴 때 검색창으로 포커스를 이동합니다.
  *
  * ## Example
  *
@@ -375,8 +375,9 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       }
     };
 
-    // 외부 클릭 감지
+    // 외부 클릭 감지 — 열린 상태에서만 listener 부착
     useEffect(() => {
+      if (!isOpen) return;
       const handleClickOutside = (event: MouseEvent) => {
         if (
           dropdownRef.current &&
@@ -389,7 +390,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       document.addEventListener("mousedown", handleClickOutside);
       return () =>
         document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    }, [isOpen]);
 
     // 드롭다운이 열릴 때 검색 입력창에 포커스
     useEffect(() => {
@@ -420,36 +421,45 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
             </Button>
           </div>
         )}
-        <button
-          ref={ref}
-          type="button"
-          className={cn(
-            dropdownTriggerVariants({ variant, size }),
-            disabled && "cursor-not-allowed opacity-50",
-            className,
-          )}
-          onClick={handleToggle}
-          onKeyDown={handleKeyDown}
-          disabled={disabled}
-          aria-expanded={isOpen}
-          aria-haspopup="listbox"
-          {...props}
-        >
-          <span
+        <div className="relative">
+          <button
+            ref={ref}
+            type="button"
             className={cn(
-              "flex-1 truncate text-left",
-              !selectedOption && !multiple && "text-cms-gray-400",
+              dropdownTriggerVariants({ variant, size }),
+              "pr-10",
+              disabled && "cursor-not-allowed opacity-50",
+              className,
+            )}
+            onClick={handleToggle}
+            onKeyDown={handleKeyDown}
+            disabled={disabled}
+            aria-expanded={isOpen}
+            aria-haspopup="listbox"
+            {...props}
+          >
+            <span
+              className={cn(
+                "flex-1 truncate text-left",
+                !selectedOption && !multiple && "text-cms-gray-400",
+              )}
+            >
+              {selectedLabel}
+            </span>
+          </button>
+
+          <div
+            className={cn(
+              "absolute top-1/2 right-3 -translate-y-1/2",
+              "flex items-center gap-2",
+              "pointer-events-none",
             )}
           >
-            {selectedLabel}
-          </span>
-
-          <div className="ml-3 flex items-center gap-2">
             {clearable && (value || selectedValues.length > 0) && (
               <button
                 type="button"
                 className={cn(
-                  "border-0 bg-transparent",
+                  "pointer-events-auto border-0 bg-transparent",
                   "rounded-sm p-1 text-cms-gray-400 transition-colors",
                   "hover:text-cms-black",
                 )}
@@ -466,14 +476,16 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
               )}
             />
           </div>
-        </button>
+        </div>
 
         {isOpen && (
           <div
+            role="listbox"
+            aria-multiselectable={multiple || undefined}
             className={cn(
-              "z-cms-overlay absolute mt-1 w-full min-w-0 py-1",
+              "absolute z-cms-overlay mt-1 w-full min-w-0 py-1",
               "rounded-md border border-cms-gray-300",
-              "bg-white shadow-lg",
+              "bg-cms-white shadow-lg",
               "cms-dropdown-show",
               dropdownClassName,
             )}
@@ -537,7 +549,11 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                         <div
                           key={option.value}
                           ref={(el) => {
-                            if (el) optionRefs.current.set(option.value, el);
+                            if (el) {
+                              optionRefs.current.set(option.value, el);
+                            } else {
+                              optionRefs.current.delete(option.value);
+                            }
                           }}
                           onMouseEnter={() =>
                             handleOptionMouseEnter(option, hasSubmenu)
@@ -550,6 +566,9 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                         >
                           <button
                             type="button"
+                            role="option"
+                            aria-selected={isSelected}
+                            aria-haspopup={hasSubmenu ? "menu" : undefined}
                             className={cn(
                               "border-0",
                               "flex items-center justify-between gap-2",
@@ -558,11 +577,11 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                               "transition-colors",
                               option.disabled ?
                                 cn(
-                                  "cursor-not-allowed bg-white",
+                                  "cursor-not-allowed bg-cms-white",
                                   "text-cms-gray-400",
                                 )
                               : cn(
-                                  "bg-white text-cms-black",
+                                  "bg-cms-white text-cms-black",
                                   "hover:bg-cms-gray-100",
                                   "cursor-pointer",
                                 ),
@@ -593,7 +612,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                                 height="16"
                                 viewBox="0 0 16 16"
                                 fill="none"
-                                className="h-4 w-4 shrink-0 text-black"
+                                className="h-4 w-4 shrink-0 text-cms-black"
                               >
                                 <path
                                   d="M13.5 4.5L6 12L2.5 8.5"
@@ -614,7 +633,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                       className={cn(
                         "sticky bottom-0 -mt-8 flex h-8 w-full items-end",
                         "justify-center pb-1",
-                        "bg-linear-to-t from-white to-transparent",
+                        "bg-linear-to-t from-cms-white to-transparent",
                         "pointer-events-none",
                       )}
                     >
@@ -640,10 +659,11 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
 
                   return (
                     <div
+                      role="menu"
                       className={cn(
-                        "z-cms-overlay absolute left-full ml-1 min-w-40 py-1",
+                        "absolute left-full z-cms-overlay ml-1 min-w-40 py-1",
                         "rounded-md border border-cms-gray-300",
-                        "bg-white shadow-lg",
+                        "bg-cms-white shadow-lg",
                         "cms-dropdown-show",
                       )}
                       style={{ top: hoveredSubmenu.top }}
@@ -663,6 +683,8 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                           <button
                             key={subOption.value}
                             type="button"
+                            role="menuitem"
+                            aria-selected={isSubSelected}
                             className={cn(
                               "border-0",
                               "flex items-center justify-between gap-2",
@@ -671,11 +693,11 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                               "transition-colors",
                               subOption.disabled ?
                                 cn(
-                                  "cursor-not-allowed bg-white",
+                                  "cursor-not-allowed bg-cms-white",
                                   "text-cms-gray-400",
                                 )
                               : cn(
-                                  "bg-white text-cms-black",
+                                  "bg-cms-white text-cms-black",
                                   "hover:bg-cms-gray-100",
                                   "cursor-pointer",
                                 ),
@@ -692,7 +714,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                                 height="16"
                                 viewBox="0 0 16 16"
                                 fill="none"
-                                className="h-4 w-4 shrink-0 text-black"
+                                className="h-4 w-4 shrink-0 text-cms-black"
                               >
                                 <path
                                   d="M13.5 4.5L6 12L2.5 8.5"

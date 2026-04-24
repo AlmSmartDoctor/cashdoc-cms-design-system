@@ -37,10 +37,11 @@ export type PopoverMenuItemProps = {
  * ```
  */
 const PopoverMenuItem = forwardRef<HTMLButtonElement, PopoverMenuItemProps>(
-  ({ className, variant, icon, children, ...props }, ref) => {
+  ({ className, variant, icon, children, type = "button", ...props }, ref) => {
     return (
       <button
         ref={ref}
+        type={type}
         className={cn(popoverMenuItemVariants({ variant }), className)}
         {...props}
       >
