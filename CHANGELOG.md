@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.11.0...v1.12.0) (2026-04-24)
+
+
+### Bug Fixes
+
+* **styles:** z-cms-overlay / z-cms-modal 유틸리티 누락 수정 ([e7f9d75](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/e7f9d759a874daa3083455759590530a7ccb6fb1))
+
 ## [1.11.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.10.0...v1.11.0) (2026-04-24)
 
 ## [1.10.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.9.2...v1.10.0) (2026-04-23)
