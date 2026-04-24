@@ -101,7 +101,7 @@ function App() {
 
 ### Data Display
 
-- `Table` - 테이블 (정렬/스트라이프/hover/호버블/compact)
+- `Table` - 테이블 (정렬/스트라이프/hover/compact)
 - `BarChart` - 막대 차트
 - `Text` - 타이포그래피
 - `Icons` - 아이콘 세트
