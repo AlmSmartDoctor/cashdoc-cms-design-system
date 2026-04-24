@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 import type { VariantProps } from "class-variance-authority";
-import type { KeyboardEvent, RefAttributes } from "react";
+import type { KeyboardEvent, RefAttributes, ReactNode } from "react";
 import { useState, useRef, useEffect, useCallback, forwardRef } from "react";
 import { useScrollIndicator } from "@/hooks/useScrollIndicator";
 import {
@@ -42,6 +42,18 @@ type DropdownPropsBase = {
   clearable?: boolean;
   maxHeight?: number;
   defaultOpen?: boolean;
+  /**
+   * 각 옵션 항목의 렌더링을 커스터마이징하는 함수.
+   * 제공하지 않으면 `option.label`을 기본으로 표시합니다.
+   * 옵션에 부가 정보(예: 설명, 주소)를 함께 표시해야 할 때 사용하세요.
+   */
+  renderOption?: (option: DropdownOption) => ReactNode;
+  /**
+   * 검색어가 변경될 때 호출되는 콜백.
+   * API 호출 등 외부에서 옵션을 동적으로 갱신해야 할 때 사용하세요.
+   * `searchable={true}`일 때만 동작합니다.
+   */
+  onSearchChange?: (value: string) => void;
 } & VariantProps<typeof dropdownTriggerVariants>;
 
 type DropdownPropsSingle = DropdownPropsBase & {
@@ -182,6 +194,8 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       selectAll = false,
       maxHeight = 200,
       defaultOpen = false,
+      renderOption,
+      onSearchChange,
       ...props
     },
     ref,
@@ -253,7 +267,10 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
     const handleToggle = () => {
       if (!disabled) {
         setIsOpen(!isOpen);
-        setSearchTerm("");
+        if (searchTerm) {
+          setSearchTerm("");
+          onSearchChange?.("");
+        }
       }
     };
 
@@ -470,6 +487,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                   value={searchTerm}
                   onChange={(e) => {
                     setSearchTerm(e.target.value);
+                    onSearchChange?.(e.target.value);
                     requestAnimationFrame(() => refreshScrollIndicator());
                   }}
                   placeholder="검색..."
@@ -558,10 +576,15 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                             }}
                             disabled={option.disabled}
                           >
-                            <span className="truncate">{option.label}</span>
+                            {renderOption ?
+                              renderOption(option)
+                            : <span className="truncate">{option.label}</span>}
                             {hasSubmenu ?
                               <ChevronRightFillIcon
-                                className="h-3 w-3 shrink-0 text-cms-gray-400"
+                                className={cn(
+                                  "size-3 shrink-0",
+                                  "text-cms-gray-400",
+                                )}
                               />
                             : isSelected ?
                               <svg
