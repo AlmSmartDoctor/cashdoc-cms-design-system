@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import type { DateRange as DayPickerDateRange } from "react-day-picker";
 import { DayPicker } from "react-day-picker";
@@ -6,6 +6,7 @@ import { ko } from "react-day-picker/locale";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
+import { formatDateDigits, parseDateInput } from "@/utils/dateInputFormat";
 import { useDisclosure } from "@/hooks/useDisclosure";
 import { toDayjsRange } from "@/utils/dateRange";
 export type { DateRange } from "@/utils/dateRange";
@@ -156,6 +157,39 @@ export const DateRangePicker = React.forwardRef<
     >(() => toDayjsRange(value));
     const [quickSelectError, setQuickSelectError] = useState(false);
     const [fromDay, toDay] = draftRange;
+    const [startInput, setStartInput] = useState(() =>
+      value?.start ? dayjs(value.start).format("YYYY-MM-DD") : "",
+    );
+    const [endInput, setEndInput] = useState(() =>
+      value?.end ? dayjs(value.end).format("YYYY-MM-DD") : "",
+    );
+    const [inputError, setInputError] = useState<string | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const startInputRef = useRef<HTMLInputElement>(null);
+    const endInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+      if (!inputError) return;
+      const timer = window.setTimeout(() => setInputError(null), 2500);
+      return () => window.clearTimeout(timer);
+    }, [inputError]);
+
+    const setContainerRef = (node: HTMLDivElement | null) => {
+      containerRef.current = node;
+      if (typeof ref === "function") {
+        ref(node);
+      } else if (ref) {
+        ref.current = node;
+      }
+    };
+
+    const clampDay = (d: Dayjs): Dayjs => {
+      const minDate = dayjs(min);
+      const maxDate = dayjs(max);
+      if (d.isBefore(minDate, "day")) return minDate;
+      if (d.isAfter(maxDate, "day")) return maxDate;
+      return d;
+    };
 
     const selected: DayPickerDateRange | undefined = useMemo(() => {
       if (!fromDay) return undefined;
@@ -173,12 +207,16 @@ export const DateRangePicker = React.forwardRef<
       }
       setQuickSelectError(false);
       setDraftRange([start, end]);
+      setStartInput(start.format("YYYY-MM-DD"));
+      setEndInput(end.format("YYYY-MM-DD"));
     };
 
     const handleDayClick = (range: DayPickerDateRange | undefined) => {
       setQuickSelectError(false);
       if (!range) {
         setDraftRange([undefined, undefined]);
+        setStartInput("");
+        setEndInput("");
         return;
       }
 
@@ -186,26 +224,101 @@ export const DateRangePicker = React.forwardRef<
       const to = range.to ? dayjs(range.to) : undefined;
 
       setDraftRange([from, to]);
+      setStartInput(from ? from.format("YYYY-MM-DD") : "");
+      setEndInput(to ? to.format("YYYY-MM-DD") : "");
+    };
+
+    const handleStartInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setStartInput(formatDateDigits(e.target.value));
+    };
+
+    const handleEndInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEndInput(formatDateDigits(e.target.value));
+    };
+
+    const commitStartInput = () => {
+      const parsed = parseDateInput(startInput, "start");
+      if (!parsed) {
+        setStartInput(fromDay ? fromDay.format("YYYY-MM-DD") : "");
+        return;
+      }
+      const clamped = clampDay(parsed);
+      const next: [Dayjs | undefined, Dayjs | undefined] =
+        toDay && clamped.isAfter(toDay, "day") ?
+          [toDay, clamped]
+        : [clamped, toDay];
+      setDraftRange(next);
+      setStartInput(next[0] ? next[0].format("YYYY-MM-DD") : "");
+      setEndInput(next[1] ? next[1].format("YYYY-MM-DD") : "");
+      setQuickSelectError(false);
+    };
+
+    const commitEndInput = () => {
+      const parsed = parseDateInput(endInput, "end");
+      if (!parsed) {
+        setEndInput(toDay ? toDay.format("YYYY-MM-DD") : "");
+        return;
+      }
+      const clamped = clampDay(parsed);
+      const next: [Dayjs | undefined, Dayjs | undefined] =
+        fromDay && clamped.isBefore(fromDay, "day") ?
+          [clamped, fromDay]
+        : [fromDay, clamped];
+      setDraftRange(next);
+      setStartInput(next[0] ? next[0].format("YYYY-MM-DD") : "");
+      setEndInput(next[1] ? next[1].format("YYYY-MM-DD") : "");
+      setQuickSelectError(false);
     };
 
     const handleApply = () => {
-      if (fromDay && toDay) {
-        onChange?.({
-          start: fromDay.format("YYYY-MM-DD"),
-          end: toDay.format("YYYY-MM-DD"),
-        });
-        setIsOpen(false);
+      // 타이핑 중 blur 가 아직 안 된 경우를 위해 input 문자열을 다시 파싱해 반영.
+      const parsedStart =
+        startInput ? (parseDateInput(startInput, "start") ?? null) : null;
+      const parsedEnd =
+        endInput ? (parseDateInput(endInput, "end") ?? null) : null;
+
+      // input 에 값이 있지만 파싱이 실패하면 유효하지 않은 포맷 → 적용 취소.
+      if (startInput && !parsedStart) {
+        setStartInput(fromDay ? fromDay.format("YYYY-MM-DD") : "");
+        return;
       }
+      if (endInput && !parsedEnd) {
+        setEndInput(toDay ? toDay.format("YYYY-MM-DD") : "");
+        return;
+      }
+
+      let finalStart = parsedStart ? clampDay(parsedStart) : fromDay;
+      let finalEnd = parsedEnd ? clampDay(parsedEnd) : toDay;
+
+      if (!finalStart || !finalEnd) return;
+      if (finalStart.isAfter(finalEnd, "day")) {
+        [finalStart, finalEnd] = [finalEnd, finalStart];
+      }
+      if (!finalStart.isValid() || !finalEnd.isValid()) return;
+
+      onChange?.({
+        start: finalStart.format("YYYY-MM-DD"),
+        end: finalEnd.format("YYYY-MM-DD"),
+      });
+      setIsOpen(false);
     };
 
     const handleCancel = () => {
       setDraftRange(toDayjsRange(value));
+      setStartInput(
+        value?.start ? dayjs(value.start).format("YYYY-MM-DD") : "",
+      );
+      setEndInput(value?.end ? dayjs(value.end).format("YYYY-MM-DD") : "");
       setIsOpen(false);
     };
 
     const handleOpenChange = (nextOpen: boolean) => {
       if (nextOpen) {
         setDraftRange(toDayjsRange(value));
+        setStartInput(
+          value?.start ? dayjs(value.start).format("YYYY-MM-DD") : "",
+        );
+        setEndInput(value?.end ? dayjs(value.end).format("YYYY-MM-DD") : "");
         setQuickSelectError(false);
       }
       setIsOpen(nextOpen);
@@ -226,6 +339,9 @@ export const DateRangePicker = React.forwardRef<
       };
     }, [value]);
 
+    const startFieldValue = isOpen ? startInput : displayValue.start;
+    const endFieldValue = isOpen ? endInput : displayValue.end;
+
     const disabledDays = useMemo(() => {
       const disabled: ({ before: Date } | { after: Date })[] = [];
       if (min) {
@@ -237,72 +353,139 @@ export const DateRangePicker = React.forwardRef<
       return disabled.length > 0 ? disabled : undefined;
     }, [min, max]);
 
+    const handleStartEnter = () => {
+      if (startInput) {
+        const parsed = parseDateInput(startInput, "start");
+        if (!parsed) {
+          setInputError("유효한 일자를 입력하세요.");
+          return;
+        }
+        const clamped = clampDay(parsed);
+        setDraftRange([clamped, toDay]);
+        setStartInput(clamped.format("YYYY-MM-DD"));
+        setInputError(null);
+      }
+      endInputRef.current?.focus();
+    };
+
+    const handleEndEnter = () => {
+      if (endInput) {
+        const parsed = parseDateInput(endInput, "end");
+        if (!parsed) {
+          setInputError("유효한 일자를 입력하세요.");
+          return;
+        }
+        setInputError(null);
+      }
+      handleApply();
+    };
+
     return (
       <PopoverPrimitive.Root open={isOpen} onOpenChange={handleOpenChange}>
-        <PopoverPrimitive.Trigger asChild>
-          <div ref={ref} className={cn("flex items-center gap-0", className)}>
-            <div className="relative flex-1">
-              <div
-                className={cn(
-                  "absolute top-0 left-3 flex h-full items-center",
-                  "text-xs text-gray-500",
-                  "pointer-events-none",
-                )}
-              >
-                <label htmlFor={`${id}-start`}>{startLabel}</label>
+        <PopoverPrimitive.Anchor asChild>
+          <div ref={setContainerRef} className={className}>
+            {inputError && (
+              <div className="mb-1 text-xs text-red-500">{inputError}</div>
+            )}
+            <div className="flex items-center gap-0">
+              <div className="relative flex-1">
+                <div
+                  className={cn(
+                    "absolute top-0 left-3 flex h-full items-center",
+                    "text-xs text-gray-500",
+                    "pointer-events-none",
+                  )}
+                >
+                  <label htmlFor={`${id}-start`}>{startLabel}</label>
+                </div>
+                <input
+                  ref={startInputRef}
+                  id={`${id}-start`}
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  maxLength={10}
+                  value={startFieldValue}
+                  onChange={handleStartInputChange}
+                  onFocus={() => setIsOpen(true)}
+                  onBlur={commitStartInput}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleStartEnter();
+                    }
+                  }}
+                  placeholder="YYYY-MM-DD"
+                  aria-label={startLabel}
+                  className={cn(
+                    "h-10 w-full bg-white pr-3 pl-14-75 text-sm",
+                    "focus:outline-none",
+                    "rounded-l border border-r-0 border-gray-300",
+                    "hover:border-gray-400 hover:bg-gray-50",
+                    "transition-all duration-150",
+                  )}
+                />
               </div>
-              <input
-                id={`${id}-start`}
-                type="text"
-                readOnly
-                value={displayValue.start}
-                placeholder="YYYY-MM-DD"
-                aria-label={startLabel}
-                className={cn(
-                  "h-10 w-full bg-white pr-3 pl-14-75 text-sm",
-                  "focus:outline-none",
-                  "rounded-l border border-r-0 border-gray-300",
-                  "hover:border-gray-400 hover:bg-gray-50",
-                  "transition-all duration-150",
-                  "cursor-pointer",
-                )}
-              />
-            </div>
-            <div className="relative flex-1">
-              <div
-                className={cn(
-                  "absolute top-0 left-3 flex h-full items-center",
-                  "text-xs text-gray-500",
-                  "pointer-events-none",
-                )}
-              >
-                <label htmlFor={`${id}-end`}>{endLabel}</label>
+              <div className="relative flex-1">
+                <div
+                  className={cn(
+                    "absolute top-0 left-3 flex h-full items-center",
+                    "text-xs text-gray-500",
+                    "pointer-events-none",
+                  )}
+                >
+                  <label htmlFor={`${id}-end`}>{endLabel}</label>
+                </div>
+                <input
+                  ref={endInputRef}
+                  id={`${id}-end`}
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  maxLength={10}
+                  value={endFieldValue}
+                  onChange={handleEndInputChange}
+                  onFocus={() => setIsOpen(true)}
+                  onBlur={commitEndInput}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleEndEnter();
+                    }
+                  }}
+                  placeholder="YYYY-MM-DD"
+                  aria-label={endLabel}
+                  className={cn(
+                    "h-10 w-full bg-white pr-3 pl-14-75",
+                    "text-sm",
+                    "rounded-r border border-gray-300",
+                    "hover:border-gray-400 hover:bg-gray-50",
+                    "focus:outline-none",
+                    "transition-all duration-150",
+                  )}
+                />
               </div>
-              <input
-                id={`${id}-end`}
-                type="text"
-                readOnly
-                value={displayValue.end}
-                placeholder="YYYY-MM-DD"
-                aria-label={endLabel}
-                className={cn(
-                  "h-10 w-full bg-white pr-3 pl-14-75",
-                  "text-sm",
-                  "rounded-r border border-gray-300",
-                  "hover:border-gray-400 hover:bg-gray-50",
-                  "focus:outline-none",
-                  "transition-all duration-150",
-                  "cursor-pointer",
-                )}
-              />
             </div>
           </div>
-        </PopoverPrimitive.Trigger>
+        </PopoverPrimitive.Anchor>
 
         <PopoverPrimitive.Portal>
           <PopoverPrimitive.Content
             align="start"
             sideOffset={5}
+            // Popover 열릴 때 input 에서 포커스가 빠지지 않도록 방지.
+            onOpenAutoFocus={(e) => e.preventDefault()}
+            // input 영역을 클릭하거나 포커스가 옮겨져도 popover 가 닫히지 않도록.
+            // CustomEvent 의 target 은 Content 자신이므로, 실제 DOM 이벤트는
+            // detail.originalEvent.target 을 통해 확인.
+            onPointerDownOutside={(e) => {
+              const t = e.detail.originalEvent.target as Node | null;
+              if (t && containerRef.current?.contains(t)) e.preventDefault();
+            }}
+            onFocusOutside={(e) => {
+              const t = e.detail.originalEvent.target as Node | null;
+              if (t && containerRef.current?.contains(t)) e.preventDefault();
+            }}
             className={cn(
               "z-cms-overlay rounded-lg bg-white p-2",
               "border border-gray-200",

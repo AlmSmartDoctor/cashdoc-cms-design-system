@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.9.2...v1.10.0) (2026-04-23)
+
+
+### Features
+
+* DateRangePicker/MonthRangePicker/YearRangePicker 에 직접 입력 기능 추가 ([23897d3](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/23897d3fb195c076e4f761e41b19aa173e5693b4))
+* Dropdown 에 selectAll 옵션 추가 ([30ae526](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/30ae52647ddd3521cc5514ce7ceb1b402cf16055))
+* 범위 피커 입력 UX 개선 (닫힘 방지, Enter 이동, 검증 메시지) ([03844d1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/03844d1a0abb71bd4ff912257b6fb92b67a4ddd1))
+
+
+### Bug Fixes
+
+* Dropdown 모두 선택 버튼 위치 및 popover 오버플로우 수정 ([b10e696](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/b10e696aa97f26b385cfb5b0aaa8359acdb16686))
+* 범위 피커 입력창 포커스 유실 및 적용 시 포맷 검증 추가 ([96588ee](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/96588ee6a400d8854dad46b85d7618e20b7f7547))
+* 범위 피커 클릭 시 popover 가 열렸다 즉시 닫히는 버그 수정 ([15c2c77](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/15c2c7746681c128e9e2338070ec23507c017611))
+
 ### [1.9.2](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.9.1...v1.9.2) (2026-04-21)
 
 ### [1.9.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.9.0...v1.9.1) (2026-04-20)

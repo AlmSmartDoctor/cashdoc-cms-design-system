@@ -69,6 +69,15 @@ const meta: Meta<typeof Dropdown> = {
         defaultValue: { summary: "false" },
       },
     },
+    selectAll: {
+      control: "boolean",
+      description:
+        "`multiple={true}`일 때만 사용 가능합니다. 드롭다운 트리거 위에 '모두 선택' 버튼과 '해제' 버튼을 표시합니다. 검색(`searchable`) 중에는 현재 필터링된 옵션들만 선택합니다. `selectAll={true}`를 `multiple={false}`와 함께 사용하면 런타임 에러가 발생합니다.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
     options: {
       description: "드롭다운에 표시될 옵션 목록입니다.",
       table: {
@@ -347,6 +356,52 @@ export const Multiple: Story = {
     docs: {
       description: {
         story: "여러 옵션을 동시에 선택할 수 있는 드롭다운입니다.",
+      },
+    },
+  },
+};
+
+const SelectAllStory = () => {
+  const [value, setValue] = useState("");
+
+  const largeOptions = [
+    ...sampleOptions,
+    { value: "ember", label: "Ember.js" },
+    { value: "backbone", label: "Backbone.js" },
+    { value: "jquery", label: "jQuery" },
+    { value: "vanilla", label: "Vanilla JS" },
+    { value: "alpine", label: "Alpine.js" },
+  ];
+
+  return (
+    <div className="w-64">
+      <Dropdown
+        options={largeOptions}
+        value={value}
+        onValueChange={setValue}
+        placeholder="전체 선택이 가능한 다중 선택"
+        multiple
+        searchable
+        selectAll
+        clearable
+      />
+      <p className="mt-2 text-sm text-cms-gray-700">
+        선택된 값들: {value || "없음"}
+      </p>
+      <p className="mt-1 text-xs text-cms-gray-700">
+        검색어를 입력한 후 "모두 선택"을 누르면 필터링된 항목만 선택됩니다.
+      </p>
+    </div>
+  );
+};
+
+export const SelectAll: Story = {
+  render: () => <SelectAllStory />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "`selectAll` 속성을 통해 상단에 '모두 선택' 버튼이 추가됩니다. `multiple={true}`가 필수이며, 검색 중에는 필터링된 옵션만 선택됩니다.",
       },
     },
   },
