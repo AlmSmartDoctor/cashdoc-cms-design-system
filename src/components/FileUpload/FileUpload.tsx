@@ -160,7 +160,7 @@ export const FileUpload = ({
                 "group transition-colors",
               )}
             >
-              <FileIcon className="h-8 w-8" />
+              <FileIcon className="size-8" />
               <div className="min-w-0 flex-1">
                 <p
                   className={cn(

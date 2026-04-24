@@ -483,7 +483,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
             role="listbox"
             aria-multiselectable={multiple || undefined}
             className={cn(
-              "z-cms-overlay absolute mt-1 w-full min-w-0 py-1",
+              "absolute z-cms-overlay mt-1 w-full min-w-0 py-1",
               "rounded-md border border-cms-gray-300",
               "bg-cms-white shadow-lg",
               "cms-dropdown-show",
@@ -661,7 +661,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                     <div
                       role="menu"
                       className={cn(
-                        "z-cms-overlay absolute left-full ml-1 min-w-40 py-1",
+                        "absolute left-full z-cms-overlay ml-1 min-w-40 py-1",
                         "rounded-md border border-cms-gray-300",
                         "bg-cms-white shadow-lg",
                         "cms-dropdown-show",
