@@ -115,6 +115,18 @@
   --z-cms-modal: 150;
 }
 
+/* Tailwind v4는 z-index 네임스페이스용 theme 변수만 `z-*` 유틸리티로 자동
+   승격합니다. `--z-cms-*`는 z-index 네임스페이스가 아니므로 명시적으로
+   `@utility` 를 선언하여 `z-cms-overlay` / `z-cms-modal` 클래스를 노출합니다.
+   이 선언이 없으면 클래스가 빈 규칙으로 무시되어 Dropdown 등 플로팅 UI의
+   stacking 이 깨집니다. */
+@utility z-cms-overlay {
+  z-index: var(--z-cms-overlay);
+}
+@utility z-cms-modal {
+  z-index: var(--z-cms-modal);
+}
+
 /* Design System Variables 
   Prefix: --cashdoc- 
 */
