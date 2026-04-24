@@ -228,7 +228,10 @@ const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         return { yAxisMax: unit, ticks: [0, unit] };
       }
 
-      const maxValue = Math.max(...chartData.map((d) => d.value), 0);
+      let maxValue = 0;
+      for (const d of chartData) {
+        if (d.value > maxValue) maxValue = d.value;
+      }
 
       if (maxValue === 0) {
         return { yAxisMax: unit, ticks: [0, unit] };

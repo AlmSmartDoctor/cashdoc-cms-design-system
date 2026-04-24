@@ -103,6 +103,7 @@ const NavigationMenuItem = ({
             return (
               <button
                 key={subItem.url}
+                type="button"
                 onClick={() => onMenuClick(subItem.url)}
                 className={cn(
                   "flex items-center border-0 bg-transparent",

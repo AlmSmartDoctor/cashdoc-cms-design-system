@@ -20,11 +20,12 @@ Storybook과 JSDoc, 둘 중 더 편한 쪽을 보면 됩니다.
 
 ## 기술 스택
 
-- **React 18** - UI 라이브러리
+- **React 18+** - UI 라이브러리
 - **TypeScript** - 타입 안전성
-- **TailwindCSS** - 스타일링
+- **TailwindCSS v4** - 스타일링
 - **Radix UI** - 접근성 프리미티브
-- **Framer Motion** - 애니메이션
+- **Recharts** - 차트 렌더링
+- **react-day-picker / dayjs** - 날짜 처리
 - **Vite** - 빌드 도구
 - **Storybook** - 컴포넌트 문서화
 
@@ -65,15 +66,21 @@ function App() {
 - `Button` - 기본 버튼
 - `Checkbox` - 체크박스
 - `RadioButton` - 라디오 버튼
-- `Switch` - 토글 스위치 (가변 길이 및 내부 상태 텍스트 지원)
-- `FilterToggleGroup` - 상태 집계 카드 + 단일 선택 필터 토글
+- `Switch` - 토글 스위치
+- `SegmentedControls` - 세그먼티드 컨트롤
+- `FilterToggleGroup` - 상태 집계 + 단일 선택 필터 토글
 - `TextInput` - 텍스트 입력 필드
 - `TagInput` - 태그 입력 필드
+- `FileUpload` - 파일 업로드
+- `ImageUpload` - 이미지 업로드
 
 ### Data Input
 
 - `DatePicker` - 날짜 선택
 - `DateRangePicker` - 기간 선택
+- `MonthRangePicker` - 월 기간 선택
+- `YearRangePicker` - 연도 기간 선택
+- `TimePicker` - 시간 선택
 - `Dropdown` - 드롭다운 메뉴
 - `Select` - 선택 입력
 - `Combobox` - 검색 가능한 선택
@@ -81,21 +88,21 @@ function App() {
 ### Feedback
 
 - `Modal` - 모달 다이얼로그
-  - `ConfirmModal` - 확인 모달
-  - `DeleteModal` - 삭제 확인 모달
-  - `ErrorModal` - 에러 알림
-  - `SuccessModal` - 성공 알림
-  - `WarningModal` - 경고 알림
+  - `ConfirmModal` / `DeleteModal` / `ErrorModal` / `SuccessModal` / `WarningModal`
 - `Toast` - 토스트 알림
+- `ToolTip` - 툴팁
 - `LoadingCircle` - 로딩 인디케이터
 
 ### Navigation
 
 - `SideNavigation` - 사이드바 네비게이션
+- `Pagination` - 페이지네이션
 - `Popover` - 팝오버 메뉴
 
-### Display
+### Data Display
 
+- `Table` - 테이블 (정렬/스트라이프/hover/호버블/compact)
+- `BarChart` - 막대 차트
 - `Text` - 타이포그래피
 - `Icons` - 아이콘 세트
 
@@ -106,7 +113,7 @@ function App() {
 
 ## 요구사항
 
-- **Node.js**: 18.0.0 이상
+- **Node.js**: 22.0.0 이상
 - **pnpm**: 10.0.0 이상
 
 이 프로젝트는 pnpm v10을 사용합니다. pnpm v10의 주요 변경사항:

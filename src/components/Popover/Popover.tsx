@@ -2,7 +2,18 @@
 
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { cn } from "@/utils/cn";
+import type { ComponentPropsWithoutRef } from "react";
 import { forwardRef } from "react";
+
+export type PopoverProps = ComponentPropsWithoutRef<
+  typeof PopoverPrimitive.Root
+>;
+export type PopoverTriggerProps = ComponentPropsWithoutRef<
+  typeof PopoverPrimitive.Trigger
+>;
+export type PopoverContentProps = ComponentPropsWithoutRef<
+  typeof PopoverPrimitive.Content
+>;
 
 /**
  * 특정 요소 근처에 부가적인 정보나 컨트롤을 표시하는 플로팅 컴포넌트입니다.

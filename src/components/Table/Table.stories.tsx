@@ -483,13 +483,13 @@ export const ComplexTable: Story = {
               <TableCell align="center">
                 <div className="flex justify-center gap-1">
                   <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                    <Pencil className="h-3 w-3" />
+                    <Pencil className="size-3" />
                   </Button>
                   <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                    <Trash2 className="h-3 w-3" />
+                    <Trash2 className="size-3" />
                   </Button>
                   <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                    <MoreHorizontal className="h-3 w-3" />
+                    <MoreHorizontal className="size-3" />
                   </Button>
                 </div>
               </TableCell>

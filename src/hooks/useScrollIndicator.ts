@@ -48,15 +48,25 @@ export function useScrollIndicator<T extends HTMLElement = HTMLElement>(
     }
   }, [axis]);
 
+  const observerRef = useRef<ResizeObserver | null>(null);
+
   const ref = useCallback(
     (node: T | null) => {
       const prev = nodeRef.current;
       if (prev) {
         prev.removeEventListener("scroll", update);
       }
+      observerRef.current?.disconnect();
+      observerRef.current = null;
+
       nodeRef.current = node;
       if (node) {
-        node.addEventListener("scroll", update);
+        node.addEventListener("scroll", update, { passive: true });
+        if (typeof ResizeObserver !== "undefined") {
+          const observer = new ResizeObserver(update);
+          observer.observe(node);
+          observerRef.current = observer;
+        }
         update();
       } else {
         setShowStart(false);
@@ -67,9 +77,11 @@ export function useScrollIndicator<T extends HTMLElement = HTMLElement>(
   );
 
   useEffect(() => {
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, [update]);
+    return () => {
+      observerRef.current?.disconnect();
+      observerRef.current = null;
+    };
+  }, []);
 
   return { ref, nodeRef, showStart, showEnd, refresh: update };
 }
