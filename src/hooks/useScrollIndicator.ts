@@ -62,11 +62,9 @@ export function useScrollIndicator<T extends HTMLElement = HTMLElement>(
       nodeRef.current = node;
       if (node) {
         node.addEventListener("scroll", update, { passive: true });
-        if (typeof ResizeObserver !== "undefined") {
-          const observer = new ResizeObserver(update);
-          observer.observe(node);
-          observerRef.current = observer;
-        }
+        const observer = new ResizeObserver(update);
+        observer.observe(node);
+        observerRef.current = observer;
         update();
       } else {
         setShowStart(false);
