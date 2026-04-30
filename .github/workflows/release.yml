@@ -145,11 +145,13 @@ jobs:
         id: version
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
+      - name: Update npm for trusted publishing
+        if: steps.release_gate.outputs.should-release == 'true'
+        run: npm install -g npm@latest
+
       - name: Publish to NPM
         if: steps.release_gate.outputs.should-release == 'true'
         run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
         if: steps.release_gate.outputs.should-release == 'true'
