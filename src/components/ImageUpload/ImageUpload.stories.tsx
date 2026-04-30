@@ -32,6 +32,13 @@ const meta: Meta<typeof ImageUpload> = {
         defaultValue: { summary: "5242880" },
       },
     },
+    accept: {
+      control: "object",
+      description: "업로드를 허용할 파일 MIME 타입과 확장자 목록",
+      table: {
+        type: { summary: "Accept" },
+      },
+    },
     disabled: {
       control: "boolean",
       description: "true일 경우 업로드를 비활성화합니다",
@@ -46,6 +53,15 @@ const meta: Meta<typeof ImageUpload> = {
       table: {
         type: { summary: "boolean" },
         defaultValue: { summary: "true" },
+      },
+    },
+    showAcceptedFileTypes: {
+      control: "boolean",
+      description:
+        "true일 경우 accept에 설정된 허용 파일 형식 목록을 표시합니다",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
       },
     },
     onChange: {
@@ -267,6 +283,39 @@ export const CustomSize: Story = {
     docs: {
       description: {
         story: "파일 크기 제한을 1MB로 설정한 예제입니다.",
+      },
+    },
+  },
+};
+
+const AcceptedFileTypesStory = () => {
+  const [files, setFiles] = useState<File[]>([]);
+  const [error, setError] = useState<string>("");
+
+  return (
+    <div className="w-150">
+      <ImageUpload
+        value={files}
+        onChange={setFiles}
+        onError={setError}
+        accept={{
+          "image/png": [".png"],
+          "image/jpeg": [".jpg", ".jpeg"],
+        }}
+        showAcceptedFileTypes={true}
+      />
+      {error && <p className="mt-2 text-sm text-cms-red-500">{error}</p>}
+    </div>
+  );
+};
+
+export const AcceptedFileTypes: Story = {
+  render: () => <AcceptedFileTypesStory />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "accept에 설정한 허용 파일 형식을 업로드 안내 영역에 표시하는 예제입니다.",
       },
     },
   },
@@ -631,6 +680,10 @@ export const ForJsdoc: Story = {
       <div>
         <h3 className="mb-2 font-bold">No Preview</h3>
         <ImageUpload showPreview={false} />
+      </div>
+      <div>
+        <h3 className="mb-2 font-bold">Accepted File Types</h3>
+        <ImageUpload showAcceptedFileTypes={true} />
       </div>
     </div>
   ),

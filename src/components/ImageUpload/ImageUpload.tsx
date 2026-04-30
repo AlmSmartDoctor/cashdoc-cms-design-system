@@ -12,6 +12,31 @@ export type ImageMetadata = {
   size: number;
 };
 
+const DEFAULT_IMAGE_ACCEPT: Accept = {
+  "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp"],
+};
+
+const formatAcceptToken = (token: string): string[] => {
+  const normalizedToken = token.trim().replace(/^\[|\]$/g, "");
+
+  if (!normalizedToken) return [];
+
+  return normalizedToken
+    .split(",")
+    .map((item) => item.trim().replace(/^["']|["']$/g, ""))
+    .filter(Boolean)
+    .map((item) => (item.startsWith(".") ? item.slice(1).toUpperCase() : item));
+};
+
+const getAcceptedFileTypesLabel = (accept: Accept): string => {
+  const extensions = Object.values(accept).flatMap((items) => items);
+  const acceptedTokens =
+    extensions.length > 0 ? extensions : Object.keys(accept);
+  const uniqueLabels = new Set(acceptedTokens.flatMap(formatAcceptToken));
+
+  return [...uniqueLabels].join(", ");
+};
+
 export type ImageUploadProps = {
   value?: File[];
   onChange?: (files: File[]) => void;
@@ -21,6 +46,7 @@ export type ImageUploadProps = {
   disabled?: boolean;
   className?: string;
   showPreview?: boolean;
+  showAcceptedFileTypes?: boolean;
   error?: boolean;
   onError?: (error: string) => void;
   validateImage?: (
@@ -158,6 +184,20 @@ export type ImageUploadProps = {
  * ```
  * {@end-tool}
  *
+ * {@tool snippet}
+ * 허용 파일 형식 표시:
+ *
+ * ```tsx
+ * <ImageUpload
+ *   accept={{
+ *     "image/png": [".png"],
+ *     "image/jpeg": [".jpg", ".jpeg"],
+ *   }}
+ *   showAcceptedFileTypes={true}
+ * />
+ * ```
+ * {@end-tool}
+ *
  * ## 참고사진
  * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/ImageUpload/For%20Jsdoc.png?raw=true)
  */
@@ -166,10 +206,11 @@ export const ImageUpload = ({
   onChange,
   maxFiles = 1,
   maxSize = 5 * 1024 * 1024, // 5MB
-  accept = { "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp"] },
+  accept = DEFAULT_IMAGE_ACCEPT,
   disabled = false,
   className,
   showPreview = true,
+  showAcceptedFileTypes = false,
   error = false,
   onError,
   validateImage,
@@ -181,6 +222,10 @@ export const ImageUpload = ({
   const fileUrls = useMemo(() => {
     return files.map((file) => URL.createObjectURL(file));
   }, [files]);
+
+  const acceptedFileTypesLabel = useMemo(() => {
+    return getAcceptedFileTypesLabel(accept);
+  }, [accept]);
 
   useEffect(() => {
     return () => {
@@ -367,6 +412,15 @@ export const ImageUpload = ({
                 {maxFiles > 1 ? `최대 ${maxFiles}개` : "1개"} 파일, 최대{" "}
                 {maxSize / 1024 / 1024}MB
               </Text>
+              {showAcceptedFileTypes && acceptedFileTypesLabel && (
+                <Text
+                  variant="caption"
+                  align="center"
+                  className="mt-1 text-cms-gray-400"
+                >
+                  허용 형식: {acceptedFileTypesLabel}
+                </Text>
+              )}
             </div>
           }
         </div>
