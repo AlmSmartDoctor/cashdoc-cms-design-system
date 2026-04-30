@@ -2,18 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [1.13.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.12.0...v1.13.0) (2026-04-30)
-
-
-### Features
-
-* 이미지 업로드 허용 형식 표시 추가 ([b370695](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/b37069506babd177fc1f396cd0ee2984d73a03e8))
-
-
-### Bug Fixes
-
-* 이미지 업로드 허용 형식 대괄호 제거 ([288ce29](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/288ce295cc5210fea15f48a9e617e93ee23c86e3))
-
 ## [1.12.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.11.0...v1.12.0) (2026-04-24)
 
 
