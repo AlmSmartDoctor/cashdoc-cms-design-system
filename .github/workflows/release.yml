@@ -145,9 +145,12 @@ jobs:
         id: version
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
-      - name: Update npm for trusted publishing
+      - name: Setup Node.js for trusted publishing
         if: steps.release_gate.outputs.should-release == 'true'
-        run: npm install -g npm@latest
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Publish to NPM
         if: steps.release_gate.outputs.should-release == 'true'
