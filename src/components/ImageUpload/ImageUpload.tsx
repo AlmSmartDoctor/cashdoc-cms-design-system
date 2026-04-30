@@ -16,25 +16,23 @@ const DEFAULT_IMAGE_ACCEPT: Accept = {
   "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp"],
 };
 
-const formatAcceptToken = (token: string): string => {
-  const normalizedToken = token.trim();
+const formatAcceptToken = (token: string): string[] => {
+  const normalizedToken = token.trim().replace(/^\[|\]$/g, "");
 
-  if (!normalizedToken) return "";
+  if (!normalizedToken) return [];
 
-  if (normalizedToken.startsWith(".")) {
-    return normalizedToken.slice(1).toUpperCase();
-  }
-
-  return normalizedToken;
+  return normalizedToken
+    .split(",")
+    .map((item) => item.trim().replace(/^["']|["']$/g, ""))
+    .filter(Boolean)
+    .map((item) => (item.startsWith(".") ? item.slice(1).toUpperCase() : item));
 };
 
 const getAcceptedFileTypesLabel = (accept: Accept): string => {
   const extensions = Object.values(accept).flatMap((items) => items);
   const acceptedTokens =
     extensions.length > 0 ? extensions : Object.keys(accept);
-  const uniqueLabels = new Set(
-    acceptedTokens.map(formatAcceptToken).filter(Boolean),
-  );
+  const uniqueLabels = new Set(acceptedTokens.flatMap(formatAcceptToken));
 
   return [...uniqueLabels].join(", ");
 };
