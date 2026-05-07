@@ -5,6 +5,7 @@ export * from "./icons";
 export * from "./Popover";
 export * from "./Text";
 export * from "./TextInput";
+export * from "./TagInput";
 export * from "./DatePicker";
 export * from "./DateRangePicker";
 export * from "./MonthRangePicker";
