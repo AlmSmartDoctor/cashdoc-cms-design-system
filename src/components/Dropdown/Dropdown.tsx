@@ -419,15 +419,21 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
         document.removeEventListener("mousedown", handleClickOutside);
     }, [isOpen]);
 
-    // 스크롤/리사이즈 시 위치가 어긋나므로 닫는다.
+    // 외곽 스크롤/리사이즈 시 위치가 어긋나므로 닫는다.
+    // listbox 내부 옵션 스크롤은 무시한다.
     useEffect(() => {
       if (!isOpen) return;
-      const close = () => setIsOpen(false);
-      window.addEventListener("scroll", close, true);
-      window.addEventListener("resize", close);
+      const handleScroll = (event: Event) => {
+        const target = event.target as Node | null;
+        if (target && listboxRef.current?.contains(target)) return;
+        setIsOpen(false);
+      };
+      const handleResize = () => setIsOpen(false);
+      window.addEventListener("scroll", handleScroll, true);
+      window.addEventListener("resize", handleResize);
       return () => {
-        window.removeEventListener("scroll", close, true);
-        window.removeEventListener("resize", close);
+        window.removeEventListener("scroll", handleScroll, true);
+        window.removeEventListener("resize", handleResize);
       };
     }, [isOpen]);
 
