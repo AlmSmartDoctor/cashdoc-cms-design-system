@@ -207,6 +207,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
     }
 
     const [isOpen, setIsOpen] = useState(defaultOpen);
+    const [openUpward, setOpenUpward] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [internalSelectedValues, setInternalSelectedValues] = useState<
       string[]
@@ -235,6 +236,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
     } = useScrollIndicator<HTMLDivElement>("y");
 
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const triggerWrapperRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
 
     // 서브메뉴 포함하여 옵션 찾기
@@ -265,12 +267,25 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
     );
 
     const handleToggle = () => {
-      if (!disabled) {
-        setIsOpen(!isOpen);
-        if (searchTerm) {
-          setSearchTerm("");
-          onSearchChange?.("");
+      if (disabled) return;
+      const next = !isOpen;
+      if (next) {
+        const triggerEl = triggerWrapperRef.current;
+        if (triggerEl) {
+          const rect = triggerEl.getBoundingClientRect();
+          const spaceBelow = window.innerHeight - rect.bottom;
+          const spaceAbove = rect.top;
+          // search bar(있다면) + 옵션 영역(max-h-48 = 192) + padding/border 여유
+          const estimatedHeight = (searchable ? 40 : 0) + 192 + 16;
+          setOpenUpward(
+            spaceBelow < estimatedHeight && spaceAbove > spaceBelow,
+          );
         }
+      }
+      setIsOpen(next);
+      if (searchTerm) {
+        setSearchTerm("");
+        onSearchChange?.("");
       }
     };
 
@@ -421,13 +436,13 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
             </Button>
           </div>
         )}
-        <div className="relative">
+        <div ref={triggerWrapperRef} className="relative">
           <button
             ref={ref}
             type="button"
             className={cn(
               dropdownTriggerVariants({ variant, size }),
-              "pr-10",
+              "pr-8",
               disabled && "cursor-not-allowed opacity-50",
               className,
             )}
@@ -476,264 +491,270 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
               )}
             />
           </div>
-        </div>
 
-        {isOpen && (
-          <div
-            role="listbox"
-            aria-multiselectable={multiple || undefined}
-            className={cn(
-              "absolute z-cms-overlay mt-1 w-full min-w-0 py-1",
-              "rounded-md border border-cms-gray-300",
-              "bg-cms-white shadow-lg",
-              "cms-dropdown-show",
-              dropdownClassName,
-            )}
-            style={{ maxHeight: `${maxHeight}px` }}
-          >
-            {searchable && (
-              <div className="flex border-b border-cms-gray-200 px-3 py-2">
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => {
-                    setSearchTerm(e.target.value);
-                    onSearchChange?.(e.target.value);
-                    requestAnimationFrame(() => refreshScrollIndicator());
-                  }}
-                  placeholder="검색..."
-                  className={cn(
-                    "w-full px-2 py-1 text-sm",
-                    "rounded-sm outline-none",
-                    "border border-cms-gray-300",
-                    "focus:ring-1 focus:ring-cms-gray-400",
-                  )}
-                />
-              </div>
-            )}
-
-            <div className="relative min-h-0 flex-1">
-              <div
-                className={cn(
-                  "h-full overflow-hidden",
-                  searchable ? "rounded-b-md" : "rounded-md",
-                )}
-              >
-                <div
-                  ref={setOptionsListNode}
-                  className="max-h-48 overflow-y-auto"
-                  onMouseEnter={clearSubmenuCloseTimeout}
-                  onMouseLeave={scheduleSubmenuClose}
-                >
-                  {filteredOptions.length === 0 ?
-                    <div
-                      className={cn(
-                        "px-3 py-2",
-                        "text-sm text-cms-gray-400",
-                        "text-center",
-                      )}
-                    >
-                      {searchTerm ? "검색 결과가 없습니다" : "옵션이 없습니다"}
-                    </div>
-                  : filteredOptions.map((option) => {
-                      const isSelected =
-                        multiple ?
-                          selectedValues.includes(option.value)
-                        : value === option.value;
-                      const hasSubmenu = Boolean(option.children?.length);
-                      const isSubmenuOpen =
-                        hoveredSubmenu?.value === option.value;
-
-                      return (
-                        <div
-                          key={option.value}
-                          ref={(el) => {
-                            if (el) {
-                              optionRefs.current.set(option.value, el);
-                            } else {
-                              optionRefs.current.delete(option.value);
-                            }
-                          }}
-                          onMouseEnter={() =>
-                            handleOptionMouseEnter(option, hasSubmenu)
-                          }
-                          onMouseLeave={() => {
-                            if (hasSubmenu) {
-                              scheduleSubmenuClose();
-                            }
-                          }}
-                        >
-                          <button
-                            type="button"
-                            role="option"
-                            aria-selected={isSelected}
-                            aria-haspopup={hasSubmenu ? "menu" : undefined}
-                            className={cn(
-                              "border-0",
-                              "flex items-center justify-between gap-2",
-                              "w-full px-3 py-2",
-                              "text-left text-sm",
-                              "transition-colors",
-                              option.disabled ?
-                                cn(
-                                  "cursor-not-allowed bg-cms-white",
-                                  "text-cms-gray-400",
-                                )
-                              : cn(
-                                  "bg-cms-white text-cms-black",
-                                  "hover:bg-cms-gray-100",
-                                  "cursor-pointer",
-                                ),
-                              isSelected && "bg-cms-gray-150 font-medium",
-                              isSubmenuOpen && "bg-cms-gray-100",
-                            )}
-                            onClick={() => {
-                              if (!hasSubmenu) {
-                                handleOptionClick(option);
-                              }
-                            }}
-                            disabled={option.disabled}
-                          >
-                            {renderOption ?
-                              renderOption(option)
-                            : <span className="truncate">{option.label}</span>}
-                            {hasSubmenu ?
-                              <ChevronRightFillIcon
-                                className={cn(
-                                  "size-3 shrink-0",
-                                  "text-cms-gray-400",
-                                )}
-                              />
-                            : isSelected ?
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                                className="h-4 w-4 shrink-0 text-cms-black"
-                              >
-                                <path
-                                  d="M13.5 4.5L6 12L2.5 8.5"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            : null}
-                          </button>
-                        </div>
-                      );
-                    })
-                  }
-                  {showScrollIndicator && (
-                    <div
-                      className={cn(
-                        "sticky bottom-0 -mt-8 flex h-8 w-full items-end",
-                        "justify-center pb-1",
-                        "bg-linear-to-t from-cms-white to-transparent",
-                        "pointer-events-none",
-                      )}
-                    >
-                      <ChevronDownFillIcon
-                        className={cn(
-                          "h-4 w-4",
-                          "text-cms-gray-400",
-                          "animate-bounce",
-                        )}
-                      />
-                    </div>
-                  )}
+          {isOpen && (
+            <div
+              role="listbox"
+              aria-multiselectable={multiple || undefined}
+              className={cn(
+                "absolute z-cms-overlay w-full min-w-0 py-1",
+                openUpward ? "bottom-full mb-1" : "top-full mt-1",
+                "rounded-md border border-cms-gray-300",
+                "bg-cms-white shadow-lg",
+                "cms-dropdown-show",
+                dropdownClassName,
+              )}
+              style={{ maxHeight: `${maxHeight}px` }}
+            >
+              {searchable && (
+                <div className="flex border-b border-cms-gray-200 px-3 py-2">
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                      onSearchChange?.(e.target.value);
+                      requestAnimationFrame(() => refreshScrollIndicator());
+                    }}
+                    placeholder="검색..."
+                    className={cn(
+                      "w-full px-2 py-1 text-sm",
+                      "rounded-sm outline-none",
+                      "border border-cms-gray-300",
+                      "focus:ring-1 focus:ring-cms-gray-400",
+                    )}
+                  />
                 </div>
-              </div>
+              )}
 
-              {/* Submenu - rendered outside overflow container */}
-              {hoveredSubmenu &&
-                (() => {
-                  const parentOption = filteredOptions.find(
-                    (o) => o.value === hoveredSubmenu.value,
-                  );
-                  if (!parentOption?.children) return null;
-
-                  return (
-                    <div
-                      role="menu"
-                      className={cn(
-                        "absolute left-full z-cms-overlay ml-1 min-w-40 py-1",
-                        "rounded-md border border-cms-gray-300",
-                        "bg-cms-white shadow-lg",
-                        "cms-dropdown-show",
-                      )}
-                      style={{ top: hoveredSubmenu.top }}
-                      onMouseEnter={() => {
-                        clearSubmenuCloseTimeout();
-                        setHoveredSubmenu(hoveredSubmenu);
-                      }}
-                      onMouseLeave={scheduleSubmenuClose}
-                    >
-                      {parentOption.children.map((subOption) => {
-                        const isSubSelected =
+              <div className="relative min-h-0 flex-1">
+                <div
+                  className={cn(
+                    "h-full overflow-hidden",
+                    searchable ? "rounded-b-md" : "rounded-md",
+                  )}
+                >
+                  <div
+                    ref={setOptionsListNode}
+                    className="max-h-48 overflow-y-auto"
+                    onMouseEnter={clearSubmenuCloseTimeout}
+                    onMouseLeave={scheduleSubmenuClose}
+                  >
+                    {filteredOptions.length === 0 ?
+                      <div
+                        className={cn(
+                          "px-3 py-2",
+                          "text-sm text-cms-gray-400",
+                          "text-center",
+                        )}
+                      >
+                        {searchTerm ?
+                          "검색 결과가 없습니다"
+                        : "옵션이 없습니다"}
+                      </div>
+                    : filteredOptions.map((option) => {
+                        const isSelected =
                           multiple ?
-                            selectedValues.includes(subOption.value)
-                          : value === subOption.value;
+                            selectedValues.includes(option.value)
+                          : value === option.value;
+                        const hasSubmenu = Boolean(option.children?.length);
+                        const isSubmenuOpen =
+                          hoveredSubmenu?.value === option.value;
 
                         return (
-                          <button
-                            key={subOption.value}
-                            type="button"
-                            role="menuitem"
-                            aria-selected={isSubSelected}
-                            className={cn(
-                              "border-0",
-                              "flex items-center justify-between gap-2",
-                              "w-full px-3 py-2",
-                              "text-left text-sm",
-                              "transition-colors",
-                              subOption.disabled ?
-                                cn(
-                                  "cursor-not-allowed bg-cms-white",
-                                  "text-cms-gray-400",
-                                )
-                              : cn(
-                                  "bg-cms-white text-cms-black",
-                                  "hover:bg-cms-gray-100",
-                                  "cursor-pointer",
-                                ),
-                              isSubSelected && "bg-cms-gray-150 font-medium",
-                            )}
-                            onClick={() => handleOptionClick(subOption)}
-                            disabled={subOption.disabled}
+                          <div
+                            key={option.value}
+                            ref={(el) => {
+                              if (el) {
+                                optionRefs.current.set(option.value, el);
+                              } else {
+                                optionRefs.current.delete(option.value);
+                              }
+                            }}
+                            onMouseEnter={() =>
+                              handleOptionMouseEnter(option, hasSubmenu)
+                            }
+                            onMouseLeave={() => {
+                              if (hasSubmenu) {
+                                scheduleSubmenuClose();
+                              }
+                            }}
                           >
-                            <span className="truncate">{subOption.label}</span>
-                            {isSubSelected && (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                                className="h-4 w-4 shrink-0 text-cms-black"
-                              >
-                                <path
-                                  d="M13.5 4.5L6 12L2.5 8.5"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
+                            <button
+                              type="button"
+                              role="option"
+                              aria-selected={isSelected}
+                              aria-haspopup={hasSubmenu ? "menu" : undefined}
+                              className={cn(
+                                "border-0",
+                                "flex items-center justify-between gap-2",
+                                "w-full px-3 py-2",
+                                "text-left text-sm",
+                                "transition-colors",
+                                option.disabled ?
+                                  cn(
+                                    "cursor-not-allowed bg-cms-white",
+                                    "text-cms-gray-400",
+                                  )
+                                : cn(
+                                    "bg-cms-white text-cms-black",
+                                    "hover:bg-cms-gray-100",
+                                    "cursor-pointer",
+                                  ),
+                                isSelected && "bg-cms-gray-150 font-medium",
+                                isSubmenuOpen && "bg-cms-gray-100",
+                              )}
+                              onClick={() => {
+                                if (!hasSubmenu) {
+                                  handleOptionClick(option);
+                                }
+                              }}
+                              disabled={option.disabled}
+                            >
+                              {renderOption ?
+                                renderOption(option)
+                              : <span className="truncate">{option.label}</span>
+                              }
+                              {hasSubmenu ?
+                                <ChevronRightFillIcon
+                                  className={cn(
+                                    "size-3 shrink-0",
+                                    "text-cms-gray-400",
+                                  )}
                                 />
-                              </svg>
-                            )}
-                          </button>
+                              : isSelected ?
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  className="h-4 w-4 shrink-0 text-cms-black"
+                                >
+                                  <path
+                                    d="M13.5 4.5L6 12L2.5 8.5"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              : null}
+                            </button>
+                          </div>
                         );
-                      })}
-                    </div>
-                  );
-                })()}
+                      })
+                    }
+                    {showScrollIndicator && (
+                      <div
+                        className={cn(
+                          "sticky bottom-0 -mt-8 flex h-8 w-full items-end",
+                          "justify-center pb-1",
+                          "bg-linear-to-t from-cms-white to-transparent",
+                          "pointer-events-none",
+                        )}
+                      >
+                        <ChevronDownFillIcon
+                          className={cn(
+                            "h-4 w-4",
+                            "text-cms-gray-400",
+                            "animate-bounce",
+                          )}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Submenu - rendered outside overflow container */}
+                {hoveredSubmenu &&
+                  (() => {
+                    const parentOption = filteredOptions.find(
+                      (o) => o.value === hoveredSubmenu.value,
+                    );
+                    if (!parentOption?.children) return null;
+
+                    return (
+                      <div
+                        role="menu"
+                        className={cn(
+                          "absolute left-full z-cms-overlay ml-1 min-w-40 py-1",
+                          "rounded-md border border-cms-gray-300",
+                          "bg-cms-white shadow-lg",
+                          "cms-dropdown-show",
+                        )}
+                        style={{ top: hoveredSubmenu.top }}
+                        onMouseEnter={() => {
+                          clearSubmenuCloseTimeout();
+                          setHoveredSubmenu(hoveredSubmenu);
+                        }}
+                        onMouseLeave={scheduleSubmenuClose}
+                      >
+                        {parentOption.children.map((subOption) => {
+                          const isSubSelected =
+                            multiple ?
+                              selectedValues.includes(subOption.value)
+                            : value === subOption.value;
+
+                          return (
+                            <button
+                              key={subOption.value}
+                              type="button"
+                              role="menuitem"
+                              aria-selected={isSubSelected}
+                              className={cn(
+                                "border-0",
+                                "flex items-center justify-between gap-2",
+                                "w-full px-3 py-2",
+                                "text-left text-sm",
+                                "transition-colors",
+                                subOption.disabled ?
+                                  cn(
+                                    "cursor-not-allowed bg-cms-white",
+                                    "text-cms-gray-400",
+                                  )
+                                : cn(
+                                    "bg-cms-white text-cms-black",
+                                    "hover:bg-cms-gray-100",
+                                    "cursor-pointer",
+                                  ),
+                                isSubSelected && "bg-cms-gray-150 font-medium",
+                              )}
+                              onClick={() => handleOptionClick(subOption)}
+                              disabled={subOption.disabled}
+                            >
+                              <span className="truncate">
+                                {subOption.label}
+                              </span>
+                              {isSubSelected && (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  className="h-4 w-4 shrink-0 text-cms-black"
+                                >
+                                  <path
+                                    d="M13.5 4.5L6 12L2.5 8.5"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    );
+                  })()}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     );
   },
