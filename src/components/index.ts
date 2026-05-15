@@ -1,4 +1,6 @@
 export * from "./Button";
+export * from "./TextToggleButton";
+export * from "./ToggleButton";
 export * from "./LoadingCircle";
 export * from "./Dropdown";
 export * from "./icons";
@@ -24,4 +26,5 @@ export * from "./ImageUpload";
 export * from "./FileUpload";
 export * from "./SegmentedControls";
 export * from "./FilterToggleGroup";
+export * from "./CountFilterChips";
 export * from "./BarChart";
