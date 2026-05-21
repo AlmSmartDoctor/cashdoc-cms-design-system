@@ -473,7 +473,6 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
             className={cn(
               dropdownTriggerVariants({ variant, size }),
               "pr-8",
-              disabled && "cursor-not-allowed opacity-50",
               className,
             )}
             onClick={handleToggle}
@@ -498,6 +497,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
               "absolute top-1/2 right-3 -translate-y-1/2",
               "flex items-center gap-2",
               "pointer-events-none",
+              disabled && "text-cms-gray-400",
             )}
           >
             {clearable && (value || selectedValues.length > 0) && (

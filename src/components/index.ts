@@ -7,6 +7,7 @@ export * from "./icons";
 export * from "./Popover";
 export * from "./Text";
 export * from "./TextInput";
+export * from "./TextArea";
 export * from "./TagInput";
 export * from "./DatePicker";
 export * from "./DateRangePicker";

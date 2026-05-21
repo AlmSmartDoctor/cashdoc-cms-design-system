@@ -17,14 +17,29 @@ export const dropdownTriggerVariants = cva(
         default: cn(
           "border border-black bg-white text-cms-black",
           "hover:bg-cms-gray-100",
+          "disabled:bg-cms-gray-150 disabled:text-cms-gray-400",
+          `
+            disabled:cursor-not-allowed
+            disabled:hover:bg-cms-gray-150
+          `,
         ),
         outline: cn(
           "border border-cms-outline bg-transparent",
           "hover:bg-cms-gray-200",
+          "disabled:bg-cms-gray-150 disabled:text-cms-gray-400",
+          `
+            disabled:cursor-not-allowed
+            disabled:hover:bg-cms-gray-150
+          `,
         ),
         ghost: cn(
           "border-none bg-transparent",
           "hover:bg-cms-gray-200 hover:text-black",
+          "disabled:bg-cms-gray-150 disabled:text-cms-gray-400",
+          `
+            disabled:cursor-not-allowed
+            disabled:hover:bg-cms-gray-150
+          `,
         ),
       },
       size: {
