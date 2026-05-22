@@ -17,7 +17,7 @@ const paginationButtonVariants = cva(
   cn(
     "inline-flex items-center justify-center",
     "h-10 min-w-10 px-2",
-    "rounded-md",
+    "rounded-cms-lg",
     "text-sm font-medium",
     "transition-colors",
     "cursor-pointer",

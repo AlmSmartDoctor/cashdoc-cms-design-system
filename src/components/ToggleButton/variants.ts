@@ -17,7 +17,7 @@ import { cn } from "@/utils/cn";
 export const toggleButtonVariants = cva(
   cn(
     "inline-flex items-center justify-center gap-1.5",
-    "rounded-lg border border-solid",
+    "rounded-cms-xl border border-solid",
     "font-medium select-none",
     "scale-100 transform-gpu cursor-pointer",
     "transition-all duration-150 ease-out",
@@ -46,7 +46,7 @@ export const toggleButtonVariants = cva(
         ),
       },
       size: {
-        sm: "h-8 gap-1 rounded-md px-3 text-[13px]",
+        sm: "h-8 gap-1 rounded-cms-lg px-3 text-[13px]",
         md: "h-10 px-4 text-sm",
       },
     },

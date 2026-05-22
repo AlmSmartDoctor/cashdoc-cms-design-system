@@ -124,7 +124,7 @@ export const FileUpload = ({
         <div
           {...getRootProps()}
           className={cn(
-            "relative rounded-md border-2 border-dashed",
+            "relative rounded-cms-lg border-2 border-dashed",
             "cursor-pointer transition-colors",
             "flex flex-col items-center justify-center",
             "min-h-50 p-6",
@@ -154,7 +154,7 @@ export const FileUpload = ({
               key={index}
               className={cn(
                 "flex items-center gap-2 px-3 py-2",
-                "rounded-md border border-cms-gray-300",
+                "rounded-cms-lg border border-cms-gray-300",
                 "bg-white",
                 "hover:bg-cms-gray-50",
                 "group transition-colors",

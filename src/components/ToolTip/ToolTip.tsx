@@ -162,7 +162,7 @@ export const ToolTip = React.forwardRef<
               align={align}
               className={cn(
                 "z-cms-overlay px-3 py-1.5",
-                "rounded-md",
+                "rounded-cms-lg",
                 "bg-cms-black text-cms-white",
                 "text-xs font-medium",
                 "shadow-md",

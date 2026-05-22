@@ -190,7 +190,7 @@ export const FilterToggleGroup = <T extends string | number>({
             className={cn(
               "group relative flex cursor-pointer flex-col",
               "justify-between overflow-hidden",
-              "rounded-cms-md border border-cms-gray-300 bg-cms-white",
+              "rounded-cms-lg border border-cms-gray-300 bg-cms-white",
               "text-center",
               "shadow-[0_1px_3px_rgba(17,17,17,0.08)]",
               "scale-100 transform-gpu transition-all duration-150 ease-out",

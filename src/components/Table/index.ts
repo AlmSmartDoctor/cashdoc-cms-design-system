@@ -7,6 +7,7 @@ export {
   TableHead,
   TableCell,
   TableCaption,
+  TableExpandableRow,
 } from "./Table";
 
 export type {
@@ -18,4 +19,5 @@ export type {
   TableHeadProps,
   TableCellProps,
   TableCaptionProps,
+  TableExpandableRowProps,
 } from "./Table";

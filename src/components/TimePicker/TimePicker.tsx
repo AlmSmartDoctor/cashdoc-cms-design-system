@@ -348,7 +348,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                 aria-invalid={error || undefined}
                 aria-describedby={describedBy}
                 className={cn(
-                  "h-10 w-full rounded-sm border bg-cms-white px-3 text-sm",
+                  "h-10 w-full rounded-cms-md border bg-cms-white px-3 text-sm",
                   "hover:border-cms-gray-400 hover:bg-cms-gray-100",
                   "focus:outline-none",
                   "transition-all duration-150",
@@ -378,7 +378,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
               align="start"
               sideOffset={5}
               className={cn(
-                "z-cms-overlay rounded-lg bg-cms-white shadow-xl",
+                "z-cms-overlay rounded-cms-xl bg-cms-white shadow-xl",
                 "border border-cms-gray-200",
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",
@@ -409,7 +409,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                       className={cn(
                         "h-48 w-16 overflow-y-auto",
                         "border border-cms-gray-200",
-                        "cms-no-scrollbar rounded-sm",
+                        "cms-no-scrollbar rounded-cms-md",
                       )}
                     >
                       {hours.map((hour) => (
@@ -452,7 +452,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                       className={cn(
                         "h-48 w-16 overflow-y-auto",
                         "border border-cms-gray-200",
-                        "cms-no-scrollbar rounded-sm",
+                        "cms-no-scrollbar rounded-cms-md",
                       )}
                     >
                       {minutes.map((minute) => (
@@ -496,7 +496,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                           onClick={() => setSelectedPeriod("AM")}
                           className={cn(
                             "cursor-pointer border-0",
-                            "h-10 rounded-sm text-sm transition-colors",
+                            "h-10 rounded-cms-md text-sm transition-colors",
                             "hover:bg-cms-gray-150",
                             selectedPeriod === "AM" ?
                               "bg-cms-blue-100 font-medium text-cms-blue-700"
@@ -512,7 +512,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                           onClick={() => setSelectedPeriod("PM")}
                           className={cn(
                             "cursor-pointer border-0",
-                            "h-10 rounded-sm text-sm transition-colors",
+                            "h-10 rounded-cms-md text-sm transition-colors",
                             "hover:bg-cms-gray-150",
                             selectedPeriod === "PM" ?
                               "bg-cms-blue-100 font-medium text-cms-blue-700"
@@ -541,7 +541,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     type="button"
                     onClick={handleCancel}
                     className={cn(
-                      "h-8 w-15 cursor-pointer rounded-sm",
+                      "h-8 w-15 cursor-pointer rounded-cms-md",
                       "text-xs font-medium text-cms-gray-700",
                       "border border-cms-gray-300 bg-transparent",
                       "transition-all duration-150",
@@ -557,7 +557,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     disabled={selectedHour === null || selectedMinute === null}
                     className={cn(
                       "cursor-pointer border-0",
-                      "h-8 w-15 rounded-sm bg-cms-blue-700",
+                      "h-8 w-15 rounded-cms-md bg-cms-blue-700",
                       "text-xs text-cms-white",
                       "hover:bg-cms-blue-800",
                       "active:scale-95",

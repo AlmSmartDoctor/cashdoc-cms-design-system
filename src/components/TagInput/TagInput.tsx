@@ -4,7 +4,7 @@ import { cn } from "@/utils/cn";
 
 const tagInputContainerVariants = cva(
   cn(
-    "flex items-center gap-2 rounded-cms-sm border border-solid p-2",
+    "flex items-center gap-2 rounded-cms-md border border-solid p-2",
     "min-h-[40px] w-full transition-colors duration-200",
   ),
   {
@@ -34,7 +34,7 @@ const tagVariants = cva(
   cn(
     "inline-flex items-center gap-2 px-3 py-1",
     "border border-solid border-cms-primary-200 bg-cms-primary-100",
-    "rounded-cms-2xl text-sm font-semibold text-cms-black",
+    "rounded-cms-3xl text-sm font-semibold text-cms-black",
   ),
 );
 

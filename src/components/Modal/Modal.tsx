@@ -246,7 +246,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               "translate-x-[-50%] translate-y-[-50%]",
               "w-full",
               sizeClasses[size],
-              "rounded-cms-lg bg-cms-white shadow-lg",
+              "rounded-cms-xl bg-cms-white shadow-lg",
               "p-6",
               "data-[state=closed]:animate-out",
               "data-[state=open]:animate-in",

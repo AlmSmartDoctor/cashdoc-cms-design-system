@@ -82,7 +82,7 @@ export const SegmentedControls = <T extends string | number>({
       value={String(value)}
       onValueChange={handleValueChange}
       className={cn(
-        "my-3 flex overflow-hidden rounded-lg",
+        "my-3 flex overflow-hidden rounded-cms-xl",
         "border border-cms-gray-300",
         className,
       )}

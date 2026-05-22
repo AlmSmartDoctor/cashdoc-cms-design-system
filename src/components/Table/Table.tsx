@@ -82,7 +82,9 @@ export type TableProps = {
  * ### 🚫 Don't (주의/금지 사항)
  *
  * - **과도한 열**: 너무 많은 열은 가독성을 해칩니다. 중요한 정보만 표시하세요.
- * - **중첩 테이블**: 테이블 안에 테이블을 넣지 마세요. 복잡도가 급격히 증가합니다.
+ * - **중첩 테이블(직접 삽입)**: `TableCell` 안에 또 다른 `Table`을 직접 넣지 마세요.
+ *   상세 데이터를 표 형태로 함께 보여줘야 한다면 `TableExpandableRow`를 사용해
+ *   펼침 행으로 표현하세요.
  * - **빈 셀 남용**: 빈 셀이 많으면 데이터 구조를 다시 검토하세요.
  *
  * ## Accessibility
@@ -163,7 +165,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
         <div
           className={cn(
             "relative w-full",
-            bordered && "rounded-lg border border-cms-gray-300",
+            bordered && "rounded-cms-xl border border-cms-gray-300",
           )}
         >
           {showLeftScroll && (
@@ -178,7 +180,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
               <ChevronLeft className="size-6 text-cms-gray-400" />
             </div>
           )}
-          <div ref={containerRef} className="overflow-auto rounded-lg">
+          <div ref={containerRef} className="overflow-auto rounded-cms-xl">
             <table
               ref={ref}
               className={cn(tableVariants({ bordered }), className)}
@@ -225,9 +227,9 @@ export const TableHeader = React.forwardRef<
   <thead
     ref={ref}
     className={cn(
-      "[&_tr]:border-0",
-      "[&_th:first-child]:rounded-tl-lg",
-      "[&_th:last-child]:rounded-tr-lg",
+      "[&>tr]:border-0",
+      "[&>tr>th:first-child]:rounded-tl-cms-xl",
+      "[&>tr>th:last-child]:rounded-tr-cms-xl",
       className,
     )}
     {...props}
@@ -251,7 +253,7 @@ export const TableBody = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tbody
     ref={ref}
-    className={cn("[&_tr:last-child]:border-0", className)}
+    className={cn("[&>tr:last-child]:border-0", className)}
     {...props}
   />
 ));
@@ -465,6 +467,163 @@ export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   },
 );
 TableCell.displayName = "TableCell";
+
+/* --------------------------------- TableExpandableRow --------------------------------- */
+
+export type TableExpandableRowProps = {
+  /** 펼침 시 렌더할 콘텐츠. nested Table, 상세 패널 등 자유롭게 구성합니다. */
+  expandedContent: React.ReactNode;
+  /** controlled 펼침 상태. 생략 시 내부 상태 사용 (uncontrolled) */
+  expanded?: boolean;
+  /** uncontrolled 사용 시 초기 펼침 여부 */
+  defaultExpanded?: boolean;
+  /** 펼침 상태 변경 콜백 */
+  onExpandedChange?: (expanded: boolean) => void;
+  /**
+   * 토글 컨트롤 위치.
+   * - "leading"(기본): 첫 번째 셀로 chevron 버튼이 자동 삽입됩니다.
+   *   헤더에 빈 `<TableHead/>`를 하나 추가해야 컬럼 수가 맞습니다.
+   * - "none": 사용자가 직접 토글 컨트롤을 배치합니다.
+   */
+  toggleSlot?: "leading" | "none";
+  /**
+   * 펼침 행의 colSpan. 생략 시 children의 React 요소 개수와
+   * `toggleSlot`에 따라 자동 계산됩니다.
+   */
+  colSpan?: number;
+  /** 토글 버튼 접근성 레이블 */
+  toggleAriaLabel?: string;
+  /** 선택된 행 표시 여부 */
+  selected?: boolean;
+  /** 데이터 행의 셀들 */
+  children?: React.ReactNode;
+} & Omit<React.HTMLAttributes<HTMLTableRowElement>, "children">;
+
+/**
+ * 펼침 가능한 테이블 행 컴포넌트입니다.
+ *
+ * 데이터 행 아래에 추가 `<tr>`을 렌더링하여 상세 정보, sub-table,
+ * 설명 패널 등을 표시합니다. 실제 HTML 중첩 테이블이 아니므로
+ * 시맨틱·접근성 문제 없이 안전합니다.
+ *
+ * ## When
+ *
+ * - 행마다 상세 데이터를 펼쳐서 보여줘야 할 때
+ * - 마스터-디테일 구조를 한 테이블에 표현해야 할 때
+ *
+ * ## Example
+ *
+ * ```tsx
+ * <Table>
+ *   <TableHeader>
+ *     <TableRow>
+ *       <TableHead />
+ *       <TableHead>이름</TableHead>
+ *       <TableHead>역할</TableHead>
+ *     </TableRow>
+ *   </TableHeader>
+ *   <TableBody>
+ *     <TableExpandableRow
+ *       expandedContent={
+ *         <Table compact bordered>
+ *           ...
+ *         </Table>
+ *       }
+ *     >
+ *       <TableCell>홍길동</TableCell>
+ *       <TableCell>관리자</TableCell>
+ *     </TableExpandableRow>
+ *   </TableBody>
+ * </Table>
+ * ```
+ */
+export const TableExpandableRow = React.forwardRef<
+  HTMLTableRowElement,
+  TableExpandableRowProps
+>(
+  (
+    {
+      expandedContent,
+      expanded: expandedProp,
+      defaultExpanded = false,
+      onExpandedChange,
+      toggleSlot = "leading",
+      colSpan,
+      toggleAriaLabel,
+      selected,
+      className,
+      children,
+      ...rest
+    },
+    ref,
+  ) => {
+    const [internalExpanded, setInternalExpanded] =
+      React.useState(defaultExpanded);
+    const isControlled = expandedProp !== undefined;
+    const expanded = isControlled ? expandedProp : internalExpanded;
+
+    const handleToggle = React.useCallback(() => {
+      const next = !expanded;
+      if (!isControlled) setInternalExpanded(next);
+      onExpandedChange?.(next);
+    }, [expanded, isControlled, onExpandedChange]);
+
+    const dataCellCount = React.Children.toArray(children).filter(
+      React.isValidElement,
+    ).length;
+    const totalColSpan =
+      colSpan ?? dataCellCount + (toggleSlot === "leading" ? 1 : 0);
+
+    return (
+      <>
+        <TableRow
+          ref={ref}
+          selected={selected}
+          className={className}
+          data-expanded={expanded || undefined}
+          {...rest}
+        >
+          {toggleSlot === "leading" && (
+            <TableCell className="w-10 pr-0">
+              <button
+                type="button"
+                onClick={handleToggle}
+                aria-expanded={expanded}
+                aria-label={
+                  toggleAriaLabel ?? (expanded ? "행 접기" : "행 펼치기")
+                }
+                className={cn(
+                  "inline-flex h-8 w-8 items-center justify-center",
+                  "cursor-pointer rounded-cms-md border-0 bg-transparent",
+                  "text-cms-gray-600",
+                  "transition-transform duration-150",
+                  "hover:bg-cms-gray-100",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2",
+                  "focus-visible:outline-cms-primary-400",
+                  expanded && "rotate-90",
+                )}
+              >
+                <ChevronRight className="size-4" />
+              </button>
+            </TableCell>
+          )}
+          {children}
+        </TableRow>
+        {expanded && (
+          <tr
+            data-expanded-content
+            className="border-b border-cms-gray-200 bg-cms-gray-50"
+          >
+            <td colSpan={totalColSpan} className="p-4">
+              {expandedContent}
+            </td>
+          </tr>
+        )}
+      </>
+    );
+  },
+);
+TableExpandableRow.displayName = "TableExpandableRow";
 
 /* --------------------------------- TableCaption --------------------------------- */
 

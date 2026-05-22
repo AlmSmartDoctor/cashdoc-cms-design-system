@@ -104,7 +104,7 @@ export const Checkbox = React.forwardRef<
         id={checkboxId}
         disabled={disabled}
         className={cn(
-          "peer size-5 shrink-0 rounded-sm",
+          "peer size-5 shrink-0 rounded-cms-md",
           "border border-cms-gray-400 bg-cms-white",
           "focus-visible:outline-none",
           "focus-visible:ring-2",

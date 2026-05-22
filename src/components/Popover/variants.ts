@@ -3,7 +3,7 @@ import { cn } from "@/utils/cn";
 
 export const popoverMenuItemVariants = cva(
   cn(
-    "flex w-full cursor-pointer items-center gap-3 rounded-md border-0 px-3",
+    "flex w-full cursor-pointer items-center gap-3 rounded-cms-lg border-0 px-3",
     "py-2",
     "bg-white text-sm font-medium transition-colors",
     "hover:bg-cms-gray-100",

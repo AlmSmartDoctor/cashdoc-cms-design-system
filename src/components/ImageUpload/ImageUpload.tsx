@@ -348,7 +348,7 @@ export const ImageUpload = ({
         <div
           {...getRootProps()}
           className={cn(
-            "relative rounded-md border-2 border-solid",
+            "relative rounded-cms-lg border-2 border-solid",
             "cursor-pointer transition-colors",
             "flex flex-col items-center justify-center",
             "min-h-50",
@@ -366,7 +366,7 @@ export const ImageUpload = ({
               className={cn(
                 "group flex items-center justify-center",
                 "relative h-full min-h-50 w-full",
-                "overflow-hidden rounded-md",
+                "overflow-hidden rounded-cms-lg",
                 "bg-cms-gray-100",
               )}
             >
@@ -440,7 +440,7 @@ export const ImageUpload = ({
             <div
               key={index}
               className={cn(
-                "group relative overflow-hidden rounded-md",
+                "group relative overflow-hidden rounded-cms-lg",
                 "border border-cms-gray-300",
               )}
             >

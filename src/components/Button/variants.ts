@@ -19,7 +19,7 @@ import { cn } from "@/utils/cn";
 export const buttonVariants = cva(
   cn(
     "inline-flex items-center justify-center gap-2",
-    "rounded-lg ring-offset-white",
+    "rounded-cms-xl ring-offset-white",
     "text-sm font-medium",
     "focus-visible:ring-2 focus-visible:outline-none",
     "focus-visible:ring-slate-950 focus-visible:ring-offset-2",
@@ -58,8 +58,8 @@ export const buttonVariants = cva(
       },
       size: {
         default: "h-10 px-4 py-2",
-        sm: "h-8 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
+        sm: "h-8 rounded-cms-lg px-3",
+        lg: "h-11 rounded-cms-lg px-8",
         icon: "size-10",
       },
     },

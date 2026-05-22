@@ -4,6 +4,7 @@ import {
   TableBody,
   TableCaption,
   TableCell,
+  TableExpandableRow,
   TableFooter,
   TableHead,
   TableHeader,
@@ -757,6 +758,83 @@ export const WithCaption: Story = {
   },
 };
 
+const expandableOrders = [
+  {
+    id: "ORD-1001",
+    customer: "홍길동",
+    total: "120,000원",
+    items: [
+      { name: "노트북 거치대", qty: 1, price: "45,000원" },
+      { name: "USB-C 허브", qty: 1, price: "75,000원" },
+    ],
+  },
+  {
+    id: "ORD-1002",
+    customer: "김철수",
+    total: "58,000원",
+    items: [
+      { name: "무선 마우스", qty: 2, price: "29,000원" },
+    ],
+  },
+];
+
+export const Expandable: Story = {
+  render: () => (
+    <Table hoverable>
+      <TableHeader>
+        <TableRow>
+          {/* 토글 chevron 슬롯 */}
+          <TableHead className="w-10" aria-hidden />
+          <TableHead>주문번호</TableHead>
+          <TableHead>고객명</TableHead>
+          <TableHead align="right">합계</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {expandableOrders.map((order) => (
+          <TableExpandableRow
+            key={order.id}
+            expandedContent={
+              <Table compact bordered>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>상품명</TableHead>
+                    <TableHead align="right">수량</TableHead>
+                    <TableHead align="right">단가</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {order.items.map((item) => (
+                    <TableRow key={item.name}>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell align="right">{item.qty}</TableCell>
+                      <TableCell align="right">{item.price}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            }
+          >
+            <TableCell>{order.id}</TableCell>
+            <TableCell>{order.customer}</TableCell>
+            <TableCell align="right">{order.total}</TableCell>
+          </TableExpandableRow>
+        ))}
+      </TableBody>
+    </Table>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "`TableExpandableRow`로 행을 펼쳐 sub-Table을 표시합니다. " +
+          "토글 chevron은 기본적으로 첫 셀에 자동 삽입되므로 헤더에 " +
+          "빈 `TableHead`를 하나 추가해 컬럼 수를 맞춰주세요.",
+      },
+    },
+  },
+};
+
 export const AllStates: Story = {
   render: () => (
     <div className="flex flex-col gap-8">
@@ -826,6 +904,52 @@ export const AllStates: Story = {
               <TableCell>JP</TableCell>
               <TableCell>일본</TableCell>
             </TableRow>
+          </TableBody>
+        </Table>
+      </div>
+
+      <div>
+        <h3 className="mb-3 text-sm font-semibold">Expandable Rows</h3>
+        <Table hoverable>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-10" aria-hidden />
+              <TableHead>주문번호</TableHead>
+              <TableHead>고객명</TableHead>
+              <TableHead align="right">합계</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {expandableOrders.map((order) => (
+              <TableExpandableRow
+                key={order.id}
+                defaultExpanded={order.id === "ORD-1001"}
+                expandedContent={
+                  <Table compact bordered>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>상품명</TableHead>
+                        <TableHead align="right">수량</TableHead>
+                        <TableHead align="right">단가</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {order.items.map((item) => (
+                        <TableRow key={item.name}>
+                          <TableCell>{item.name}</TableCell>
+                          <TableCell align="right">{item.qty}</TableCell>
+                          <TableCell align="right">{item.price}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                }
+              >
+                <TableCell>{order.id}</TableCell>
+                <TableCell>{order.customer}</TableCell>
+                <TableCell align="right">{order.total}</TableCell>
+              </TableExpandableRow>
+            ))}
           </TableBody>
         </Table>
       </div>

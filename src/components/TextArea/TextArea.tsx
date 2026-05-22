@@ -6,7 +6,7 @@ const textAreaVariants = cva(
   cn(
     "box-border w-full",
     "px-3 py-2",
-    "rounded-cms-sm",
+    "rounded-cms-md",
     "border border-solid",
     "leading-normal font-normal",
     "transition-colors duration-200",

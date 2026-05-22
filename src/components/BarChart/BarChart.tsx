@@ -252,7 +252,7 @@ const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       <div
         ref={ref}
         className={cn(
-          "cms-cashdoc-ds w-full rounded-cms-lg bg-cms-white p-4",
+          "cms-cashdoc-ds w-full rounded-cms-xl bg-cms-white p-4",
           className,
         )}
         {...props}
@@ -329,7 +329,7 @@ const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
                   shape={(shapeProps: BarShapeProps) => (
                     <Rectangle
                       {...shapeProps}
-                      radius={[4, 4, 0, 0]}
+                      radius={[6, 6, 0, 0]}
                       fill={
                         shapeProps.value === 0
                           ? "transparent"

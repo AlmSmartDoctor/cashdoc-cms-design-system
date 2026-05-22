@@ -505,7 +505,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                 type="button"
                 className={cn(
                   "pointer-events-auto border-0 bg-transparent",
-                  "rounded-sm p-1 text-cms-gray-400 transition-colors",
+                  "rounded-cms-md p-1 text-cms-gray-400 transition-colors",
                   "hover:text-cms-black",
                 )}
                 onClick={handleClear}
@@ -531,7 +531,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                 aria-multiselectable={multiple || undefined}
                 className={cn(
                   "fixed z-cms-overlay min-w-0 py-1",
-                  "rounded-md border border-cms-gray-300",
+                  "rounded-cms-lg border border-cms-gray-300",
                   "bg-cms-white shadow-lg",
                   "cms-dropdown-show",
                   dropdownClassName,
@@ -558,7 +558,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                       placeholder="검색..."
                       className={cn(
                         "w-full px-2 py-1 text-sm",
-                        "rounded-sm outline-none",
+                        "rounded-cms-md outline-none",
                         "border border-cms-gray-300",
                         "focus:ring-1 focus:ring-cms-gray-400",
                       )}
@@ -570,7 +570,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                   <div
                     className={cn(
                       "h-full overflow-hidden",
-                      searchable ? "rounded-b-md" : "rounded-md",
+                      searchable ? "rounded-b-cms-lg" : "rounded-cms-lg",
                     )}
                   >
                     <div
@@ -723,7 +723,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                               absolute left-full z-cms-overlay ml-1 min-w-40
                               py-1
                             `,
-                            "rounded-md border border-cms-gray-300",
+                            "rounded-cms-lg border border-cms-gray-300",
                             "bg-cms-white shadow-lg",
                             "cms-dropdown-show",
                           )}

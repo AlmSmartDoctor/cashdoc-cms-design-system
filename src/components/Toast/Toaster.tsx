@@ -95,7 +95,7 @@ const Toaster = ({ position = "bottom-center", ...props }: ToasterProps) => {
           toast: cn(
             "group toast flex w-full items-center",
             "text-cms-gray-900",
-            "rounded-cms-lg bg-cms-white shadow-lg",
+            "rounded-cms-xl bg-cms-white shadow-lg",
             "gap-3 p-4",
             "border! border-cms-blue-600!",
             "**:data-content:flex-row!",

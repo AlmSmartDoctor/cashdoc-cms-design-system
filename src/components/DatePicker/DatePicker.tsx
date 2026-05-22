@@ -226,7 +226,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                 aria-invalid={error || undefined}
                 aria-describedby={describedBy}
                 className={cn(
-                  "h-10 w-full rounded-sm border bg-cms-white pr-3 pl-10",
+                  "h-10 w-full rounded-cms-md border bg-cms-white pr-3 pl-10",
                   "text-sm",
                   "hover:border-cms-gray-400 hover:bg-cms-gray-100",
                   "focus:outline-none",
@@ -248,7 +248,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
               align="start"
               sideOffset={5}
               className={cn(
-                "z-cms-overlay rounded-lg bg-cms-white p-2 shadow-xl",
+                "z-cms-overlay rounded-cms-xl bg-cms-white p-2 shadow-xl",
                 "border border-cms-gray-200",
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",
@@ -298,7 +298,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                     type="button"
                     onClick={handleCancel}
                     className={cn(
-                      "h-8 w-15 cursor-pointer rounded-sm",
+                      "h-8 w-15 cursor-pointer rounded-cms-md",
                       "text-xs font-medium text-cms-gray-700",
                       "border border-cms-gray-300 bg-transparent",
                       "transition-all duration-150",
@@ -314,7 +314,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                     disabled={!draftDate}
                     className={cn(
                       "cursor-pointer border-0",
-                      "h-8 w-15 rounded-sm bg-cms-blue-700",
+                      "h-8 w-15 rounded-cms-md bg-cms-blue-700",
                       "text-xs text-cms-white",
                       "hover:bg-cms-blue-800",
                       "active:scale-95",

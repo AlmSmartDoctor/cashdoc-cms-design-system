@@ -5,7 +5,7 @@ import { cn } from "@/utils/cn";
 const countFilterChipVariants = cva(
   cn(
     "group inline-flex items-center",
-    "rounded-md border border-solid select-none",
+    "rounded-cms-lg border border-solid select-none",
     "font-medium whitespace-nowrap",
     "cursor-pointer outline-none",
     "transition-colors duration-150 ease-out",
@@ -33,7 +33,7 @@ const countFilterChipVariants = cva(
 const countBadgeVariants = cva(
   cn(
     "inline-flex items-center justify-center",
-    "rounded-sm font-semibold tabular-nums",
+    "rounded-cms-md font-semibold tabular-nums",
     "bg-cms-gray-150 text-cms-gray-700",
     "group-data-[state=on]:bg-cms-white",
     "group-data-[state=on]:text-cms-gray-850",

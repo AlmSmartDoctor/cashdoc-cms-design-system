@@ -523,7 +523,7 @@ export const YearRangePicker = React.forwardRef<
                   className={cn(
                     "h-10 w-full bg-white pr-3 pl-14-75 text-sm",
                     "focus:outline-none",
-                    "rounded-l border border-r-0 border-gray-300",
+                    "rounded-l-cms-md border border-r-0 border-gray-300",
                     "hover:border-gray-400 hover:bg-gray-50",
                     "transition-all duration-150",
                   )}
@@ -561,7 +561,7 @@ export const YearRangePicker = React.forwardRef<
                   className={cn(
                     "h-10 w-full bg-white pr-3 pl-14-75",
                     "text-sm",
-                    "rounded-r border border-gray-300",
+                    "rounded-r-cms-md border border-gray-300",
                     "hover:border-gray-400 hover:bg-gray-50",
                     "focus:outline-none",
                     "transition-all duration-150",
@@ -590,7 +590,7 @@ export const YearRangePicker = React.forwardRef<
               if (t && containerRef.current?.contains(t)) e.preventDefault();
             }}
             className={cn(
-              "z-cms-overlay rounded-lg bg-white p-2",
+              "z-cms-overlay rounded-cms-xl bg-white p-2",
               "border border-gray-200",
               "shadow-xl",
               "data-[state=open]:animate-in",
@@ -678,7 +678,7 @@ export const YearRangePicker = React.forwardRef<
                   onClick={handleCancel}
                   className={cn(
                     "h-8 w-15 cursor-pointer",
-                    "rounded-sm border border-gray-300 bg-transparent",
+                    "rounded-cms-md border border-gray-300 bg-transparent",
                     "text-xs font-medium text-gray-700",
                     "transition-all duration-150",
                     "hover:bg-gray-50",
@@ -694,7 +694,7 @@ export const YearRangePicker = React.forwardRef<
                   className={cn(
                     "cursor-pointer border-0",
                     "h-8 w-15",
-                    "rounded-sm bg-[#358fff]",
+                    "rounded-cms-md bg-[#358fff]",
                     "text-xs font-medium text-white",
                     "hover:bg-[#0071fe]",
                     "active:scale-95",
