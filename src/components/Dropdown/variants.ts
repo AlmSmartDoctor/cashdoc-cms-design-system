@@ -15,7 +15,7 @@ export const dropdownTriggerVariants = cva(
     variants: {
       variant: {
         default: cn(
-          "border border-black bg-white text-cms-black",
+          "border border-cms-gray-400 bg-white text-cms-black",
           "hover:bg-cms-gray-100",
           "disabled:bg-cms-gray-150 disabled:text-cms-gray-400",
           `

@@ -6,7 +6,7 @@ const textAreaVariants = cva(
   cn(
     "box-border w-full",
     "px-3 py-2",
-    "rounded-cms-md",
+    "rounded-cms-lg",
     "border border-solid",
     "leading-normal font-normal",
     "transition-colors duration-200",
@@ -20,7 +20,7 @@ const textAreaVariants = cva(
       variant: {
         default: cn(
           "bg-cms-white",
-          "border-cms-gray-450",
+          "border-cms-gray-400",
           "focus:border-cms-gray-800",
           "disabled:bg-cms-gray-150",
           "disabled:text-cms-gray-400",

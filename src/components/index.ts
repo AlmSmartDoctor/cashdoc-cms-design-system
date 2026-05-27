@@ -26,6 +26,7 @@ export * from "./Table";
 export * from "./ImageUpload";
 export * from "./FileUpload";
 export * from "./SegmentedControls";
+export * from "./Tabs";
 export * from "./FilterToggleGroup";
 export * from "./CountFilterChips";
 export * from "./BarChart";

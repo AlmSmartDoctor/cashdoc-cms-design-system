@@ -8,6 +8,7 @@ import { cn } from "@/utils/cn";
  * @variant secondary - 보조 스타일 (밝은 회색 배경)
  * @variant outline - 테두리 스타일 (투명 배경)
  * @variant ghost - 고스트 스타일 (투명 배경, hover시 배경)
+ * @variant warning - 경고/위험 액션 (옅은 분홍 배경 + 빨간 테두리/텍스트)
  * @variant link - 링크 스타일 (밑줄)
  * @variant underline - 밑줄 텍스트 스타일 (배경 없음, 항상 밑줄)
  *
@@ -47,6 +48,10 @@ export const buttonVariants = cva(
         ghost: cn(
           "border-0 bg-transparent",
           "hover:bg-cms-gray-200 hover:text-cms-gray-800",
+        ),
+        warning: cn(
+          "border border-cms-pink-100 bg-cms-red-400/10 text-cms-red-500",
+          "hover:border-cms-red-400 hover:bg-cms-red-400/15",
         ),
         link: "border-0 text-cms-black underline-offset-4 hover:underline",
         underline: cn(

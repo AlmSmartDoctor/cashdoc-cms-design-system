@@ -428,8 +428,8 @@ export const DateRangePicker = React.forwardRef<
                   className={cn(
                     "h-10 w-full bg-cms-white pr-3 pl-14-75 text-sm",
                     "focus:outline-none",
-                    "rounded-l-cms-md border border-r-0 border-cms-gray-300",
-                    "hover:border-cms-gray-400 hover:bg-cms-gray-100",
+                    "rounded-l-cms-lg border border-r-0 border-cms-gray-400",
+                    "hover:border-cms-gray-500 hover:bg-cms-gray-100",
                     "transition-all duration-150",
                   )}
                 />
@@ -468,8 +468,8 @@ export const DateRangePicker = React.forwardRef<
                   className={cn(
                     "h-10 w-full bg-cms-white pr-3 pl-14-75",
                     "text-sm",
-                    "rounded-r-cms-md border border-cms-gray-300",
-                    "hover:border-cms-gray-400 hover:bg-cms-gray-100",
+                    "rounded-r-cms-lg border border-cms-gray-400",
+                    "hover:border-cms-gray-500 hover:bg-cms-gray-100",
                     "focus:outline-none",
                     "transition-all duration-150",
                   )}
@@ -597,7 +597,7 @@ export const DateRangePicker = React.forwardRef<
                   onClick={handleCancel}
                   className={cn(
                     "h-8 w-15 cursor-pointer",
-                    "rounded-cms-md border border-cms-gray-300 bg-transparent",
+                    "rounded-cms-lg border border-cms-gray-300 bg-transparent",
                     "text-xs font-medium text-cms-gray-700",
                     "transition-all duration-150",
                     "hover:bg-cms-gray-100",
@@ -613,7 +613,7 @@ export const DateRangePicker = React.forwardRef<
                   className={cn(
                     "cursor-pointer border-0",
                     "h-8 w-15",
-                    "rounded-cms-md bg-cms-blue-700",
+                    "rounded-cms-lg bg-cms-blue-700",
                     "text-xs font-medium text-cms-white",
                     "hover:bg-cms-blue-800",
                     "active:scale-95",

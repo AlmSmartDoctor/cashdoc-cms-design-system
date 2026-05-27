@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { cva } from "class-variance-authority";
 import { cn } from "@/utils/cn";
+import { Button } from "../Button";
 
 export type PaginationProps = {
   currentPage: number;
@@ -13,40 +13,17 @@ export type PaginationProps = {
   className?: string;
 };
 
-const paginationButtonVariants = cva(
-  cn(
-    "inline-flex items-center justify-center",
-    "h-10 min-w-10 px-2",
-    "rounded-cms-lg",
-    "text-sm font-medium",
-    "transition-colors",
-    "cursor-pointer",
-    "focus-visible:ring-2 focus-visible:outline-none",
-  ),
-  {
-    variants: {
-      variant: {
-        default: cn(
-          "border border-cms-gray-400 bg-transparent",
-          "text-cms-gray-700",
-          "hover:bg-cms-gray-200",
-        ),
-        active: cn(
-          "border border-cms-primary-400 bg-cms-primary-400",
-          "text-cms-black",
-          "hover:bg-cms-primary-300",
-        ),
-        ellipsis: cn(
-          "border-0 bg-transparent",
-          "text-cms-gray-700",
-          "pointer-events-none cursor-default",
-        ),
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  },
+/** 페이지 번호 버튼: Button size="sm"(h-8 px-3) 위에 min-w-8/px-2 폭만 좁힘 */
+const pageButtonClasses = "min-w-8 px-2";
+
+/** Prev/Next 아이콘 버튼: 32×32 정사각형 */
+const prevNextClasses = "size-8 p-0";
+
+/** Ellipsis는 클릭 불가 텍스트라 Button을 쓰지 않고 span으로 정렬만 맞춤 */
+const ellipsisClasses = cn(
+  "inline-flex items-center justify-center",
+  "h-8 min-w-8 px-2",
+  "text-sm font-medium text-cms-gray-700",
 );
 
 type PageItem = number | "...";
@@ -240,19 +217,17 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
       >
         {/* Previous Button */}
         {showPrevNext && (
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="sm"
             onClick={handlePrevious}
             disabled={disabled || currentPage === 1}
             aria-label="이전 페이지"
-            className={cn(
-              paginationButtonVariants({ variant: "default" }),
-              (disabled || currentPage === 1) &&
-                "pointer-events-none cursor-not-allowed opacity-50",
-            )}
+            className={prevNextClasses}
           >
             <ChevronLeft className="size-4" />
-          </button>
+          </Button>
         )}
 
         {/* Page Numbers */}
@@ -261,9 +236,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             return (
               <span
                 key={`ellipsis-${index}`}
-                className={cn(
-                  paginationButtonVariants({ variant: "ellipsis" }),
-                )}
+                className={ellipsisClasses}
                 aria-hidden="true"
               >
                 ...
@@ -274,40 +247,35 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
           const isActive = page === currentPage;
 
           return (
-            <button
+            <Button
               key={page}
               type="button"
+              variant={isActive ? "default" : "outline"}
+              size="sm"
               onClick={() => handlePageClick(page)}
               disabled={disabled}
               aria-label={`페이지 ${page}${isActive ? " (현재 페이지)" : "로 이동"}`}
               aria-current={isActive ? "page" : undefined}
-              className={cn(
-                paginationButtonVariants({
-                  variant: isActive ? "active" : "default",
-                }),
-                disabled && "pointer-events-none cursor-not-allowed opacity-50",
-              )}
+              className={pageButtonClasses}
             >
               {page}
-            </button>
+            </Button>
           );
         })}
 
         {/* Next Button */}
         {showPrevNext && (
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="sm"
             onClick={handleNext}
             disabled={disabled || currentPage === totalPages}
             aria-label="다음 페이지"
-            className={cn(
-              paginationButtonVariants({ variant: "default" }),
-              (disabled || currentPage === totalPages) &&
-                "pointer-events-none cursor-not-allowed opacity-50",
-            )}
+            className={prevNextClasses}
           >
             <ChevronRight className="size-4" />
-          </button>
+          </Button>
         )}
       </nav>
     );

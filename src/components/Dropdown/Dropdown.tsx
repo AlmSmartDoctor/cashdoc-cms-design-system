@@ -531,7 +531,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                 aria-multiselectable={multiple || undefined}
                 className={cn(
                   "fixed z-cms-overlay min-w-0 py-1",
-                  "rounded-cms-lg border border-cms-gray-300",
+                  "rounded-cms-xl border border-cms-gray-300",
                   "bg-cms-white shadow-lg",
                   "cms-dropdown-show",
                   dropdownClassName,
@@ -570,7 +570,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                   <div
                     className={cn(
                       "h-full overflow-hidden",
-                      searchable ? "rounded-b-cms-lg" : "rounded-cms-lg",
+                      searchable ? "rounded-b-cms-xl" : "rounded-cms-xl",
                     )}
                   >
                     <div
@@ -723,7 +723,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                               absolute left-full z-cms-overlay ml-1 min-w-40
                               py-1
                             `,
-                            "rounded-cms-lg border border-cms-gray-300",
+                            "rounded-cms-xl border border-cms-gray-300",
                             "bg-cms-white shadow-lg",
                             "cms-dropdown-show",
                           )}

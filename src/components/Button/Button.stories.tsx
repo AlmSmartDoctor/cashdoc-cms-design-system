@@ -116,6 +116,21 @@ export const Ghost: Story = {
   },
 };
 
+export const Warning: Story = {
+  args: {
+    variant: "warning",
+    children: "소속 해제",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "경고/위험 액션용 outline 스타일 버튼입니다. 옅은 분홍 배경과 빨간 테두리·텍스트로 사용자에게 주의가 필요한 작업임을 시각적으로 알립니다. 해제·삭제·차단 등 되돌릴 수 없거나 영향이 큰 액션에 사용하세요.",
+      },
+    },
+  },
+};
+
 export const Link: Story = {
   args: {
     variant: "link",
@@ -166,6 +181,7 @@ export const AllVariants: Story = {
       <Button variant="secondary">Secondary</Button>
       <Button variant="outline">Outline</Button>
       <Button variant="ghost">Ghost</Button>
+      <Button variant="warning">소속 해제</Button>
       <Button variant="link">Link</Button>
       <Button variant="underline">Underline</Button>
     </div>

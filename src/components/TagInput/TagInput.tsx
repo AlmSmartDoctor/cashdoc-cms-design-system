@@ -4,16 +4,16 @@ import { cn } from "@/utils/cn";
 
 const tagInputContainerVariants = cva(
   cn(
-    "flex items-center gap-2 rounded-cms-md border border-solid p-2",
+    "flex items-center gap-2 rounded-cms-lg border border-solid p-2",
     "min-h-[40px] w-full transition-colors duration-200",
   ),
   {
     variants: {
       readOnly: {
-        true: "cursor-default border-cms-gray-450 bg-cms-gray-150",
+        true: "cursor-default border-cms-gray-400 bg-cms-gray-150",
         false: cn(
           "cursor-text bg-cms-white",
-          "border-cms-gray-450",
+          "border-cms-gray-400",
           "hover:border-cms-gray-800",
           "focus-within:border-cms-gray-800",
         ),

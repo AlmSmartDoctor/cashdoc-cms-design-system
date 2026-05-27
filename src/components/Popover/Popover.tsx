@@ -103,7 +103,7 @@ const PopoverContent = forwardRef<
       sideOffset={sideOffset}
       className={cn(
         "z-cms-overlay min-w-50 p-2",
-        "rounded-cms-lg border border-cms-gray-200",
+        "rounded-cms-xl border border-cms-gray-200",
         "bg-cms-white shadow-lg",
         "animate-in fade-in-0 zoom-in-95",
         "data-[state=closed]:animate-out",
