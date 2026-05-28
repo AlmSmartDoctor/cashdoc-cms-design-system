@@ -1,5 +1,5 @@
 import React from "react";
-import { XCircle } from "lucide-react";
+import { ErrorIcon } from "@/components/icons";
 import { Modal } from "./Modal";
 import { Button } from "../Button";
 import { cn } from "@/utils/cn";
@@ -58,15 +58,18 @@ export const ErrorModal = React.forwardRef<HTMLDivElement, ErrorModalProps>(
         open={open}
         onOpenChange={onOpenChange}
         title={title}
-        icon={<XCircle className="size-15 text-cms-red-400" />}
-        footer={
-          <Button
-            onClick={handleConfirm}
+        icon={
+          <span
             className={cn(
-              "h-12 w-full bg-cms-gray-850",
-              "hover:bg-cms-gray-800",
+              "flex size-9 items-center justify-center rounded-full",
+              "bg-cms-red-50 text-cms-red-500",
             )}
           >
+            <ErrorIcon className="size-5" />
+          </span>
+        }
+        footer={
+          <Button onClick={handleConfirm} className="h-10 w-full">
             {confirmText}
           </Button>
         }

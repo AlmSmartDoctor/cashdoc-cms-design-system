@@ -466,6 +466,14 @@ export const YearRangePicker = React.forwardRef<
                         type="button"
                         className={cn(
                           "rdp-day_button",
+                          "inline-flex h-full w-full items-center",
+                          "justify-center",
+                          "cursor-pointer appearance-none",
+                          "m-0 border-0 bg-transparent p-0",
+                          "text-[13px] leading-none font-semibold",
+                          "text-cms-gray-800 transition-colors",
+                          "disabled:cursor-not-allowed",
+                          "disabled:text-cms-gray-350",
                           disabled && "rdp-day_button--disabled",
                         )}
                         disabled={disabled}
@@ -486,16 +494,37 @@ export const YearRangePicker = React.forwardRef<
     return (
       <PopoverPrimitive.Root open={isOpen} onOpenChange={handleOpenChange}>
         <PopoverPrimitive.Anchor asChild>
-          <div ref={setContainerRef} className={className}>
+          <div
+            ref={setContainerRef}
+            className={cn("w-full max-w-[400px]", className)}
+          >
             {inputError && (
-              <div className="mb-1 text-xs text-red-500">{inputError}</div>
+              <div className="mb-1 text-xs text-cms-red-500">{inputError}</div>
             )}
-            <div className="flex items-center gap-0">
+            <div
+              className={cn(
+                "flex items-stretch rounded-cms-md border bg-cms-white",
+                "border-cms-gray-250",
+                "transition-[border-color,box-shadow] duration-150 ease-out",
+                "hover:border-cms-gray-350",
+                "focus-within:border-cms-gray-900",
+                "focus-within:shadow-[0_0_0_3px_rgba(15,20,25,0.08)]",
+                inputError &&
+                  cn(
+                    `
+                      border-cms-red-500
+                      hover:border-cms-red-500
+                    `,
+                    "focus-within:border-cms-red-500",
+                    "focus-within:shadow-[0_0_0_3px_rgba(229,56,74,0.22)]",
+                  ),
+              )}
+            >
               <div className="relative flex-1">
                 <div
                   className={cn(
                     "absolute top-0 left-3 flex h-full items-center",
-                    "text-xs text-gray-500",
+                    "text-xs text-cms-gray-500",
                     "pointer-events-none",
                   )}
                 >
@@ -521,19 +550,23 @@ export const YearRangePicker = React.forwardRef<
                   placeholder={isOpen ? "YYYY" : "YYYY-MM-DD"}
                   aria-label={startLabel}
                   className={cn(
-                    "h-10 w-full bg-white pr-3 pl-14-75 text-sm",
+                    "box-border h-9 w-full border-0",
+                    "rounded-l-cms-md bg-transparent pr-3 pl-14-75",
+                    "text-sm text-cms-gray-900",
+                    "placeholder:text-cms-gray-450",
                     "focus:outline-none",
-                    "rounded-l-cms-lg border border-r-0 border-cms-gray-400",
-                    "hover:border-cms-gray-500 hover:bg-cms-gray-100",
-                    "transition-all duration-150",
                   )}
                 />
               </div>
+              <div
+                aria-hidden="true"
+                className="w-px self-stretch bg-cms-gray-250"
+              />
               <div className="relative flex-1">
                 <div
                   className={cn(
                     "absolute top-0 left-3 flex h-full items-center",
-                    "text-xs text-gray-500",
+                    "text-xs text-cms-gray-500",
                     "pointer-events-none",
                   )}
                 >
@@ -559,12 +592,11 @@ export const YearRangePicker = React.forwardRef<
                   placeholder={isOpen ? "YYYY" : "YYYY-MM-DD"}
                   aria-label={endLabel}
                   className={cn(
-                    "h-10 w-full bg-white pr-3 pl-14-75",
-                    "text-sm",
-                    "rounded-r-cms-lg border border-cms-gray-400",
-                    "hover:border-cms-gray-500 hover:bg-cms-gray-100",
+                    "box-border h-9 w-full border-0",
+                    "rounded-r-cms-md bg-transparent pr-3 pl-14-75",
+                    "text-sm text-cms-gray-900",
+                    "placeholder:text-cms-gray-450",
                     "focus:outline-none",
-                    "transition-all duration-150",
                   )}
                 />
               </div>
@@ -575,7 +607,9 @@ export const YearRangePicker = React.forwardRef<
         <PopoverPrimitive.Portal>
           <PopoverPrimitive.Content
             align="start"
-            sideOffset={5}
+            sideOffset={8}
+            collisionPadding={8}
+            style={{ width: "max-content" }}
             // Popover 열릴 때 input 에서 포커스가 빠지지 않도록 방지.
             onOpenAutoFocus={(e) => e.preventDefault()}
             // input 영역을 클릭하거나 포커스가 옮겨져도 popover 가 닫히지 않도록.
@@ -590,9 +624,11 @@ export const YearRangePicker = React.forwardRef<
               if (t && containerRef.current?.contains(t)) e.preventDefault();
             }}
             className={cn(
-              "z-cms-overlay rounded-cms-xl bg-white p-2",
-              "border border-gray-200",
-              "shadow-xl",
+              "z-cms-overlay rounded-cms-lg bg-cms-white p-3.5",
+              "border border-cms-gray-200",
+              `
+                shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]
+              `,
               "data-[state=open]:animate-in",
               "data-[state=closed]:animate-out",
               "data-[state=closed]:fade-out-0",
@@ -615,12 +651,20 @@ export const YearRangePicker = React.forwardRef<
                 >
                   <button
                     type="button"
-                    className="rdp-button_previous shrink-0"
+                    className={cn(
+                      "rdp-button_previous shrink-0",
+                      "inline-flex items-center justify-center",
+                      "size-6 cursor-pointer appearance-none",
+                      "m-0 border-0 bg-transparent p-0",
+                      "rounded-cms-sm text-cms-gray-700 transition-colors",
+                      "hover:bg-cms-gray-100",
+                      "disabled:cursor-not-allowed disabled:opacity-40",
+                    )}
                     disabled={isPrevDisabled}
                     onClick={() => setBaseYear((y) => y - 20)}
                     aria-label="이전 20년"
                   >
-                    <ChevronLeftIcon size={16} className="text-cms-gray-600" />
+                    <ChevronLeftIcon size={16} />
                   </button>
                   <div
                     className={cn(
@@ -632,12 +676,20 @@ export const YearRangePicker = React.forwardRef<
                   </div>
                   <button
                     type="button"
-                    className="rdp-button_next shrink-0"
+                    className={cn(
+                      "rdp-button_next shrink-0",
+                      "inline-flex items-center justify-center",
+                      "size-6 cursor-pointer appearance-none",
+                      "m-0 border-0 bg-transparent p-0",
+                      "rounded-cms-sm text-cms-gray-700 transition-colors",
+                      "hover:bg-cms-gray-100",
+                      "disabled:cursor-not-allowed disabled:opacity-40",
+                    )}
                     disabled={isNextDisabled}
                     onClick={() => setBaseYear((y) => y + 20)}
                     aria-label="다음 20년"
                   >
-                    <ChevronRightIcon size={16} className="text-cms-gray-600" />
+                    <ChevronRightIcon size={16} />
                   </button>
                 </div>
                 <div className="rdp-months">
@@ -650,39 +702,38 @@ export const YearRangePicker = React.forwardRef<
             {/* Footer */}
             <div
               className={cn(
-                "mt-2 flex items-end justify-between pt-2",
-                "border-t border-gray-200",
+                "mt-3 flex items-end justify-between pt-3",
+                "border-t border-cms-gray-150",
               )}
             >
-              <div className="flex min-h-8 flex-col">
+              <div className="flex min-h-8 flex-col justify-center">
                 {!fromDay || !toDay ?
-                  <span className="text-xs text-red-500">
+                  <span className="text-[12px] text-cms-red-500">
                     기간을 선택해 주세요.
                   </span>
                 : clampedRange ?
                   <>
-                    <span className="text-xs text-gray-700">
+                    <span className="text-[12px] text-cms-gray-800 tabular-nums">
                       {clampedRange.start.format("YYYY-MM-DD")} ~{" "}
                       {clampedRange.end.format("YYYY-MM-DD")}
                     </span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-[11px] text-cms-gray-550">
                       ({numberOfYears}년)
                     </span>
                   </>
                 : null}
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-1.5">
                 <button
                   type="button"
                   onClick={handleCancel}
                   className={cn(
-                    "h-8 w-15 cursor-pointer",
-                    "rounded-cms-lg border border-gray-300 bg-transparent",
-                    "text-xs font-medium text-gray-700",
-                    "transition-all duration-150",
-                    "hover:bg-gray-50",
-                    "active:scale-95",
+                    "h-7 cursor-pointer rounded-cms-sm px-2.5",
+                    "text-[12px] font-semibold text-cms-gray-850",
+                    "border border-cms-gray-250 bg-cms-white",
+                    "transition-colors duration-150",
+                    "hover:border-cms-gray-350 hover:bg-cms-gray-50",
                   )}
                 >
                   취소
@@ -693,15 +744,12 @@ export const YearRangePicker = React.forwardRef<
                   disabled={!fromDay || !toDay}
                   className={cn(
                     "cursor-pointer border-0",
-                    "h-8 w-15",
-                    "rounded-cms-lg bg-[#358fff]",
-                    "text-xs font-medium text-white",
-                    "hover:bg-[#0071fe]",
-                    "active:scale-95",
-                    "disabled:bg-gray-300",
-                    "disabled:active:scale-100",
+                    "h-7 rounded-cms-sm bg-cms-gray-850 px-2.5",
+                    "text-[12px] font-semibold text-cms-white",
+                    "hover:bg-cms-gray-750",
+                    "disabled:opacity-45",
                     "disabled:cursor-not-allowed",
-                    "transition-all duration-150",
+                    "transition-colors duration-150",
                   )}
                 >
                   적용

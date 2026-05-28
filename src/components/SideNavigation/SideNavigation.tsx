@@ -54,38 +54,47 @@ const NavigationMenuItem = ({
             }
           }}
           className={cn(
-            "group flex items-center border-0 bg-cms-gray-850 px-5",
-            "text-lg font-bold text-white",
-            "h-15 w-full",
-            "transition-colors",
+            "group flex items-center border-0 bg-transparent px-5",
+            "text-[13px] font-medium text-white/72",
+            "h-11 w-full",
+            "border-l-[3px] border-l-transparent",
+            "transition-colors duration-150",
             "cursor-pointer",
-            !isSubMenuSelected && "data-[state=open]:bg-transparent",
-            !menu.subMenu && isSelected && "bg-cms-primary-400 text-cms-black",
-            isSubMenuSelected && "bg-cms-primary-200 text-cms-black",
+            "hover:bg-white/4 hover:text-white",
+            isMenuActive &&
+              cn(
+                "bg-cms-primary-200/10 text-cms-primary-200",
+                "border-l-cms-primary-200 font-bold",
+              ),
           )}
         >
           {menu.icon && (
             <div
               className={cn(
-                "mr-3 flex items-center",
-                "[&>svg]:size-6",
-                isMenuActive ? "text-cms-black" : "text-white",
+                "mr-2.5 flex items-center",
+                "[&>svg]:size-4",
+                isMenuActive ? "text-cms-primary-200" : "text-white/45",
               )}
             >
               {menu.icon}
             </div>
           )}
-          <span className={cn(isMenuActive ? "text-cms-black" : "text-white")}>
+          <span
+            className={cn(
+              isMenuActive ? "text-cms-primary-200" : "text-white/72",
+              "text-[13px]",
+            )}
+          >
             {menu.title}
           </span>
           {menu.subMenu && (
             <ChevronDown
               className={cn(
                 "ml-auto transition-transform",
-                isMenuActive ? "text-cms-black" : "text-white",
+                isMenuActive ? "text-cms-primary-200" : "text-white/45",
                 isOpen && "rotate-180",
               )}
-              size={20}
+              size={14}
             />
           )}
         </Accordion.Trigger>
@@ -94,6 +103,9 @@ const NavigationMenuItem = ({
         <Accordion.Content
           className={cn(
             "overflow-hidden",
+            "bg-black/25",
+            "border-l-[3px] border-l-cms-primary-200",
+            "py-1",
             "data-[state=open]:animate-accordion-down",
             "data-[state=closed]:animate-accordion-up",
           )}
@@ -107,19 +119,21 @@ const NavigationMenuItem = ({
                 onClick={() => onMenuClick(subItem.url)}
                 className={cn(
                   "flex items-center border-0 bg-transparent",
-                  "h-13 w-full px-5 pl-14",
+                  "h-9 w-full pr-5 pl-[44px]",
                   "cursor-pointer",
-                  "transition-colors",
-                  "hover:bg-cms-gray-900",
+                  "transition-colors duration-150",
+                  "hover:text-white",
+                  subSelected &&
+                    "bg-cms-primary-200/8",
                 )}
               >
                 <span
                   className={cn(
-                    "text-base font-bold",
+                    "text-[13px]",
                     "transition-colors",
-                    subSelected ?
-                      "font-bold text-cms-primary-400"
-                    : "text-cms-white",
+                    subSelected
+                      ? "font-bold text-cms-primary-200"
+                      : "text-white/62",
                   )}
                 >
                   {subItem.title}
@@ -228,8 +242,9 @@ export const SideNavigation = React.forwardRef<
         ref={ref}
         className={cn(
           "flex flex-col",
-          "h-full w-70 max-w-70 min-w-70",
-          "bg-cms-gray-850 text-white",
+          "h-full w-[232px] max-w-[232px] min-w-[232px]",
+          "bg-cms-surface-coal text-cms-gray-200",
+          "border-r border-white/6",
           className,
         )}
         {...props}
@@ -239,8 +254,10 @@ export const SideNavigation = React.forwardRef<
 
         {/* Title */}
         {title && !headerSlot && (
-          <div className="border-b border-[#3a3b3e] px-5 py-4">
-            <h2 className="text-lg font-semibold text-white">{title}</h2>
+          <div className="border-b border-white/6 px-[18px] py-5">
+            <h2 className="text-[15px] font-bold tracking-tight text-white">
+              {title}
+            </h2>
           </div>
         )}
 

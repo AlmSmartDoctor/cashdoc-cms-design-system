@@ -5,7 +5,7 @@ const meta: Meta<typeof LoadingCircle> = {
   title: "Loading/LoadingCircle",
   component: LoadingCircle,
   parameters: {
-    layout: "centered",
+    layout: "padded",
     docs: {
       description: {
         component: "로딩 상태를 나타내는 스피너 컴포넌트입니다.",
@@ -17,70 +17,36 @@ const meta: Meta<typeof LoadingCircle> = {
     size: {
       control: "select",
       options: ["sm", "md", "lg"],
-      description:
-        "로딩 스피너의 크기입니다. sm은 버튼 내부, md는 카드 내부, lg는 페이지 전체 로딩 등에 적합합니다.",
-      table: {
-        type: { summary: "sm | md | lg" },
-        defaultValue: { summary: "lg" },
-      },
+      table: { defaultValue: { summary: "lg" } },
     },
-    className: {
-      control: "text",
-      description: "추가적인 스타일링을 위한 커스텀 CSS 클래스입니다.",
-      table: {
-        type: { summary: "string" },
-      },
-    },
+    className: { control: "text" },
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+const Cell = ({
+  size,
+  label,
+}: {
+  size: "sm" | "md" | "lg";
+  label: string;
+}) => (
+  <div className="flex flex-col items-center gap-2">
+    <LoadingCircle size={size} />
+    <span className="text-[12px] text-cms-gray-550">{label}</span>
+  </div>
+);
 
-export const Small: Story = {
-  args: {
-    size: "sm",
-  },
-};
-
-export const Medium: Story = {
-  args: {
-    size: "md",
-  },
-};
-
-export const Large: Story = {
-  args: {
-    size: "lg",
-  },
-};
-
-export const AllSizes: Story = {
+export const Showcase: Story = {
   render: () => (
-    <div className="flex items-center gap-8">
-      <div className="flex flex-col items-center gap-2">
-        <LoadingCircle size="sm" />
-        <span className="text-sm">Small</span>
-      </div>
-      <div className="flex flex-col items-center gap-2">
-        <LoadingCircle size="md" />
-        <span className="text-sm">Medium</span>
-      </div>
-      <div className="flex flex-col items-center gap-2">
-        <LoadingCircle size="lg" />
-        <span className="text-sm">Large</span>
-      </div>
+    <div className="flex items-center gap-10">
+      <Cell size="sm" label="sm · 16" />
+      <Cell size="md" label="md · 24" />
+      <Cell size="lg" label="lg · 36" />
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story: "모든 크기의 로딩 스피너를 보여줍니다.",
-      },
-    },
-  },
 };
 
-export const ForJsdoc: Story = AllSizes;
+export const ForJsdoc: Story = Showcase;

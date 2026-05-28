@@ -6,9 +6,9 @@ export type LoadingCircleProps = {
 };
 
 const sizeClasses = {
-  sm: "h-4 w-4",
-  md: "h-8 w-8",
-  lg: "h-16 w-16",
+  sm: "h-4 w-4 border-2",
+  md: "h-6 w-6 border-[2.5px]",
+  lg: "h-9 w-9 border-[3px]",
 };
 
 /**
@@ -91,7 +91,8 @@ export function LoadingCircle({ size = "lg", className }: LoadingCircleProps) {
         className={cn(
           sizeClasses[size],
           "animate-spin rounded-full",
-          "border-2 border-cms-gray-500 border-b-transparent",
+          "border-cms-gray-200 border-t-cms-gray-850",
+          "[animation-duration:0.8s]",
           className,
         )}
       />

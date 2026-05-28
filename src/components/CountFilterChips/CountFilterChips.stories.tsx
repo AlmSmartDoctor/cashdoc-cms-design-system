@@ -21,100 +21,76 @@ const meta: Meta<typeof CountFilterChips> = {
     layout: "padded",
     docs: {
       description: {
-        component:
-          "라벨 + 카운트 뱃지를 가진 콤팩트한 가로 필터 chip 그룹.",
+        component: "라벨 + 카운트 뱃지를 가진 콤팩트한 가로 필터 chip 그룹.",
       },
     },
   },
   tags: ["autodocs"],
-  args: {
-    items: visitItems,
-    value: "all",
-    size: "md",
-    ariaLabel: "내원 유형 필터",
-  },
 };
 
 export default meta;
-type Story = StoryObj<typeof CountFilterChips>;
+type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<VisitType>(args.value as VisitType);
-    return (
-      <CountFilterChips
-        {...args}
-        value={value}
-        onValueChange={(next) => {
-          setValue(next as VisitType);
-          args.onValueChange(next);
-        }}
-      />
-    );
-  },
+const Row = ({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) => (
+  <div className="flex items-center gap-4">
+    <span className="w-24 shrink-0 text-[12px] font-medium text-cms-gray-550">
+      {label}
+    </span>
+    <div className="flex flex-wrap items-center gap-3">{children}</div>
+  </div>
+);
+
+const Controlled = (props: {
+  size: "sm" | "md" | "lg";
+  items?: CountFilterChipsItem<VisitType>[];
+}) => {
+  const [v, setV] = useState<VisitType>("all");
+  return (
+    <CountFilterChips
+      items={props.items ?? visitItems}
+      value={v}
+      onValueChange={setV}
+      size={props.size}
+      ariaLabel="내원 유형 필터"
+    />
+  );
 };
 
-export const Sizes: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<VisitType>(args.value as VisitType);
-    return (
-      <div className="flex flex-col gap-4">
-        {(["sm", "md", "lg"] as const).map((size) => (
-          <CountFilterChips
-            {...args}
-            key={size}
-            size={size}
-            value={value}
-            onValueChange={(next) => {
-              setValue(next as VisitType);
-              args.onValueChange(next);
-            }}
-          />
-        ))}
-      </div>
-    );
-  },
+export const Showcase: Story = {
+  render: () => (
+    <div className="flex flex-col gap-5">
+      <Row label="Size sm">
+        <Controlled size="sm" />
+      </Row>
+      <Row label="Size md">
+        <Controlled size="md" />
+      </Row>
+      <Row label="Size lg">
+        <Controlled size="lg" />
+      </Row>
+      <Row label="Disabled">
+        <Controlled
+          size="md"
+          items={[
+            ...visitItems.slice(0, 2),
+            {
+              value: "reservation",
+              label: "접수/예약 내원",
+              count: 0,
+              disabled: true,
+            },
+            visitItems[3],
+          ]}
+        />
+      </Row>
+    </div>
+  ),
 };
 
-export const WithDisabled: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<VisitType>(args.value as VisitType);
-    return (
-      <CountFilterChips
-        {...args}
-        items={[
-          { value: "all", label: "전체", count: 107 },
-          { value: "event", label: "이벤트 내원", count: 73 },
-          {
-            value: "reservation",
-            label: "접수/예약 내원",
-            count: 0,
-            disabled: true,
-          },
-          { value: "receipt", label: "영수증 인증", count: 34 },
-        ]}
-        value={value}
-        onValueChange={(next) => {
-          setValue(next);
-          args.onValueChange(next);
-        }}
-      />
-    );
-  },
-};
-
-export const ForJsdoc: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<VisitType>("all");
-    return (
-      <CountFilterChips
-        {...args}
-        value={value}
-        onValueChange={(next) => {
-          setValue(next as VisitType);
-          args.onValueChange(next);
-        }}
-      />
-    );
-  },
-};
+export const ForJsdoc: Story = Showcase;

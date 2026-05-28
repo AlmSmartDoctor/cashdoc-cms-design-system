@@ -5,24 +5,26 @@ import { cn } from "@/utils/cn";
 const countFilterChipVariants = cva(
   cn(
     "group inline-flex items-center",
-    "rounded-cms-lg border border-solid select-none",
+    "rounded-full border border-solid select-none",
     "font-medium whitespace-nowrap",
     "cursor-pointer outline-none",
     "transition-colors duration-150 ease-out",
-    "border-cms-gray-300 bg-cms-white text-cms-gray-700",
-    "hover:bg-cms-gray-50",
-    "focus-visible:ring-2 focus-visible:ring-cms-gray-300",
+    "border-cms-gray-250 bg-cms-white text-cms-gray-800",
+    "hover:border-cms-gray-350 hover:bg-cms-gray-50",
+    "focus-visible:ring-2 focus-visible:ring-cms-gray-900/15",
     "focus-visible:ring-offset-1",
-    "data-[state=on]:border-cms-gray-850",
-    "data-[state=on]:bg-cms-gray-850",
+    // Active: translucent dark fill + subtle inset white sheen (v2)
+    "data-[state=on]:border-cms-gray-900",
+    "data-[state=on]:bg-cms-gray-900/95",
     "data-[state=on]:text-cms-white",
-    "disabled:pointer-events-none disabled:opacity-50",
+    "data-[state=on]:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
+    "disabled:pointer-events-none disabled:opacity-45",
   ),
   {
     variants: {
       size: {
         sm: "h-7 gap-1.5 px-2.5 text-[12px]",
-        md: "h-8 gap-2 px-3 text-[13px]",
+        md: "h-8 gap-1.5 px-3 text-[13px]",
         lg: "h-9 gap-2 px-3.5 text-sm",
       },
     },
@@ -33,10 +35,10 @@ const countFilterChipVariants = cva(
 const countBadgeVariants = cva(
   cn(
     "inline-flex items-center justify-center",
-    "rounded-cms-md font-semibold tabular-nums",
+    "rounded-full font-bold tabular-nums",
     "bg-cms-gray-150 text-cms-gray-700",
-    "group-data-[state=on]:bg-cms-white",
-    "group-data-[state=on]:text-cms-gray-850",
+    "group-data-[state=on]:bg-white/18",
+    "group-data-[state=on]:text-cms-white",
   ),
   {
     variants: {

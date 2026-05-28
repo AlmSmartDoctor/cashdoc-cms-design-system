@@ -1,272 +1,117 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Popover, PopoverTrigger, PopoverContent, PopoverMenuItem } from "./";
-import { MoreVertical, Trash2, Edit, Heart, Share2, Copy } from "lucide-react";
+import {
+  Copy,
+  Edit,
+  Heart,
+  MoreVertical,
+  Share2,
+  Trash2,
+} from "lucide-react";
 import { Button } from "../Button";
-import { cn } from "@/utils/cn";
+import { Popover, PopoverContent, PopoverMenuItem, PopoverTrigger } from "./";
 
 const meta: Meta<typeof Popover> = {
   title: "Feedback/Popover",
   component: Popover,
   parameters: {
-    layout: "centered",
+    layout: "padded",
     docs: {
       description: {
         component:
-          "특정 요소 근처에 부가적인 정보나 컨트롤을 표시하는 플로팅 컴포넌트입니다. 주로 '더 보기' 메뉴나 간단한 설정 창을 구현할 때 사용합니다.",
+          "트리거 근처에 부가 컨트롤을 표시하는 플로팅 컴포넌트입니다. '더 보기' 메뉴나 간단한 설정 창에 사용합니다.",
       },
     },
   },
   tags: ["autodocs"],
-  argTypes: {
-    children: {
-      description:
-        "Popover의 트리거와 콘텐츠를 포함하는 요소입니다. 보통 PopoverTrigger와 PopoverContent가 자식으로 옵니다.",
-      table: {
-        type: { summary: "ReactNode" },
-      },
-    },
-    open: {
-      control: "boolean",
-      description: "팝오버의 열림/닫힘 상태를 외부에서 제어할 때 사용합니다.",
-      table: {
-        type: { summary: "boolean" },
-      },
-    },
-    onOpenChange: {
-      description:
-        "팝오버의 열림/닫힘 상태가 변경될 때 호출되는 콜백 함수입니다.",
-      table: {
-        type: { summary: "(open: boolean) => void" },
-      },
-    },
-  },
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 기본 케밥 메뉴 예제
-export const Default: Story = {
-  parameters: {
-    docs: { disable: true },
-  },
+const Cell = ({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) => (
+  <div className="flex flex-col items-start gap-2">
+    <span className="text-[12px] font-medium text-cms-gray-550">{label}</span>
+    {children}
+  </div>
+);
+
+export const Showcase: Story = {
   render: () => (
-    <div className="flex items-center justify-center p-20">
-      <Popover defaultOpen={true}>
-        <PopoverTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <MoreVertical className="size-5" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverMenuItem
-            variant="destructive"
-            icon={<Trash2 className="size-5" />}
-          >
-            삭제하기
-          </PopoverMenuItem>
-          <PopoverMenuItem icon={<Edit className="size-5" />}>
-            수정하기
-          </PopoverMenuItem>
-        </PopoverContent>
-      </Popover>
+    <div className="flex flex-wrap items-start gap-10 py-8">
+      <Cell label="기본 (2 actions)">
+        <Popover defaultOpen>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <MoreVertical className="size-4" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverMenuItem icon={<Edit className="size-4" />}>
+              수정하기
+            </PopoverMenuItem>
+            <PopoverMenuItem
+              variant="destructive"
+              icon={<Trash2 className="size-4" />}
+            >
+              삭제하기
+            </PopoverMenuItem>
+          </PopoverContent>
+        </Popover>
+      </Cell>
+
+      <Cell label="다중 액션">
+        <Popover defaultOpen>
+          <PopoverTrigger asChild>
+            <Button variant="outline">메뉴 열기</Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverMenuItem icon={<Edit className="size-4" />}>
+              수정하기
+            </PopoverMenuItem>
+            <PopoverMenuItem icon={<Copy className="size-4" />}>
+              복사하기
+            </PopoverMenuItem>
+            <PopoverMenuItem icon={<Share2 className="size-4" />}>
+              공유하기
+            </PopoverMenuItem>
+            <PopoverMenuItem icon={<Heart className="size-4" />}>
+              즐겨찾기
+            </PopoverMenuItem>
+            <PopoverMenuItem
+              variant="destructive"
+              icon={<Trash2 className="size-4" />}
+            >
+              삭제하기
+            </PopoverMenuItem>
+          </PopoverContent>
+        </Popover>
+      </Cell>
+
+      <Cell label="콘텐츠 팝오버">
+        <Popover defaultOpen>
+          <PopoverTrigger asChild>
+            <Button variant="outline">상세 정보</Button>
+          </PopoverTrigger>
+          <PopoverContent className="p-4">
+            <div className="flex flex-col gap-1.5">
+              <span className="text-sm font-semibold text-cms-gray-900">
+                계정 상태
+              </span>
+              <span className="text-[13px] text-cms-gray-700">
+                현재 활성화된 계정입니다. 마지막 로그인 2분 전.
+              </span>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </Cell>
     </div>
   ),
 };
 
-// 다양한 액션이 있는 예제
-export const WithMultipleActions: Story = {
-  parameters: {
-    docs: { disable: true },
-  },
-  render: () => (
-    <div className="flex items-center justify-center p-20">
-      <Popover defaultOpen={true}>
-        <PopoverTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <MoreVertical className="size-5" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverMenuItem icon={<Edit className="size-5" />}>
-            수정하기
-          </PopoverMenuItem>
-          <PopoverMenuItem icon={<Copy className="size-5" />}>
-            복사하기
-          </PopoverMenuItem>
-          <PopoverMenuItem icon={<Share2 className="size-5" />}>
-            공유하기
-          </PopoverMenuItem>
-          <PopoverMenuItem icon={<Heart className="size-5" />}>
-            즐겨찾기
-          </PopoverMenuItem>
-          <PopoverMenuItem
-            variant="destructive"
-            icon={<Trash2 className="size-5" />}
-          >
-            삭제하기
-          </PopoverMenuItem>
-        </PopoverContent>
-      </Popover>
-    </div>
-  ),
-};
-
-// 카드 위의 케밥 메뉴 예제
-export const OnCard: Story = {
-  parameters: {
-    docs: { disable: true },
-  },
-  render: () => (
-    <div className="flex items-center justify-center p-20">
-      <div
-        className={cn(
-          "relative w-80 rounded-2xl bg-white p-6 shadow-sm",
-          "border border-cms-gray-200",
-        )}
-      >
-        <div className="absolute top-4 right-4">
-          <Popover defaultOpen={true}>
-            <PopoverTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <MoreVertical className="size-5" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent>
-              <PopoverMenuItem
-                variant="destructive"
-                icon={<Trash2 className="size-5" />}
-                onClick={() => alert("삭제하기 클릭")}
-              >
-                삭제하기
-              </PopoverMenuItem>
-              <PopoverMenuItem
-                icon={<Edit className="size-5" />}
-                onClick={() => alert("수정하기 클릭")}
-              >
-                수정하기
-              </PopoverMenuItem>
-            </PopoverContent>
-          </Popover>
-        </div>
-
-        <h3 className="mb-2 text-lg font-semibold">카드 제목</h3>
-        <p className="text-cms-gray-800">
-          카드 내용이 여기에 표시됩니다. 우측 상단의 케밥 메뉴를 클릭하면
-          팝오버가 나타납니다.
-        </p>
-      </div>
-    </div>
-  ),
-};
-
-// 아이콘 없는 메뉴
-export const WithoutIcons: Story = {
-  parameters: {
-    docs: { disable: true },
-  },
-  render: () => (
-    <div className="flex items-center justify-center p-20">
-      <Popover defaultOpen={true}>
-        <PopoverTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <MoreVertical className="size-5" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverMenuItem>프로필 보기</PopoverMenuItem>
-          <PopoverMenuItem>메시지 보내기</PopoverMenuItem>
-          <PopoverMenuItem>친구 추가</PopoverMenuItem>
-          <PopoverMenuItem variant="destructive">차단하기</PopoverMenuItem>
-        </PopoverContent>
-      </Popover>
-    </div>
-  ),
-};
-
-// 비활성화된 메뉴 아이템
-export const WithDisabledItems: Story = {
-  parameters: {
-    docs: { disable: true },
-  },
-  render: () => (
-    <div className="flex items-center justify-center p-20">
-      <Popover defaultOpen={true}>
-        <PopoverTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <MoreVertical className="size-5" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverMenuItem icon={<Edit className="size-5" />}>
-            수정하기
-          </PopoverMenuItem>
-          <PopoverMenuItem icon={<Share2 className="size-5" />} disabled>
-            공유하기 (곧 출시)
-          </PopoverMenuItem>
-          <PopoverMenuItem
-            variant="destructive"
-            icon={<Trash2 className="size-5" />}
-          >
-            삭제하기
-          </PopoverMenuItem>
-        </PopoverContent>
-      </Popover>
-    </div>
-  ),
-};
-
-// 왼쪽 정렬
-export const AlignStart: Story = {
-  parameters: {
-    docs: { disable: true },
-  },
-  render: () => (
-    <div className="flex items-center justify-center p-20">
-      <Popover defaultOpen={true}>
-        <PopoverTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <MoreVertical className="size-5" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent align="start">
-          <PopoverMenuItem
-            variant="destructive"
-            icon={<Trash2 className="size-5" />}
-          >
-            삭제하기
-          </PopoverMenuItem>
-          <PopoverMenuItem icon={<Edit className="size-5" />}>
-            수정하기
-          </PopoverMenuItem>
-        </PopoverContent>
-      </Popover>
-    </div>
-  ),
-};
-
-export const ForJsdoc: Story = {
-  parameters: {
-    docs: { disable: true },
-    layout: "centered",
-  },
-  render: () => (
-    <div className="flex h-50 w-full items-center justify-center">
-      <Popover defaultOpen={true}>
-        <PopoverTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <MoreVertical className="size-5" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverMenuItem icon={<Edit className="size-5" />}>
-            Edit
-          </PopoverMenuItem>
-          <PopoverMenuItem icon={<Trash2 className="size-5" />}>
-            Delete
-          </PopoverMenuItem>
-        </PopoverContent>
-      </Popover>
-    </div>
-  ),
-};
+export const ForJsdoc: Story = Showcase;

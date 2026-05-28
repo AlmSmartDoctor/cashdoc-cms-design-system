@@ -5,7 +5,7 @@ const meta: Meta<typeof Button> = {
   title: "Forms/Button",
   component: Button,
   parameters: {
-    layout: "centered",
+    layout: "padded",
     docs: {
       description: {
         component: "Cms Design System의 기본 버튼 컴포넌트입니다.",
@@ -21,14 +21,15 @@ const meta: Meta<typeof Button> = {
         "secondary",
         "outline",
         "ghost",
+        "warning",
+        "danger",
         "link",
         "underline",
       ],
-      description:
-        "버튼의 스타일 변형입니다. 페이지 내 버튼의 중요도와 맥락에 따라 선택하세요. default는 주요 액션, secondary는 보조 액션, underline은 텍스트 형태의 인라인 액션에 사용합니다.",
       table: {
         type: {
-          summary: "default | secondary | outline | ghost | link | underline",
+          summary:
+            "default | secondary | outline | ghost | warning | danger | link | underline",
         },
         defaultValue: { summary: "default" },
       },
@@ -36,163 +37,61 @@ const meta: Meta<typeof Button> = {
     size: {
       control: "select",
       options: ["default", "sm", "lg", "icon"],
-      description:
-        "버튼의 크기입니다. 'icon'은 아이콘 전용 정사각형 버튼(10x10)에 사용합니다. 일반 버튼에는 default, sm, lg를 사용하세요.",
       table: {
         type: { summary: "default | sm | lg | icon" },
         defaultValue: { summary: "default" },
       },
     },
-    disabled: {
-      control: "boolean",
-      description:
-        "true일 경우 버튼을 비활성화합니다. 클릭할 수 없으며 시각적으로 흐리게 표시됩니다. 로딩 중이거나 조건이 충족되지 않았을 때 사용하세요.",
-      table: {
-        type: { summary: "boolean" },
-        defaultValue: { summary: "false" },
-      },
-    },
-    children: {
-      description:
-        "버튼 내부에 표시될 콘텐츠입니다. 텍스트, 아이콘 또는 둘의 조합을 포함할 수 있습니다.",
-      table: {
-        type: { summary: "ReactNode" },
-      },
-    },
-    onClick: {
-      description:
-        "사용자가 버튼을 클릭하거나 키보드의 Enter/Space로 활성화했을 때 실행되는 콜백 함수입니다.",
-      table: {
-        type: { summary: "(e: MouseEvent<HTMLButtonElement>) => void" },
-      },
-    },
-    type: {
-      control: "select",
-      options: ["button", "submit", "reset"],
-      description:
-        "HTML button type입니다. 폼 제출 시 'submit', 일반 동작은 'button'을 사용하세요.",
-      table: {
-        type: { summary: "button | submit | reset" },
-        defaultValue: { summary: "button" },
-      },
-    },
-    className: {
-      control: "text",
-      description: "버튼에 추가할 커스텀 CSS 클래스입니다.",
-      table: {
-        type: { summary: "string" },
-      },
-    },
+    disabled: { control: "boolean" },
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {
-    children: "Default",
-  },
-};
+const Row = ({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) => (
+  <div className="flex items-center gap-4">
+    <span className="w-24 shrink-0 text-[12px] font-medium text-cms-gray-550">
+      {label}
+    </span>
+    <div className="flex flex-wrap items-center gap-2">{children}</div>
+  </div>
+);
 
-export const Secondary: Story = {
-  args: {
-    variant: "secondary",
-    children: "Secondary",
-  },
-};
-
-export const Outline: Story = {
-  args: {
-    variant: "outline",
-    children: "Outline",
-  },
-};
-
-export const Ghost: Story = {
-  args: {
-    variant: "ghost",
-    children: "Ghost",
-  },
-};
-
-export const Warning: Story = {
-  args: {
-    variant: "warning",
-    children: "소속 해제",
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "경고/위험 액션용 outline 스타일 버튼입니다. 옅은 분홍 배경과 빨간 테두리·텍스트로 사용자에게 주의가 필요한 작업임을 시각적으로 알립니다. 해제·삭제·차단 등 되돌릴 수 없거나 영향이 큰 액션에 사용하세요.",
-      },
-    },
-  },
-};
-
-export const Link: Story = {
-  args: {
-    variant: "link",
-    children: "Link",
-  },
-};
-
-export const Underline: Story = {
-  args: {
-    variant: "underline",
-    children: "모두 선택",
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "배경 없이 항상 밑줄이 표시되는 텍스트 형태의 버튼입니다. 다중 선택 드롭다운 상단의 '모두 선택'·'해제'처럼 보조적인 인라인 액션에 사용합니다. `active:scale-95` 등 공통 인터랙션 스타일이 그대로 적용됩니다.",
-      },
-    },
-  },
-};
-
-export const Small: Story = {
-  args: {
-    size: "sm",
-    children: "Small",
-  },
-};
-
-export const Large: Story = {
-  args: {
-    size: "lg",
-    children: "Large",
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-    children: "Disabled",
-  },
-};
-
-export const AllVariants: Story = {
+export const Showcase: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4">
-      <Button>Default</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Button variant="outline">Outline</Button>
-      <Button variant="ghost">Ghost</Button>
-      <Button variant="warning">소속 해제</Button>
-      <Button variant="link">Link</Button>
-      <Button variant="underline">Underline</Button>
+    <div className="flex flex-col gap-5">
+      <Row label="Variant">
+        <Button>Default</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="outline">Outline</Button>
+        <Button variant="ghost">Ghost</Button>
+        <Button variant="warning">Warning</Button>
+        <Button variant="danger">Danger</Button>
+        <Button variant="link">Link</Button>
+        <Button variant="underline">Underline</Button>
+      </Row>
+      <Row label="Size">
+        <Button size="sm">Small · 30</Button>
+        <Button>Default · 36</Button>
+        <Button size="lg">Large · 44</Button>
+      </Row>
+      <Row label="State">
+        <Button>Default</Button>
+        <Button disabled>Disabled</Button>
+        <Button variant="outline">Default</Button>
+        <Button variant="outline" disabled>
+          Disabled
+        </Button>
+      </Row>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story: "모든 버튼 변형을 한 번에 보여줍니다.",
-      },
-    },
-  },
 };
 
-export const ForJsdoc: Story = AllVariants;
+export const ForJsdoc: Story = Showcase;

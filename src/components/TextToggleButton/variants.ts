@@ -17,22 +17,28 @@ export const textToggleButtonVariants = cva(
     "font-medium",
     "cursor-pointer select-none",
     "transition-colors duration-150 ease-out",
-    "text-cms-gray-700",
-    "hover:text-cms-black",
-    "focus-visible:text-cms-black focus-visible:outline-2",
-    "focus-visible:outline-offset-2 focus-visible:outline-cms-primary-400",
+    "text-cms-gray-650",
+    "hover:text-cms-gray-900",
+    "focus-visible:text-cms-gray-900 focus-visible:outline-2",
+    "focus-visible:outline-offset-2 focus-visible:outline-cms-gray-900",
     "disabled:pointer-events-none disabled:text-cms-gray-400",
     "disabled:cursor-not-allowed",
+    "aria-expanded:text-cms-gray-900",
   ),
   {
     variants: {
       variant: {
-        underline: "underline decoration-1 underline-offset-2",
-        plain: "no-underline",
+        underline: cn(
+          "underline decoration-1 underline-offset-[3px]",
+          "decoration-cms-gray-350",
+          "hover:decoration-cms-gray-900",
+          "aria-expanded:decoration-cms-gray-900",
+        ),
+        plain: "no-underline underline-offset-[3px] hover:underline",
       },
       size: {
-        sm: "h-[18px] gap-1 text-[13px]",
-        md: "h-5 gap-1.5 text-sm",
+        sm: "h-[18px] gap-0.5 text-[13px]",
+        md: "h-5 gap-1 text-sm",
       },
     },
     defaultVariants: {

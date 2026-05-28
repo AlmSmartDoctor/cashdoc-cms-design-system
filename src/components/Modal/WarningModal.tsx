@@ -1,5 +1,5 @@
 import React from "react";
-import { AlertTriangle } from "lucide-react";
+import { WarningIcon } from "@/components/icons";
 import { Modal } from "./Modal";
 import { Button } from "../Button";
 import { cn } from "@/utils/cn";
@@ -71,23 +71,26 @@ export const WarningModal = React.forwardRef<HTMLDivElement, WarningModalProps>(
         open={open}
         onOpenChange={onOpenChange}
         title={title}
-        icon={<AlertTriangle className="size-15 text-cms-orange-500" />}
+        icon={
+          <span
+            className={cn(
+              "flex size-9 items-center justify-center rounded-full",
+              "bg-cms-orange-50 text-cms-orange-500",
+            )}
+          >
+            <WarningIcon className="size-5" />
+          </span>
+        }
         footer={
           <div className="flex w-full gap-2">
             <Button
               onClick={handleCancel}
-              className={cn(
-                "h-12 flex-1 border border-cms-gray-200 bg-white",
-                "text-cms-gray-700",
-                "hover:bg-cms-gray-50",
-              )}
+              variant="outline"
+              className="h-10 flex-1"
             >
               {cancelText}
             </Button>
-            <Button
-              onClick={handleConfirm}
-              className="h-12 flex-1 bg-cms-gray-850 hover:bg-cms-gray-800"
-            >
+            <Button onClick={handleConfirm} className="h-10 flex-1">
               {confirmText}
             </Button>
           </div>

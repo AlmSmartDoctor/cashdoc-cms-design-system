@@ -1,18 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Toaster } from "./Toaster";
-import { toast } from "./index";
-import { Button } from "../Button";
 import { useEffect } from "react";
+import { Button } from "../Button";
+import { toast } from "./index";
+import { Toaster } from "./Toaster";
 
 const meta: Meta<typeof Toaster> = {
   title: "Feedback/Toast",
   component: Toaster,
   parameters: {
-    layout: "centered",
+    layout: "padded",
     docs: {
       description: {
         component:
-          "Sonner를 기반으로 한 Toast 컴포넌트입니다. 앱의 최상단에 <Toaster />를 배치하고 toast() 함수를 사용하여 알림을 표시합니다.",
+          "Sonner 기반 Toast. 앱 최상단에 <Toaster />를 배치하고 toast() 함수로 알림을 띄웁니다.",
       },
     },
   },
@@ -27,14 +27,7 @@ const meta: Meta<typeof Toaster> = {
         "bottom-center",
         "bottom-right",
       ],
-      description: "화면에서 토스트가 나타날 위치를 설정합니다.",
-      table: {
-        type: {
-          summary:
-            "top-left | top-center | top-right | bottom-left | bottom-center | bottom-right",
-        },
-        defaultValue: { summary: "bottom-center" },
-      },
+      table: { defaultValue: { summary: "bottom-center" } },
     },
   },
   tags: ["autodocs"],
@@ -43,141 +36,76 @@ const meta: Meta<typeof Toaster> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Showcase: Story = {
   render: (args) => (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       <Toaster {...args} />
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Button
+          variant="outline"
           onClick={() =>
-            toast("알림 제목", {
-              description: "상세 내용이 들어가는 곳입니다.",
+            toast("초안이 자동저장되었어요", {
+              description: "30초마다 자동으로 저장됩니다.",
             })
           }
         >
-          제목 + 내용 토스트
+          기본
         </Button>
         <Button
+          variant="outline"
           onClick={() =>
-            toast.success("성공!", {
-              description: "성공적으로 완료되었습니다.",
+            toast.success("캠페인이 발행되었습니다", {
+              description: "4분 전 · 12,481명에게 알림 전송",
             })
           }
         >
-          성공 토스트
+          Success
         </Button>
         <Button
+          variant="outline"
           onClick={() =>
-            toast.error("오류 발생", {
-              description: "데이터를 불러오는 중 문제가 생겼습니다.",
+            toast.error("발송에 실패했어요", {
+              description: "잠시 후 다시 시도해 주세요. (코드 5023)",
             })
           }
         >
-          에러 토스트
+          Error
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() =>
+            toast.warning("발송 시간이 야간이에요", {
+              description: "예약 시간을 다시 확인해 주세요.",
+            })
+          }
+        >
+          Warning
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() =>
+            toast("파일이 삭제되었습니다.", {
+              action: { label: "되돌리기", onClick: () => {} },
+            })
+          }
+        >
+          With action
         </Button>
       </div>
     </div>
   ),
 };
 
-export const WithDescription: Story = {
-  parameters: {
-    docs: { disable: true },
-  },
-  render: (args) => {
-    useEffect(() => {
-      toast("알림 제목", { description: "알림에 대한 상세 설명입니다." });
-    }, []);
-
-    return (
-      <div>
-        <Toaster {...args} />
-        <Button
-          onClick={() =>
-            toast("알림 제목", { description: "알림에 대한 상세 설명입니다." })
-          }
-        >
-          상세 설명 토스트
-        </Button>
-      </div>
-    );
-  },
-};
-
-export const WithAction: Story = {
-  parameters: {
-    docs: { disable: true },
-  },
-  render: (args) => {
-    useEffect(() => {
-      toast("파일이 삭제되었습니다.", {
-        action: {
-          label: "되돌리기",
-          onClick: () => console.log("Undo"),
-        },
-      });
-    }, []);
-
-    return (
-      <div>
-        <Toaster {...args} />
-        <Button
-          onClick={() =>
-            toast("파일이 삭제되었습니다.", {
-              action: {
-                label: "되돌리기",
-                onClick: () => console.log("Undo"),
-              },
-            })
-          }
-        >
-          되돌리기 액션이 포함된 토스트
-        </Button>
-      </div>
-    );
-  },
-};
-
-export const CustomPosition: Story = {
-  parameters: {
-    docs: { disable: true },
-  },
-  args: {
-    position: "top-center",
-  },
-  render: (args) => {
-    useEffect(() => {
-      toast("커스텀된 위치에 표시되는 알림입니다.");
-    }, []);
-
-    return (
-      <div>
-        <Toaster {...args} />
-        <Button onClick={() => toast("커스텀된 위치에 표시되는 알림입니다.")}>
-          커스텀 위치 토스트
-        </Button>
-      </div>
-    );
-  },
-};
-
 export const ForJsdoc: Story = {
-  parameters: {
-    docs: { disable: true },
-  },
+  parameters: { docs: { disable: true } },
   render: (args) => {
     useEffect(() => {
-      // Trigger a representative toast
       toast.success("Success Toast", {
         description: "This is a toast for documentation.",
-        action: {
-          label: "Action",
-          onClick: () => console.log("Action clicked"),
-        },
-        duration: Infinity, // Keep it open for screenshot
+        action: { label: "Action", onClick: () => {} },
+        duration: Infinity,
       });
     }, []);
-
     return (
       <div className="flex h-50 items-center justify-center">
         <Toaster {...args} />

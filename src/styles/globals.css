@@ -47,21 +47,32 @@
   --color-cms-blue-900: var(--cashdoc-blue-900);
 
   /* Pink */
+  --color-cms-pink-50: var(--cashdoc-pink-50);
   --color-cms-pink-100: var(--cashdoc-pink-100);
   --color-cms-pink-300: var(--cashdoc-pink-300);
   --color-cms-pink-500: var(--cashdoc-pink-500);
   --color-cms-pink-700: var(--cashdoc-pink-700);
 
   /* Red */
+  --color-cms-red-50: var(--cashdoc-red-50);
+  --color-cms-red-100: var(--cashdoc-red-100);
+  --color-cms-red-300: var(--cashdoc-red-300);
   --color-cms-red-400: var(--cashdoc-red-400);
   --color-cms-red-500: var(--cashdoc-red-500);
+  --color-cms-red-600: var(--cashdoc-red-600);
 
   /* Orange */
+  --color-cms-orange-50: var(--cashdoc-orange-50);
+  --color-cms-orange-100: var(--cashdoc-orange-100);
   --color-cms-orange-400: var(--cashdoc-orange-400);
   --color-cms-orange-500: var(--cashdoc-orange-500);
 
   /* Green */
+  --color-cms-green-50: var(--cashdoc-green-50);
+  --color-cms-green-100: var(--cashdoc-green-100);
+  --color-cms-green-400: var(--cashdoc-green-400);
   --color-cms-green-500: var(--cashdoc-green-500);
+  --color-cms-green-600: var(--cashdoc-green-600);
 
   /* Primary */
   --color-cms-primary-50: var(--cashdoc-primary-50);
@@ -69,18 +80,30 @@
   --color-cms-primary-200: var(--cashdoc-primary-200);
   --color-cms-primary-300: var(--cashdoc-primary-300);
   --color-cms-primary-400: var(--cashdoc-primary-400);
+  --color-cms-primary-500: var(--cashdoc-primary-500);
 
-  /* Border Radius 
-    Usage: rounded-cms-md 
+  /* Cream — warm neutral surface (premium / marketing) */
+  --color-cms-cream-50: var(--cashdoc-cream-50);
+  --color-cms-cream-100: var(--cashdoc-cream-100);
+  --color-cms-cream-200: var(--cashdoc-cream-200);
+
+  /* Surface — premium dark hero */
+  --color-cms-surface-ink: var(--cashdoc-surface-ink);
+  --color-cms-surface-coal: var(--cashdoc-surface-coal);
+  --color-cms-surface-graphite: var(--cashdoc-surface-graphite);
+
+  /* Border Radius
+    Usage: rounded-cms-md
+    Sharp scale — 정교한 어드민 톤. md(6) buttons/inputs · lg(8) cards · xl(10) modals.
   */
   --radius-cms-xs: 2px;
   --radius-cms-sm: 4px;
   --radius-cms-md: 6px;
   --radius-cms-lg: 8px;
-  --radius-cms-xl: 12px;
-  --radius-cms-2xl: 16px;
-  --radius-cms-3xl: 20px;
-  --radius-cms-4xl: 24px;
+  --radius-cms-xl: 10px;
+  --radius-cms-2xl: 12px;
+  --radius-cms-3xl: 16px;
+  --radius-cms-4xl: 20px;
 
   /* Transition Duration
     Usage: duration-200, duration-300, duration-500
@@ -127,73 +150,98 @@
   z-index: var(--z-cms-modal);
 }
 
-/* Design System Variables 
-  Prefix: --cashdoc- 
+/* Design System Variables (v2 — Toss-Admin clean · sharp · cool-neutral grays)
+  Prefix: --cashdoc-
 */
 :root {
-  /* Gray */
-  --cashdoc-gray-50: #fcfcfc;
-  --cashdoc-gray-100: #f8fafc;
-  --cashdoc-gray-150: #f1f3f5;
-  --cashdoc-gray-200: #eeeeee;
-  --cashdoc-gray-250: #e4e7eb;
-  --cashdoc-gray-300: #dfdfdf;
-  --cashdoc-gray-350: #d8d8d8;
-  --cashdoc-gray-400: #bdbdbd;
-  --cashdoc-gray-450: #b8c6d5;
-  --cashdoc-gray-500: #aeaeae;
-  --cashdoc-gray-550: #999999;
-  --cashdoc-gray-600: #89939e;
-  --cashdoc-gray-650: #7c8186;
-  --cashdoc-gray-700: #78808a;
-  --cashdoc-gray-750: #666666;
-  --cashdoc-gray-800: #555555;
-  --cashdoc-gray-850: #24272e;
-  --cashdoc-gray-900: #111111;
+  /* Gray — 18 step, cool-harmonized, monotonic */
+  --cashdoc-gray-50: #fafbfc;
+  --cashdoc-gray-100: #f4f6f8;
+  --cashdoc-gray-150: #eef0f3;
+  --cashdoc-gray-200: #e6e8eb;
+  --cashdoc-gray-250: #dcdfe3;
+  --cashdoc-gray-300: #cfd3d9;
+  --cashdoc-gray-350: #bdc2cb;
+  --cashdoc-gray-400: #a8aeb8;
+  --cashdoc-gray-450: #969ca7;
+  --cashdoc-gray-500: #848a96;
+  --cashdoc-gray-550: #6f7682;
+  --cashdoc-gray-600: #5e6571;
+  --cashdoc-gray-650: #4e5663;
+  --cashdoc-gray-700: #3f4753;
+  --cashdoc-gray-750: #333a45;
+  --cashdoc-gray-800: #262c35;
+  --cashdoc-gray-850: #1a1f26;
+  --cashdoc-gray-900: #0f1419;
 
   /* Basic */
   --cashdoc-white: #ffffff;
   --cashdoc-black: #000000;
 
-  /* Blue */
-  --cashdoc-blue-50: #f5f9ff;
-  --cashdoc-blue-100: #e6f1ff;
-  --cashdoc-blue-200: #cae2ff;
-  --cashdoc-blue-300: #ccd8fb;
-  --cashdoc-blue-400: #72b0fe;
-  --cashdoc-blue-500: #5a6daa;
-  --cashdoc-blue-600: #358fff;
-  --cashdoc-blue-700: #0071fe;
-  --cashdoc-blue-800: #444b5a;
-  --cashdoc-blue-900: #2b3240;
+  /* Blue — info / link / active (toss-blue anchored at 600) */
+  --cashdoc-blue-50: #f0f6ff;
+  --cashdoc-blue-100: #dceaff;
+  --cashdoc-blue-200: #b8d4ff;
+  --cashdoc-blue-300: #8fb8ff;
+  --cashdoc-blue-400: #5c95ff;
+  --cashdoc-blue-500: #2d74f2;
+  --cashdoc-blue-600: #0064ff;
+  --cashdoc-blue-700: #0050cc;
+  --cashdoc-blue-800: #003a99;
+  --cashdoc-blue-900: #002766;
 
-  /* MonthRangePicker */
-  --cashdoc-month-range-selected: #0000ff;
-  --cashdoc-month-range-middle: #f0f0ff;
+  /* MonthRangePicker — blue tones to match the v2 calendar */
+  --cashdoc-month-range-selected: #0064ff;
+  --cashdoc-month-range-middle: #f0f6ff;
 
-  /* Pink */
-  --cashdoc-pink-100: #f2b3a2;
-  --cashdoc-pink-300: #ed9982;
-  --cashdoc-pink-500: #e31c79;
-  --cashdoc-pink-700: #d99c79;
+  /* Pink — highlight / promo */
+  --cashdoc-pink-50: #fff0f7;
+  --cashdoc-pink-100: #ffd6e8;
+  --cashdoc-pink-300: #fb7ab0;
+  --cashdoc-pink-500: #e91e72;
+  --cashdoc-pink-700: #b3155a;
 
-  /* Red */
-  --cashdoc-red-400: #ff2f4a;
-  --cashdoc-red-500: #e65a5a;
+  /* Red — danger */
+  --cashdoc-red-50: #fff1f2;
+  --cashdoc-red-100: #ffe0e2;
+  --cashdoc-red-300: #ffa5ab;
+  --cashdoc-red-400: #f86670;
+  --cashdoc-red-500: #e5384a;
+  --cashdoc-red-600: #c42233;
 
-  /* Orange */
-  --cashdoc-orange-400: #ff9254;
-  --cashdoc-orange-500: #eb5500;
+  /* Orange — warning */
+  --cashdoc-orange-50: #fff6eb;
+  --cashdoc-orange-100: #ffe4c2;
+  --cashdoc-orange-400: #ff9f40;
+  --cashdoc-orange-500: #f08400;
 
-  /* Green */
-  --cashdoc-green-500: #22c55e;
+  /* Green — success */
+  --cashdoc-green-50: #ecfdf3;
+  --cashdoc-green-100: #d1fadf;
+  --cashdoc-green-400: #32d583;
+  --cashdoc-green-500: #12b76a;
+  --cashdoc-green-600: #038a4a;
 
-  /* Primary */
-  --cashdoc-primary-50: #fff3d7;
-  --cashdoc-primary-100: #fff1aa;
+  /* Primary — brand yellow.
+     Anchor preserved at primary-200 = #ffd200 for consumer compat.
+     primary-100 = light tint (tag bg), primary-500 = text on tints.
+  */
+  --cashdoc-primary-50: #fffae0;
+  --cashdoc-primary-100: #fff1a8;
   --cashdoc-primary-200: #ffd200;
-  --cashdoc-primary-300: #f3e1d6;
-  --cashdoc-primary-400: #f2cc3b;
+  --cashdoc-primary-300: #e5b800;
+  --cashdoc-primary-400: #b89200;
+  --cashdoc-primary-500: #8a6a00;
+
+  /* Cream — warm neutral surface (premium / marketing) */
+  --cashdoc-cream-50: #fbf8f0;
+  --cashdoc-cream-100: #f5f0e1;
+  --cashdoc-cream-200: #ece4ce;
+
+  /* Surface — premium dark hero */
+  --cashdoc-surface-ink: #14171c;
+  --cashdoc-surface-coal: #1b1f26;
+  --cashdoc-surface-graphite: #272c34;
 }
 
 /* Base styles for cashdoc design system */
@@ -218,6 +266,46 @@
     sans-serif;
   word-break: keep-all;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Pretendard 를 모든 descendant 에 강제.
+   - react-day-picker 등 third-party 컴포넌트의 자체 span/div 가
+     OS 시스템 폰트(Apple SD Gothic Neo 등)로 fallback 하는 케이스 차단.
+   - host 환경(storybook 등)에서 Tailwind preflight 가 안 먹는 케이스도
+     커버.
+   - root(.cms-cashdoc-ds) 자체는 위의 font-family Pretendard 룰을
+     유지하고, descendant 만 inherit 으로 강제. */
+.cms-cashdoc-ds *,
+.cms-cashdoc-ds *::before,
+.cms-cashdoc-ds *::after {
+  font-family: inherit;
+}
+
+/* Radix Popover/Dropdown/Tooltip 등 portal 로 body 에 attach 되는
+   content 는 .cms-cashdoc-ds inherit chain 밖에 있어 OS 폰트(weight 포함)
+   로 fallback 한다. portal wrapper 와 picker 캘린더 wrapper 에
+   Pretendard + 기본 font-weight 를 명시적으로 재선언. */
+[data-radix-popper-content-wrapper],
+[data-radix-popper-content-wrapper] *,
+.date-picker-calendar,
+.date-picker-calendar *,
+.date-range-picker-calendar,
+.date-range-picker-calendar *,
+.month-range-picker-calendar,
+.month-range-picker-calendar *,
+.year-range-picker-calendar,
+.year-range-picker-calendar * {
+  font-family:
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    "Segoe UI",
+    "Apple SD Gothic Neo",
+    "Noto Sans KR",
+    "Malgun Gothic",
+    sans-serif;
+  font-weight: 400;
 }
 
 /* Utility classes */
@@ -259,9 +347,24 @@
   }
 }
 
+@keyframes dropdownHide {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
 @layer components {
   .cms-dropdown-show {
     animation: dropdownShow 200ms ease-out;
+  }
+
+  .cms-dropdown-hide {
+    animation: dropdownHide 150ms ease-in forwards;
   }
 
   .cms-fade-in {
@@ -281,376 +384,628 @@
 }
 
 @layer components {
-  /* DateRangePicker Styles */
-  .date-range-picker-calendar .rdp {
-    --rdp-accent-color: #358fff;
-    --rdp-background-color: #e6f1ff;
+  /* ──────────────────────────────────────────────────────
+     DateRangePicker Calendar (v2)
+     rdp v9 의 모든 관련 CSS 변수를 명시적으로 override.
+     ────────────────────────────────────────────────────── */
+  .date-range-picker-calendar .rdp,
+  .date-range-picker-calendar .rdp-root {
+    --rdp-accent-color: var(--cashdoc-blue-600);
+    --rdp-accent-background-color: var(--cashdoc-blue-50);
+    --rdp-day-width: 32px;
+    --rdp-day-height: 32px;
+    --rdp-day_button-width: 32px;
+    --rdp-day_button-height: 32px;
+    --rdp-day_button-border-radius: var(--radius-cms-sm);
+    --rdp-day_button-border: 0;
+    --rdp-selected-border: 0;
+    --rdp-today-color: var(--cashdoc-blue-600);
+    --rdp-range_middle-background-color: var(--cashdoc-blue-50);
+    --rdp-range_middle-color: var(--cashdoc-gray-900);
+    --rdp-range_start-date-background-color: transparent;
+    --rdp-range_end-date-background-color: transparent;
+    --rdp-nav_button-width: 24px;
+    --rdp-nav_button-height: 24px;
+    --rdp-nav-height: 28px;
+    --rdp-months-gap: 1.25rem;
+    --rdp-weekday-padding: 0.375rem 0;
+    --rdp-weekday-opacity: 1;
+    --rdp-outside-opacity: 1;
     margin: 0;
     font-size: 12px;
   }
 
   .date-range-picker-calendar .rdp-months {
-    gap: 0.75rem;
+    gap: 1rem;
+    /* popup 폭이 input row 와 같아졌을 때 두 캘린더를 양쪽 input 아래로
+       분산. natural width 일 땐 gap 만 영향 받음. */
+    justify-content: space-around;
   }
 
+  /* MonthRangePicker / YearRangePicker: .rdp 가 popup 전체 폭을 차지하도록 강제.
+     (DateRangePicker 는 quick-select sidebar 가 있어 flex item 으로 자연 폭을 유지해야 하므로 제외) */
+  .month-range-picker-calendar > .rdp,
+  .month-range-picker-calendar > .rdp-root,
+  .year-range-picker-calendar > .rdp,
+  .year-range-picker-calendar > .rdp-root {
+    width: 100%;
+  }
+
+  .date-range-picker-calendar .rdp-month_caption,
+  .date-range-picker-calendar .rdp-caption_label {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: var(--cashdoc-gray-900);
+    letter-spacing: -0.01em;
+  }
   .date-range-picker-calendar .rdp-month_caption {
-    font-size: 13px;
-    font-weight: 600;
-    color: #111111;
-    margin-bottom: 0.25rem;
-    padding-top: 0.25rem;
+    margin-bottom: 0.5rem;
+    padding-top: 0.125rem;
   }
 
   .date-range-picker-calendar .rdp-weekday {
-    font-size: 11px;
-    color: #666666;
-    font-weight: 500;
-    padding: 0.25rem;
+    font-size: 11px !important;
+    color: var(--cashdoc-gray-600) !important;
+    font-weight: 400 !important;
+    opacity: 1 !important;
+    padding: 0.25rem 0;
+    width: 32px !important;
+    min-width: 32px !important;
+    max-width: 32px !important;
+    text-transform: none;
   }
 
+  /* 토요일/일요일 컬럼 색은 그대로 유지하고 모든 요일 헤더는 동일 톤 */
+  .date-range-picker-calendar .rdp-chevron {
+    fill: var(--cashdoc-gray-700) !important;
+  }
+
+  /* outside (이전/다음 달) 날짜는 흐리게 */
+  .date-range-picker-calendar .rdp-outside,
+  .date-range-picker-calendar .rdp-day_outside {
+    color: var(--cashdoc-gray-350);
+  }
+  .date-range-picker-calendar .rdp-outside .rdp-day_button,
+  .date-range-picker-calendar .rdp-day_outside .rdp-day_button {
+    color: var(--cashdoc-gray-350) !important;
+  }
+
+  /* 강제로 32×32 셀 (rdp 기본 사이즈를 누른다) */
+  .date-range-picker-calendar .rdp-month_grid {
+    border-collapse: collapse !important;
+    width: auto !important;
+  }
+
+  /* td: 32×32 고정. range 셀에 한해 blue-50 배경이 깔린다. */
   .date-range-picker-calendar .rdp-day {
-    font-size: 12px;
-    border-radius: var(--radius-cms-md);
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    width: 32px;
-    height: 32px;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+    padding: 0 !important;
+    background-color: transparent;
+    color: var(--cashdoc-gray-800);
+  }
+
+  /* 모든 range 셀의 td 에 blue-50 강제 (연속 띠) */
+  .date-range-picker-calendar .rdp-range_start,
+  .date-range-picker-calendar .rdp-range_middle,
+  .date-range-picker-calendar .rdp-range_end,
+  .date-range-picker-calendar .rdp-day_range_start,
+  .date-range-picker-calendar .rdp-day_range_middle,
+  .date-range-picker-calendar .rdp-day_range_end {
+    background-color: var(--cashdoc-blue-50) !important;
   }
 
   .date-range-picker-calendar .rdp-week {
     margin-top: 0;
   }
 
+  /* 기본 button: 32×32 가득, 투명. */
   .date-range-picker-calendar .rdp-day_button {
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: var(--radius-cms-md);
-    width: 100%;
-    height: 100%;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+    margin: 0;
+    padding: 0;
+    border: 0 !important;
+    background: transparent;
+    color: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: var(--radius-cms-sm);
+    transition: background-color 120ms ease;
   }
 
   .date-range-picker-calendar
-    .rdp-day_button:hover:not([disabled]):not(.rdp-day_selected) {
-    background-color: #f1f3f5;
-    transform: scale(1.05);
+    .rdp-day_button:hover:not([disabled]):not(.rdp-selected):not(.rdp-day_selected) {
+    background-color: var(--cashdoc-gray-100);
   }
 
-  .date-range-picker-calendar .rdp-day_button:active:not([disabled]) {
-    transform: scale(0.95);
-  }
-
-  .date-range-picker-calendar .rdp-day_selected {
-    background-color: var(--rdp-accent-color);
-    color: white;
-    font-weight: 600;
-  }
-
-  .date-range-picker-calendar .rdp-day_selected:hover {
-    background-color: #0071fe;
-    transform: scale(1.05);
-  }
-
-  .date-range-picker-calendar .rdp-day_range_middle {
-    background-color: var(--rdp-background-color);
-    color: #111111;
-    border-radius: 0;
-  }
-
+  /* Range middle: 버튼은 투명 — td 의 blue-50 이 그대로 보인다.
+     rdp v9 가 range_middle td 에 .rdp-selected 클래스도 함께 부여하여
+     rdp 자체의 `.rdp-selected { font-weight: bold }` 가 적용되므로
+     명시적으로 font-weight 를 정상화. */
+  .date-range-picker-calendar .rdp-range_middle .rdp-day_button,
   .date-range-picker-calendar .rdp-day_range_middle .rdp-day_button {
-    border-radius: 0;
+    background-color: transparent !important;
+    color: var(--cashdoc-gray-900) !important;
+    border-radius: 0 !important;
+    font-weight: 400 !important;
+    font-size: 12px !important;
   }
 
-  .date-range-picker-calendar .rdp-day_range_start .rdp-day_button {
-    border-radius: var(--radius-cms-md) 0 0 var(--radius-cms-md);
-  }
-
-  .date-range-picker-calendar .rdp-day_range_end .rdp-day_button {
-    border-radius: 0 var(--radius-cms-md) var(--radius-cms-md) 0;
-  }
-
+  /* Range start/end (단일 selected 포함): td 의 blue-50 띠 위에
+     얹는 blue-600 정사각형 픽.
+     - 버튼 자체는 32×32 가득 + 투명 (텍스트 컨테이너 역할)
+     - ::before 는 inset 2px (좌우상하 균등) → 28×28 정사각형 둥근 사각
+     - z-index 로 텍스트는 픽 위에 표시 */
+  .date-range-picker-calendar .rdp-range_start .rdp-day_button,
+  .date-range-picker-calendar .rdp-range_end .rdp-day_button,
+  .date-range-picker-calendar .rdp-day_range_start .rdp-day_button,
+  .date-range-picker-calendar .rdp-day_range_end .rdp-day_button,
   .date-range-picker-calendar
-    .rdp-day_range_start.rdp-day_range_end
+    .rdp-selected:not(.rdp-range_middle):not(.rdp-range_start):not(.rdp-range_end)
+    .rdp-day_button,
+  .date-range-picker-calendar
+    .rdp-day_selected:not(.rdp-day_range_middle):not(.rdp-day_range_start):not(.rdp-day_range_end)
     .rdp-day_button {
-    border-radius: var(--radius-cms-md);
+    position: relative;
+    z-index: 0;
+    background-color: transparent !important;
+    color: #fff !important;
+    font-weight: 400 !important;
+    font-size: 12px !important;
+    isolation: isolate;
+  }
+  .date-range-picker-calendar .rdp-range_start .rdp-day_button::before,
+  .date-range-picker-calendar .rdp-range_end .rdp-day_button::before,
+  .date-range-picker-calendar .rdp-day_range_start .rdp-day_button::before,
+  .date-range-picker-calendar .rdp-day_range_end .rdp-day_button::before,
+  .date-range-picker-calendar
+    .rdp-selected:not(.rdp-range_middle):not(.rdp-range_start):not(.rdp-range_end)
+    .rdp-day_button::before,
+  .date-range-picker-calendar
+    .rdp-day_selected:not(.rdp-day_range_middle):not(.rdp-day_range_start):not(.rdp-day_range_end)
+    .rdp-day_button::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background-color: var(--cashdoc-blue-600);
+    border-radius: var(--radius-cms-sm);
+    z-index: -1;
   }
 
-  /* MonthRangePicker, YearRangePicker: 공통 rdp 그리드 스타일 */
-  /* react-day-picker의 border-collapse: collapse를 override (collapse 시 border-spacing 무효) */
-  .month-range-picker-calendar .rdp-month_grid {
-    border-collapse: separate !important;
-    border-spacing: 0 0.75rem !important;
-  }
+  /* MonthRangePicker, YearRangePicker: 공통 rdp 그리드 스타일
+     캔버스 패턴: td 자체에 blue-50 띠 + button::before 로 blue-600 픽. */
 
+  .month-range-picker-calendar .rdp-month_grid,
   .year-range-picker-calendar .rdp-month_grid {
     border-collapse: separate !important;
-    border-spacing: 0 0.5rem !important;
+    border-spacing: 0 !important;
+    width: auto !important;
   }
 
-  /* 셀 44x44, 버튼과 동일 크기 */
-  .month-range-picker-calendar .rdp-day,
-  .year-range-picker-calendar .rdp-day {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    min-height: 44px;
-    max-width: 44px;
-    max-height: 44px;
-    padding: 0;
-    text-align: center;
-    vertical-align: middle;
+  /* 캘린더 컨테이너 자연 폭 */
+  .month-range-picker-calendar .rdp,
+  .month-range-picker-calendar .rdp-root,
+  .year-range-picker-calendar .rdp,
+  .year-range-picker-calendar .rdp-root {
+    width: auto;
   }
-
-  .month-range-picker-calendar .rdp-day_button,
-  .year-range-picker-calendar .rdp-day_button {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    min-height: 44px;
-    padding: 0;
-    border: none !important;
-    border-radius: 100%;
-    display: inline-flex;
-    align-items: center;
+  .month-range-picker-calendar .rdp-months,
+  .year-range-picker-calendar .rdp-months {
+    gap: 1.25rem;
     justify-content: center;
   }
 
-  /* 선택 가능한 셀: black */
-  .month-range-picker-calendar .rdp-day_button:not(.rdp-day_button--disabled),
-  .year-range-picker-calendar .rdp-day_button:not(.rdp-day_button--disabled) {
-    color: #111111 !important;
+  /* 셀: month 56×40, year 56×40 — 가로 직사각형으로 띠 효과를 살림 */
+  .month-range-picker-calendar .rdp-day,
+  .year-range-picker-calendar .rdp-day {
+    width: 56px !important;
+    height: 40px !important;
+    min-width: 56px !important;
+    min-height: 40px !important;
+    max-width: 56px !important;
+    max-height: 40px !important;
+    padding: 0 !important;
+    text-align: center;
+    vertical-align: middle;
+    background-color: transparent;
+    position: relative;
+  }
+
+  /* Range bg — td 자체에 띠 (blue-50). 캔버스의 cms-month-cell.is-range
+     동등 효과. */
+  .month-range-picker-calendar .rdp-day_range_middle,
+  .month-range-picker-calendar .rdp-day_range_start,
+  .month-range-picker-calendar .rdp-day_range_end,
+  .year-range-picker-calendar .rdp-day_range_middle,
+  .year-range-picker-calendar .rdp-day_range_start,
+  .year-range-picker-calendar .rdp-day_range_end {
+    background-color: var(--cashdoc-blue-50) !important;
+  }
+  .month-range-picker-calendar
+    .rdp-day_range_start:not(.rdp-day_range_end),
+  .year-range-picker-calendar
+    .rdp-day_range_start:not(.rdp-day_range_end) {
+    border-top-left-radius: var(--radius-cms-sm);
+    border-bottom-left-radius: var(--radius-cms-sm);
+  }
+  .month-range-picker-calendar
+    .rdp-day_range_end:not(.rdp-day_range_start),
+  .year-range-picker-calendar
+    .rdp-day_range_end:not(.rdp-day_range_start) {
+    border-top-right-radius: var(--radius-cms-sm);
+    border-bottom-right-radius: var(--radius-cms-sm);
+  }
+  .month-range-picker-calendar .rdp-day_range_start.rdp-day_range_end,
+  .year-range-picker-calendar .rdp-day_range_start.rdp-day_range_end {
+    border-radius: var(--radius-cms-sm);
+  }
+
+  /* Button 기본: td 가득 채우기 (rdp 의 32×32 default 를 누른다).
+     rdp v9 의 --rdp-day_button-border-radius 기본값이 100% (원형) 이므로
+     명시적으로 cms-sm(4px) 사각형으로 고정 — hover 시 원이 노출되는 걸 방지. */
+  .month-range-picker-calendar .rdp-day_button,
+  .year-range-picker-calendar .rdp-day_button {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: var(--radius-cms-sm) !important;
+  }
+
+  /* Range middle button — 투명 (td 의 blue-50 띠가 그대로 보임) */
+  .month-range-picker-calendar .rdp-day_range_middle .rdp-day_button,
+  .year-range-picker-calendar .rdp-day_range_middle .rdp-day_button {
+    background: transparent !important;
+    color: var(--cashdoc-gray-900) !important;
+    border-radius: 0 !important;
+    font-weight: 400 !important;
+  }
+
+  /* Range start/end + 단일 selected — button 가운데에 blue-600 픽
+     (::before pseudo, inset 4 6 → 가로 직사각형 셀 안 둥근 사각형) */
+  .month-range-picker-calendar .rdp-day_range_start .rdp-day_button,
+  .month-range-picker-calendar .rdp-day_range_end .rdp-day_button,
+  .year-range-picker-calendar .rdp-day_range_start .rdp-day_button,
+  .year-range-picker-calendar .rdp-day_range_end .rdp-day_button,
+  .month-range-picker-calendar
+    .rdp-day_selected:not(.rdp-day_range_start):not(.rdp-day_range_end)
+    .rdp-day_button,
+  .year-range-picker-calendar
+    .rdp-day_selected:not(.rdp-day_range_start):not(.rdp-day_range_end)
+    .rdp-day_button {
+    position: relative;
+    z-index: 0;
+    background: transparent !important;
+    color: #fff !important;
+    font-weight: 400 !important;
+    isolation: isolate;
+  }
+  .month-range-picker-calendar .rdp-day_range_start .rdp-day_button::before,
+  .month-range-picker-calendar .rdp-day_range_end .rdp-day_button::before,
+  .year-range-picker-calendar .rdp-day_range_start .rdp-day_button::before,
+  .year-range-picker-calendar .rdp-day_range_end .rdp-day_button::before,
+  .month-range-picker-calendar
+    .rdp-day_selected:not(.rdp-day_range_start):not(.rdp-day_range_end)
+    .rdp-day_button::before,
+  .year-range-picker-calendar
+    .rdp-day_selected:not(.rdp-day_range_start):not(.rdp-day_range_end)
+    .rdp-day_button::before {
+    content: "";
+    position: absolute;
+    inset: 4px 6px;
+    background-color: var(--cashdoc-blue-600);
+    border-radius: var(--radius-cms-sm);
+    z-index: -1;
+    transition: background-color 120ms ease;
   }
 
   .year-range-picker-calendar .rdp-day_button:not(.rdp-day_button--disabled) {
-    font-weight: 700;
+    font-weight: 600;
   }
 
-  /* min/max 범위 밖 disabled: gray */
+  /* min/max 범위 밖 disabled */
   .month-range-picker-calendar .rdp-day_disabled .rdp-day_button,
   .month-range-picker-calendar .rdp-day_button.rdp-day_button--disabled,
   .year-range-picker-calendar .rdp-day_disabled .rdp-day_button,
   .year-range-picker-calendar .rdp-day_button.rdp-day_button--disabled {
-    color: #9ca3af !important;
+    color: var(--cashdoc-gray-350) !important;
     cursor: not-allowed;
+    font-weight: 500;
   }
 
-  .year-range-picker-calendar .rdp-day_disabled .rdp-day_button,
-  .year-range-picker-calendar .rdp-day_button.rdp-day_button--disabled {
-    font-weight: 400;
-  }
-
-  /* 선택된 셀: 원 배경 */
-  .month-range-picker-calendar .rdp-day_selected,
-  .month-range-picker-calendar .rdp-day_range_start,
-  .month-range-picker-calendar .rdp-day_range_end,
-  .month-range-picker-calendar .rdp-day_range_start.rdp-day_range_end,
-  .year-range-picker-calendar .rdp-day_selected,
-  .year-range-picker-calendar .rdp-day_range_start,
-  .year-range-picker-calendar .rdp-day_range_end,
-  .year-range-picker-calendar .rdp-day_range_start.rdp-day_range_end {
-    background-color: transparent !important;
-  }
-
-  .month-range-picker-calendar .rdp-day_selected .rdp-day_button,
-  .month-range-picker-calendar .rdp-day_range_start .rdp-day_button,
-  .month-range-picker-calendar .rdp-day_range_end .rdp-day_button,
+  /* Hover (선택되지 않은 셀만) */
   .month-range-picker-calendar
-    .rdp-day_range_start.rdp-day_range_end
-    .rdp-day_button,
-  .year-range-picker-calendar .rdp-day_selected .rdp-day_button,
-  .year-range-picker-calendar .rdp-day_range_start .rdp-day_button,
-  .year-range-picker-calendar .rdp-day_range_end .rdp-day_button,
+    .rdp-day:not(.rdp-day_selected):not(.rdp-day_range_middle):not(.rdp-day_range_start):not(.rdp-day_range_end)
+    .rdp-day_button:hover:not([disabled]),
   .year-range-picker-calendar
-    .rdp-day_range_start.rdp-day_range_end
-    .rdp-day_button {
-    background-color: var(--cashdoc-month-range-selected) !important;
-    color: white !important;
-    border-radius: 100% !important;
+    .rdp-day:not(.rdp-day_selected):not(.rdp-day_range_middle):not(.rdp-day_range_start):not(.rdp-day_range_end)
+    .rdp-day_button:hover:not([disabled]) {
+    background-color: var(--cashdoc-gray-100) !important;
+  }
+
+  /* navLayout="around" 를 사용 — rdp 기본 layout 이 알아서
+     prev|caption|next 로 배치한다. 추가 스타일만 정리. */
+  .date-range-picker-calendar .rdp-month_caption {
+    font-size: 13px;
     font-weight: 600;
+    color: var(--cashdoc-gray-900);
+    letter-spacing: -0.01em;
   }
-
-  /* range_start: 원 + 오른쪽 연결 */
-  .month-range-picker-calendar .rdp-day_range_start:not(.rdp-day_range_end),
-  .year-range-picker-calendar .rdp-day_range_start:not(.rdp-day_range_end) {
-    background: linear-gradient(
-      to right,
-      transparent 50%,
-      var(--cashdoc-month-range-middle) 50%
-    ) !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-  }
-
-  /* range_end: 왼쪽 연결 + 원 */
-  .month-range-picker-calendar .rdp-day_range_end:not(.rdp-day_range_start),
-  .year-range-picker-calendar .rdp-day_range_end:not(.rdp-day_range_start) {
-    background: linear-gradient(
-      to left,
-      transparent 50%,
-      var(--cashdoc-month-range-middle) 50%
-    ) !important;
-    border-radius: 0 !important;
-  }
-
-  /* start=end 동일: gradient 없이 원만 */
-  .month-range-picker-calendar .rdp-day_range_start.rdp-day_range_end,
-  .year-range-picker-calendar .rdp-day_range_start.rdp-day_range_end {
+  /* date/month/year picker 의 모든 button 에 native 흔적 강제 reset.
+     모든 속성에 !important 를 박아 host/storybook 환경의 어떤 base CSS
+     도 user-agent button look 을 새어 내지 못하도록 차단. */
+  .date-range-picker-calendar button,
+  .month-range-picker-calendar button,
+  .year-range-picker-calendar button,
+  .date-picker-calendar button {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
     background: transparent !important;
-  }
-
-  /* range_middle: 가로 연결 사각형 */
-  .month-range-picker-calendar .rdp-day_range_middle,
-  .year-range-picker-calendar .rdp-day_range_middle {
     background-color: transparent !important;
-    border-radius: 0 !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-color: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font: inherit !important;
+    color: inherit !important;
+    cursor: pointer !important;
+    outline: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  .date-range-picker-calendar button:focus-visible,
+  .month-range-picker-calendar button:focus-visible,
+  .year-range-picker-calendar button:focus-visible,
+  .date-picker-calendar button:focus-visible {
+    outline: 2px solid var(--cashdoc-blue-600) !important;
+    outline-offset: 1px;
   }
 
-  .month-range-picker-calendar .rdp-day_range_middle .rdp-day_button,
-  .year-range-picker-calendar .rdp-day_range_middle .rdp-day_button {
-    width: 100%;
-    min-width: 44px;
-    height: 44px;
-    min-height: 44px;
-    border-radius: 0 !important;
-    background-color: var(--cashdoc-month-range-middle) !important;
-    color: #111111 !important;
-    font-weight: 600;
-    display: flex;
-    padding: 0;
-    border: none !important;
-  }
-
-  .date-range-picker-calendar .rdp-nav {
-    position: absolute;
-    top: 0;
-    display: flex;
-    gap: 0.25rem;
-  }
-
-  .date-range-picker-calendar .rdp-month:first-child .rdp-nav {
-    right: 0;
-  }
-
+  /* nav (prev/next) — 명시적 사이즈/패딩 */
   .date-range-picker-calendar .rdp-button_previous,
-  .date-range-picker-calendar .rdp-button_next {
-    width: 24px;
-    height: 24px;
-    border-radius: var(--radius-cms-md);
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  .date-range-picker-calendar .rdp-button_next,
+  .month-range-picker-calendar .rdp-button_previous,
+  .month-range-picker-calendar .rdp-button_next,
+  .year-range-picker-calendar .rdp-button_previous,
+  .year-range-picker-calendar .rdp-button_next {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    padding: 0 !important;
+    border-radius: var(--radius-cms-sm) !important;
+    color: var(--cashdoc-gray-700) !important;
+    transition: background-color 120ms ease;
   }
-
-  .date-range-picker-calendar .rdp-button_previous:hover,
-  .date-range-picker-calendar .rdp-button_next:hover {
-    background-color: #f1f3f5;
-    transform: scale(1.1);
-  }
-
-  .date-range-picker-calendar .rdp-button_previous:active,
-  .date-range-picker-calendar .rdp-button_next:active {
-    transform: scale(0.9);
+  .date-range-picker-calendar .rdp-button_previous:hover:not(:disabled),
+  .date-range-picker-calendar .rdp-button_next:hover:not(:disabled),
+  .month-range-picker-calendar .rdp-button_previous:hover:not(:disabled),
+  .month-range-picker-calendar .rdp-button_next:hover:not(:disabled),
+  .year-range-picker-calendar .rdp-button_previous:hover:not(:disabled),
+  .year-range-picker-calendar .rdp-button_next:hover:not(:disabled) {
+    background-color: var(--cashdoc-gray-100);
   }
 
   .date-range-picker-calendar .rdp-button_previous:disabled,
-  .date-range-picker-calendar .rdp-button_next:disabled {
+  .date-range-picker-calendar .rdp-button_next:disabled,
+  .month-range-picker-calendar .rdp-button_previous:disabled,
+  .month-range-picker-calendar .rdp-button_next:disabled,
+  .year-range-picker-calendar .rdp-button_previous:disabled,
+  .year-range-picker-calendar .rdp-button_next:disabled {
     opacity: 0.4;
     cursor: not-allowed;
     pointer-events: none;
   }
 
-  .date-range-picker-calendar .rdp-day_today:not(.rdp-day_selected) {
-    font-weight: 600;
-    color: #358fff;
+  .date-range-picker-calendar .rdp-today:not(.rdp-selected):not(.rdp-day_selected),
+  .date-range-picker-calendar .rdp-day_today:not(.rdp-day_selected):not(.rdp-selected) {
+    font-weight: 700;
+    color: var(--cashdoc-blue-600);
   }
 
-  /* DatePicker Styles (Single) */
-  .date-picker-calendar .rdp {
-    --rdp-accent-color: #358fff;
-    --rdp-background-color: #e6f1ff;
+  .date-range-picker-calendar .rdp-disabled,
+  .date-range-picker-calendar .rdp-day_disabled {
+    color: var(--cashdoc-gray-350);
+    opacity: 1;
+  }
+  .date-range-picker-calendar .rdp-disabled .rdp-day_button,
+  .date-range-picker-calendar .rdp-day_disabled .rdp-day_button {
+    color: var(--cashdoc-gray-350) !important;
+    cursor: not-allowed;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     DatePicker (single) Calendar (v2)
+     32×32 셀, selected = blue-600 솔리드 (button 가득 채움)
+     ────────────────────────────────────────────────────── */
+  .date-picker-calendar .rdp,
+  .date-picker-calendar .rdp-root {
+    --rdp-accent-color: var(--cashdoc-blue-600);
+    --rdp-accent-background-color: var(--cashdoc-blue-50);
+    --rdp-day-width: 32px;
+    --rdp-day-height: 32px;
+    --rdp-day_button-width: 32px;
+    --rdp-day_button-height: 32px;
+    --rdp-day_button-border-radius: var(--radius-cms-sm);
+    --rdp-day_button-border: 0;
+    --rdp-selected-border: 0;
+    --rdp-today-color: var(--cashdoc-blue-600);
+    --rdp-nav_button-width: 24px;
+    --rdp-nav_button-height: 24px;
+    --rdp-nav-height: 28px;
+    --rdp-weekday-padding: 0.375rem 0;
+    --rdp-weekday-opacity: 1;
+    --rdp-outside-opacity: 1;
     margin: 0;
     font-size: 12px;
   }
 
+  .date-picker-calendar .rdp-month_caption,
+  .date-picker-calendar .rdp-caption_label {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: var(--cashdoc-gray-900);
+    letter-spacing: -0.01em;
+  }
   .date-picker-calendar .rdp-month_caption {
-    font-size: 13px;
-    font-weight: 600;
-    color: #111111;
-    margin-bottom: 0.25rem;
-    padding-top: 0.25rem;
+    margin-bottom: 0.5rem;
+    padding-top: 0.125rem;
   }
 
   .date-picker-calendar .rdp-weekday {
-    font-size: 11px;
-    color: #666666;
-    font-weight: 500;
-    padding: 0.25rem;
+    font-size: 11px !important;
+    color: var(--cashdoc-gray-600) !important;
+    font-weight: 400 !important;
+    opacity: 1 !important;
+    padding: 0.375rem 0;
+    width: 32px !important;
+    min-width: 32px !important;
+    max-width: 32px !important;
+    text-transform: none;
   }
 
+  /* 강제로 32×32 셀 (rdp 기본 사이즈를 누른다) */
+  .date-picker-calendar .rdp-month_grid {
+    border-collapse: collapse !important;
+    width: auto !important;
+  }
   .date-picker-calendar .rdp-day {
-    font-size: 12px;
-    border-radius: var(--radius-cms-md);
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    width: 32px;
-    height: 32px;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+    padding: 0 !important;
+    background-color: transparent !important;
+    color: var(--cashdoc-gray-800);
   }
 
   .date-picker-calendar .rdp-week {
-    margin-top: 0;
+    margin-top: 2px;
   }
 
   .date-picker-calendar .rdp-day_button {
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: var(--radius-cms-md);
-    width: 100%;
-    height: 100%;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+    margin: 0;
+    padding: 0;
+    border: 0 !important;
+    background: transparent;
+    color: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: var(--radius-cms-sm);
+    transition: background-color 120ms ease;
   }
 
   .date-picker-calendar
-    .rdp-day_button:hover:not([disabled]):not(.rdp-day_selected) {
-    background-color: #f1f3f5;
-    transform: scale(1.05);
+    .rdp-day_button:hover:not([disabled]):not(.rdp-selected):not(.rdp-day_selected) {
+    background-color: var(--cashdoc-gray-100);
   }
 
-  .date-picker-calendar .rdp-day_button:active:not([disabled]) {
-    transform: scale(0.95);
+  /* Selected — blue-600 정사각형 픽 (inset 2px 균등, 28×28) */
+  .date-picker-calendar .rdp-selected .rdp-day_button,
+  .date-picker-calendar .rdp-day_selected .rdp-day_button {
+    position: relative;
+    z-index: 0;
+    background-color: transparent !important;
+    color: #fff !important;
+    font-weight: 400 !important;
+    font-size: 12px !important;
+    isolation: isolate;
   }
-
-  .date-picker-calendar .rdp-day_selected {
-    background-color: var(--rdp-accent-color);
-    color: white;
-    font-weight: 600;
-  }
-
-  .date-picker-calendar .rdp-day_selected:hover {
-    background-color: #0071fe;
-    transform: scale(1.05);
-  }
-
-  .date-picker-calendar .rdp-nav {
+  .date-picker-calendar .rdp-selected .rdp-day_button::before,
+  .date-picker-calendar .rdp-day_selected .rdp-day_button::before {
+    content: "";
     position: absolute;
-    top: 0;
-    display: flex;
-    gap: 0.25rem;
-    right: 0;
+    inset: 2px;
+    background-color: var(--cashdoc-blue-600);
+    border-radius: var(--radius-cms-sm);
+    z-index: -1;
+    transition: background-color 120ms ease;
+  }
+  .date-picker-calendar .rdp-selected .rdp-day_button:hover::before,
+  .date-picker-calendar .rdp-day_selected .rdp-day_button:hover::before {
+    background-color: var(--cashdoc-blue-700);
   }
 
+  .date-picker-calendar .rdp-outside,
+  .date-picker-calendar .rdp-day_outside {
+    color: var(--cashdoc-gray-350);
+  }
+  .date-picker-calendar .rdp-outside .rdp-day_button,
+  .date-picker-calendar .rdp-day_outside .rdp-day_button {
+    color: var(--cashdoc-gray-350) !important;
+  }
+
+  /* navLayout="around" 사용 */
+  .date-picker-calendar .rdp-month_caption {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cashdoc-gray-900);
+    letter-spacing: -0.01em;
+  }
   .date-picker-calendar .rdp-button_previous,
   .date-picker-calendar .rdp-button_next {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
     width: 24px;
     height: 24px;
-    border-radius: var(--radius-cms-md);
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0;
+    border-radius: var(--radius-cms-sm);
+    color: var(--cashdoc-gray-700);
+    transition: background-color 120ms ease;
+  }
+  .date-picker-calendar .rdp-button_previous:hover:not(:disabled),
+  .date-picker-calendar .rdp-button_next:hover:not(:disabled) {
+    background-color: var(--cashdoc-gray-100);
+  }
+  .date-picker-calendar .rdp-button_previous:disabled,
+  .date-picker-calendar .rdp-button_next:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
-  .date-picker-calendar .rdp-button_previous:hover,
-  .date-picker-calendar .rdp-button_next:hover {
-    background-color: #f1f3f5;
-    transform: scale(1.1);
+  .date-picker-calendar .rdp-today:not(.rdp-selected):not(.rdp-day_selected),
+  .date-picker-calendar .rdp-day_today:not(.rdp-day_selected):not(.rdp-selected) {
+    font-weight: 700;
+    color: var(--cashdoc-blue-600);
   }
 
-  .date-picker-calendar .rdp-button_previous:active,
-  .date-picker-calendar .rdp-button_next:active {
-    transform: scale(0.9);
+  .date-picker-calendar .rdp-disabled,
+  .date-picker-calendar .rdp-day_disabled {
+    color: var(--cashdoc-gray-350);
+    opacity: 1;
   }
-
-  .date-picker-calendar .rdp-day_today:not(.rdp-day_selected) {
-    font-weight: 600;
-    color: #358fff;
+  .date-picker-calendar .rdp-disabled .rdp-day_button,
+  .date-picker-calendar .rdp-day_disabled .rdp-day_button {
+    color: var(--cashdoc-gray-350) !important;
+    cursor: not-allowed;
   }
 }

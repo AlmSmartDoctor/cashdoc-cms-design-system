@@ -104,16 +104,19 @@ export const Checkbox = React.forwardRef<
         id={checkboxId}
         disabled={disabled}
         className={cn(
-          "peer size-5 shrink-0 rounded-cms-md",
-          "border border-cms-gray-400 bg-cms-white",
+          "peer size-[18px] shrink-0 rounded-cms-sm p-0",
+          "border-[1.5px] border-cms-gray-350 bg-cms-white",
           "focus-visible:outline-none",
-          "focus-visible:ring-2",
-          "focus-visible:ring-offset-2",
+          "focus-visible:ring-2 focus-visible:ring-cms-gray-900/15",
+          "focus-visible:ring-offset-1",
           "cursor-pointer",
-          "disabled:cursor-not-allowed disabled:opacity-50",
-          "data-[state=checked]:border-cms-black",
-          "data-[state=checked]:bg-cms-black",
-          "transition-colors",
+          "hover:border-cms-gray-600",
+          "disabled:cursor-not-allowed disabled:opacity-100",
+          "disabled:border-cms-gray-250 disabled:bg-cms-gray-100",
+          "data-[state=checked]:border-cms-gray-900",
+          "data-[state=checked]:bg-cms-gray-900",
+          "data-[state=checked]:hover:border-cms-gray-900",
+          "transition-colors duration-150 ease-out",
           className,
         )}
         {...props}
@@ -121,18 +124,18 @@ export const Checkbox = React.forwardRef<
         <CheckboxPrimitive.Indicator
           className={cn("flex items-center justify-center text-cms-white")}
         >
-          <CheckIcon size={14} strokeWidth={3} className="scale-150" />
+          <CheckIcon size={12} strokeWidth={3} viewBox="2 2 20 20" />
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Root>
       {label && (
         <label
           htmlFor={checkboxId}
           className={cn(
-            "ml-2 text-base font-normal text-cms-gray-500",
+            "ml-2 text-sm font-normal text-cms-gray-900",
             "cursor-pointer select-none",
             "transition-colors",
-            "hover:text-cms-black",
-            disabled && "cursor-not-allowed opacity-50",
+            "hover:text-cms-gray-900",
+            disabled && "cursor-not-allowed text-cms-gray-450",
           )}
         >
           {label}

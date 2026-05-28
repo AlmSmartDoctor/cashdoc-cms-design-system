@@ -323,7 +323,13 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     }, [isOpen, selectedHour, selectedMinute]);
 
     return (
-      <div ref={ref} className={cn("flex flex-col gap-1", className)}>
+      <div
+        ref={ref}
+        className={cn(
+          "flex w-full max-w-[200px] flex-col gap-1",
+          className,
+        )}
+      >
         {label && (
           <label
             htmlFor={inputId}
@@ -348,24 +354,35 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                 aria-invalid={error || undefined}
                 aria-describedby={describedBy}
                 className={cn(
-                  "h-10 w-full rounded-cms-lg border bg-cms-white px-3 text-sm",
-                  "hover:border-cms-gray-500 hover:bg-cms-gray-100",
-                  "focus:outline-none",
-                  "transition-all duration-150",
+                  "h-9 w-full rounded-cms-md border bg-cms-white px-3 pr-8",
+                  "text-sm text-cms-gray-900",
+                  "placeholder:text-cms-gray-450",
+                  "hover:border-cms-gray-350",
+                  "focus:border-cms-gray-900 focus:outline-none",
+                  "focus:shadow-[0_0_0_3px_rgba(15,20,25,0.08)]",
+                  "transition-[border-color,box-shadow] duration-150 ease-out",
                   "cursor-pointer",
-                  error ? "border-cms-red-500" : "border-cms-gray-400",
+                  error &&
+                    cn(
+                      "border-cms-red-500",
+                      "focus:border-cms-red-500",
+                      "focus:shadow-[0_0_0_3px_rgba(229,56,74,0.22)]",
+                      "hover:border-cms-red-500",
+                    ),
+                  !error && "border-cms-gray-250",
                   disabled &&
                     cn(
-                      "cursor-not-allowed bg-cms-gray-150",
-                      "hover:border-cms-gray-300 hover:bg-cms-gray-150",
+                      "cursor-not-allowed bg-cms-gray-100 text-cms-gray-450",
+                      "border-cms-gray-200",
+                      "hover:border-cms-gray-200",
                     ),
                 )}
               />
               {showIcon && (
                 <Clock
                   className={cn(
-                    "absolute top-1/2 right-0 -translate-y-1/2",
-                    "size-4 text-cms-gray-400",
+                    "absolute top-1/2 right-2.5 -translate-y-1/2",
+                    "pointer-events-none size-4 text-cms-gray-450",
                     disabled && "opacity-50",
                   )}
                 />
@@ -378,8 +395,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
               align="start"
               sideOffset={5}
               className={cn(
-                "z-cms-overlay rounded-cms-xl bg-cms-white shadow-xl",
+                "z-cms-overlay rounded-cms-lg bg-cms-white",
                 "border border-cms-gray-200",
+                `
+                  shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]
+                `,
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",
                 "data-[state=closed]:fade-out-0",
@@ -407,9 +427,9 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     <div
                       ref={hourScrollRef}
                       className={cn(
-                        "h-48 w-16 overflow-y-auto",
+                        "h-44 w-14 overflow-y-auto p-0.5",
                         "border border-cms-gray-200",
-                        "cms-no-scrollbar rounded-cms-md",
+                        "cms-no-scrollbar rounded-cms-sm",
                       )}
                     >
                       {hours.map((hour) => (
@@ -420,11 +440,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                           onClick={() => setSelectedHour(hour)}
                           className={cn(
                             "cursor-pointer border-0",
-                            "h-10 w-full text-sm transition-colors",
-                            "hover:bg-cms-gray-150",
+                            "h-8 w-full text-[13px] transition-colors",
+                            "hover:bg-cms-gray-100",
                             selectedHour === hour ?
-                              "bg-cms-blue-100 font-medium text-cms-blue-700"
-                            : "bg-cms-white text-cms-gray-700",
+                              "bg-cms-gray-900 font-semibold text-cms-white"
+                            : "bg-cms-white text-cms-gray-800",
                           )}
                           aria-label={`${hour}${hourAriaLabelSuffix}`}
                           aria-selected={selectedHour === hour}
@@ -450,9 +470,9 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     <div
                       ref={minuteScrollRef}
                       className={cn(
-                        "h-48 w-16 overflow-y-auto",
+                        "h-44 w-14 overflow-y-auto p-0.5",
                         "border border-cms-gray-200",
-                        "cms-no-scrollbar rounded-cms-md",
+                        "cms-no-scrollbar rounded-cms-sm",
                       )}
                     >
                       {minutes.map((minute) => (
@@ -463,11 +483,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                           onClick={() => setSelectedMinute(minute)}
                           className={cn(
                             "cursor-pointer border-0",
-                            "h-10 w-full text-sm transition-colors",
-                            "hover:bg-cms-gray-150",
+                            "h-8 w-full text-[13px] transition-colors",
+                            "hover:bg-cms-gray-100",
                             selectedMinute === minute ?
-                              "bg-cms-blue-100 font-medium text-cms-blue-700"
-                            : "bg-cms-white text-cms-gray-700",
+                              "bg-cms-gray-900 font-semibold text-cms-white"
+                            : "bg-cms-white text-cms-gray-800",
                           )}
                           aria-label={`${minute}${minuteAriaLabelSuffix}`}
                           aria-selected={selectedMinute === minute}
@@ -496,11 +516,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                           onClick={() => setSelectedPeriod("AM")}
                           className={cn(
                             "cursor-pointer border-0",
-                            "h-10 rounded-cms-md text-sm transition-colors",
-                            "hover:bg-cms-gray-150",
+                            "h-9 rounded-cms-sm text-[13px] transition-colors",
+                            "hover:bg-cms-gray-100",
                             selectedPeriod === "AM" ?
-                              "bg-cms-blue-100 font-medium text-cms-blue-700"
-                            : "bg-cms-white text-cms-gray-700",
+                              "bg-cms-gray-900 font-semibold text-cms-white"
+                            : "bg-cms-white text-cms-gray-800",
                           )}
                           aria-label="AM"
                           aria-selected={selectedPeriod === "AM"}
@@ -512,11 +532,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                           onClick={() => setSelectedPeriod("PM")}
                           className={cn(
                             "cursor-pointer border-0",
-                            "h-10 rounded-cms-md text-sm transition-colors",
-                            "hover:bg-cms-gray-150",
+                            "h-9 rounded-cms-sm text-[13px] transition-colors",
+                            "hover:bg-cms-gray-100",
                             selectedPeriod === "PM" ?
-                              "bg-cms-blue-100 font-medium text-cms-blue-700"
-                            : "bg-cms-white text-cms-gray-700",
+                              "bg-cms-gray-900 font-semibold text-cms-white"
+                            : "bg-cms-white text-cms-gray-800",
                           )}
                           aria-label="PM"
                           aria-selected={selectedPeriod === "PM"}
@@ -532,21 +552,20 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
               {/* Footer */}
               <div
                 className={cn(
-                  "flex items-end justify-end px-4 pb-4",
-                  "border-t border-cms-gray-200 pt-2",
+                  "flex items-end justify-end px-3.5 pb-3.5",
+                  "border-t border-cms-gray-150 pt-2.5",
                 )}
               >
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   <button
                     type="button"
                     onClick={handleCancel}
                     className={cn(
-                      "h-8 w-15 cursor-pointer rounded-cms-lg",
-                      "text-xs font-medium text-cms-gray-700",
-                      "border border-cms-gray-300 bg-transparent",
-                      "transition-all duration-150",
-                      "active:scale-95",
-                      "hover:bg-cms-gray-100",
+                      "h-7 cursor-pointer rounded-cms-sm px-2.5",
+                      "text-[12px] font-semibold text-cms-gray-850",
+                      "border border-cms-gray-250 bg-cms-white",
+                      "transition-colors duration-150",
+                      "hover:border-cms-gray-350 hover:bg-cms-gray-50",
                     )}
                   >
                     취소
@@ -557,14 +576,12 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     disabled={selectedHour === null || selectedMinute === null}
                     className={cn(
                       "cursor-pointer border-0",
-                      "h-8 w-15 rounded-cms-lg bg-cms-blue-700",
-                      "text-xs text-cms-white",
-                      "hover:bg-cms-blue-800",
-                      "active:scale-95",
-                      "disabled:bg-cms-gray-300",
+                      "h-7 rounded-cms-sm bg-cms-gray-850 px-2.5",
+                      "text-[12px] font-semibold text-cms-white",
+                      "hover:bg-cms-gray-750",
+                      "disabled:opacity-45",
                       "disabled:cursor-not-allowed",
-                      "disabled:active:scale-100",
-                      "transition-all duration-150",
+                      "transition-colors duration-150",
                     )}
                   >
                     적용

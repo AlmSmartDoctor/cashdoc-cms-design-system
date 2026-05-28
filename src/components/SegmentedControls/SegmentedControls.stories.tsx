@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { SegmentedControls } from "./SegmentedControls";
 import { useState } from "react";
+import { SegmentedControls } from "./SegmentedControls";
 
 const meta: Meta<typeof SegmentedControls> = {
   title: "Forms/SegmentedControls",
   component: SegmentedControls,
   parameters: {
-    layout: "centered",
+    layout: "padded",
     docs: {
       description: {
         component:
-          "Cms Design System의 세그먼트 컨트롤 컴포넌트입니다. 여러 옵션 중 하나를 선택할 때 사용됩니다.",
+          "여러 옵션 중 하나를 선택하거나 뷰를 전환할 때 사용하는 세그먼트 컨트롤입니다.",
       },
     },
   },
@@ -18,123 +18,69 @@ const meta: Meta<typeof SegmentedControls> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof SegmentedControls>;
+type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {
-    options: [
-      { label: "옵션 1", value: "option1" },
-      { label: "옵션 2", value: "option2" },
-      { label: "옵션 3", value: "option3" },
-    ],
-    value: "option1",
-  },
-  render: (args) => {
-    const [value, setValue] = useState(args.value);
+const Row = ({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) => (
+  <div className="flex items-center gap-4">
+    <span className="w-24 shrink-0 text-[12px] font-medium text-cms-gray-550">
+      {label}
+    </span>
+    <div className="flex flex-wrap items-center gap-4">{children}</div>
+  </div>
+);
 
-    return (
-      <div className="w-100">
-        <SegmentedControls
-          {...args}
-          value={value}
-          onChange={(val) => {
-            setValue(val);
-            args.onChange(val);
-          }}
-        />
-      </div>
-    );
-  },
+const Controlled = <T extends string>({
+  initial,
+  options,
+}: {
+  initial: T;
+  options: { label: string; value: T }[];
+}) => {
+  const [v, setV] = useState<T>(initial);
+  return <SegmentedControls value={v} onChange={setV} options={options} />;
 };
 
-export const WithContent: Story = {
-  args: {
-    options: [
-      { label: "통합 포인트", value: "all" },
-      { label: "무료 포인트", value: "free" },
-      { label: "유료 포인트", value: "paid" },
-    ],
-    value: "all",
-  },
-  render: (args) => {
-    const [value, setValue] = useState(args.value);
-
-    const renderContent = () => {
-      switch (value) {
-        case "all":
-          return (
-            <div className="rounded-md border border-blue-100 bg-blue-50 p-4">
-              사용자 프로필 설정 화면입니다.
-            </div>
-          );
-        case "free":
-          return (
-            <div className="rounded-md border border-green-100 bg-green-50 p-4">
-              무료 포인트 관련 내용입니다.
-            </div>
-          );
-        case "paid":
-          return (
-            <div className="rounded-md border border-red-100 bg-red-50 p-4">
-              유료 포인트 관련 내용입니다.
-            </div>
-          );
-        default:
-          return null;
-      }
-    };
-
-    return (
-      <div className="w-125 space-y-4">
-        <SegmentedControls
-          {...args}
-          value={value}
-          onChange={(val: string | number) => {
-            setValue(val);
-            args.onChange(val);
-          }}
+export const Showcase: Story = {
+  render: () => (
+    <div className="flex flex-col gap-5">
+      <Row label="Period">
+        <Controlled
+          initial="day"
+          options={[
+            { label: "일", value: "day" },
+            { label: "주", value: "week" },
+            { label: "월", value: "month" },
+            { label: "분기", value: "quarter" },
+          ]}
         />
-
-        <div className="min-h-25 text-sm text-gray-700">{renderContent()}</div>
-      </div>
-    );
-  },
+      </Row>
+      <Row label="View">
+        <Controlled
+          initial="list"
+          options={[
+            { label: "리스트", value: "list" },
+            { label: "카드", value: "card" },
+            { label: "차트", value: "chart" },
+          ]}
+        />
+      </Row>
+      <Row label="Two options">
+        <Controlled
+          initial="all"
+          options={[
+            { label: "전체", value: "all" },
+            { label: "유료만", value: "paid" },
+          ]}
+        />
+      </Row>
+    </div>
+  ),
 };
 
-export const ForJsdoc: Story = {
-  args: {
-    options: [
-      { label: "옵션 1", value: "option1" },
-      { label: "옵션 2", value: "option2" },
-      { label: "옵션 3", value: "option3" },
-    ],
-    value: "option1",
-  },
-  render: (args) => {
-    return (
-      <div className="w-100">
-        <SegmentedControls
-          {...args}
-          value="option1"
-          onChange={() => {
-            /* empty */
-          }}
-        />
-        <SegmentedControls
-          {...args}
-          value="option2"
-          onChange={() => {
-            /* empty */
-          }}
-        />
-        <SegmentedControls
-          {...args}
-          value="option3"
-          onChange={() => {
-            /* empty */
-          }}
-        />
-      </div>
-    );
-  },
-};
+export const ForJsdoc: Story = Showcase;

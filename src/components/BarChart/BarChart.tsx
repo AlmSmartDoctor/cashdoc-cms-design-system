@@ -15,10 +15,13 @@ import type { BarShapeProps, LabelProps } from "recharts";
 
 // CMS 디자인 토큰 색상값 (globals.css에서 참조)
 const CMS_COLORS = {
-  blue600: "#358fff",
-  gray250: "#e4e7eb",
-  gray600: "#89939e",
-  gray900: "#111111",
+  blue600: "#0064ff",
+  gray150: "#eef0f3",
+  gray250: "#dcdfe3",
+  gray500: "#848a96",
+  gray600: "#5e6571",
+  gray900: "#0f1419",
+  primary300: "#ffd200",
   white: "#ffffff",
   black: "#000000",
 } as const;
@@ -252,7 +255,7 @@ const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       <div
         ref={ref}
         className={cn(
-          "cms-cashdoc-ds w-full rounded-cms-xl bg-cms-white p-4",
+          "cms-cashdoc-ds w-full rounded-cms-lg bg-cms-white p-4",
           className,
         )}
         {...props}
@@ -261,10 +264,12 @@ const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         {(title || unitLabel) && (
           <div className="mb-3 flex items-center justify-between gap-2">
             {title && (
-              <p className="text-lg font-bold text-cms-gray-900">{title}</p>
+              <p className="text-[17px] font-bold tracking-tight text-cms-gray-900">
+                {title}
+              </p>
             )}
             {unitLabel && (
-              <p className="ml-auto text-xs text-cms-gray-600">
+              <p className="ml-auto text-[11px] text-cms-gray-550">
                 (단위: {unitLabel})
               </p>
             )}
@@ -292,7 +297,7 @@ const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
                 {/* 가로 눈금선만 표시 (세로 없음) */}
                 <CartesianGrid
                   vertical={false}
-                  stroke={CMS_COLORS.gray250}
+                  stroke={CMS_COLORS.gray150}
                   strokeWidth={1}
                 />
 
@@ -306,9 +311,9 @@ const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
                   textAnchor="end"
                   height={60}
                   tick={{
-                    fontSize: 12,
-                    fontWeight: 700,
-                    fill: CMS_COLORS.gray600,
+                    fontSize: 11,
+                    fontWeight: 500,
+                    fill: CMS_COLORS.gray500,
                   }}
                 />
 
@@ -319,7 +324,7 @@ const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
                   axisLine={false}
                   tickLine={false}
                   width={Y_AXIS_WIDTH}
-                  tick={{ fontSize: 12, fill: CMS_COLORS.gray600 }}
+                  tick={{ fontSize: 11, fill: CMS_COLORS.gray500 }}
                   tickFormatter={(v: number) => v.toLocaleString()}
                 />
 
@@ -329,11 +334,11 @@ const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
                   shape={(shapeProps: BarShapeProps) => (
                     <Rectangle
                       {...shapeProps}
-                      radius={[6, 6, 0, 0]}
+                      radius={[3, 3, 0, 0]}
                       fill={
                         shapeProps.value === 0
                           ? "transparent"
-                          : CMS_COLORS.blue600
+                          : CMS_COLORS.gray900
                       }
                     />
                   )}

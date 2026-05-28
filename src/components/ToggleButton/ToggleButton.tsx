@@ -2,6 +2,7 @@ import { cn } from "@/utils/cn";
 import type { VariantProps } from "class-variance-authority";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { forwardRef } from "react";
+import { CheckIcon } from "@/components/icons";
 import { toggleButtonVariants } from "./variants";
 
 export type ToggleButtonProps = {
@@ -117,6 +118,20 @@ const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
         onClick={() => onPressedChange(!pressed)}
         {...props}
       >
+        {pressed && (
+          <span
+            aria-hidden="true"
+            className={cn(
+              "inline-flex items-center justify-center",
+              "size-3.5 shrink-0 rounded-full",
+              variant === "primary" ?
+                "bg-cms-gray-900 text-cms-white"
+              : "bg-cms-gray-900 text-cms-white",
+            )}
+          >
+            <CheckIcon size={9} strokeWidth={3.5} />
+          </span>
+        )}
         {children}
       </button>
     );

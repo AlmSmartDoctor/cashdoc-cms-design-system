@@ -93,32 +93,36 @@ const Toaster = ({ position = "bottom-center", ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast: cn(
-            "group toast flex w-full items-center",
-            "text-cms-gray-900",
-            "rounded-cms-xl bg-cms-white shadow-lg",
-            "gap-3 p-4",
-            "border! border-cms-blue-600!",
+            "group toast flex w-full items-start",
+            "text-cms-gray-100",
+            "rounded-cms-lg bg-cms-gray-900",
+            "max-w-[420px] min-w-[280px] gap-2.5 px-3.5 py-3",
+            "text-[13px] leading-snug",
+            `
+              shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]
+            `,
+            "border! border-cms-gray-900!",
             "**:data-content:flex-row!",
             "**:data-content:items-baseline!",
           ),
           title: cn(
-            "group-[.toast]:text-cms-gray-900",
-            "group-[.toast]:text-sm",
+            "group-[.toast]:text-cms-white",
+            "group-[.toast]:text-[13px]",
             "group-[.toast]:mr-2",
-            "group-[.toast]:font-bold!",
+            "group-[.toast]:font-semibold!",
           ),
           description: cn(
-            "group-[.toast]:text-cms-gray-500",
-            "group-[.toast]:text-xs",
-            "group-[.toast]:font-medium",
+            "group-[.toast]:text-cms-gray-200",
+            "group-[.toast]:text-[12px]",
+            "group-[.toast]:font-normal",
           ),
           actionButton: cn(
-            "group-[.toast]:bg-cms-gray-900",
-            "group-[.toast]:text-cms-white",
+            "group-[.toast]:bg-cms-white",
+            "group-[.toast]:text-cms-gray-900",
           ),
           cancelButton: cn(
-            "group-[.toast]:bg-cms-gray-100",
-            "group-[.toast]:text-cms-gray-500",
+            "group-[.toast]:bg-cms-gray-800",
+            "group-[.toast]:text-cms-gray-300",
           ),
         },
       }}

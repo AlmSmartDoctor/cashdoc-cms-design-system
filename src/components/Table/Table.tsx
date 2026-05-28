@@ -12,17 +12,20 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-const tableVariants = cva("w-full caption-bottom [border-spacing:0] text-sm", {
-  variants: {
-    bordered: {
-      true: "",
-      false: "",
+const tableVariants = cva(
+  "w-full caption-bottom [border-spacing:0] bg-cms-white text-[13px]",
+  {
+    variants: {
+      bordered: {
+        true: "",
+        false: "",
+      },
+    },
+    defaultVariants: {
+      bordered: false,
     },
   },
-  defaultVariants: {
-    bordered: false,
-  },
-});
+);
 
 type TableContextValue = {
   striped?: boolean;
@@ -165,7 +168,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
         <div
           className={cn(
             "relative w-full",
-            bordered && "rounded-cms-xl border border-cms-gray-300",
+            bordered && "rounded-cms-lg border border-cms-gray-200",
           )}
         >
           {showLeftScroll && (
@@ -180,7 +183,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
               <ChevronLeft className="size-6 text-cms-gray-400" />
             </div>
           )}
-          <div ref={containerRef} className="overflow-auto rounded-cms-xl">
+          <div ref={containerRef} className="overflow-auto rounded-cms-lg">
             <table
               ref={ref}
               className={cn(tableVariants({ bordered }), className)}
@@ -228,8 +231,9 @@ export const TableHeader = React.forwardRef<
     ref={ref}
     className={cn(
       "[&>tr]:border-0",
-      "[&>tr>th:first-child]:rounded-tl-cms-xl",
-      "[&>tr>th:last-child]:rounded-tr-cms-xl",
+      "bg-cms-gray-50",
+      "[&>tr>th:first-child]:rounded-tl-cms-lg",
+      "[&>tr>th:last-child]:rounded-tr-cms-lg",
       className,
     )}
     {...props}
@@ -287,22 +291,25 @@ TableFooter.displayName = "TableFooter";
 
 /* --------------------------------- TableRow --------------------------------- */
 
-const tableRowVariants = cva("border-b border-cms-gray-200", {
-  variants: {
-    hoverable: {
-      true: "hover:bg-cms-gray-100",
-      false: "",
+const tableRowVariants = cva(
+  "border-b border-cms-gray-150 transition-colors",
+  {
+    variants: {
+      hoverable: {
+        true: "hover:bg-cms-gray-50",
+        false: "",
+      },
+      selected: {
+        true: "bg-cms-gray-100",
+        false: "",
+      },
     },
-    selected: {
-      true: "bg-cms-primary-100",
-      false: "",
+    defaultVariants: {
+      hoverable: false,
+      selected: false,
     },
   },
-  defaultVariants: {
-    hoverable: false,
-    selected: false,
-  },
-});
+);
 
 export type TableRowProps = {
   /** 선택된 행 표시 여부 */
@@ -379,10 +386,12 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         ref={ref}
         scope={scope}
         className={cn(
-          "h-12 px-4 text-left align-middle font-semibold text-cms-gray-800",
-          "border-0 bg-cms-primary-50",
+          "h-10 px-3.5 text-left align-middle",
+          "text-[12px] font-semibold text-cms-gray-600",
+          "whitespace-nowrap",
+          "border-0 border-b border-cms-gray-200",
           "[&:has([role=checkbox])]:pr-0",
-          sortable && "hover:bg-cms-primary-100",
+          sortable && "cursor-pointer hover:bg-cms-gray-100",
           className,
         )}
         aria-sort={
@@ -422,7 +431,10 @@ TableHead.displayName = "TableHead";
 /* --------------------------------- TableCell --------------------------------- */
 
 const tableCellVariants = cva(
-  "p-4 align-middle [&:has([role=checkbox])]:pr-0",
+  cn(
+    "px-3.5 py-3 align-middle text-cms-gray-850",
+    "[&:has([role=checkbox])]:pr-0",
+  ),
   {
     variants: {
       align: {
@@ -458,7 +470,7 @@ export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
         ref={ref}
         className={cn(
           tableCellVariants({ align }),
-          compact && "p-2",
+          compact && "px-2.5 py-1.5",
           className,
         )}
         {...props}

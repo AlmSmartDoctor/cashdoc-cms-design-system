@@ -6,6 +6,7 @@ import { ko } from "react-day-picker/locale";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
 import { formatDateDigits, parseDateInput } from "@/utils/dateInputFormat";
 import { useDisclosure } from "@/hooks/useDisclosure";
 import { toDayjsRange } from "@/utils/dateRange";
@@ -21,6 +22,17 @@ import {
 } from "./quickSelectOptions";
 export type { QuickSelectMode } from "./quickSelectOptions";
 import "react-day-picker/style.css";
+
+const ChevronComponent = ({
+  orientation,
+}: {
+  orientation?: "up" | "down" | "left" | "right";
+}) => {
+  if (orientation === "left") {
+    return <ChevronLeftIcon size={16} strokeWidth={2} />;
+  }
+  return <ChevronRightIcon size={16} strokeWidth={2} />;
+};
 
 export type DateRangePickerProps = {
   value?: DateRange;
@@ -383,7 +395,10 @@ export const DateRangePicker = React.forwardRef<
     return (
       <PopoverPrimitive.Root open={isOpen} onOpenChange={handleOpenChange}>
         <PopoverPrimitive.Anchor asChild>
-          <div ref={setContainerRef} className={className}>
+          <div
+            ref={setContainerRef}
+            className={cn("w-full max-w-[400px]", className)}
+          >
             {inputError && (
               <div
                 id={`${id}-error`}
@@ -393,7 +408,25 @@ export const DateRangePicker = React.forwardRef<
                 {inputError}
               </div>
             )}
-            <div className="flex items-center gap-0">
+            <div
+              className={cn(
+                "flex items-stretch rounded-cms-md border bg-cms-white",
+                "border-cms-gray-250",
+                "transition-[border-color,box-shadow] duration-150 ease-out",
+                "hover:border-cms-gray-350",
+                "focus-within:border-cms-gray-900",
+                "focus-within:shadow-[0_0_0_3px_rgba(15,20,25,0.08)]",
+                inputError &&
+                  cn(
+                    `
+                      border-cms-red-500
+                      hover:border-cms-red-500
+                    `,
+                    "focus-within:border-cms-red-500",
+                    "focus-within:shadow-[0_0_0_3px_rgba(229,56,74,0.22)]",
+                  ),
+              )}
+            >
               <div className="relative flex-1">
                 <div
                   className={cn(
@@ -426,14 +459,18 @@ export const DateRangePicker = React.forwardRef<
                   aria-invalid={inputError ? true : undefined}
                   aria-describedby={inputError ? `${id}-error` : undefined}
                   className={cn(
-                    "h-10 w-full bg-cms-white pr-3 pl-14-75 text-sm",
+                    "box-border h-9 w-full border-0",
+                    "rounded-l-cms-md bg-transparent pr-3 pl-14-75",
+                    "text-sm text-cms-gray-900",
+                    "placeholder:text-cms-gray-450",
                     "focus:outline-none",
-                    "rounded-l-cms-lg border border-r-0 border-cms-gray-400",
-                    "hover:border-cms-gray-500 hover:bg-cms-gray-100",
-                    "transition-all duration-150",
                   )}
                 />
               </div>
+              <div
+                aria-hidden="true"
+                className="w-px self-stretch bg-cms-gray-250"
+              />
               <div className="relative flex-1">
                 <div
                   className={cn(
@@ -466,12 +503,11 @@ export const DateRangePicker = React.forwardRef<
                   aria-invalid={inputError ? true : undefined}
                   aria-describedby={inputError ? `${id}-error` : undefined}
                   className={cn(
-                    "h-10 w-full bg-cms-white pr-3 pl-14-75",
-                    "text-sm",
-                    "rounded-r-cms-lg border border-cms-gray-400",
-                    "hover:border-cms-gray-500 hover:bg-cms-gray-100",
+                    "box-border h-9 w-full border-0",
+                    "rounded-r-cms-md bg-transparent pr-3 pl-14-75",
+                    "text-sm text-cms-gray-900",
+                    "placeholder:text-cms-gray-450",
                     "focus:outline-none",
-                    "transition-all duration-150",
                   )}
                 />
               </div>
@@ -482,7 +518,9 @@ export const DateRangePicker = React.forwardRef<
         <PopoverPrimitive.Portal>
           <PopoverPrimitive.Content
             align="start"
-            sideOffset={5}
+            sideOffset={8}
+            collisionPadding={8}
+            style={{ width: "max-content" }}
             // Popover 열릴 때 input 에서 포커스가 빠지지 않도록 방지.
             onOpenAutoFocus={(e) => e.preventDefault()}
             // input 영역을 클릭하거나 포커스가 옮겨져도 popover 가 닫히지 않도록.
@@ -497,9 +535,11 @@ export const DateRangePicker = React.forwardRef<
               if (t && containerRef.current?.contains(t)) e.preventDefault();
             }}
             className={cn(
-              "z-cms-overlay rounded-cms-xl bg-cms-white p-2",
+              "z-cms-overlay rounded-cms-lg bg-cms-white p-3.5",
               "border border-cms-gray-200",
-              "shadow-xl",
+              `
+                shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]
+              `,
               "data-[state=open]:animate-in",
               "data-[state=closed]:animate-out",
               "data-[state=closed]:fade-out-0",
@@ -510,9 +550,13 @@ export const DateRangePicker = React.forwardRef<
               "data-[side=top]:slide-in-from-bottom-2",
             )}
           >
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               {/* Quick Select Buttons */}
-              <div className="flex flex-col border-r border-cms-gray-200 pr-2">
+              <div
+                className={cn(
+                  "flex flex-col gap-0.5 border-r border-cms-gray-150 pr-3",
+                )}
+              >
                 {getQuickSelectOptions(
                   quickSelectMode,
                   mondayStart,
@@ -525,13 +569,11 @@ export const DateRangePicker = React.forwardRef<
                     onClick={() => handleQuickSelect(option)}
                     className={cn(
                       "cursor-pointer border-0",
-                      "h-6-5 w-17-5 px-2",
-                      "text-left text-xs text-cms-gray-700",
-                      "bg-cms-white",
-                      "transition-all duration-150",
-                      "hover:bg-cms-blue-100",
-                      "hover:font-medium",
-                      "hover:text-cms-blue-600",
+                      "h-7 rounded-cms-sm px-2.5",
+                      "text-left text-[13px] font-medium",
+                      "bg-transparent text-cms-gray-800",
+                      "transition-colors duration-150",
+                      "hover:bg-cms-gray-100 hover:text-cms-gray-900",
                     )}
                   >
                     {option.label}
@@ -542,12 +584,15 @@ export const DateRangePicker = React.forwardRef<
               <div className="date-range-picker-calendar">
                 <DayPicker
                   mode="range"
+                  navLayout="around"
+                  showOutsideDays
                   selected={selected}
                   onSelect={handleDayClick}
                   numberOfMonths={2}
                   locale={ko}
                   disabled={disabledDays}
                   excludeDisabled
+                  components={{ Chevron: ChevronComponent }}
                   defaultMonth={
                     quickSelectMode === "past" ?
                       dayjs().subtract(1, "month").toDate()
@@ -566,42 +611,41 @@ export const DateRangePicker = React.forwardRef<
             {/* Footer */}
             <div
               className={cn(
-                "mt-2 flex items-end justify-between pt-2",
-                "border-t border-cms-gray-200",
+                "mt-3 flex items-end justify-between pt-3",
+                "border-t border-cms-gray-150",
               )}
             >
-              <div className="flex min-h-8 flex-col">
+              <div className="flex min-h-8 flex-col justify-center">
                 {quickSelectError ?
-                  <span className="text-xs text-cms-red-500">
+                  <span className="text-[12px] text-cms-red-500">
                     선택 가능한 기간이 아닙니다.
                   </span>
                 : !fromDay || !toDay ?
-                  <span className="text-xs text-cms-red-500">
+                  <span className="text-[12px] text-cms-red-500">
                     종료일자를 선택해 주세요.
                   </span>
                 : <>
-                    <span className="text-xs text-cms-gray-700">
+                    <span className="text-[12px] text-cms-gray-800 tabular-nums">
                       {fromDay.format("YYYY-MM-DD")} ~{" "}
                       {toDay.format("YYYY-MM-DD")}
                     </span>
-                    <span className="text-xs text-cms-gray-500">
+                    <span className="text-[11px] text-cms-gray-550">
                       ({numberOfDays}일간)
                     </span>
                   </>
                 }
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-1.5">
                 <button
                   type="button"
                   onClick={handleCancel}
                   className={cn(
-                    "h-8 w-15 cursor-pointer",
-                    "rounded-cms-lg border border-cms-gray-300 bg-transparent",
-                    "text-xs font-medium text-cms-gray-700",
-                    "transition-all duration-150",
-                    "hover:bg-cms-gray-100",
-                    "active:scale-95",
+                    "h-7 cursor-pointer rounded-cms-sm px-2.5",
+                    "text-[12px] font-semibold text-cms-gray-850",
+                    "border border-cms-gray-250 bg-cms-white",
+                    "transition-colors duration-150",
+                    "hover:border-cms-gray-350 hover:bg-cms-gray-50",
                   )}
                 >
                   취소
@@ -612,15 +656,12 @@ export const DateRangePicker = React.forwardRef<
                   disabled={!fromDay || !toDay}
                   className={cn(
                     "cursor-pointer border-0",
-                    "h-8 w-15",
-                    "rounded-cms-lg bg-cms-blue-700",
-                    "text-xs font-medium text-cms-white",
-                    "hover:bg-cms-blue-800",
-                    "active:scale-95",
-                    "disabled:bg-cms-gray-300",
-                    "disabled:active:scale-100",
+                    "h-7 rounded-cms-sm bg-cms-gray-850 px-2.5",
+                    "text-[12px] font-semibold text-cms-white",
+                    "hover:bg-cms-gray-750",
+                    "disabled:opacity-45",
                     "disabled:cursor-not-allowed",
-                    "transition-all duration-150",
+                    "transition-colors duration-150",
                   )}
                 >
                   적용

@@ -214,7 +214,7 @@ export const ImageUpload = ({
   error = false,
   onError,
   validateImage,
-  placeholder = "클릭하거나 파일을 드래그하세요",
+  placeholder = "파일을 끌어다 놓거나 클릭해서 업로드",
   placeholderActive = "파일을 여기에 놓으세요",
 }: ImageUploadProps) => {
   const [files, setFiles] = useState<File[]>(value);
@@ -348,15 +348,17 @@ export const ImageUpload = ({
         <div
           {...getRootProps()}
           className={cn(
-            "relative rounded-cms-lg border-2 border-solid",
+            "relative rounded-cms-lg border-[1.5px] border-dashed",
             "cursor-pointer transition-colors",
             "flex flex-col items-center justify-center",
-            "min-h-50",
-            error ? "border-red-500"
-            : isDragActive ? "border-cms-black bg-cms-gray-100"
-            : `border-cms-gray-300 bg-white hover:bg-cms-gray-50`,
+            "min-h-40",
+            error
+              ? "border-cms-red-500 bg-cms-red-50"
+              : isDragActive
+                ? "border-cms-gray-900 bg-cms-white"
+                : "border-cms-gray-300 bg-cms-gray-50 hover:border-cms-gray-900 hover:bg-cms-white",
             disabled && "pointer-events-none cursor-not-allowed opacity-50",
-            isSingleMode && hasFile && "p-0",
+            isSingleMode && hasFile && "border-solid border-cms-gray-200 p-0",
           )}
         >
           <input {...getInputProps()} />
@@ -395,32 +397,40 @@ export const ImageUpload = ({
                 <CloseIcon className="size-4" />
               </button>
             </div>
-          : <div className="flex flex-col items-center p-6">
-              <ImageUploadIcon className="text-cms-gray-400" />
+          : <div className="flex flex-col items-center px-6 py-8">
+              <ImageUploadIcon
+                size={28}
+                className="text-cms-gray-500"
+                strokeWidth={1.8}
+              />
               <Text
                 variant="emphasis"
                 align="center"
-                className="mt-4 text-cms-black"
+                className="mt-2 text-cms-gray-900"
               >
                 {isDragActive ? placeholderActive : placeholder}
               </Text>
               <Text
                 variant="caption"
                 align="center"
-                className="mt-1 text-cms-gray-400"
+                className="mt-1 text-cms-gray-550"
               >
-                {maxFiles > 1 ? `최대 ${maxFiles}개` : "1개"} 파일, 최대{" "}
-                {maxSize / 1024 / 1024}MB
+                {showAcceptedFileTypes && acceptedFileTypesLabel ?
+                  `${acceptedFileTypesLabel} · 최대 ${maxSize / 1024 / 1024}MB / 파일`
+                : `${maxFiles > 1 ? `최대 ${maxFiles}개` : "1개"} 파일, 최대 ${maxSize / 1024 / 1024}MB`
+                }
               </Text>
-              {showAcceptedFileTypes && acceptedFileTypesLabel && (
-                <Text
-                  variant="caption"
-                  align="center"
-                  className="mt-1 text-cms-gray-400"
-                >
-                  허용 형식: {acceptedFileTypesLabel}
-                </Text>
-              )}
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "mt-3 inline-flex items-center justify-center",
+                  "h-7 rounded-cms-sm border border-cms-gray-250",
+                  "bg-cms-white px-2.5",
+                  "text-[12px] font-semibold text-cms-gray-850",
+                )}
+              >
+                파일 선택
+              </span>
             </div>
           }
         </div>
@@ -440,8 +450,8 @@ export const ImageUpload = ({
             <div
               key={index}
               className={cn(
-                "group relative overflow-hidden rounded-cms-lg",
-                "border border-cms-gray-300",
+                "group relative overflow-hidden rounded-cms-md",
+                "border border-cms-gray-200",
               )}
             >
               <div className="aspect-square bg-cms-gray-100">
@@ -458,11 +468,11 @@ export const ImageUpload = ({
                   removeFile(index);
                 }}
                 className={cn(
-                  "absolute top-2 right-2",
-                  "h-7 w-7 rounded-full",
+                  "absolute top-1.5 right-1.5",
+                  "h-6 w-6 rounded-full",
                   "flex items-center justify-center",
-                  "bg-white shadow-md",
-                  "hover:bg-cms-gray-100",
+                  "bg-cms-gray-900/70 text-cms-white backdrop-blur-sm",
+                  "hover:bg-cms-gray-900/85",
                   "cursor-pointer",
                   "border-none",
                 )}
@@ -472,14 +482,14 @@ export const ImageUpload = ({
               </button>
               <div
                 className={cn(
-                  "bg-white px-2 py-1.5",
-                  "border-t border-cms-gray-300",
+                  "bg-cms-white px-2 py-1.5",
+                  "border-t border-cms-gray-200",
                 )}
               >
-                <Text variant="caption" className="truncate text-cms-gray-600">
+                <Text variant="caption" className="truncate text-cms-gray-800">
                   {file.name}
                 </Text>
-                <Text variant="caption" className="text-cms-gray-400">
+                <Text variant="caption" className="text-cms-gray-550">
                   {(file.size / 1024).toFixed(1)} KB
                 </Text>
               </div>
