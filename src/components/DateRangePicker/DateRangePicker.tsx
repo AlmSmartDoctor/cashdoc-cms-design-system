@@ -519,11 +519,7 @@ export const DateRangePicker = React.forwardRef<
           <PopoverPrimitive.Content
             align="start"
             sideOffset={8}
-            avoidCollisions={false}
-            collisionPadding={0}
-            // popover 는 콘텐츠 자연 폭. storybook iframe 등 좁은 컨테이너
-            // 에서 radix 의 collision detection 이 popover 를 anchor 보다
-            // 좁게 줄여 input row 가 튀어나오는 현상을 차단.
+            collisionPadding={8}
             style={{ width: "max-content" }}
             // Popover 열릴 때 input 에서 포커스가 빠지지 않도록 방지.
             onOpenAutoFocus={(e) => e.preventDefault()}

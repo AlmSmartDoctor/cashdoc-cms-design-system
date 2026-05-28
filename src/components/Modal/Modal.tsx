@@ -287,18 +287,20 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 )}
               </div>
             )}
-            <DialogPrimitive.Description
-              className={cn(
-                "px-6 pt-1 pb-5 text-sm/relaxed text-cms-gray-700",
-              )}
-            >
-              {children}
-            </DialogPrimitive.Description>
+            {children && (
+              <DialogPrimitive.Description
+                className={cn(
+                  "px-6 pt-1 pb-5 text-sm/relaxed text-cms-gray-700",
+                )}
+              >
+                {children}
+              </DialogPrimitive.Description>
+            )}
             {footer && (
               <div
                 className={cn(
                   "flex justify-end gap-2",
-                  "px-[18px] pt-3.5 pb-[18px]",
+                  "px-6 pt-3.5 pb-[18px]",
                   "border-t border-cms-gray-150 bg-cms-gray-50",
                 )}
               >

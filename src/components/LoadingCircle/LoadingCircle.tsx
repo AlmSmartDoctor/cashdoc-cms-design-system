@@ -92,7 +92,7 @@ export function LoadingCircle({ size = "lg", className }: LoadingCircleProps) {
           sizeClasses[size],
           "animate-spin rounded-full",
           "border-cms-gray-200 border-t-cms-gray-850",
-          "animation-duration-[0.8s]",
+          "[animation-duration:0.8s]",
           className,
         )}
       />
