@@ -30,7 +30,7 @@ export type ButtonProps = {} & ButtonHTMLAttributes<HTMLButtonElement> &
  *
  * ## Props
  *
- * - `variant`: `default` | `secondary` | `outline` | `ghost` | `link` | `underline`
+ * - `variant`: `default` | `secondary` | `outline` | `ghost` | `warning` | `danger` | `link` | `underline`
  * - `size`: `default` | `sm` | `lg` | `icon`
  * - `type`: 기본값 `"button"` — `<form>` 내부에서 의도치 않은 submit을 방지합니다. submit 버튼이 필요하면 `type="submit"`을 명시하세요.
  *

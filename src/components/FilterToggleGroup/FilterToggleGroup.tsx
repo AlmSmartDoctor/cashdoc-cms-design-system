@@ -4,48 +4,49 @@ import { cn } from "@/utils/cn";
 
 const filterToggleGroupSizeClassMap = {
   sm: {
-    item: "h-16 min-w-20 px-2 py-1.5",
-    caption: "text-[10px]/3",
-    value: "text-xl",
-    label: "text-[10px]/3",
+    item: "min-w-[84px] px-3 py-2",
+    caption: "text-[10px]",
+    value: "text-lg",
+    label: "text-[11px] mt-1",
     icon: "[&>svg]:size-3",
   },
   md: {
-    item: "h-18 min-w-[88px] px-2.5 py-2",
-    caption: "text-[10px]/3",
-    value: "text-2xl",
-    label: "text-[11px]/4",
+    item: "min-w-24 px-3.5 py-2.5",
+    caption: "text-[11px]",
+    value: "text-[22px]",
+    label: "text-[12px] mt-1.5",
     icon: "[&>svg]:size-3.5",
   },
   lg: {
-    item: "h-22 min-w-24 px-3 py-2.5",
-    caption: "text-xs/4",
-    value: "text-3xl",
-    label: "text-xs/4",
+    item: "min-w-28 px-4 py-3",
+    caption: "text-[11px]",
+    value: "text-[26px]",
+    label: "text-[13px] mt-1.5",
     icon: "[&>svg]:size-4",
   },
   xl: {
-    item: "h-24 min-w-28 px-4 py-3",
-    caption: "text-sm/4",
-    value: "text-4xl",
-    label: "text-sm/4",
+    item: "min-w-32 px-[18px] py-3.5",
+    caption: "text-[12px]",
+    value: "text-[32px]",
+    label: "text-[13px] mt-2",
     icon: "[&>svg]:size-5",
   },
   "2xl": {
-    item: "h-28 min-w-32 px-5 py-3.5",
-    caption: "text-sm/5",
-    value: "text-5xl",
-    label: "text-base/5",
+    item: "min-w-36 px-5 py-4",
+    caption: "text-[13px]",
+    value: "text-[40px]",
+    label: "text-[14px] mt-2",
     icon: "[&>svg]:size-6",
   },
 } as const;
 
-const filterToggleGroupIntentTopLineClassMap = {
-  default: "before:bg-cms-gray-600",
-  primary: "before:bg-cms-gray-600",
-  success: "before:bg-cms-green-500",
-  danger: "before:bg-cms-red-500",
-  muted: "before:bg-cms-gray-500",
+/** Intent dot color (replaces the previous top color bar). */
+const filterToggleGroupIntentDotClassMap = {
+  default: "bg-cms-gray-400",
+  primary: "bg-cms-primary-200",
+  success: "bg-cms-green-500",
+  danger: "bg-cms-red-500",
+  muted: "bg-cms-gray-400",
 } as const;
 
 const filterToggleGroupIntentIconClassMap = {
@@ -56,9 +57,17 @@ const filterToggleGroupIntentIconClassMap = {
   muted: "text-cms-gray-500",
 } as const;
 
+const filterToggleGroupIntentSelectedDotClassMap = {
+  default: "bg-cms-white",
+  primary: "bg-cms-primary-200",
+  success: "bg-cms-green-400",
+  danger: "bg-cms-red-400",
+  muted: "bg-cms-white",
+} as const;
+
 export type FilterToggleGroupSize = keyof typeof filterToggleGroupSizeClassMap;
 export type FilterToggleGroupIntent =
-  keyof typeof filterToggleGroupIntentTopLineClassMap;
+  keyof typeof filterToggleGroupIntentDotClassMap;
 
 export type FilterToggleGroupItem<T extends string | number> = {
   value: T;
@@ -173,14 +182,15 @@ export const FilterToggleGroup = <T extends string | number>({
       {items.map((item) => {
         const isSelected = String(item.value) === String(value);
         const intent = item.intent ?? "default";
-        const topLineClass =
-          isSelected ?
-            "before:bg-cms-primary-200"
-          : filterToggleGroupIntentTopLineClassMap[intent];
+        const showDot = intent !== "default" && intent !== "primary";
+        const dotClass =
+          isSelected
+            ? filterToggleGroupIntentSelectedDotClassMap[intent]
+            : filterToggleGroupIntentDotClassMap[intent];
         const iconColorClass =
-          isSelected ? "text-cms-black" : (
-            filterToggleGroupIntentIconClassMap[intent]
-          );
+          isSelected
+            ? "text-cms-white"
+            : filterToggleGroupIntentIconClassMap[intent];
 
         return (
           <ToggleGroup.Item
@@ -188,24 +198,24 @@ export const FilterToggleGroup = <T extends string | number>({
             value={String(item.value)}
             disabled={item.disabled}
             className={cn(
-              "group relative flex cursor-pointer flex-col",
-              "justify-between overflow-hidden",
-              "rounded-cms-lg border border-cms-gray-300 bg-cms-white",
-              "text-center",
-              "shadow-[0_1px_3px_rgba(17,17,17,0.08)]",
-              "scale-100 transform-gpu transition-all duration-150 ease-out",
-              "hover:bg-cms-gray-50",
-              "hover:shadow-[0_2px_6px_rgba(17,17,17,0.12)]",
-              "active:scale-95",
-              "before:pointer-events-none before:absolute before:inset-x-0",
-              "before:top-0 before:h-1",
-              "focus-visible:ring-2 focus-visible:ring-cms-blue-200",
-              "focus-visible:ring-offset-1 focus-visible:outline-none",
-              "data-[state=on]:border-cms-primary-400",
-              "data-[state=on]:bg-cms-primary-50",
-              "data-[state=on]:shadow-[0_2px_8px_rgba(17,17,17,0.14)]",
-              "disabled:cursor-not-allowed disabled:opacity-50",
-              topLineClass,
+              "group relative flex cursor-pointer flex-col items-start",
+              "justify-between text-left",
+              "rounded-cms-md border border-cms-gray-200 bg-cms-white",
+              "text-cms-gray-900",
+              "transform-gpu transition-colors duration-150 ease-out",
+              "hover:border-cms-gray-350 hover:bg-cms-gray-50",
+              "active:translate-y-px",
+              "focus-visible:outline-none",
+              "focus-visible:ring-2 focus-visible:ring-cms-gray-900/15",
+              "focus-visible:ring-offset-1",
+              // Selected: translucent dark fill + inset white sheen
+              // (matches new .cms-fcard.is-selected spec; rgba(20,23,28,0.94))
+              "data-[state=on]:border-cms-gray-900",
+              "data-[state=on]:bg-cms-gray-900/95",
+              "data-[state=on]:text-cms-white",
+              "data-[state=on]:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
+              "data-[state=on]:backdrop-blur-sm",
+              "disabled:cursor-not-allowed disabled:opacity-45",
               sizeClass.item,
               itemClassName,
               item.className,
@@ -214,9 +224,10 @@ export const FilterToggleGroup = <T extends string | number>({
             {item.caption ?
               <span
                 className={cn(
-                  "font-semibold text-cms-gray-600",
+                  "leading-tight font-medium",
+                  "text-cms-gray-600",
+                  "group-data-[state=on]:text-cms-white/78",
                   sizeClass.caption,
-                  isSelected && "text-cms-gray-700",
                 )}
               >
                 {item.caption}
@@ -225,9 +236,10 @@ export const FilterToggleGroup = <T extends string | number>({
 
             <span
               className={cn(
-                "mt-1 flex items-center justify-center gap-1",
-                "leading-none font-semibold text-cms-black",
+                "mt-0.5 flex items-center gap-1.5",
+                "leading-none font-bold tracking-tight tabular-nums",
                 sizeClass.value,
+                intent === "muted" && !isSelected && "text-cms-gray-500",
               )}
             >
               {showIcon && item.icon ?
@@ -242,11 +254,23 @@ export const FilterToggleGroup = <T extends string | number>({
 
             <span
               className={cn(
-                "mt-1 text-center font-medium break-keep text-cms-gray-700",
+                "flex items-center gap-1.5",
+                "leading-tight font-medium break-keep",
+                "text-cms-gray-650",
+                "group-data-[state=on]:text-cms-white/78",
+                intent === "muted" && !isSelected && "text-cms-gray-500",
                 sizeClass.label,
-                isSelected && "text-cms-black",
               )}
             >
+              {showDot && (
+                <span
+                  className={cn(
+                    "size-1.5 shrink-0 rounded-full",
+                    dotClass,
+                  )}
+                  aria-hidden
+                />
+              )}
               {item.label}
             </span>
           </ToggleGroup.Item>

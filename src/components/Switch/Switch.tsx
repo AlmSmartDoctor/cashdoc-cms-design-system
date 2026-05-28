@@ -37,13 +37,16 @@ const switchVariants = cva(
     "cursor-pointer",
     "focus-visible:outline-none",
     "disabled:cursor-not-allowed disabled:opacity-50",
-    "data-[state=unchecked]:bg-cms-gray-300",
+    // Off track: translucent dark + recessed inner shadow (v2 spec)
+    "data-[state=unchecked]:bg-cms-gray-900/[0.18]",
+    "shadow-[inset_0_1px_1.5px_rgba(15,20,25,0.08)]",
   ),
 
   {
     variants: {
       variant: {
-        default: "data-[state=checked]:bg-cms-primary-200",
+        default: "data-[state=checked]:bg-cms-gray-900/95",
+        primary: "data-[state=checked]:bg-cms-primary-200",
         green: "data-[state=checked]:bg-cms-green-500",
         black: "data-[state=checked]:bg-cms-black",
         blue: "data-[state=checked]:bg-cms-blue-700",
@@ -231,7 +234,9 @@ const Switch = React.forwardRef<
           className={cn(
             "pointer-events-none absolute top-1/2 left-px z-10 block",
             "rounded-full ring-0",
-            "bg-cms-white shadow-lg",
+            // Glossy thumb: gradient + multi-layer shadow (v2)
+            "bg-[linear-gradient(180deg,#ffffff_0%,#f6f7f8_100%)]",
+            "shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_1px_2px_rgba(15,20,25,0.22),0_0_0_0.5px_rgba(15,20,25,0.06)]",
             "size-5",
             "cursor-pointer",
             "-translate-y-1/2",

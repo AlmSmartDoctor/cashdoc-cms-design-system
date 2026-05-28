@@ -13,8 +13,8 @@ export type PaginationProps = {
   className?: string;
 };
 
-/** 페이지 번호 버튼: Button size="sm"(h-8 px-3) 위에 min-w-8/px-2 폭만 좁힘 */
-const pageButtonClasses = "min-w-8 px-2";
+/** 페이지 번호 버튼: 32×32 squarish, 텍스트 13 */
+const pageButtonClasses = "min-w-8 h-8 px-2 text-[13px] font-medium";
 
 /** Prev/Next 아이콘 버튼: 32×32 정사각형 */
 const prevNextClasses = "size-8 p-0";
@@ -23,7 +23,7 @@ const prevNextClasses = "size-8 p-0";
 const ellipsisClasses = cn(
   "inline-flex items-center justify-center",
   "h-8 min-w-8 px-2",
-  "text-sm font-medium text-cms-gray-700",
+  "text-[13px] font-medium text-cms-gray-350",
 );
 
 type PageItem = number | "...";
@@ -213,13 +213,13 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         ref={ref}
         role="navigation"
         aria-label="페이지네이션"
-        className={cn("flex items-center gap-1", className)}
+        className={cn("inline-flex items-center gap-0.5", className)}
       >
         {/* Previous Button */}
         {showPrevNext && (
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             size="sm"
             onClick={handlePrevious}
             disabled={disabled || currentPage === 1}
@@ -250,7 +250,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             <Button
               key={page}
               type="button"
-              variant={isActive ? "default" : "outline"}
+              variant={isActive ? "default" : "ghost"}
               size="sm"
               onClick={() => handlePageClick(page)}
               disabled={disabled}
@@ -267,7 +267,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         {showPrevNext && (
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             size="sm"
             onClick={handleNext}
             disabled={disabled || currentPage === totalPages}

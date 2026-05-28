@@ -47,21 +47,32 @@
   --color-cms-blue-900: var(--cashdoc-blue-900);
 
   /* Pink */
+  --color-cms-pink-50: var(--cashdoc-pink-50);
   --color-cms-pink-100: var(--cashdoc-pink-100);
   --color-cms-pink-300: var(--cashdoc-pink-300);
   --color-cms-pink-500: var(--cashdoc-pink-500);
   --color-cms-pink-700: var(--cashdoc-pink-700);
 
   /* Red */
+  --color-cms-red-50: var(--cashdoc-red-50);
+  --color-cms-red-100: var(--cashdoc-red-100);
+  --color-cms-red-300: var(--cashdoc-red-300);
   --color-cms-red-400: var(--cashdoc-red-400);
   --color-cms-red-500: var(--cashdoc-red-500);
+  --color-cms-red-600: var(--cashdoc-red-600);
 
   /* Orange */
+  --color-cms-orange-50: var(--cashdoc-orange-50);
+  --color-cms-orange-100: var(--cashdoc-orange-100);
   --color-cms-orange-400: var(--cashdoc-orange-400);
   --color-cms-orange-500: var(--cashdoc-orange-500);
 
   /* Green */
+  --color-cms-green-50: var(--cashdoc-green-50);
+  --color-cms-green-100: var(--cashdoc-green-100);
+  --color-cms-green-400: var(--cashdoc-green-400);
   --color-cms-green-500: var(--cashdoc-green-500);
+  --color-cms-green-600: var(--cashdoc-green-600);
 
   /* Primary */
   --color-cms-primary-50: var(--cashdoc-primary-50);
@@ -69,18 +80,30 @@
   --color-cms-primary-200: var(--cashdoc-primary-200);
   --color-cms-primary-300: var(--cashdoc-primary-300);
   --color-cms-primary-400: var(--cashdoc-primary-400);
+  --color-cms-primary-500: var(--cashdoc-primary-500);
 
-  /* Border Radius 
-    Usage: rounded-cms-md 
+  /* Cream — warm neutral surface (premium / marketing) */
+  --color-cms-cream-50: var(--cashdoc-cream-50);
+  --color-cms-cream-100: var(--cashdoc-cream-100);
+  --color-cms-cream-200: var(--cashdoc-cream-200);
+
+  /* Surface — premium dark hero */
+  --color-cms-surface-ink: var(--cashdoc-surface-ink);
+  --color-cms-surface-coal: var(--cashdoc-surface-coal);
+  --color-cms-surface-graphite: var(--cashdoc-surface-graphite);
+
+  /* Border Radius
+    Usage: rounded-cms-md
+    Sharp scale — 정교한 어드민 톤. md(6) buttons/inputs · lg(8) cards · xl(10) modals.
   */
   --radius-cms-xs: 2px;
   --radius-cms-sm: 4px;
   --radius-cms-md: 6px;
   --radius-cms-lg: 8px;
-  --radius-cms-xl: 12px;
-  --radius-cms-2xl: 16px;
-  --radius-cms-3xl: 20px;
-  --radius-cms-4xl: 24px;
+  --radius-cms-xl: 10px;
+  --radius-cms-2xl: 12px;
+  --radius-cms-3xl: 16px;
+  --radius-cms-4xl: 20px;
 
   /* Transition Duration
     Usage: duration-200, duration-300, duration-500
@@ -127,73 +150,98 @@
   z-index: var(--z-cms-modal);
 }
 
-/* Design System Variables 
-  Prefix: --cashdoc- 
+/* Design System Variables (v2 — Toss-Admin clean · sharp · cool-neutral grays)
+  Prefix: --cashdoc-
 */
 :root {
-  /* Gray */
-  --cashdoc-gray-50: #fcfcfc;
-  --cashdoc-gray-100: #f8fafc;
-  --cashdoc-gray-150: #f1f3f5;
-  --cashdoc-gray-200: #eeeeee;
-  --cashdoc-gray-250: #e4e7eb;
-  --cashdoc-gray-300: #dfdfdf;
-  --cashdoc-gray-350: #d8d8d8;
-  --cashdoc-gray-400: #bdbdbd;
-  --cashdoc-gray-450: #b8c6d5;
-  --cashdoc-gray-500: #aeaeae;
-  --cashdoc-gray-550: #999999;
-  --cashdoc-gray-600: #89939e;
-  --cashdoc-gray-650: #7c8186;
-  --cashdoc-gray-700: #78808a;
-  --cashdoc-gray-750: #666666;
-  --cashdoc-gray-800: #555555;
-  --cashdoc-gray-850: #24272e;
-  --cashdoc-gray-900: #111111;
+  /* Gray — 18 step, cool-harmonized, monotonic */
+  --cashdoc-gray-50: #fafbfc;
+  --cashdoc-gray-100: #f4f6f8;
+  --cashdoc-gray-150: #eef0f3;
+  --cashdoc-gray-200: #e6e8eb;
+  --cashdoc-gray-250: #dcdfe3;
+  --cashdoc-gray-300: #cfd3d9;
+  --cashdoc-gray-350: #bdc2cb;
+  --cashdoc-gray-400: #a8aeb8;
+  --cashdoc-gray-450: #969ca7;
+  --cashdoc-gray-500: #848a96;
+  --cashdoc-gray-550: #6f7682;
+  --cashdoc-gray-600: #5e6571;
+  --cashdoc-gray-650: #4e5663;
+  --cashdoc-gray-700: #3f4753;
+  --cashdoc-gray-750: #333a45;
+  --cashdoc-gray-800: #262c35;
+  --cashdoc-gray-850: #1a1f26;
+  --cashdoc-gray-900: #0f1419;
 
   /* Basic */
   --cashdoc-white: #ffffff;
   --cashdoc-black: #000000;
 
-  /* Blue */
-  --cashdoc-blue-50: #f5f9ff;
-  --cashdoc-blue-100: #e6f1ff;
-  --cashdoc-blue-200: #cae2ff;
-  --cashdoc-blue-300: #ccd8fb;
-  --cashdoc-blue-400: #72b0fe;
-  --cashdoc-blue-500: #5a6daa;
-  --cashdoc-blue-600: #358fff;
-  --cashdoc-blue-700: #0071fe;
-  --cashdoc-blue-800: #444b5a;
-  --cashdoc-blue-900: #2b3240;
+  /* Blue — info / link / active (toss-blue anchored at 600) */
+  --cashdoc-blue-50: #f0f6ff;
+  --cashdoc-blue-100: #dceaff;
+  --cashdoc-blue-200: #b8d4ff;
+  --cashdoc-blue-300: #8fb8ff;
+  --cashdoc-blue-400: #5c95ff;
+  --cashdoc-blue-500: #2d74f2;
+  --cashdoc-blue-600: #0064ff;
+  --cashdoc-blue-700: #0050cc;
+  --cashdoc-blue-800: #003a99;
+  --cashdoc-blue-900: #002766;
 
-  /* MonthRangePicker */
-  --cashdoc-month-range-selected: #0000ff;
-  --cashdoc-month-range-middle: #f0f0ff;
+  /* MonthRangePicker — blue tones to match the v2 calendar */
+  --cashdoc-month-range-selected: #0064ff;
+  --cashdoc-month-range-middle: #f0f6ff;
 
-  /* Pink */
-  --cashdoc-pink-100: #f2b3a2;
-  --cashdoc-pink-300: #ed9982;
-  --cashdoc-pink-500: #e31c79;
-  --cashdoc-pink-700: #d99c79;
+  /* Pink — highlight / promo */
+  --cashdoc-pink-50: #fff0f7;
+  --cashdoc-pink-100: #ffd6e8;
+  --cashdoc-pink-300: #fb7ab0;
+  --cashdoc-pink-500: #e91e72;
+  --cashdoc-pink-700: #b3155a;
 
-  /* Red */
-  --cashdoc-red-400: #ff2f4a;
-  --cashdoc-red-500: #e65a5a;
+  /* Red — danger */
+  --cashdoc-red-50: #fff1f2;
+  --cashdoc-red-100: #ffe0e2;
+  --cashdoc-red-300: #ffa5ab;
+  --cashdoc-red-400: #f86670;
+  --cashdoc-red-500: #e5384a;
+  --cashdoc-red-600: #c42233;
 
-  /* Orange */
-  --cashdoc-orange-400: #ff9254;
-  --cashdoc-orange-500: #eb5500;
+  /* Orange — warning */
+  --cashdoc-orange-50: #fff6eb;
+  --cashdoc-orange-100: #ffe4c2;
+  --cashdoc-orange-400: #ff9f40;
+  --cashdoc-orange-500: #f08400;
 
-  /* Green */
-  --cashdoc-green-500: #22c55e;
+  /* Green — success */
+  --cashdoc-green-50: #ecfdf3;
+  --cashdoc-green-100: #d1fadf;
+  --cashdoc-green-400: #32d583;
+  --cashdoc-green-500: #12b76a;
+  --cashdoc-green-600: #038a4a;
 
-  /* Primary */
-  --cashdoc-primary-50: #fff3d7;
-  --cashdoc-primary-100: #fff1aa;
+  /* Primary — brand yellow.
+     Anchor preserved at primary-200 = #ffd200 for consumer compat.
+     primary-100 = light tint (tag bg), primary-500 = text on tints.
+  */
+  --cashdoc-primary-50: #fffae0;
+  --cashdoc-primary-100: #fff1a8;
   --cashdoc-primary-200: #ffd200;
-  --cashdoc-primary-300: #f3e1d6;
-  --cashdoc-primary-400: #f2cc3b;
+  --cashdoc-primary-300: #e5b800;
+  --cashdoc-primary-400: #b89200;
+  --cashdoc-primary-500: #8a6a00;
+
+  /* Cream — warm neutral surface (premium / marketing) */
+  --cashdoc-cream-50: #fbf8f0;
+  --cashdoc-cream-100: #f5f0e1;
+  --cashdoc-cream-200: #ece4ce;
+
+  /* Surface — premium dark hero */
+  --cashdoc-surface-ink: #14171c;
+  --cashdoc-surface-coal: #1b1f26;
+  --cashdoc-surface-graphite: #272c34;
 }
 
 /* Base styles for cashdoc design system */
@@ -283,8 +331,8 @@
 @layer components {
   /* DateRangePicker Styles */
   .date-range-picker-calendar .rdp {
-    --rdp-accent-color: #358fff;
-    --rdp-background-color: #e6f1ff;
+    --rdp-accent-color: #0064ff;
+    --rdp-background-color: #f0f6ff;
     margin: 0;
     font-size: 12px;
   }
@@ -296,24 +344,25 @@
   .date-range-picker-calendar .rdp-month_caption {
     font-size: 13px;
     font-weight: 600;
-    color: #111111;
-    margin-bottom: 0.25rem;
-    padding-top: 0.25rem;
+    color: var(--cashdoc-gray-900);
+    margin-bottom: 0.5rem;
+    padding-top: 0.125rem;
   }
 
   .date-range-picker-calendar .rdp-weekday {
     font-size: 11px;
-    color: #666666;
+    color: var(--cashdoc-gray-500);
     font-weight: 500;
-    padding: 0.25rem;
+    padding: 0.375rem 0;
   }
 
   .date-range-picker-calendar .rdp-day {
     font-size: 12px;
-    border-radius: var(--radius-cms-md);
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    width: 32px;
-    height: 32px;
+    border-radius: var(--radius-cms-sm);
+    transition: background-color 120ms ease;
+    width: 30px;
+    height: 30px;
+    color: var(--cashdoc-gray-800);
   }
 
   .date-range-picker-calendar .rdp-week {
@@ -321,20 +370,16 @@
   }
 
   .date-range-picker-calendar .rdp-day_button {
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: var(--radius-cms-md);
+    transition: background-color 120ms ease;
+    border-radius: var(--radius-cms-sm);
     width: 100%;
     height: 100%;
+    font-weight: 500;
   }
 
   .date-range-picker-calendar
     .rdp-day_button:hover:not([disabled]):not(.rdp-day_selected) {
-    background-color: #f1f3f5;
-    transform: scale(1.05);
-  }
-
-  .date-range-picker-calendar .rdp-day_button:active:not([disabled]) {
-    transform: scale(0.95);
+    background-color: var(--cashdoc-gray-100);
   }
 
   .date-range-picker-calendar .rdp-day_selected {
@@ -344,13 +389,12 @@
   }
 
   .date-range-picker-calendar .rdp-day_selected:hover {
-    background-color: #0071fe;
-    transform: scale(1.05);
+    background-color: var(--cashdoc-blue-700);
   }
 
   .date-range-picker-calendar .rdp-day_range_middle {
     background-color: var(--rdp-background-color);
-    color: #111111;
+    color: var(--cashdoc-gray-900);
     border-radius: 0;
   }
 
@@ -532,19 +576,14 @@
   .date-range-picker-calendar .rdp-button_next {
     width: 24px;
     height: 24px;
-    border-radius: var(--radius-cms-md);
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: var(--radius-cms-sm);
+    color: var(--cashdoc-gray-700);
+    transition: background-color 120ms ease;
   }
 
   .date-range-picker-calendar .rdp-button_previous:hover,
   .date-range-picker-calendar .rdp-button_next:hover {
-    background-color: #f1f3f5;
-    transform: scale(1.1);
-  }
-
-  .date-range-picker-calendar .rdp-button_previous:active,
-  .date-range-picker-calendar .rdp-button_next:active {
-    transform: scale(0.9);
+    background-color: var(--cashdoc-gray-100);
   }
 
   .date-range-picker-calendar .rdp-button_previous:disabled,
@@ -555,14 +594,15 @@
   }
 
   .date-range-picker-calendar .rdp-day_today:not(.rdp-day_selected) {
-    font-weight: 600;
-    color: #358fff;
+    font-weight: 700;
+    color: var(--cashdoc-blue-600);
   }
 
-  /* DatePicker Styles (Single) */
+  /* DatePicker Styles (Single)
+     v2: gray-900 selected fill, sm radius cells, no scale animations. */
   .date-picker-calendar .rdp {
-    --rdp-accent-color: #358fff;
-    --rdp-background-color: #e6f1ff;
+    --rdp-accent-color: var(--cashdoc-gray-900);
+    --rdp-background-color: var(--cashdoc-gray-100);
     margin: 0;
     font-size: 12px;
   }
@@ -570,24 +610,25 @@
   .date-picker-calendar .rdp-month_caption {
     font-size: 13px;
     font-weight: 600;
-    color: #111111;
-    margin-bottom: 0.25rem;
-    padding-top: 0.25rem;
+    color: var(--cashdoc-gray-900);
+    margin-bottom: 0.5rem;
+    padding-top: 0.125rem;
   }
 
   .date-picker-calendar .rdp-weekday {
     font-size: 11px;
-    color: #666666;
+    color: var(--cashdoc-gray-500);
     font-weight: 500;
-    padding: 0.25rem;
+    padding: 0.375rem 0;
   }
 
   .date-picker-calendar .rdp-day {
     font-size: 12px;
-    border-radius: var(--radius-cms-md);
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    width: 32px;
-    height: 32px;
+    border-radius: var(--radius-cms-sm);
+    transition: background-color 120ms ease;
+    width: 30px;
+    height: 30px;
+    color: var(--cashdoc-gray-800);
   }
 
   .date-picker-calendar .rdp-week {
@@ -595,31 +636,30 @@
   }
 
   .date-picker-calendar .rdp-day_button {
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: var(--radius-cms-md);
+    transition: background-color 120ms ease;
+    border-radius: var(--radius-cms-sm);
     width: 100%;
     height: 100%;
+    font-weight: 500;
   }
 
   .date-picker-calendar
     .rdp-day_button:hover:not([disabled]):not(.rdp-day_selected) {
-    background-color: #f1f3f5;
-    transform: scale(1.05);
-  }
-
-  .date-picker-calendar .rdp-day_button:active:not([disabled]) {
-    transform: scale(0.95);
+    background-color: var(--cashdoc-gray-100);
   }
 
   .date-picker-calendar .rdp-day_selected {
-    background-color: var(--rdp-accent-color);
+    background-color: var(--cashdoc-gray-900);
     color: white;
     font-weight: 600;
   }
 
   .date-picker-calendar .rdp-day_selected:hover {
-    background-color: #0071fe;
-    transform: scale(1.05);
+    background-color: var(--cashdoc-gray-850);
+  }
+
+  .date-picker-calendar .rdp-day_outside {
+    color: var(--cashdoc-gray-350);
   }
 
   .date-picker-calendar .rdp-nav {
@@ -634,23 +674,18 @@
   .date-picker-calendar .rdp-button_next {
     width: 24px;
     height: 24px;
-    border-radius: var(--radius-cms-md);
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: var(--radius-cms-sm);
+    color: var(--cashdoc-gray-700);
+    transition: background-color 120ms ease;
   }
 
   .date-picker-calendar .rdp-button_previous:hover,
   .date-picker-calendar .rdp-button_next:hover {
-    background-color: #f1f3f5;
-    transform: scale(1.1);
-  }
-
-  .date-picker-calendar .rdp-button_previous:active,
-  .date-picker-calendar .rdp-button_next:active {
-    transform: scale(0.9);
+    background-color: var(--cashdoc-gray-100);
   }
 
   .date-picker-calendar .rdp-day_today:not(.rdp-day_selected) {
-    font-weight: 600;
-    color: #358fff;
+    font-weight: 700;
+    color: var(--cashdoc-blue-600);
   }
 }

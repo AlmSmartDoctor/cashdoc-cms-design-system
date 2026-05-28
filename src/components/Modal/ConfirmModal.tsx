@@ -1,5 +1,6 @@
 import React from "react";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircleIcon } from "@/components/icons";
+import { cn } from "@/utils/cn";
 import { Modal } from "./Modal";
 import { Button } from "../Button";
 
@@ -72,7 +73,16 @@ export const ConfirmModal = React.forwardRef<HTMLDivElement, ConfirmModalProps>(
         className={className}
         size="sm"
         showCloseButton={false}
-        icon={<CheckCircle2 className="size-15 text-cms-black" />}
+        icon={
+          <span
+            className={cn(
+              "flex size-9 items-center justify-center rounded-full",
+              "bg-cms-gray-100 text-cms-gray-900",
+            )}
+          >
+            <CheckCircleIcon className="size-5" />
+          </span>
+        }
       >
         <div className="text-sm text-cms-gray-700">{message}</div>
       </Modal>

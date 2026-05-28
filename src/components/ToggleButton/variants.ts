@@ -4,50 +4,53 @@ import { cn } from "@/utils/cn";
 /**
  * ToggleButton(눌림 상태가 유지되는 박스 토글)의 시각 variant를 정의합니다.
  *
- * 시각적으로는 {@link Button}과 유사한 직사각형/패딩 구조이지만,
- * `pressed` 상태에 따라 채워진(filled) ↔ 외곽선(outline) 스타일이
- * 토글되며 상태가 유지됩니다.
+ * v2 family-look: `pressed` 상태는 다크 fill + 좌측 체크 표식으로 표현합니다.
  *
- * @variant default - 회색 톤 (기본). 눌림 상태에서 `cms-gray-850` 배경.
- * @variant primary - 강조 톤. 눌림 상태에서 `cms-primary-400` 배경.
+ * @variant default - 회색 톤 (기본). 눌림 상태에서 `cms-gray-900` 외곽선·체크.
+ * @variant primary - 강조 톤. 눌림 상태에서 `cms-primary-200` (#FFD200) fill.
  *
- * @size sm - h-8, text-[13px], px-3
- * @size md - h-10, text-sm, px-4 (기본)
+ * @size sm - h-7, text-[12px], px-2.5
+ * @size md - h-[34px], text-[13px], px-3.5 (기본)
  */
 export const toggleButtonVariants = cva(
   cn(
     "inline-flex items-center justify-center gap-1.5",
-    "rounded-cms-xl border border-solid",
-    "font-medium select-none",
-    "scale-100 transform-gpu cursor-pointer",
-    "transition-all duration-150 ease-out",
-    "active:scale-95",
-    "focus-visible:outline-2 focus-visible:outline-offset-2",
-    "disabled:pointer-events-none disabled:opacity-60",
+    "rounded-cms-md border border-solid",
+    "font-medium whitespace-nowrap select-none",
+    "transform-gpu cursor-pointer",
+    "transition-colors duration-150 ease-out",
+    "focus-visible:outline-2 focus-visible:outline-offset-1",
+    "disabled:pointer-events-none disabled:opacity-45",
   ),
   {
     variants: {
       variant: {
         default: cn(
-          "border-cms-gray-400 bg-cms-white text-cms-gray-800",
-          "hover:bg-cms-gray-100",
+          "border-cms-gray-250 bg-cms-white text-cms-gray-700",
+          `
+            hover:border-cms-gray-350 hover:bg-cms-gray-50
+            hover:text-cms-gray-900
+          `,
           "focus-visible:outline-cms-gray-700",
-          "aria-pressed:border-cms-gray-850 aria-pressed:bg-cms-gray-850",
-          "aria-pressed:text-cms-white",
-          "aria-pressed:hover:bg-cms-gray-750",
+          "aria-pressed:border-cms-gray-900 aria-pressed:bg-cms-gray-50",
+          "aria-pressed:font-semibold aria-pressed:text-cms-gray-900",
+          "aria-pressed:shadow-[inset_0_0_0_1px_var(--cashdoc-gray-900)]",
         ),
         primary: cn(
-          "border-cms-gray-400 bg-cms-white text-cms-gray-800",
-          "hover:bg-cms-gray-100",
-          "focus-visible:outline-cms-primary-400",
-          "aria-pressed:border-cms-primary-400",
-          "aria-pressed:bg-cms-primary-400",
-          "aria-pressed:text-cms-white",
+          "border-cms-gray-250 bg-cms-white text-cms-gray-700",
+          `
+            hover:border-cms-gray-350 hover:bg-cms-gray-50
+            hover:text-cms-gray-900
+          `,
+          "focus-visible:outline-cms-primary-200",
+          "aria-pressed:border-cms-primary-300",
+          "aria-pressed:bg-cms-primary-200",
+          "aria-pressed:font-semibold aria-pressed:text-cms-gray-900",
         ),
       },
       size: {
-        sm: "h-8 gap-1 rounded-cms-lg px-3 text-[13px]",
-        md: "h-10 px-4 text-sm",
+        sm: "h-7 px-2.5 text-[12px]",
+        md: "h-[34px] px-3.5 text-[13px]",
       },
     },
     defaultVariants: {

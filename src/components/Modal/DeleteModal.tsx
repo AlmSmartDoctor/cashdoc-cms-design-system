@@ -1,5 +1,5 @@
 import React from "react";
-import { AlertTriangle } from "lucide-react";
+import { WarningIcon } from "@/components/icons";
 import { Modal } from "./Modal";
 import { Button } from "../Button";
 import { cn } from "@/utils/cn";
@@ -66,7 +66,16 @@ export const DeleteModal = React.forwardRef<HTMLDivElement, DeleteModalProps>(
         open={open}
         onOpenChange={onOpenChange}
         title={title}
-        icon={<AlertTriangle className="size-15 text-cms-red-400" />}
+        icon={
+          <span
+            className={cn(
+              "flex size-9 items-center justify-center rounded-full",
+              "bg-cms-red-50 text-cms-red-500",
+            )}
+          >
+            <WarningIcon className="size-5" />
+          </span>
+        }
         footer={
           <div className="flex w-full gap-2">
             <Button

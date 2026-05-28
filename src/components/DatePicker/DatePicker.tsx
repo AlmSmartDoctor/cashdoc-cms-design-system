@@ -208,11 +208,11 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                 )}
               >
                 <CalendarIcon
-                  size={20}
-                  strokeWidth={1.5}
+                  size={16}
+                  strokeWidth={2}
                   className={cn(
-                    "text-cms-gray-400",
-                    disabled && "text-cms-gray-300",
+                    "text-cms-gray-450",
+                    disabled && "text-cms-gray-350",
                   )}
                 />
               </div>
@@ -226,17 +226,24 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                 aria-invalid={error || undefined}
                 aria-describedby={describedBy}
                 className={cn(
-                  "h-10 w-full rounded-cms-lg border bg-cms-white pr-3 pl-10",
-                  "text-sm",
-                  "hover:border-cms-gray-500 hover:bg-cms-gray-100",
+                  "h-9 w-full rounded-cms-md border bg-cms-white",
+                  "pr-3 pl-9",
+                  "text-sm text-cms-gray-900",
+                  "placeholder:text-cms-gray-450",
+                  "hover:border-cms-gray-350",
                   "focus:outline-none",
-                  "transition-all duration-150",
+                  "focus:border-cms-gray-900",
+                  "focus:shadow-[0_0_0_3px_rgba(15,20,25,0.08)]",
+                  "transition-[border-color,box-shadow] duration-150 ease-out",
                   "cursor-pointer",
-                  error ? "border-cms-red-500" : "border-cms-gray-400",
+                  error
+                    ? "border-cms-red-500 focus:border-cms-red-500"
+                    : "border-cms-gray-250",
                   disabled &&
                     cn(
-                      "cursor-not-allowed bg-cms-gray-150",
-                      "hover:border-cms-gray-300 hover:bg-cms-gray-150",
+                      "cursor-not-allowed bg-cms-gray-100",
+                      "border-cms-gray-200 text-cms-gray-450",
+                      "hover:border-cms-gray-200",
                     ),
                 )}
               />
@@ -248,8 +255,11 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
               align="start"
               sideOffset={5}
               className={cn(
-                "z-cms-overlay rounded-cms-xl bg-cms-white p-2 shadow-xl",
+                "z-cms-overlay rounded-cms-lg bg-cms-white p-3.5",
                 "border border-cms-gray-200",
+                `
+                  shadow-[0_4px_8px_rgba(15,20,25,0.06),0_2px_4px_rgba(15,20,25,0.04)]
+                `,
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",
                 "data-[state=closed]:fade-out-0",
@@ -278,32 +288,31 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
               {/* Footer */}
               <div
                 className={cn(
-                  "mt-2 flex items-end justify-between pt-2",
-                  "border-t border-cms-gray-200",
+                  "mt-3 flex items-center justify-between pt-3",
+                  "border-t border-cms-gray-150",
                 )}
               >
-                <div className="flex min-h-8 flex-col">
+                <div className="flex min-h-7 flex-col justify-center">
                   {draftDate ?
-                    <span className="text-xs text-cms-gray-700">
+                    <span className="text-[12px] text-cms-gray-800 tabular-nums">
                       {draftDate.format("YYYY-MM-DD")}
                     </span>
-                  : <span className="text-xs text-cms-red-500">
+                  : <span className="text-[12px] text-cms-gray-550">
                       날짜를 선택해 주세요.
                     </span>
                   }
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   <button
                     type="button"
                     onClick={handleCancel}
                     className={cn(
-                      "h-8 w-15 cursor-pointer rounded-cms-lg",
-                      "text-xs font-medium text-cms-gray-700",
-                      "border border-cms-gray-300 bg-transparent",
-                      "transition-all duration-150",
-                      "active:scale-95",
-                      "hover:bg-cms-gray-100",
+                      "h-7 cursor-pointer rounded-cms-sm px-2.5",
+                      "text-[12px] font-semibold text-cms-gray-850",
+                      "border border-cms-gray-250 bg-cms-white",
+                      "transition-colors duration-150",
+                      "hover:border-cms-gray-350 hover:bg-cms-gray-50",
                     )}
                   >
                     취소
@@ -314,14 +323,12 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                     disabled={!draftDate}
                     className={cn(
                       "cursor-pointer border-0",
-                      "h-8 w-15 rounded-cms-lg bg-cms-blue-700",
-                      "text-xs text-cms-white",
-                      "hover:bg-cms-blue-800",
-                      "active:scale-95",
-                      "disabled:bg-cms-gray-300",
+                      "h-7 rounded-cms-sm bg-cms-gray-850 px-2.5",
+                      "text-[12px] font-semibold text-cms-white",
+                      "hover:bg-cms-gray-750",
+                      "disabled:opacity-45",
                       "disabled:cursor-not-allowed",
-                      "disabled:active:scale-100",
-                      "transition-all duration-150",
+                      "transition-colors duration-150",
                     )}
                   >
                     적용

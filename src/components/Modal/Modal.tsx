@@ -1,6 +1,6 @@
 import React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
+import { CloseIcon } from "@/components/icons";
 import { cn } from "@/utils/cn";
 import { Button } from "../Button";
 
@@ -29,9 +29,9 @@ export type ModalProps = {
 };
 
 const sizeClasses = {
-  sm: "max-w-sm",
-  md: "max-w-md",
-  lg: "max-w-lg",
+  sm: "max-w-[360px]",
+  md: "max-w-[420px]",
+  lg: "max-w-[512px]",
 };
 
 /**
@@ -230,7 +230,8 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
         <DialogPrimitive.Portal>
           <DialogPrimitive.Overlay
             className={cn(
-              "fixed inset-0 z-cms-modal bg-cms-black/50",
+              "fixed inset-0 z-cms-modal bg-cms-gray-900/55",
+              "backdrop-blur-[2px]",
               "data-[state=closed]:animate-out",
               "data-[state=open]:animate-in",
               "data-[state=closed]:fade-out-0",
@@ -246,8 +247,10 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               "translate-x-[-50%] translate-y-[-50%]",
               "w-full",
               sizeClasses[size],
-              "rounded-cms-xl bg-cms-white shadow-lg",
-              "p-6",
+              "overflow-hidden rounded-cms-xl bg-cms-white",
+              `
+                shadow-[0_24px_48px_rgba(15,20,25,0.12),0_8px_16px_rgba(15,20,25,0.06)]
+              `,
               "data-[state=closed]:animate-out",
               "data-[state=open]:animate-in",
               "data-[state=closed]:fade-out-0",
@@ -262,30 +265,46 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute top-4 right-4 size-6"
+                  className="absolute top-3 right-3 size-7"
                 >
-                  <X />
+                  <CloseIcon className="size-4" />
                   <span className="sr-only">Close</span>
                 </Button>
               </DialogPrimitive.Close>
             )}
-            {icon && <div className="mb-4 flex justify-center">{icon}</div>}
-            {title && (
-              <DialogPrimitive.Title
-                className={cn(
-                  "mb-2 text-lg font-bold text-cms-gray-900",
-                  "flex items-center justify-center",
+            {(icon || title) && (
+              <div className="flex items-center gap-2.5 px-6 pt-[22px] pb-1.5">
+                {icon && <div className="flex shrink-0">{icon}</div>}
+                {title && (
+                  <DialogPrimitive.Title
+                    className={cn(
+                      "text-[17px] font-bold text-cms-gray-900",
+                      "leading-tight tracking-tight",
+                    )}
+                  >
+                    {title}
+                  </DialogPrimitive.Title>
                 )}
-              >
-                {title}
-              </DialogPrimitive.Title>
+              </div>
             )}
             <DialogPrimitive.Description
-              className={cn("text-center text-sm text-cms-gray-700")}
+              className={cn(
+                "px-6 pt-1 pb-5 text-sm/relaxed text-cms-gray-700",
+              )}
             >
               {children}
             </DialogPrimitive.Description>
-            {footer && <div className="mt-6">{footer}</div>}
+            {footer && (
+              <div
+                className={cn(
+                  "flex justify-end gap-2",
+                  "px-[18px] pt-3.5 pb-[18px]",
+                  "border-t border-cms-gray-150 bg-cms-gray-50",
+                )}
+              >
+                {footer}
+              </div>
+            )}
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>
       </DialogPrimitive.Root>

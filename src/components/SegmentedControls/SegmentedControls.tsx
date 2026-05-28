@@ -82,8 +82,9 @@ export const SegmentedControls = <T extends string | number>({
       value={String(value)}
       onValueChange={handleValueChange}
       className={cn(
-        "my-3 flex overflow-hidden rounded-cms-xl",
-        "border border-cms-gray-300",
+        "my-2 inline-flex gap-[2px] rounded-cms-md p-[3px]",
+        // Translucent track — tints whichever surface it sits on (v2)
+        "bg-cms-gray-900/[0.05] backdrop-blur-md",
         className,
       )}
       aria-label="View selection"
@@ -94,14 +95,21 @@ export const SegmentedControls = <T extends string | number>({
           value={String(option.value)}
           aria-label={option.label}
           className={cn(
-            "flex-1 py-2.5 text-sm transition-all duration-150 ease-in-out",
-            "cursor-pointer outline-none",
-            "hover:opacity-90",
-            "border-none",
-            "bg-cms-gray-150 font-normal text-cms-gray-750",
-            "data-[state=on]:bg-cms-gray-850",
+            "h-7 flex-1 rounded-cms-sm px-3.5",
+            "text-[13px] font-medium",
+            "transition-colors duration-150 ease-out",
+            "cursor-pointer border-0 bg-transparent outline-none",
+            `
+              text-cms-gray-650
+              hover:text-cms-gray-900
+            `,
+            // Active pill — frosted white + sheen (glossy 'wet' feel)
+            "data-[state=on]:bg-cms-white/95",
+            "data-[state=on]:text-cms-gray-900",
             "data-[state=on]:font-semibold",
-            "data-[state=on]:text-cms-white",
+            `
+              data-[state=on]:shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_1px_2px_rgba(15,20,25,0.08),0_0_0_0.5px_rgba(0,0,0,0.04)]
+            `,
           )}
         >
           {option.label}

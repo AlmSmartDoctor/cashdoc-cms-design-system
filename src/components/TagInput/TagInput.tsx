@@ -4,18 +4,21 @@ import { cn } from "@/utils/cn";
 
 const tagInputContainerVariants = cva(
   cn(
-    "flex items-center gap-2 rounded-cms-lg border border-solid p-2",
-    "min-h-[40px] w-full transition-colors duration-200",
+    "flex items-center gap-1.5 rounded-cms-md border border-solid",
+    "px-2 py-[3px]",
+    "min-h-9 w-full",
+    "transition-[border-color,box-shadow] duration-150 ease-out",
   ),
   {
     variants: {
       readOnly: {
-        true: "cursor-default border-cms-gray-400 bg-cms-gray-150",
+        true: "cursor-default border-cms-gray-200 bg-cms-gray-100",
         false: cn(
           "cursor-text bg-cms-white",
-          "border-cms-gray-400",
-          "hover:border-cms-gray-800",
-          "focus-within:border-cms-gray-800",
+          "border-cms-gray-250",
+          "hover:border-cms-gray-350",
+          "focus-within:border-cms-gray-900",
+          "focus-within:shadow-[0_0_0_3px_rgba(15,20,25,0.08)]",
         ),
       },
       layout: {
@@ -32,43 +35,47 @@ const tagInputContainerVariants = cva(
 
 const tagVariants = cva(
   cn(
-    "inline-flex items-center gap-2 px-3 py-1",
-    "border border-solid border-cms-primary-200 bg-cms-primary-100",
-    "rounded-cms-3xl text-sm font-semibold text-cms-black",
+    "inline-flex items-center gap-1 py-[3px] pr-1 pl-2.5",
+    "border border-solid border-cms-gray-200 bg-cms-gray-100",
+    "rounded-cms-sm text-[12px] leading-none font-medium text-cms-gray-900",
   ),
 );
 
 const removeButtonVariants = cva(
   cn(
     "inline-flex items-center justify-center",
-    "h-[18px] w-[18px] border-none p-0",
-    "bg-cms-gray-300 text-cms-gray-700",
-    "cursor-pointer rounded-full text-base leading-none",
-    "transition-all duration-200",
-    "hover:bg-cms-gray-400 hover:text-cms-black",
+    "h-4 w-4 border-none p-0",
+    "bg-transparent text-cms-gray-500",
+    "cursor-pointer rounded-cms-xs text-base leading-none",
+    "transition-colors duration-120",
+    "hover:bg-cms-gray-200 hover:text-cms-gray-900",
   ),
 );
 
 const inputVariants = cva(
   cn(
     "min-w-[120px] flex-1 border-none outline-none",
-    "p-1.5 text-sm",
-    "placeholder:text-cms-gray-500",
+    "h-6-5 px-1 text-[13px]",
+    "placeholder:text-cms-gray-450",
     "disabled:cursor-not-allowed disabled:bg-transparent",
   ),
 );
 
-const labelVariants = cva("mb-2 block text-base font-medium text-cms-black");
+const labelVariants = cva(
+  "mb-1.5 block text-[13px] font-medium text-cms-gray-800",
+);
 
 const helperTextVariants = cva(
-  "mt-1 flex items-center gap-1 text-sm text-cms-gray-700",
+  "mt-1.5 flex items-center gap-1 text-[12px] text-cms-gray-550",
 );
 
 const errorMessageVariants = cva(
-  "mt-1 block text-sm font-medium text-cms-red-400",
+  "mt-1.5 block text-[12px] font-normal text-cms-red-500",
 );
 
-const tagCountVariants = cva("text-sm font-bold text-cms-gray-750");
+const tagCountVariants = cva(
+  "text-[12px] font-semibold text-cms-gray-800 tabular-nums",
+);
 
 export type TagInputProps = {
   label?: string;

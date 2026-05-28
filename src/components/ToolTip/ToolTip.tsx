@@ -161,12 +161,14 @@ export const ToolTip = React.forwardRef<
               sideOffset={sideOffset}
               align={align}
               className={cn(
-                "z-cms-overlay px-3 py-1.5",
-                "rounded-cms-lg",
-                "bg-cms-black text-cms-white",
-                "text-xs font-medium",
-                "shadow-md",
-                "max-w-xs",
+                "z-cms-overlay px-2.5 py-1.5",
+                "rounded-cms-sm",
+                "bg-cms-gray-900 text-cms-white",
+                "text-xs font-medium tracking-tight",
+                `
+                  shadow-[0_4px_8px_rgba(15,20,25,0.06),0_2px_4px_rgba(15,20,25,0.04)]
+                `,
+                "max-w-xs whitespace-nowrap",
                 "animate-in fade-in-0 zoom-in-95",
                 "data-[state=closed]:animate-out",
                 "data-[state=closed]:fade-out-0",
@@ -181,7 +183,7 @@ export const ToolTip = React.forwardRef<
             >
               {content}
               {showArrow && (
-                <TooltipPrimitive.Arrow className="fill-cms-black" />
+                <TooltipPrimitive.Arrow className="fill-cms-gray-900" />
               )}
             </TooltipPrimitive.Content>
           </TooltipPrimitive.Portal>
