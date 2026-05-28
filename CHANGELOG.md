@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.15.3...v2.0.0) (2026-05-28)
+
+
+### Features
+
+* content 스타일 추가 및 기타 스타일 수정 ([6e847c8](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/6e847c860ce7b529376bceeb5ab8011345c00f52))
+* 전반적인 디자인 수정 ([c84d09d](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/c84d09dea312c771c828d9b9db75e3e2a751397b))
+
+
+### Bug Fixes
+
+* range picker collision detection 복구 및 Modal·LoadingCircle 정합성 수정 ([7b05272](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/7b05272a23a62dfccc7a2d9c059fd1b1dd7e9605))
+
 ### [1.15.3](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.15.2...v1.15.3) (2026-05-27)
 
 ### [1.15.2](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v1.15.1...v1.15.2) (2026-05-22)
