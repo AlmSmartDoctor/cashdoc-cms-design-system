@@ -1,12 +1,13 @@
 import React, { useId, useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
+import { XIcon } from "@/components/icons";
 
 const tagInputContainerVariants = cva(
   cn(
     "flex items-center gap-1.5 rounded-cms-md border border-solid",
-    "px-2 py-[3px]",
-    "min-h-9 w-full",
+    "px-1.5 py-[3px]",
+    "min-h-8 w-full",
     "transition-[border-color,box-shadow] duration-150 ease-out",
   ),
   {
@@ -35,18 +36,29 @@ const tagInputContainerVariants = cva(
 
 const tagVariants = cva(
   cn(
-    "inline-flex items-center gap-1 py-[3px] pr-1 pl-2.5",
+    "inline-flex items-center gap-1 py-[2px] pl-2.5",
     "border border-solid border-cms-gray-200 bg-cms-gray-100",
     "rounded-cms-sm text-[12px] leading-none font-medium text-cms-gray-900",
   ),
+  {
+    variants: {
+      removable: {
+        true: "pr-[3px]",
+        false: "pr-2.5",
+      },
+    },
+    defaultVariants: {
+      removable: true,
+    },
+  },
 );
 
 const removeButtonVariants = cva(
   cn(
     "inline-flex items-center justify-center",
-    "h-4 w-4 border-none p-0",
+    "size-4 border-none p-0",
     "bg-transparent text-cms-gray-500",
-    "cursor-pointer rounded-cms-xs text-base leading-none",
+    "cursor-pointer rounded-cms-xs leading-none",
     "transition-colors duration-120",
     "hover:bg-cms-gray-200 hover:text-cms-gray-900",
   ),
@@ -55,7 +67,7 @@ const removeButtonVariants = cva(
 const inputVariants = cva(
   cn(
     "min-w-[120px] flex-1 border-none outline-none",
-    "h-6-5 px-1 text-[13px]",
+    "h-6 px-1 text-[13px]",
     "placeholder:text-cms-gray-450",
     "disabled:cursor-not-allowed disabled:bg-transparent",
   ),
@@ -66,7 +78,10 @@ const labelVariants = cva(
 );
 
 const helperTextVariants = cva(
-  "mt-1.5 flex items-center gap-1 text-[12px] text-cms-gray-550",
+  cn(
+    "mt-1.5 flex items-center justify-between gap-2",
+    "text-[12px] text-cms-gray-550",
+  ),
 );
 
 const errorMessageVariants = cva(
@@ -337,11 +352,11 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
                 onClick={handleContainerClick}
               >
                 {tags.map((tag, index) => (
-                  <div
+                  <span
                     key={`${tag}-${index}`}
-                    className="inline-flex items-center gap-2"
+                    className={tagVariants({ removable: !readOnly })}
                   >
-                    <span className={tagVariants()}>{tag}</span>
+                    {tag}
                     {!readOnly && (
                       <button
                         type="button"
@@ -352,10 +367,10 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
                         }}
                         aria-label={`${tag} 제거`}
                       >
-                        ×
+                        <XIcon size={10} strokeWidth={2.4} />
                       </button>
                     )}
-                  </div>
+                  </span>
                 ))}
                 <input
                   id={inputId}
@@ -375,7 +390,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
               </div>
               {!noLimit && (
                 <div id={helperTextId} className={helperTextVariants()}>
-                  최대 {maxTags}개 까지 선택할 수 있습니다.
+                  <span>최대 {maxTags}개 까지 선택할 수 있습니다.</span>
                   <span className={tagCountVariants()}>
                     ({tags.length} / {maxTags})
                   </span>
@@ -410,11 +425,11 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
               onClick={handleContainerClick}
             >
               {tags.map((tag, index) => (
-                <div
+                <span
                   key={`${tag}-${index}`}
-                  className="inline-flex items-center gap-2"
+                  className={tagVariants({ removable: !readOnly })}
                 >
-                  <span className={tagVariants()}>{tag}</span>
+                  {tag}
                   {!readOnly && (
                     <button
                       type="button"
@@ -425,10 +440,10 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
                       }}
                       aria-label={`${tag} 제거`}
                     >
-                      ×
+                      <XIcon size={10} strokeWidth={2.4} />
                     </button>
                   )}
-                </div>
+                </span>
               ))}
               <input
                 id={inputId}
@@ -448,7 +463,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
             </div>
             {!noLimit && (
               <div id={helperTextId} className={helperTextVariants()}>
-                최대 {maxTags}개 까지 선택할 수 있습니다.
+                <span>최대 {maxTags}개 까지 선택할 수 있습니다.</span>
                 <span className={tagCountVariants()}>
                   ({tags.length} / {maxTags})
                 </span>

@@ -84,7 +84,7 @@ export const SegmentedControls = <T extends string | number>({
       className={cn(
         "my-2 inline-flex gap-[2px] rounded-cms-md p-[3px]",
         // Translucent track — tints whichever surface it sits on (v2)
-        "bg-cms-gray-900/[0.05] backdrop-blur-md",
+        "bg-cms-gray-900/5 backdrop-blur-md",
         className,
       )}
       aria-label="View selection"

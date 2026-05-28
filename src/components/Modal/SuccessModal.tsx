@@ -68,10 +68,7 @@ export const SuccessModal = React.forwardRef<HTMLDivElement, SuccessModalProps>(
         }
         title={title}
         footer={
-          <Button
-            onClick={handleConfirm}
-            className="h-12 w-full bg-cms-gray-850 hover:bg-cms-gray-800"
-          >
+          <Button onClick={handleConfirm} className="h-10 w-full">
             {confirmText}
           </Button>
         }

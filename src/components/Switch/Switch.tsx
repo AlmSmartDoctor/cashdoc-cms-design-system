@@ -38,7 +38,7 @@ const switchVariants = cva(
     "focus-visible:outline-none",
     "disabled:cursor-not-allowed disabled:opacity-50",
     // Off track: translucent dark + recessed inner shadow (v2 spec)
-    "data-[state=unchecked]:bg-cms-gray-900/[0.18]",
+    "data-[state=unchecked]:bg-cms-gray-900/18",
     "shadow-[inset_0_1px_1.5px_rgba(15,20,25,0.08)]",
   ),
 
@@ -236,7 +236,9 @@ const Switch = React.forwardRef<
             "rounded-full ring-0",
             // Glossy thumb: gradient + multi-layer shadow (v2)
             "bg-[linear-gradient(180deg,#ffffff_0%,#f6f7f8_100%)]",
-            "shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_1px_2px_rgba(15,20,25,0.22),0_0_0_0.5px_rgba(15,20,25,0.06)]",
+            `
+              shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_1px_2px_rgba(15,20,25,0.22),0_0_0_0.5px_rgba(15,20,25,0.06)]
+            `,
             "size-5",
             "cursor-pointer",
             "-translate-y-1/2",

@@ -29,23 +29,17 @@ const meta: Meta<typeof TimePicker> = {
     disabled: { control: "boolean" },
     minuteStep: { control: "number" },
   },
+  decorators: [
+    (Story) => (
+      <div className="max-w-xs">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-const Section = ({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) => (
-  <div className="flex flex-col gap-2">
-    <span className="text-[12px] font-medium text-cms-gray-550">{label}</span>
-    {children}
-  </div>
-);
 
 const Controlled = (props: React.ComponentProps<typeof TimePicker>) => {
   const [v, setV] = useState(props.value ?? "");
@@ -53,34 +47,40 @@ const Controlled = (props: React.ComponentProps<typeof TimePicker>) => {
 };
 
 export const Showcase: Story = {
+  render: () => <Controlled label="발송 시간" placeholder="HH:MM" />,
+};
+
+export const TwelveHourFormat: Story = {
+  name: "12h 포맷",
+  render: () => <Controlled label="발송 시간" value="2:30 PM" format="12h" />,
+};
+
+export const MinuteStep: Story = {
+  name: "15분 단위",
   render: () => (
-    <div className="grid max-w-2xl grid-cols-2 gap-x-6 gap-y-5">
-      <Section label="24h 기본">
-        <Controlled label="발송 시간" placeholder="HH:MM" />
-      </Section>
-      <Section label="12h 포맷">
-        <Controlled label="발송 시간" value="2:30 PM" format="12h" />
-      </Section>
-      <Section label="15분 단위">
-        <Controlled
-          label="회의 시작"
-          minuteStep={15}
-          helperText="15분 단위로 선택할 수 있어요"
-        />
-      </Section>
-      <Section label="에러">
-        <Controlled
-          label="발송 시간"
-          value="09:00"
-          error
-          errorMessage="22시 이후만 선택 가능합니다"
-        />
-      </Section>
-      <Section label="비활성">
-        <Controlled label="고정 시간" value="08:00" disabled />
-      </Section>
-    </div>
+    <Controlled
+      label="회의 시작"
+      minuteStep={15}
+      helperText="15분 단위로 선택할 수 있어요"
+    />
   ),
+};
+
+export const Error: Story = {
+  name: "에러",
+  render: () => (
+    <Controlled
+      label="발송 시간"
+      value="09:00"
+      error
+      errorMessage="22시 이후만 선택 가능합니다"
+    />
+  ),
+};
+
+export const Disabled: Story = {
+  name: "비활성",
+  render: () => <Controlled label="고정 시간" value="08:00" disabled />,
 };
 
 export const ForJsdoc: Story = Showcase;

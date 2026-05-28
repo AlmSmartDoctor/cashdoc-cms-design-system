@@ -214,7 +214,7 @@ export const ImageUpload = ({
   error = false,
   onError,
   validateImage,
-  placeholder = "클릭하거나 파일을 드래그하세요",
+  placeholder = "파일을 끌어다 놓거나 클릭해서 업로드",
   placeholderActive = "파일을 여기에 놓으세요",
 }: ImageUploadProps) => {
   const [files, setFiles] = useState<File[]>(value);
@@ -397,8 +397,12 @@ export const ImageUpload = ({
                 <CloseIcon className="size-4" />
               </button>
             </div>
-          : <div className="flex flex-col items-center p-6">
-              <ImageUploadIcon className="size-8 text-cms-gray-500" />
+          : <div className="flex flex-col items-center px-6 py-8">
+              <ImageUploadIcon
+                size={28}
+                className="text-cms-gray-500"
+                strokeWidth={1.8}
+              />
               <Text
                 variant="emphasis"
                 align="center"
@@ -409,20 +413,24 @@ export const ImageUpload = ({
               <Text
                 variant="caption"
                 align="center"
-                className="mt-0.5 text-cms-gray-550"
+                className="mt-1 text-cms-gray-550"
               >
-                {maxFiles > 1 ? `최대 ${maxFiles}개` : "1개"} 파일, 최대{" "}
-                {maxSize / 1024 / 1024}MB
+                {showAcceptedFileTypes && acceptedFileTypesLabel ?
+                  `${acceptedFileTypesLabel} · 최대 ${maxSize / 1024 / 1024}MB / 파일`
+                : `${maxFiles > 1 ? `최대 ${maxFiles}개` : "1개"} 파일, 최대 ${maxSize / 1024 / 1024}MB`
+                }
               </Text>
-              {showAcceptedFileTypes && acceptedFileTypesLabel && (
-                <Text
-                  variant="caption"
-                  align="center"
-                  className="mt-1 text-cms-gray-550"
-                >
-                  허용 형식: {acceptedFileTypesLabel}
-                </Text>
-              )}
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "mt-3 inline-flex items-center justify-center",
+                  "h-7 rounded-cms-sm border border-cms-gray-250",
+                  "bg-cms-white px-2.5",
+                  "text-[12px] font-semibold text-cms-gray-850",
+                )}
+              >
+                파일 선택
+              </span>
             </div>
           }
         </div>

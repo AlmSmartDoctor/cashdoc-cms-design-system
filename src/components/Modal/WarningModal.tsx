@@ -85,18 +85,12 @@ export const WarningModal = React.forwardRef<HTMLDivElement, WarningModalProps>(
           <div className="flex w-full gap-2">
             <Button
               onClick={handleCancel}
-              className={cn(
-                "h-12 flex-1 border border-cms-gray-200 bg-white",
-                "text-cms-gray-700",
-                "hover:bg-cms-gray-50",
-              )}
+              variant="outline"
+              className="h-10 flex-1"
             >
               {cancelText}
             </Button>
-            <Button
-              onClick={handleConfirm}
-              className="h-12 flex-1 bg-cms-gray-850 hover:bg-cms-gray-800"
-            >
+            <Button onClick={handleConfirm} className="h-10 flex-1">
               {confirmText}
             </Button>
           </div>

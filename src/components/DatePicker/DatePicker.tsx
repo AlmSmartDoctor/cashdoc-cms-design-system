@@ -5,9 +5,24 @@ import { ko } from "react-day-picker/locale";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
-import { CalendarIcon } from "@/components/icons";
+import {
+  CalendarIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@/components/icons";
 import { useDisclosure } from "@/hooks/useDisclosure";
 import "react-day-picker/style.css";
+
+const ChevronComponent = ({
+  orientation,
+}: {
+  orientation?: "up" | "down" | "left" | "right";
+}) => {
+  if (orientation === "left") {
+    return <ChevronLeftIcon size={16} strokeWidth={2} />;
+  }
+  return <ChevronRightIcon size={16} strokeWidth={2} />;
+};
 
 export type DatePickerProps = {
   value?: string;
@@ -185,7 +200,13 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     }, [min, max]);
 
     return (
-      <div ref={ref} className={cn("flex flex-col gap-1", className)}>
+      <div
+        ref={ref}
+        className={cn(
+          "flex w-full max-w-[220px] flex-col gap-1",
+          className,
+        )}
+      >
         {label && (
           <label
             htmlFor={inputId}
@@ -273,10 +294,13 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
               <div className="date-picker-calendar">
                 <DayPicker
                   mode="single"
+                  navLayout="around"
+                  showOutsideDays
                   selected={selected}
                   onSelect={handleDayClick}
                   locale={ko}
                   disabled={disabledDays}
+                  components={{ Chevron: ChevronComponent }}
                   formatters={{
                     formatCaption: (date) => {
                       return `${date.getFullYear()}년 ${date.getMonth() + 1}월`;

@@ -1,16 +1,22 @@
 import { cn } from "@/utils/cn";
 import type { VariantProps } from "class-variance-authority";
-import type { KeyboardEvent, RefAttributes, ReactNode } from "react";
+import type {
+  AnimationEvent,
+  KeyboardEvent,
+  RefAttributes,
+  ReactNode,
+} from "react";
 import { useState, useRef, useEffect, useCallback, forwardRef } from "react";
 import { createPortal } from "react-dom";
 import { useScrollIndicator } from "@/hooks/useScrollIndicator";
 import {
-  ChevronDownFillIcon,
+  ChevronDownIcon,
   ChevronRightFillIcon,
   XIcon as ClearIcon,
 } from "../icons";
 import { dropdownTriggerVariants } from "./variants";
 import { Button } from "../Button";
+import { TextInput } from "../TextInput";
 
 export type DropdownOption = {
   value: string;
@@ -208,6 +214,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
     }
 
     const [isOpen, setIsOpen] = useState(defaultOpen);
+    const [isClosing, setIsClosing] = useState(false);
     const [openUpward, setOpenUpward] = useState(false);
     const [position, setPosition] = useState<{
       topAnchor: number;
@@ -274,28 +281,50 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       option.label.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
+    // 닫힐 때 exit 애니메이션을 위해 즉시 unmount 하지 않는다.
+    // onAnimationEnd 에서 실제로 isOpen=false 로 전환한다.
+    const closeDropdown = useCallback(() => {
+      setIsClosing(true);
+    }, []);
+
     const handleToggle = () => {
       if (disabled) return;
-      const next = !isOpen;
-      if (next) {
-        const triggerEl = triggerWrapperRef.current;
-        if (triggerEl) {
-          const rect = triggerEl.getBoundingClientRect();
-          const spaceBelow = window.innerHeight - rect.bottom;
-          const spaceAbove = rect.top;
-          const estimatedHeight = (searchable ? 40 : 0) + maxHeight + 16;
-          const upward =
-            spaceBelow < estimatedHeight && spaceAbove > spaceBelow;
-          setOpenUpward(upward);
-          setPosition({
-            topAnchor: rect.bottom + 4,
-            bottomAnchor: window.innerHeight - rect.top + 4,
-            left: rect.left,
-            width: rect.width,
-          });
-        }
+      // 이미 열려 있고 닫히는 중이 아니면 close 애니메이션을 트리거한다.
+      if (isOpen && !isClosing) {
+        closeDropdown();
+        return;
       }
-      setIsOpen(next);
+      const triggerEl = triggerWrapperRef.current;
+      if (triggerEl) {
+        const rect = triggerEl.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - rect.bottom;
+        const spaceAbove = rect.top;
+        const estimatedHeight = (searchable ? 40 : 0) + maxHeight + 16;
+        const upward = spaceBelow < estimatedHeight && spaceAbove > spaceBelow;
+        setOpenUpward(upward);
+        setPosition({
+          topAnchor: rect.bottom + 4,
+          bottomAnchor: window.innerHeight - rect.top + 4,
+          left: rect.left,
+          width: rect.width,
+        });
+      }
+      // 닫히는 중이었다면 close 를 취소하고 다시 연다.
+      setIsClosing(false);
+      setIsOpen(true);
+      if (searchTerm) {
+        setSearchTerm("");
+        onSearchChange?.("");
+      }
+    };
+
+    const handleListboxAnimationEnd = (
+      e: AnimationEvent<HTMLDivElement>,
+    ) => {
+      if (e.animationName !== "dropdownHide") return;
+      if (e.currentTarget !== e.target) return;
+      setIsOpen(false);
+      setIsClosing(false);
       if (searchTerm) {
         setSearchTerm("");
         onSearchChange?.("");
@@ -366,7 +395,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
         emitMultipleChange(newSelectedValues);
       } else {
         onValueChange?.(option.value);
-        setIsOpen(false);
+        closeDropdown();
       }
     };
 
@@ -396,7 +425,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setIsOpen(false);
+        closeDropdown();
       } else if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         handleToggle();
@@ -411,13 +440,13 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
         const target = event.target as Node;
         if (dropdownRef.current?.contains(target)) return;
         if (listboxRef.current?.contains(target)) return;
-        setIsOpen(false);
+        closeDropdown();
       };
 
       document.addEventListener("mousedown", handleClickOutside);
       return () =>
         document.removeEventListener("mousedown", handleClickOutside);
-    }, [isOpen]);
+    }, [isOpen, closeDropdown]);
 
     // 외곽 스크롤/리사이즈 시 위치가 어긋나므로 닫는다.
     // listbox 내부 옵션 스크롤은 무시한다.
@@ -426,16 +455,16 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       const handleScroll = (event: Event) => {
         const target = event.target as Node | null;
         if (target && listboxRef.current?.contains(target)) return;
-        setIsOpen(false);
+        closeDropdown();
       };
-      const handleResize = () => setIsOpen(false);
+      const handleResize = () => closeDropdown();
       window.addEventListener("scroll", handleScroll, true);
       window.addEventListener("resize", handleResize);
       return () => {
         window.removeEventListener("scroll", handleScroll, true);
         window.removeEventListener("resize", handleResize);
       };
-    }, [isOpen]);
+    }, [isOpen, closeDropdown]);
 
     // 드롭다운이 열릴 때 검색 입력창에 포커스
     useEffect(() => {
@@ -514,9 +543,11 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                 <ClearIcon className="size-3" />
               </button>
             )}
-            <ChevronDownFillIcon
+            <ChevronDownIcon
+              size={14}
+              strokeWidth={2}
               className={cn(
-                "size-3 transition-transform duration-200",
+                "transition-transform duration-200",
                 isOpen && "rotate-180",
               )}
             />
@@ -533,7 +564,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                   "fixed z-cms-overlay min-w-0 py-1",
                   "rounded-cms-xl border border-cms-gray-300",
                   "bg-cms-white shadow-lg",
-                  "cms-dropdown-show",
+                  isClosing ? "cms-dropdown-hide" : "cms-dropdown-show",
                   dropdownClassName,
                 )}
                 style={{
@@ -543,10 +574,11 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                   width: position.width,
                   maxHeight: `${maxHeight}px`,
                 }}
+                onAnimationEnd={handleListboxAnimationEnd}
               >
                 {searchable && (
-                  <div className="flex border-b border-cms-gray-200 px-3 py-2">
-                    <input
+                  <div className="border-b border-cms-gray-200 p-2">
+                    <TextInput
                       ref={searchInputRef}
                       type="text"
                       value={searchTerm}
@@ -556,12 +588,6 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                         requestAnimationFrame(() => refreshScrollIndicator());
                       }}
                       placeholder="검색..."
-                      className={cn(
-                        "w-full px-2 py-1 text-sm",
-                        "rounded-cms-md outline-none",
-                        "border border-cms-gray-300",
-                        "focus:ring-1 focus:ring-cms-gray-400",
-                      )}
                     />
                   </div>
                 )}
@@ -695,9 +721,10 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                             "pointer-events-none",
                           )}
                         >
-                          <ChevronDownFillIcon
+                          <ChevronDownIcon
+                            size={16}
+                            strokeWidth={2}
                             className={cn(
-                              "h-4 w-4",
                               "text-cms-gray-400",
                               "animate-bounce",
                             )}

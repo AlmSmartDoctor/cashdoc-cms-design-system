@@ -323,7 +323,13 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     }, [isOpen, selectedHour, selectedMinute]);
 
     return (
-      <div ref={ref} className={cn("flex flex-col gap-1", className)}>
+      <div
+        ref={ref}
+        className={cn(
+          "flex w-full max-w-[200px] flex-col gap-1",
+          className,
+        )}
+      >
         {label && (
           <label
             htmlFor={inputId}
@@ -352,7 +358,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                   "text-sm text-cms-gray-900",
                   "placeholder:text-cms-gray-450",
                   "hover:border-cms-gray-350",
-                  "focus:outline-none focus:border-cms-gray-900",
+                  "focus:border-cms-gray-900 focus:outline-none",
                   "focus:shadow-[0_0_0_3px_rgba(15,20,25,0.08)]",
                   "transition-[border-color,box-shadow] duration-150 ease-out",
                   "cursor-pointer",
@@ -376,7 +382,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                 <Clock
                   className={cn(
                     "absolute top-1/2 right-2.5 -translate-y-1/2",
-                    "size-4 text-cms-gray-450 pointer-events-none",
+                    "pointer-events-none size-4 text-cms-gray-450",
                     disabled && "opacity-50",
                   )}
                 />
@@ -391,7 +397,9 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
               className={cn(
                 "z-cms-overlay rounded-cms-lg bg-cms-white",
                 "border border-cms-gray-200",
-                "shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]",
+                `
+                  shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]
+                `,
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",
                 "data-[state=closed]:fade-out-0",
@@ -553,11 +561,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     type="button"
                     onClick={handleCancel}
                     className={cn(
-                      "h-7 px-2.5 cursor-pointer rounded-cms-sm",
+                      "h-7 cursor-pointer rounded-cms-sm px-2.5",
                       "text-[12px] font-semibold text-cms-gray-850",
                       "border border-cms-gray-250 bg-cms-white",
                       "transition-colors duration-150",
-                      "hover:bg-cms-gray-50 hover:border-cms-gray-350",
+                      "hover:border-cms-gray-350 hover:bg-cms-gray-50",
                     )}
                   >
                     취소
@@ -568,7 +576,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     disabled={selectedHour === null || selectedMinute === null}
                     className={cn(
                       "cursor-pointer border-0",
-                      "h-7 px-2.5 rounded-cms-sm bg-cms-gray-850",
+                      "h-7 rounded-cms-sm bg-cms-gray-850 px-2.5",
                       "text-[12px] font-semibold text-cms-white",
                       "hover:bg-cms-gray-750",
                       "disabled:opacity-45",

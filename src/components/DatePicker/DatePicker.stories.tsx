@@ -25,23 +25,17 @@ const meta: Meta<typeof DatePicker> = {
     min: { control: "text" },
     max: { control: "text" },
   },
+  decorators: [
+    (Story) => (
+      <div className="max-w-xs">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-const Section = ({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) => (
-  <div className="flex flex-col gap-2">
-    <span className="text-[12px] font-medium text-cms-gray-550">{label}</span>
-    {children}
-  </div>
-);
 
 const Controlled = (props: React.ComponentProps<typeof DatePicker>) => {
   const [v, setV] = useState(props.value ?? "");
@@ -50,37 +44,51 @@ const Controlled = (props: React.ComponentProps<typeof DatePicker>) => {
 
 export const Showcase: Story = {
   render: () => (
-    <div className="grid max-w-3xl grid-cols-2 gap-x-6 gap-y-5">
-      <Section label="기본">
-        <Controlled label="발송 일자" placeholder="YYYY-MM-DD" />
-      </Section>
-      <Section label="값 + helper">
-        <Controlled
-          label="시작일"
-          value="2026-05-21"
-          helperText="캠페인 시작 날짜를 선택하세요"
-        />
-      </Section>
-      <Section label="에러">
-        <Controlled
-          label="발송 일자"
-          value="2026-05-21"
-          error
-          errorMessage="과거 날짜는 선택할 수 없어요"
-        />
-      </Section>
-      <Section label="비활성">
-        <Controlled label="자동 발송일" value="2026-05-21" disabled />
-      </Section>
-      <Section label="min / max 제한">
-        <Controlled
-          label="이번 달 발송"
-          min="2026-05-01"
-          max="2026-05-31"
-          helperText="2026년 5월만 선택할 수 있어요"
-        />
-      </Section>
-    </div>
+    <Controlled
+      label="발송 일자"
+      placeholder="YYYY-MM-DD"
+      helperText="캠페인 시작 날짜를 선택하세요"
+    />
+  ),
+};
+
+export const WithValue: Story = {
+  name: "값 입력됨",
+  render: () => (
+    <Controlled
+      label="시작일"
+      value="2026-05-21"
+      helperText="실시간 저장됩니다"
+    />
+  ),
+};
+
+export const Error: Story = {
+  name: "에러",
+  render: () => (
+    <Controlled
+      label="발송 일자"
+      value="2026-05-21"
+      error
+      errorMessage="과거 날짜는 선택할 수 없어요"
+    />
+  ),
+};
+
+export const Disabled: Story = {
+  name: "비활성",
+  render: () => <Controlled label="자동 발송일" value="2026-05-21" disabled />,
+};
+
+export const WithMinMax: Story = {
+  name: "min / max 제한",
+  render: () => (
+    <Controlled
+      label="이번 달 발송"
+      min="2026-05-01"
+      max="2026-05-31"
+      helperText="2026년 5월만 선택할 수 있어요"
+    />
   ),
 };
 

@@ -18,7 +18,7 @@ export const toggleButtonVariants = cva(
     "rounded-cms-md border border-solid",
     "font-medium whitespace-nowrap select-none",
     "transform-gpu cursor-pointer",
-    "transition-colors duration-150 ease-out",
+    "transition-all duration-150 ease-out",
     "focus-visible:outline-2 focus-visible:outline-offset-1",
     "disabled:pointer-events-none disabled:opacity-45",
   ),
@@ -33,7 +33,7 @@ export const toggleButtonVariants = cva(
           `,
           "focus-visible:outline-cms-gray-700",
           "aria-pressed:border-cms-gray-900 aria-pressed:bg-cms-gray-50",
-          "aria-pressed:font-semibold aria-pressed:text-cms-gray-900",
+          "aria-pressed:text-cms-gray-900",
           "aria-pressed:shadow-[inset_0_0_0_1px_var(--cashdoc-gray-900)]",
         ),
         primary: cn(
@@ -45,7 +45,7 @@ export const toggleButtonVariants = cva(
           "focus-visible:outline-cms-primary-200",
           "aria-pressed:border-cms-primary-300",
           "aria-pressed:bg-cms-primary-200",
-          "aria-pressed:font-semibold aria-pressed:text-cms-gray-900",
+          "aria-pressed:text-cms-gray-900",
         ),
       },
       size: {

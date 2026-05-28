@@ -30,3 +30,5 @@ export * from "./Tabs";
 export * from "./FilterToggleGroup";
 export * from "./CountFilterChips";
 export * from "./BarChart";
+export * from "./Layout";
+export * from "./ContentArea";

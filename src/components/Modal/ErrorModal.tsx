@@ -69,13 +69,7 @@ export const ErrorModal = React.forwardRef<HTMLDivElement, ErrorModalProps>(
           </span>
         }
         footer={
-          <Button
-            onClick={handleConfirm}
-            className={cn(
-              "h-12 w-full bg-cms-gray-850",
-              "hover:bg-cms-gray-800",
-            )}
-          >
+          <Button onClick={handleConfirm} className="h-10 w-full">
             {confirmText}
           </Button>
         }

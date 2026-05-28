@@ -81,17 +81,14 @@ export const DeleteModal = React.forwardRef<HTMLDivElement, DeleteModalProps>(
             <Button
               onClick={handleCancel}
               variant="outline"
-              className="h-12 flex-1"
+              className="h-10 flex-1"
             >
               {cancelText}
             </Button>
             <Button
               onClick={handleConfirm}
-              className={cn(
-                "h-12 flex-1",
-                "bg-cms-red-400",
-                "hover:bg-cms-red-500",
-              )}
+              variant="danger"
+              className="h-10 flex-1"
             >
               {confirmText}
             </Button>

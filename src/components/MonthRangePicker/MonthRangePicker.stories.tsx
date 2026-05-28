@@ -20,23 +20,17 @@ const meta: Meta<typeof MonthRangePicker> = {
     min: { control: "text" },
     max: { control: "text" },
   },
+  decorators: [
+    (Story) => (
+      <div className="max-w-md">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-const Section = ({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) => (
-  <div className="flex flex-col gap-2">
-    <span className="text-[12px] font-medium text-cms-gray-550">{label}</span>
-    {children}
-  </div>
-);
 
 const Controlled = (props: React.ComponentProps<typeof MonthRangePicker>) => {
   const [range, setRange] = useState<DateRange>(
@@ -46,19 +40,19 @@ const Controlled = (props: React.ComponentProps<typeof MonthRangePicker>) => {
 };
 
 export const Showcase: Story = {
+  render: () => <Controlled />,
+};
+
+export const WithInitialValue: Story = {
+  name: "초기값 (2024-09 ~ 2025-03)",
   render: () => (
-    <div className="flex max-w-2xl flex-col gap-6">
-      <Section label="기본">
-        <Controlled />
-      </Section>
-      <Section label="초기값 (2024-09 ~ 2025-03)">
-        <Controlled value={{ start: "2024-09-01", end: "2025-03-31" }} />
-      </Section>
-      <Section label="min / max 제한">
-        <Controlled min="2022-01-01" max="2026-03-13" />
-      </Section>
-    </div>
+    <Controlled value={{ start: "2024-09-01", end: "2025-03-31" }} />
   ),
+};
+
+export const WithMinMax: Story = {
+  name: "min / max 제한",
+  render: () => <Controlled min="2022-01-01" max="2026-03-13" />,
 };
 
 export const ForJsdoc: Story = Showcase;
