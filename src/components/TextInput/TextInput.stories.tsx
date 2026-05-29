@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { SearchIcon } from "../icons";
 import { TextInput } from "./TextInput";
 
 const meta: Meta<typeof TextInput> = {
@@ -97,6 +98,40 @@ export const Showcase: Story = {
           labelLayout="horizontal"
           labelWidth="80px"
           placeholder="이름 입력"
+        />
+      </Section>
+      <Section label="Prefix (검색 아이콘)">
+        <TextInput
+          prefix={<SearchIcon size={16} />}
+          placeholder="병원명 · 대행사명 검색"
+        />
+      </Section>
+      <Section label="Suffix (단위)">
+        <TextInput
+          suffix={
+            <span className="text-sm text-cms-gray-500">원</span>
+          }
+          placeholder="0"
+          type="number"
+        />
+      </Section>
+      <Section label="Prefix + Suffix">
+        <TextInput
+          label="환율"
+          prefix={
+            <span className="text-sm text-cms-gray-500">$</span>
+          }
+          suffix={
+            <span className="text-sm text-cms-gray-500">KRW</span>
+          }
+          defaultValue="1380"
+        />
+      </Section>
+      <Section label="Affix · disabled">
+        <TextInput
+          prefix={<SearchIcon size={16} />}
+          placeholder="검색"
+          disabled
         />
       </Section>
     </div>

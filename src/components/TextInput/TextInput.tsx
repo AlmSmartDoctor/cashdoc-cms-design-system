@@ -68,7 +68,9 @@ export type TextInputProps = {
   showCharCount?: boolean;
   labelLayout?: "vertical" | "horizontal";
   labelWidth?: string;
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> &
+  prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> &
   VariantProps<typeof textInputVariants>;
 
 /**
@@ -139,6 +141,28 @@ export type TextInputProps = {
  * ```
  * {@end-tool}
  *
+ * {@tool snippet}
+ * 좌/우 affix(검색 아이콘, 단위 등):
+ *
+ * `prefix`/`suffix`는 `ReactNode`를 받아 input 내부에 absolute로 배치되며,
+ * 존재 시 input padding이 자동으로 보정됩니다(`pl-9` / `pr-9`). 기본적으로 장식용
+ * (`pointer-events-none`) 이므로, 인터랙티브하게 쓰려면 자식 요소에
+ * `pointer-events-auto`를 직접 지정하세요.
+ *
+ * ```tsx
+ * <TextInput
+ *   prefix={<SearchIcon size={16} />}
+ *   placeholder="병원명 · 대행사명 검색"
+ * />
+ *
+ * <TextInput
+ *   suffix={<span className="text-sm text-cms-gray-500">원</span>}
+ *   placeholder="0"
+ *   type="number"
+ * />
+ * ```
+ * {@end-tool}
+ *
  * See also:
  *
  * - {@link TextArea}, 여러 줄 텍스트 입력을 위한 컴포넌트
@@ -168,6 +192,9 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       id,
       labelLayout = "vertical",
       labelWidth = "120px",
+      prefix,
+      suffix,
+      disabled,
       ...props
     },
     ref,
@@ -203,6 +230,55 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       : helperText ? helperTextId
       : undefined;
 
+    const hasAffix = prefix != null || suffix != null;
+    const affixClassName = cn(
+      "absolute inset-y-0 flex items-center",
+      "pointer-events-none",
+      disabled ? "text-cms-gray-400" : "text-cms-gray-450",
+    );
+
+    const renderInput = (inputFullWidth: boolean | null | undefined) => {
+      const inputNode = (
+        <input
+          id={inputId}
+          ref={ref}
+          className={cn(
+            textInputVariants({
+              variant: finalVariant,
+              fullWidth: inputFullWidth,
+            }),
+            prefix != null && "pl-9",
+            suffix != null && "pr-9",
+            className,
+          )}
+          maxLength={maxLength}
+          {...valueProps}
+          onChange={handleChange}
+          required={required}
+          disabled={disabled}
+          aria-invalid={error || undefined}
+          aria-describedby={describedBy}
+          {...props}
+        />
+      );
+      if (!hasAffix) return inputNode;
+      return (
+        <div className="relative">
+          {prefix != null && (
+            <div className={cn(affixClassName, "left-3")} aria-hidden="true">
+              {prefix}
+            </div>
+          )}
+          {inputNode}
+          {suffix != null && (
+            <div className={cn(affixClassName, "right-3")} aria-hidden="true">
+              {suffix}
+            </div>
+          )}
+        </div>
+      );
+    };
+
     return (
       <div className={cn("w-full", !fullWidth && "w-auto")}>
         {isHorizontal && hasHeader ?
@@ -217,23 +293,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
                 {required && <span className="ml-1 text-cms-red-400">*</span>}
               </label>
             )}
-            <div className="flex-1">
-              <input
-                id={inputId}
-                ref={ref}
-                className={cn(
-                  textInputVariants({ variant: finalVariant, fullWidth: true }),
-                  className,
-                )}
-                maxLength={maxLength}
-                {...valueProps}
-                onChange={handleChange}
-                required={required}
-                aria-invalid={error || undefined}
-                aria-describedby={describedBy}
-                {...props}
-              />
-            </div>
+            <div className="flex-1">{renderInput(true)}</div>
             {showCharCount && maxLength && (
               <span className="shrink-0 text-sm text-cms-gray-600">
                 {charCount} / {maxLength}
@@ -258,21 +318,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
                 )}
               </div>
             )}
-            <input
-              id={inputId}
-              ref={ref}
-              className={cn(
-                textInputVariants({ variant: finalVariant, fullWidth }),
-                className,
-              )}
-              maxLength={maxLength}
-              {...valueProps}
-              onChange={handleChange}
-              required={required}
-              aria-invalid={error || undefined}
-              aria-describedby={describedBy}
-              {...props}
-            />
+            {renderInput(fullWidth)}
           </>
         }
         {error && errorMessage && (
