@@ -94,16 +94,16 @@
 
   /* Border Radius
     Usage: rounded-cms-md
-    Sharp scale — 정교한 어드민 톤. md(6) buttons/inputs · lg(8) cards · xl(10) modals.
+    정교한 어드민 톤을 유지하되 살짝 부드럽게. md(8) buttons/inputs · lg(10) cards · xl(12) modals.
   */
-  --radius-cms-xs: 2px;
-  --radius-cms-sm: 4px;
-  --radius-cms-md: 6px;
-  --radius-cms-lg: 8px;
-  --radius-cms-xl: 10px;
-  --radius-cms-2xl: 12px;
-  --radius-cms-3xl: 16px;
-  --radius-cms-4xl: 20px;
+  --radius-cms-xs: 3px;
+  --radius-cms-sm: 6px;
+  --radius-cms-md: 8px;
+  --radius-cms-lg: 10px;
+  --radius-cms-xl: 12px;
+  --radius-cms-2xl: 14px;
+  --radius-cms-3xl: 18px;
+  --radius-cms-4xl: 22px;
 
   /* Transition Duration
     Usage: duration-200, duration-300, duration-500
@@ -380,6 +380,25 @@
   body {
     background-color: var(--cashdoc-white);
     color: var(--cashdoc-black);
+  }
+
+  /* Tailwind v4 preflight 제거 보정 — 클릭 가능한 요소에 pointer 커서 복원.
+     disabled 상태(:disabled / aria-disabled)는 의도적으로 제외. */
+  button:not(:disabled):not([aria-disabled="true"]),
+  [role="button"]:not(:disabled):not([aria-disabled="true"]),
+  [role="tab"]:not(:disabled):not([aria-disabled="true"]),
+  [role="switch"]:not(:disabled):not([aria-disabled="true"]),
+  summary {
+    cursor: pointer;
+  }
+
+  /* disabled 상태는 금지 커서로 명시. role 기반 요소는 aria-disabled 사용. */
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  textarea:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
   }
 }
 
