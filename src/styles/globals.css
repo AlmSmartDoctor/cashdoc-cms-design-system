@@ -94,16 +94,16 @@
 
   /* Border Radius
     Usage: rounded-cms-md
-    정교한 어드민 톤을 유지하되 살짝 부드럽게. md(8) buttons/inputs · lg(10) cards · xl(12) modals.
+    부드러운 어드민 톤. md(10) buttons/inputs · lg(12) cards · xl(14) modals.
   */
-  --radius-cms-xs: 3px;
-  --radius-cms-sm: 6px;
-  --radius-cms-md: 8px;
-  --radius-cms-lg: 10px;
-  --radius-cms-xl: 12px;
-  --radius-cms-2xl: 14px;
-  --radius-cms-3xl: 18px;
-  --radius-cms-4xl: 22px;
+  --radius-cms-xs: 5px;
+  --radius-cms-sm: 8px;
+  --radius-cms-md: 10px;
+  --radius-cms-lg: 12px;
+  --radius-cms-xl: 14px;
+  --radius-cms-2xl: 16px;
+  --radius-cms-3xl: 20px;
+  --radius-cms-4xl: 24px;
 
   /* Transition Duration
     Usage: duration-200, duration-300, duration-500

@@ -29,6 +29,7 @@ export * from "./SegmentedControls";
 export * from "./Tabs";
 export * from "./FilterToggleGroup";
 export * from "./CountFilterChips";
+export * from "./Tag";
 export * from "./BarChart";
 export * from "./Layout";
 export * from "./ContentArea";

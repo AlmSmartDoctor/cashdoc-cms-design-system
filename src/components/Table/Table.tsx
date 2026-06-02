@@ -352,7 +352,9 @@ export type TableHeadProps = {
   sortDirection?: "asc" | "desc" | null;
   /** 정렬 클릭 핸들러 */
   onSort?: () => void;
-} & React.ThHTMLAttributes<HTMLTableCellElement>;
+  /** 텍스트 정렬 방식 (default: "left") */
+  align?: "left" | "center" | "right";
+} & Omit<React.ThHTMLAttributes<HTMLTableCellElement>, "align">;
 
 /**
  * 테이블의 헤더 셀을 정의하는 컴포넌트입니다.
@@ -360,6 +362,18 @@ export type TableHeadProps = {
  * `<th>` 태그를 렌더링하며, 열의 제목을 표시합니다.
  * 정렬 기능(`sortable`)을 지원하며, 정렬 방향에 따라 아이콘을 표시할 수 있습니다.
  */
+const TABLE_HEAD_TEXT_ALIGN = {
+  left: "text-left",
+  center: "text-center",
+  right: "text-right",
+} as const;
+
+const TABLE_HEAD_JUSTIFY = {
+  left: "justify-start",
+  center: "justify-center",
+  right: "justify-end",
+} as const;
+
 export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
   (
     {
@@ -368,6 +382,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
       sortable,
       sortDirection,
       onSort,
+      align = "left",
       scope = "col",
       ...props
     },
@@ -386,7 +401,8 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         ref={ref}
         scope={scope}
         className={cn(
-          "h-10 px-3.5 text-left align-middle",
+          "h-10 px-3.5 align-middle",
+          TABLE_HEAD_TEXT_ALIGN[align],
           "text-[12px] font-semibold text-cms-gray-600",
           "whitespace-nowrap",
           "border-0 border-b border-cms-gray-200",
@@ -408,6 +424,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
             onClick={onSort}
             className={cn(
               "flex w-full items-center",
+              TABLE_HEAD_JUSTIFY[align],
               "cursor-pointer border-0 bg-transparent p-0 select-none",
               "font-[inherit] text-inherit",
               "focus-visible:outline-2 focus-visible:outline-offset-2",
