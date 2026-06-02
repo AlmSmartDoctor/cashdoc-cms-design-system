@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { Button } from "../Button";
 
 const tableVariants = cva(
   "w-full caption-bottom [border-spacing:0] bg-cms-white text-[13px]",
@@ -614,40 +615,49 @@ export const TableExpandableRow = React.forwardRef<
         >
           {toggleSlot === "leading" && (
             <TableCell className="w-10 pr-0">
-              <button
+              <Button
+                variant="outline"
+                size="icon"
                 type="button"
                 onClick={handleToggle}
                 aria-expanded={expanded}
                 aria-label={
                   toggleAriaLabel ?? (expanded ? "행 접기" : "행 펼치기")
                 }
-                className={cn(
-                  "inline-flex h-8 w-8 items-center justify-center",
-                  "cursor-pointer rounded-cms-md border-0 bg-transparent",
-                  "text-cms-gray-600",
-                  "transition-transform duration-150",
-                  "hover:bg-cms-gray-100",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2",
-                  "focus-visible:outline-cms-primary-400",
-                  expanded && "rotate-90",
-                )}
+                className="size-8 text-cms-gray-600"
               >
-                <ChevronRight className="size-4" />
-              </button>
+                <ChevronRight
+                  className={cn(
+                    "size-4 transition-transform duration-200 ease-out",
+                    expanded && "rotate-90",
+                  )}
+                />
+              </Button>
             </TableCell>
           )}
           {children}
         </TableRow>
-        {expanded && (
-          <tr
-            data-expanded-content
-            className="border-b border-cms-gray-200 bg-cms-gray-50"
-          >
-            <td colSpan={totalColSpan} className="p-4">
-              {expandedContent}
-            </td>
-          </tr>
-        )}
+        <tr
+          data-expanded-content
+          aria-hidden={!expanded}
+          className={cn(
+            "bg-cms-gray-50",
+            expanded && "border-b border-cms-gray-200",
+          )}
+        >
+          <td colSpan={totalColSpan} className="p-0">
+            <div
+              className={cn(
+                "grid transition-[grid-template-rows] duration-200 ease-out",
+                expanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+              )}
+            >
+              <div className="overflow-hidden">
+                <div className="p-4">{expandedContent}</div>
+              </div>
+            </div>
+          </td>
+        </tr>
       </>
     );
   },

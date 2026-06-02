@@ -1,6 +1,5 @@
 import { Toaster as Sonner } from "sonner";
 import { type ComponentProps } from "react";
-import { cn } from "@/utils/cn";
 
 type ToasterProps = ComponentProps<typeof Sonner>;
 
@@ -86,44 +85,17 @@ type ToasterProps = ComponentProps<typeof Sonner>;
  * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Feedback/Toaster/For%20Jsdoc.png?raw=true)
  */
 const Toaster = ({ position = "bottom-center", ...props }: ToasterProps) => {
+  // 모든 toast는 toast.custom으로 <Toast /> 컴포넌트를 렌더합니다.
+  // sonner의 기본 카드 스타일(bg/border/padding/icon 등)은 적용되지 않으므로
+  // 여기서는 li 래퍼의 패딩만 0으로 무력화하고 디자인은 <Toast />에 위임합니다.
   return (
     <Sonner
       position={position}
       className="toaster group"
       toastOptions={{
+        unstyled: true,
         classNames: {
-          toast: cn(
-            "group toast flex w-full items-start",
-            "text-cms-gray-100",
-            "rounded-cms-lg bg-cms-gray-900",
-            "max-w-[420px] min-w-[280px] gap-2.5 px-3.5 py-3",
-            "text-[13px] leading-snug",
-            `
-              shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]
-            `,
-            "border! border-cms-gray-900!",
-            "**:data-content:flex-row!",
-            "**:data-content:items-baseline!",
-          ),
-          title: cn(
-            "group-[.toast]:text-cms-white",
-            "group-[.toast]:text-[13px]",
-            "group-[.toast]:mr-2",
-            "group-[.toast]:font-semibold!",
-          ),
-          description: cn(
-            "group-[.toast]:text-cms-gray-200",
-            "group-[.toast]:text-[12px]",
-            "group-[.toast]:font-normal",
-          ),
-          actionButton: cn(
-            "group-[.toast]:bg-cms-white",
-            "group-[.toast]:text-cms-gray-900",
-          ),
-          cancelButton: cn(
-            "group-[.toast]:bg-cms-gray-800",
-            "group-[.toast]:text-cms-gray-300",
-          ),
+          toast: "w-fit p-0!",
         },
       }}
       {...props}
