@@ -601,7 +601,8 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                   >
                     <div
                       ref={setOptionsListNode}
-                      className="max-h-48 overflow-y-auto"
+                      className="overflow-y-auto"
+                      style={{ maxHeight: `${maxHeight}px` }}
                       onMouseEnter={clearSubmenuCloseTimeout}
                       onMouseLeave={scheduleSubmenuClose}
                     >
