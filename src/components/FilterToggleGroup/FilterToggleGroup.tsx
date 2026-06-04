@@ -65,9 +65,17 @@ const filterToggleGroupIntentSelectedDotClassMap = {
   muted: "bg-cms-white",
 } as const;
 
+const filterToggleGroupAlignClassMap = {
+  left: "items-start text-left",
+  center: "items-center text-center",
+  right: "items-end text-right",
+} as const;
+
 export type FilterToggleGroupSize = keyof typeof filterToggleGroupSizeClassMap;
 export type FilterToggleGroupIntent =
   keyof typeof filterToggleGroupIntentDotClassMap;
+export type FilterToggleGroupAlign =
+  keyof typeof filterToggleGroupAlignClassMap;
 
 export type FilterToggleGroupItem<T extends string | number> = {
   value: T;
@@ -90,6 +98,12 @@ export type FilterToggleGroupProps<T extends string | number> = {
   className?: string;
   itemClassName?: string;
   size?: FilterToggleGroupSize;
+  /**
+   * 카드 내부 콘텐츠(caption / count / label) 정렬.
+   * 숫자만 가운데·우측으로 옮기면 라벨과 어긋나기 때문에 3줄을 하나의
+   * 단위로 함께 정렬합니다. default: "right"
+   */
+  align?: FilterToggleGroupAlign;
   showIcon?: boolean;
   ariaLabel?: string;
 };
@@ -157,6 +171,7 @@ export const FilterToggleGroup = <T extends string | number>({
   className,
   itemClassName,
   size = "md",
+  align = "right",
   showIcon = true,
   ariaLabel = "Status filter",
 }: FilterToggleGroupProps<T>) => {
@@ -170,6 +185,7 @@ export const FilterToggleGroup = <T extends string | number>({
   };
 
   const sizeClass = filterToggleGroupSizeClassMap[size];
+  const alignClass = filterToggleGroupAlignClassMap[align];
 
   return (
     <ToggleGroup.Root
@@ -198,8 +214,9 @@ export const FilterToggleGroup = <T extends string | number>({
             value={String(item.value)}
             disabled={item.disabled}
             className={cn(
-              "group relative flex cursor-pointer flex-col items-start",
-              "justify-between text-left",
+              "group relative flex cursor-pointer flex-col",
+              "justify-between",
+              alignClass,
               "rounded-cms-md border border-cms-gray-200 bg-cms-white",
               "text-cms-gray-900",
               "transform-gpu transition-colors duration-150 ease-out",

@@ -122,6 +122,14 @@ export const Showcase: Story = {
         <Controlled items={reviewStatusItems} size="md" showIcon={false} />
       </Section>
 
+      <Section label="Align · left / center / right">
+        <div className="flex flex-col gap-3">
+          <Controlled items={reviewStatusItems} size="md" align="left" />
+          <Controlled items={reviewStatusItems} size="md" align="center" />
+          <Controlled items={reviewStatusItems} size="md" align="right" />
+        </div>
+      </Section>
+
       <Section label="Full width (flex)">
         <div className="bg-cms-gray-50 p-4">
           <Controlled
