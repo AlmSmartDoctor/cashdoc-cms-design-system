@@ -33,3 +33,4 @@ export * from "./Tag";
 export * from "./BarChart";
 export * from "./Layout";
 export * from "./ContentArea";
+export * from "./Accordion";
