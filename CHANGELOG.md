@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.3.0...v2.3.1) (2026-06-05)
+
+
+### Bug Fixes
+
+* 드롭다운 maxHeight 반영 ([4f8f406](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/4f8f4063f130bee31719366aad5e18525a155518))
+
 ## [2.3.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.2.1...v2.3.0) (2026-06-04)
 
 ### [2.2.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.2.0...v2.2.1) (2026-06-04)
