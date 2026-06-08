@@ -55,8 +55,8 @@ const NavigationMenuItem = ({
           }}
           className={cn(
             "group flex items-center border-0 bg-transparent px-5",
-            "text-[14px] font-medium text-white/72",
-            "h-11 w-full",
+            "text-[16px] font-medium text-white/72",
+            "h-12 w-full",
             "border-l-[3px] border-l-transparent",
             "transition-colors duration-150",
             "cursor-pointer",
@@ -82,7 +82,7 @@ const NavigationMenuItem = ({
           <span
             className={cn(
               isMenuActive ? "text-cms-primary-200" : "text-white/72",
-              "text-[14px]",
+              "text-[16px]",
             )}
           >
             {menu.title}
@@ -119,7 +119,7 @@ const NavigationMenuItem = ({
                 onClick={() => onMenuClick(subItem.url)}
                 className={cn(
                   "flex items-center border-0 bg-transparent",
-                  "h-9 w-full pr-5 pl-[48px]",
+                  "h-10 w-full pr-5 pl-[48px]",
                   "cursor-pointer",
                   "transition-colors duration-150",
                   "hover:text-white",
@@ -129,7 +129,7 @@ const NavigationMenuItem = ({
               >
                 <span
                   className={cn(
-                    "text-[14px]",
+                    "text-[16px]",
                     "transition-colors",
                     subSelected
                       ? "font-bold text-cms-primary-200"
@@ -170,7 +170,7 @@ const NavigationMenuItem = ({
  *
  * ## Layout behavior
  *
- * - **Fixed Width**: 기본적으로 248px의 고정 너비를 가지며, 세로 전체(h-full)를 차지합니다.
+ * - **Fixed Width**: 기본적으로 272px의 고정 너비를 가지며, 세로 전체(h-full)를 차지합니다.
  * - **Scrollable**: 메뉴 항목이 많아 화면 높이를 넘어가면 메뉴 영역 내부에 스크롤이 발생합니다.
  * - **Accordion**: 서브메뉴가 있는 항목 클릭 시 아래로 펼쳐지는 애니메이션이 적용됩니다.
  *
@@ -242,7 +242,7 @@ export const SideNavigation = React.forwardRef<
         ref={ref}
         className={cn(
           "flex flex-col",
-          "h-full w-[248px] max-w-[248px] min-w-[248px]",
+          "h-full w-[272px] max-w-[272px] min-w-[272px]",
           "bg-cms-surface-coal text-cms-gray-200",
           "border-r border-white/6",
           className,
@@ -255,7 +255,7 @@ export const SideNavigation = React.forwardRef<
         {/* Title */}
         {title && !headerSlot && (
           <div className="border-b border-white/6 px-[18px] py-5">
-            <h2 className="text-[16px] font-bold tracking-tight text-white">
+            <h2 className="text-[18px] font-bold tracking-tight text-white">
               {title}
             </h2>
           </div>
