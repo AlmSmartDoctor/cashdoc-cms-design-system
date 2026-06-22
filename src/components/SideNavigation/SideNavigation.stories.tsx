@@ -124,7 +124,7 @@ export const WithFooter: Story = {
       title="관리자 메뉴"
       menus={sampleMenus}
       footerSlot={
-        <div className="flex items-center gap-3 px-6 pt-3.5 pb-6">
+        <div className="flex items-center gap-3 px-6 pt-3 pb-6">
           <button type="button" className={footerButtonClass}>
             로그아웃
           </button>
