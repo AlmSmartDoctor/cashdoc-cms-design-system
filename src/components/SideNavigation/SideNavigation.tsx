@@ -21,6 +21,7 @@ export type SideNavigationProps = {
   selectedUrl: string;
   onMenuClick: (url: string) => void;
   headerSlot?: React.ReactNode;
+  footerSlot?: React.ReactNode;
   className?: string;
 };
 
@@ -232,7 +233,16 @@ export const SideNavigation = React.forwardRef<
   SideNavigationProps
 >(
   (
-    { title, menus, selectedUrl, onMenuClick, headerSlot, className, ...props },
+    {
+      title,
+      menus,
+      selectedUrl,
+      onMenuClick,
+      headerSlot,
+      footerSlot,
+      className,
+      ...props
+    },
     ref,
   ) => {
     const [openedMenus, setOpenedMenus] = useState<string[]>([]);
@@ -287,6 +297,9 @@ export const SideNavigation = React.forwardRef<
             ))}
           </Accordion.Root>
         </div>
+
+        {/* Footer Slot */}
+        {footerSlot}
       </div>
     );
   },

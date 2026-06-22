@@ -115,4 +115,26 @@ export const Minimal: Story = {
   ),
 };
 
+const footerButtonClass =
+  "h-9 flex-1 rounded-lg border border-white/40 text-sm font-medium text-white";
+
+export const WithFooter: Story = {
+  render: () => (
+    <Demo
+      title="관리자 메뉴"
+      menus={sampleMenus}
+      footerSlot={
+        <div className="flex items-center gap-3 px-6 pt-3 pb-6">
+          <button type="button" className={footerButtonClass}>
+            로그아웃
+          </button>
+          <button type="button" className={footerButtonClass}>
+            계정 설정
+          </button>
+        </div>
+      }
+    />
+  ),
+};
+
 export const ForJsdoc: Story = Showcase;
