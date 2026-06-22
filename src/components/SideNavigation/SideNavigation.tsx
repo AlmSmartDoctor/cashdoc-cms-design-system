@@ -56,8 +56,8 @@ const NavigationMenuItem = ({
           }}
           className={cn(
             `
-              group flex w-full items-center gap-2 rounded-[4px] border-0 py-3.5
-              pr-1 pl-3
+              group flex w-full items-center justify-start gap-2 rounded-[4px]
+              border-0 py-3.5 pr-1 pl-3
             `,
             "text-[16px] leading-[22px] font-semibold",
             "cursor-pointer transition-colors duration-150",
@@ -109,8 +109,8 @@ const NavigationMenuItem = ({
                 onClick={() => onMenuClick(subItem.url)}
                 className={cn(
                   `
-                    flex w-full items-center gap-2 rounded-[4px] border-0
-                    bg-transparent py-3.5 pr-2 pl-7
+                    flex w-full items-center justify-start gap-2 rounded-[4px]
+                    border-0 bg-transparent py-3.5 pr-2 pl-7
                   `,
                   "cursor-pointer transition-colors duration-150",
                   "hover:bg-cms-surface-slate",
