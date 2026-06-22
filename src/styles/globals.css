@@ -89,7 +89,9 @@
 
   /* Surface — premium dark hero */
   --color-cms-surface-ink: var(--cashdoc-surface-ink);
+  --color-cms-surface-onyx: var(--cashdoc-surface-onyx);
   --color-cms-surface-coal: var(--cashdoc-surface-coal);
+  --color-cms-surface-slate: var(--cashdoc-surface-slate);
   --color-cms-surface-graphite: var(--cashdoc-surface-graphite);
 
   /* Border Radius
@@ -240,7 +242,9 @@
 
   /* Surface — premium dark hero */
   --cashdoc-surface-ink: #14171c;
+  --cashdoc-surface-onyx: #1a1c22;
   --cashdoc-surface-coal: #1b1f26;
+  --cashdoc-surface-slate: #25272e;
   --cashdoc-surface-graphite: #272c34;
 }
 

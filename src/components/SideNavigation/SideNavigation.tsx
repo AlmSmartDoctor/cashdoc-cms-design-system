@@ -55,47 +55,39 @@ const NavigationMenuItem = ({
             }
           }}
           className={cn(
-            "group flex items-center border-0 bg-transparent px-5",
-            "text-[16px] font-medium text-white/72",
-            "h-12 w-full",
-            "border-l-[3px] border-l-transparent",
-            "transition-colors duration-150",
-            "cursor-pointer",
-            "hover:bg-white/4 hover:text-white",
-            isMenuActive &&
-              cn(
-                "bg-cms-primary-200/10 text-cms-primary-200",
-                "border-l-cms-primary-200 font-bold",
-              ),
+            `
+              group flex w-full items-center gap-2 rounded-[4px] border-0 py-3.5
+              pr-1 pl-3
+            `,
+            "text-[16px] leading-[22px] font-semibold",
+            "cursor-pointer transition-colors duration-150",
+            isMenuActive ?
+              "bg-cms-primary-200 text-cms-surface-onyx"
+            : "bg-transparent text-white hover:bg-cms-surface-slate",
           )}
         >
           {menu.icon && (
             <div
               className={cn(
-                "mr-2.5 flex items-center",
-                "[&>svg]:size-[18px]",
-                isMenuActive ? "text-cms-primary-200" : "text-white/45",
+                `
+                  flex items-center
+                  [&>svg]:size-6
+                `,
+                isMenuActive ? "text-cms-surface-onyx" : "text-white",
               )}
             >
               {menu.icon}
             </div>
           )}
-          <span
-            className={cn(
-              isMenuActive ? "text-cms-primary-200" : "text-white/72",
-              "text-[16px]",
-            )}
-          >
-            {menu.title}
-          </span>
+          <span className="flex-1 text-left">{menu.title}</span>
           {menu.subMenu && (
             <ChevronDown
               className={cn(
-                "ml-auto transition-transform",
-                isMenuActive ? "text-cms-primary-200" : "text-white/45",
+                "shrink-0 transition-transform",
+                isMenuActive ? "text-cms-surface-onyx" : "text-white",
                 isOpen && "rotate-180",
               )}
-              size={16}
+              size={20}
             />
           )}
         </Accordion.Trigger>
@@ -104,9 +96,6 @@ const NavigationMenuItem = ({
         <Accordion.Content
           className={cn(
             "overflow-hidden",
-            "bg-black/25",
-            "border-l-[3px] border-l-cms-primary-200",
-            "py-1",
             "data-[state=open]:animate-accordion-down",
             "data-[state=closed]:animate-accordion-up",
           )}
@@ -119,22 +108,24 @@ const NavigationMenuItem = ({
                 type="button"
                 onClick={() => onMenuClick(subItem.url)}
                 className={cn(
-                  "flex items-center border-0 bg-transparent",
-                  "h-10 w-full pr-5 pl-[48px]",
-                  "cursor-pointer",
-                  "transition-colors duration-150",
-                  "hover:text-white",
-                  subSelected &&
-                    "bg-cms-primary-200/8",
+                  `
+                    flex w-full items-center gap-2 rounded-[4px] border-0
+                    bg-transparent py-3.5 pr-2 pl-7
+                  `,
+                  "cursor-pointer transition-colors duration-150",
+                  "hover:bg-cms-surface-slate",
                 )}
               >
                 <span
                   className={cn(
-                    "text-[16px]",
-                    "transition-colors",
-                    subSelected
-                      ? "font-bold text-cms-primary-200"
-                      : "text-white/62",
+                    "size-2.5 shrink-0 rounded-full border",
+                    subSelected ? "border-cms-primary-200" : "border-white",
+                  )}
+                />
+                <span
+                  className={cn(
+                    "text-[16px] leading-[22px] font-medium",
+                    subSelected ? "text-cms-primary-200" : "text-white",
                   )}
                 >
                   {subItem.title}
@@ -253,7 +244,7 @@ export const SideNavigation = React.forwardRef<
         className={cn(
           "flex flex-col",
           "h-full w-[272px] max-w-[272px] min-w-[272px]",
-          "bg-cms-surface-coal text-cms-gray-200",
+          "bg-cms-surface-onyx text-cms-gray-200",
           "border-r border-white/6",
           className,
         )}
@@ -274,7 +265,7 @@ export const SideNavigation = React.forwardRef<
         {/* Menu Body */}
         <div
           className={cn(
-            "flex-1 overflow-y-auto",
+            "flex-1 overflow-y-auto px-4 py-1",
             "scrollbar-thin",
             "scrollbar-thumb-[#3a3b3e]",
             "scrollbar-track-transparent",
