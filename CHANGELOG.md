@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.5.0...v2.5.1) (2026-06-23)
+
 ## [2.5.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.4.0...v2.5.0) (2026-06-22)
 
 ## [2.4.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.3.3...v2.4.0) (2026-06-22)
