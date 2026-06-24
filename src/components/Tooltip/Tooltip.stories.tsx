@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Info, Settings, Trash2 } from "lucide-react";
 import { Button } from "../Button";
-import { ToolTip } from "./ToolTip";
+import { Tooltip } from "./Tooltip";
 
-const meta: Meta<typeof ToolTip> = {
-  title: "Feedback/ToolTip",
-  component: ToolTip,
+const meta: Meta<typeof Tooltip> = {
+  title: "Feedback/Tooltip",
+  component: Tooltip,
   parameters: {
     layout: "padded",
     docs: {
@@ -54,45 +54,45 @@ export const Showcase: Story = {
   render: () => (
     <div className="flex flex-col gap-10 py-12">
       <Row label="Side">
-        <ToolTip content="위쪽 툴팁" side="top">
+        <Tooltip content="위쪽 툴팁" side="top">
           <Button variant="outline">top</Button>
-        </ToolTip>
-        <ToolTip content="아래쪽 툴팁" side="bottom">
+        </Tooltip>
+        <Tooltip content="아래쪽 툴팁" side="bottom">
           <Button variant="outline">bottom</Button>
-        </ToolTip>
-        <ToolTip content="왼쪽 툴팁" side="left">
+        </Tooltip>
+        <Tooltip content="왼쪽 툴팁" side="left">
           <Button variant="outline">left</Button>
-        </ToolTip>
-        <ToolTip content="오른쪽 툴팁" side="right">
+        </Tooltip>
+        <Tooltip content="오른쪽 툴팁" side="right">
           <Button variant="outline">right</Button>
-        </ToolTip>
+        </Tooltip>
       </Row>
       <Row label="아이콘">
-        <ToolTip content="더 보기">
+        <Tooltip content="더 보기">
           <Button variant="ghost" size="icon">
             <Info className="size-4" />
           </Button>
-        </ToolTip>
-        <ToolTip content="설정">
+        </Tooltip>
+        <Tooltip content="설정">
           <Button variant="ghost" size="icon">
             <Settings className="size-4" />
           </Button>
-        </ToolTip>
-        <ToolTip content="삭제 (되돌릴 수 없음)">
+        </Tooltip>
+        <Tooltip content="삭제 (되돌릴 수 없음)">
           <Button variant="ghost" size="icon">
             <Trash2 className="size-4" />
           </Button>
-        </ToolTip>
+        </Tooltip>
       </Row>
       <Row label="긴 텍스트">
-        <ToolTip content="이 기능은 프리미엄 사용자만 이용할 수 있습니다">
+        <Tooltip content="이 기능은 프리미엄 사용자만 이용할 수 있습니다">
           <Button disabled>프리미엄 기능</Button>
-        </ToolTip>
+        </Tooltip>
       </Row>
       <Row label="화살표 없음">
-        <ToolTip content="화살표 없는 툴팁" showArrow={false}>
+        <Tooltip content="화살표 없는 툴팁" showArrow={false}>
           <Button variant="outline">no arrow</Button>
-        </ToolTip>
+        </Tooltip>
       </Row>
     </div>
   ),

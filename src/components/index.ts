@@ -21,7 +21,7 @@ export * from "./Pagination";
 export * from "./Checkbox";
 export * from "./Modal";
 export * from "./Toast";
-export * from "./ToolTip";
+export * from "./Tooltip";
 export * from "./Table";
 export * from "./ImageUpload";
 export * from "./FileUpload";
