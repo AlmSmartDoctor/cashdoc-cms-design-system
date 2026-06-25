@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { Combobox, Dropdown } from "./";
+import type { DropdownItem } from "./";
 
 const meta: Meta<typeof Dropdown> = {
   title: "Forms/Dropdown",
@@ -138,3 +139,82 @@ export const Showcase: Story = {
 };
 
 export const ForJsdoc: Story = Showcase;
+
+/* ── 그룹 서브메뉴 ── */
+
+const groupOptions: DropdownItem[] = [
+  { label: "전체", value: "" },
+  {
+    label: "상담 관련",
+    group: [
+      {
+        label: "상담 예약",
+        value: "CONSULT_RESERVED",
+        displayLabel: "예약",
+      },
+      { label: "상담 완료", value: "CONSULT_DONE", displayLabel: "완료" },
+    ],
+  },
+  {
+    label: "수술 관련",
+    group: [
+      { label: "수술 예약", value: "SURGERY_RESERVED" },
+      { label: "수술 완료", value: "SURGERY_DONE" },
+    ],
+  },
+  { label: "취소", value: "CANCELLED" },
+];
+
+const GroupCtrl = () => {
+  const [v, setV] = useState("");
+  return (
+    <Dropdown
+      options={groupOptions}
+      value={v}
+      onValueChange={setV}
+      placeholder="상태 선택"
+    />
+  );
+};
+
+const GroupDisabledCtrl = () => {
+  const [v, setV] = useState("");
+  return (
+    <Dropdown
+      options={[
+        { label: "전체", value: "" },
+        {
+          label: "비활성 그룹",
+          disabled: true,
+          group: [
+            { label: "옵션 A", value: "A" },
+            { label: "옵션 B", value: "B" },
+          ],
+        },
+        {
+          label: "활성 그룹",
+          group: [
+            { label: "옵션 C", value: "C" },
+            { label: "옵션 D (비활성)", value: "D", disabled: true },
+          ],
+        },
+      ]}
+      value={v}
+      onValueChange={setV}
+      placeholder="상태 선택"
+    />
+  );
+};
+
+export const GroupSubmenu: Story = {
+  render: () => (
+    <div className="grid max-w-3xl grid-cols-2 gap-x-6 gap-y-5">
+      <Section label="그룹 서브메뉴">
+        <GroupCtrl />
+      </Section>
+      <Section label="비활성 그룹 + 비활성 아이템">
+        <GroupDisabledCtrl />
+      </Section>
+    </div>
+  ),
+};

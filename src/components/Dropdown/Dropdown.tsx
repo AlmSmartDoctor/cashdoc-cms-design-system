@@ -22,11 +22,53 @@ export type DropdownOption = {
   value: string;
   label: string;
   disabled?: boolean;
+  /** 트리거에 표시할 짧은 이름. 생략 시 `label` 사용. */
+  displayLabel?: string;
   children?: DropdownOption[];
 };
 
+/** 선택 불가능한 그룹 헤더. hover 시 서브메뉴로 하위 옵션을 펼칩니다. */
+export type DropdownGroupOption = {
+  label: string;
+  group: DropdownOption[];
+  disabled?: boolean;
+};
+
+/**
+ * `options` prop에 전달할 수 있는 아이템 타입.
+ * 일반 옵션과 그룹 옵션을 혼합하여 사용할 수 있습니다.
+ */
+export type DropdownItem = DropdownOption | DropdownGroupOption;
+
+function isGroupOption(
+  item: DropdownItem,
+): item is DropdownGroupOption {
+  return "group" in item;
+}
+
+let groupIdCounter = 0;
+
+/**
+ * 소비자가 전달한 `DropdownItem[]`을 내부 `DropdownOption[]`로
+ * 정규화합니다. `DropdownGroupOption`의 `group`은 기존
+ * `children` 기반 구조로 변환됩니다.
+ */
+function normalizeOptions(items: DropdownItem[]): DropdownOption[] {
+  return items.map((item) => {
+    if (isGroupOption(item)) {
+      return {
+        value: `__group_${++groupIdCounter}`,
+        label: item.label,
+        disabled: item.disabled,
+        children: item.group,
+      };
+    }
+    return item;
+  });
+}
+
 type DropdownPropsBase = {
-  options: DropdownOption[];
+  options: DropdownItem[];
   value?: string;
   placeholder?: string;
   /**
@@ -213,6 +255,9 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       throw new Error("Dropdown: selectAll={true} requires multiple={true}.");
     }
 
+    // DropdownGroupOption → DropdownOption (children 기반) 정규화
+    const normalizedOptions = normalizeOptions(options);
+
     const [isOpen, setIsOpen] = useState(defaultOpen);
     const [isClosing, setIsClosing] = useState(false);
     const [openUpward, setOpenUpward] = useState(false);
@@ -269,17 +314,26 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       return undefined;
     };
 
-    const selectedOption = findOption(options, value || "");
+    const selectedOption = findOption(normalizedOptions, value || "");
     const selectedLabel =
       multiple ?
         selectedValues.length > 0 ?
           `${selectedValues.length}개 선택됨`
         : placeholder
-      : selectedOption?.label || placeholder;
+      : selectedOption?.displayLabel ||
+          selectedOption?.label ||
+          placeholder;
 
-    const filteredOptions = options.filter((option) =>
-      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+    const filteredOptions = normalizedOptions.filter((option) => {
+      const term = searchTerm.toLowerCase();
+      if (option.label.toLowerCase().includes(term)) return true;
+      if (option.children) {
+        return option.children.some((child) =>
+          child.label.toLowerCase().includes(term),
+        );
+      }
+      return false;
+    });
 
     // 닫힐 때 exit 애니메이션을 위해 즉시 unmount 하지 않는다.
     // onAnimationEnd 에서 실제로 isOpen=false 로 전환한다.
