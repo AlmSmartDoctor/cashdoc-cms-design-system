@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.6.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.6.0...v2.6.1) (2026-06-25)
+
+
+### Bug Fixes
+
+* stabilize group option value across renders ([f13151d](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/f13151da14fe7dbe9945d52f24ac2b821af24b75))
+
 ## [2.6.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.5.2...v2.6.0) (2026-06-25)
 
 
