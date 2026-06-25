@@ -4,7 +4,7 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { cn } from "@/utils/cn";
 import React from "react";
 
-export type ToolTipProps = {
+export type TooltipProps = {
   /** 툴팁을 트리거하는 요소 */
   children: React.ReactNode;
   /** 툴팁에 표시할 내용 */
@@ -37,7 +37,7 @@ export type ToolTipProps = {
 /**
  * 마우스 호버나 포커스 시 간단한 힌트나 설명을 제공하는 툴팁 컴포넌트입니다.
  *
- * {@link ToolTip}은 UI 요소에 대한 추가 정보를 간결하게 제공하여
+ * {@link Tooltip}은 UI 요소에 대한 추가 정보를 간결하게 제공하여
  * 사용자가 인터페이스를 더 쉽게 이해할 수 있도록 돕습니다.
  *
  * Radix UI의 Tooltip 컴포넌트를 기반으로 구현되어 접근성 기능이
@@ -90,23 +90,23 @@ export type ToolTipProps = {
  * 아이콘 버튼에 툴팁 추가:
  *
  * ```tsx
- * <ToolTip content="설정">
+ * <Tooltip content="설정">
  *   <Button variant="ghost" size="icon">
  *     <SettingsIcon />
  *   </Button>
- * </ToolTip>
+ * </Tooltip>
  * ```
  *
  * 위치와 지연 시간 커스터마이징:
  *
  * ```tsx
- * <ToolTip
+ * <Tooltip
  *   content="이 기능은 프리미엄 사용자만 이용할 수 있습니다"
  *   side="bottom"
  *   delayDuration={300}
  * >
  *   <Button disabled>프리미엄 기능</Button>
- * </ToolTip>
+ * </Tooltip>
  * ```
  * {@end-tool}
  *
@@ -117,9 +117,9 @@ export type ToolTipProps = {
  * ## 참고사진
  * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Feedback/ToolTip/For%20Jsdoc.png?raw=true)
  */
-export const ToolTip = React.forwardRef<
+export const Tooltip = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
-  ToolTipProps
+  TooltipProps
 >(
   (
     {
@@ -193,4 +193,4 @@ export const ToolTip = React.forwardRef<
   },
 );
 
-ToolTip.displayName = "ToolTip";
+Tooltip.displayName = "Tooltip";
