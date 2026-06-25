@@ -6,7 +6,14 @@ import type {
   RefAttributes,
   ReactNode,
 } from "react";
-import { useState, useRef, useEffect, useCallback, forwardRef } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+  forwardRef,
+} from "react";
 import { createPortal } from "react-dom";
 import { useScrollIndicator } from "@/hooks/useScrollIndicator";
 import {
@@ -46,18 +53,19 @@ function isGroupOption(
   return "group" in item;
 }
 
-let groupIdCounter = 0;
-
 /**
  * 소비자가 전달한 `DropdownItem[]`을 내부 `DropdownOption[]`로
  * 정규화합니다. `DropdownGroupOption`의 `group`은 기존
  * `children` 기반 구조로 변환됩니다.
+ * 그룹의 합성 value는 label 기반으로 생성하여 렌더링 간 안정적입니다.
  */
-function normalizeOptions(items: DropdownItem[]): DropdownOption[] {
-  return items.map((item) => {
+function normalizeOptions(
+  items: DropdownItem[],
+): DropdownOption[] {
+  return items.map((item, index) => {
     if (isGroupOption(item)) {
       return {
-        value: `__group_${++groupIdCounter}`,
+        value: `__group_${index}_${item.label}`,
         label: item.label,
         disabled: item.disabled,
         children: item.group,
@@ -256,7 +264,10 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
     }
 
     // DropdownGroupOption → DropdownOption (children 기반) 정규화
-    const normalizedOptions = normalizeOptions(options);
+    const normalizedOptions = useMemo(
+      () => normalizeOptions(options),
+      [options],
+    );
 
     const [isOpen, setIsOpen] = useState(defaultOpen);
     const [isClosing, setIsClosing] = useState(false);
