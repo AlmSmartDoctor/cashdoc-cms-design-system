@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.5.2...v2.6.0) (2026-06-25)
+
+
+### Features
+
+* add DropdownGroupOption type and displayLabel support ([125d5f5](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/125d5f5fe55de525b29d992a59d1319276ba3f26))
+
 ### [2.5.2](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.5.1...v2.5.2) (2026-06-25)
 
 ### [2.5.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.5.0...v2.5.1) (2026-06-23)
