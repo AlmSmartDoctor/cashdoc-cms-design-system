@@ -55,4 +55,26 @@ test.describe("TimePicker 컴포넌트", () => {
     // Input 값이 12시간 형식으로 표시되는지 확인
     await expect(page.getByRole("textbox")).toHaveValue("10:30 AM");
   });
+
+  // CSD-8027: Modal(Dialog) 내부에서 TimePicker 팝오버 클릭이 죽지 않는지 검증.
+  test("모달 내부에서 시/분 선택 동작", async ({ page }) => {
+    await page.goto("/iframe.html?id=forms-timepicker--in-modal&viewMode=story");
+
+    // 모달 열기
+    await page.getByRole("button", { name: "모달 열기" }).click();
+    await expect(
+      page.getByRole("dialog", { name: "발송 시간 설정" }),
+    ).toBeVisible();
+
+    // 모달 안 TimePicker 입력창 클릭 → 팝오버 오픈
+    await page.getByRole("textbox").click();
+
+    // 시/분 선택 (모달 pointer-events 차단에도 클릭이 살아있어야 함)
+    await page.getByRole("button", { name: "10시" }).click();
+    await page.getByRole("button", { name: "30분" }).click();
+    await page.getByRole("button", { name: "적용" }).click();
+
+    // 선택 값이 입력창에 반영되어야 함
+    await expect(page.getByRole("textbox")).toHaveValue("10:30");
+  });
 });

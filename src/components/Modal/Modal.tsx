@@ -279,10 +279,8 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               "translate-x-[-50%] translate-y-[-50%]",
               "w-full",
               sizeClasses[size],
-              "overflow-hidden rounded-cms-xl bg-cms-white",
-              `
-                shadow-[0_24px_48px_rgba(15,20,25,0.12),0_8px_16px_rgba(15,20,25,0.06)]
-              `,
+              "rounded-cms-xl",
+              `shadow-[0_24px_48px_rgba(15,20,25,0.12),0_8px_16px_rgba(15,20,25,0.06)]`,
               "data-[state=closed]:animate-out",
               "data-[state=open]:animate-in",
               "data-[state=closed]:fade-out-0",
@@ -293,55 +291,55 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
             )}
           >
             <PortalContainerContext.Provider value={contentNode}>
-              {showCloseButton && (
-                <DialogPrimitive.Close asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="absolute top-3 right-3 size-7"
-                  >
-                    <CloseIcon className="size-4" />
-                    <span className="sr-only">Close</span>
-                  </Button>
-                </DialogPrimitive.Close>
-              )}
-              {(icon || title) && (
-                <div
-                  className="flex items-center gap-2.5 px-6 pt-[22px] pb-1.5"
-                >
-                  {icon && <div className="flex shrink-0">{icon}</div>}
-                  {title && (
-                    <DialogPrimitive.Title
-                      className={cn(
-                        "text-[17px] font-bold text-cms-gray-900",
-                        "leading-tight tracking-tight",
-                      )}
+              <div className="overflow-hidden rounded-cms-xl bg-cms-white">
+                {showCloseButton && (
+                  <DialogPrimitive.Close asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute top-3 right-3 size-7"
                     >
-                      {title}
-                    </DialogPrimitive.Title>
-                  )}
-                </div>
-              )}
-              {children && (
-                <DialogPrimitive.Description
-                  className={cn(
-                    "px-6 pt-1 pb-5 text-sm/relaxed text-cms-gray-700",
-                  )}
-                >
-                  {children}
-                </DialogPrimitive.Description>
-              )}
-              {footer && (
-                <div
-                  className={cn(
-                    "flex justify-end gap-2",
-                    "px-6 pt-3.5 pb-[18px]",
-                    "border-t border-cms-gray-150 bg-cms-gray-50",
-                  )}
-                >
-                  {footer}
-                </div>
-              )}
+                      <CloseIcon className="size-4" />
+                      <span className="sr-only">Close</span>
+                    </Button>
+                  </DialogPrimitive.Close>
+                )}
+                {(icon || title) && (
+                  <div className="flex items-center gap-2.5 px-6 pt-[22px] pb-1.5">
+                    {icon && <div className="flex shrink-0">{icon}</div>}
+                    {title && (
+                      <DialogPrimitive.Title
+                        className={cn(
+                          "text-[17px] font-bold text-cms-gray-900",
+                          "leading-tight tracking-tight",
+                        )}
+                      >
+                        {title}
+                      </DialogPrimitive.Title>
+                    )}
+                  </div>
+                )}
+                {children && (
+                  <DialogPrimitive.Description
+                    className={cn(
+                      "px-6 pt-1 pb-5 text-sm/relaxed text-cms-gray-700",
+                    )}
+                  >
+                    {children}
+                  </DialogPrimitive.Description>
+                )}
+                {footer && (
+                  <div
+                    className={cn(
+                      "flex justify-end gap-2",
+                      "px-6 pt-3.5 pb-[18px]",
+                      "border-t border-cms-gray-150 bg-cms-gray-50",
+                    )}
+                  >
+                    {footer}
+                  </div>
+                )}
+              </div>
             </PortalContainerContext.Provider>
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>
