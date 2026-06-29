@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { TimePicker } from "./TimePicker";
+import { Modal } from "../Modal";
+import { Button } from "../Button";
 
 const meta: Meta<typeof TimePicker> = {
   title: "Forms/TimePicker",
@@ -81,6 +83,29 @@ export const Error: Story = {
 export const Disabled: Story = {
   name: "비활성",
   render: () => <Controlled label="고정 시간" value="08:00" disabled />,
+};
+
+/**
+ * Modal(Radix Dialog) 내부에서 TimePicker를 사용하는 회귀 케이스입니다.
+ * 모달은 `pointer-events`를 차단하지만, TimePicker 팝오버가 모달 콘텐츠로
+ * 자동 portal되어 시/분 선택 클릭이 정상 동작해야 합니다. (CSD-8027)
+ */
+const InModalDemo = () => {
+  const [open, setOpen] = useState(false);
+  const [time, setTime] = useState("");
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>모달 열기</Button>
+      <Modal open={open} onOpenChange={setOpen} title="발송 시간 설정">
+        <TimePicker label="발송 시간" value={time} onChange={setTime} />
+      </Modal>
+    </>
+  );
+};
+
+export const InModal: Story = {
+  name: "모달 내부",
+  render: () => <InModalDemo />,
 };
 
 export const ForJsdoc: Story = Showcase;

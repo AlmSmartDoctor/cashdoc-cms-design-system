@@ -6,6 +6,7 @@ import { ko } from "react-day-picker/locale";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
+import { usePortalContainer } from "@/utils/portalContainer";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
 import { formatDateDigits, parseDateInput } from "@/utils/dateInputFormat";
 import { useDisclosure } from "@/hooks/useDisclosure";
@@ -418,10 +419,7 @@ export const DateRangePicker = React.forwardRef<
                 "focus-within:shadow-[0_0_0_3px_rgba(15,20,25,0.08)]",
                 inputError &&
                   cn(
-                    `
-                      border-cms-red-500
-                      hover:border-cms-red-500
-                    `,
+                    `border-cms-red-500 hover:border-cms-red-500`,
                     "focus-within:border-cms-red-500",
                     "focus-within:shadow-[0_0_0_3px_rgba(229,56,74,0.22)]",
                   ),
@@ -515,7 +513,7 @@ export const DateRangePicker = React.forwardRef<
           </div>
         </PopoverPrimitive.Anchor>
 
-        <PopoverPrimitive.Portal>
+        <PopoverPrimitive.Portal container={usePortalContainer()}>
           <PopoverPrimitive.Content
             align="start"
             sideOffset={8}
@@ -537,9 +535,7 @@ export const DateRangePicker = React.forwardRef<
             className={cn(
               "z-cms-overlay rounded-cms-lg bg-cms-white p-3.5",
               "border border-cms-gray-200",
-              `
-                shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]
-              `,
+              `shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]`,
               "data-[state=open]:animate-in",
               "data-[state=closed]:animate-out",
               "data-[state=closed]:fade-out-0",

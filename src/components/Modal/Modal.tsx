@@ -2,11 +2,22 @@ import React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { CloseIcon } from "@/components/icons";
 import { cn } from "@/utils/cn";
+import { PortalContainerContext } from "@/utils/portalContainer";
 import { Button } from "../Button";
 
 export type ModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  /**
+   * Radix Dialog의 `modal` 동작을 제어합니다. 기본값 `true`는 배경
+   * 상호작용을 차단하는 표준 모달 동작입니다. `false`로 두면 배경
+   * `pointer-events` 차단이 사라집니다.
+   *
+   * 모달 내부의 `TimePicker`/`DatePicker`/`Dropdown` 등 Popover 계열
+   * 컴포넌트는 기본값(`true`)에서도 자동으로 모달 내부에 portal되어
+   * 정상 동작하므로, 이 prop을 바꿀 필요는 일반적으로 없습니다.
+   */
+  modal?: boolean;
   icon?: React.ReactNode;
   title?: React.ReactNode;
   children: React.ReactNode;
@@ -220,13 +231,34 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
       className,
       showCloseButton = true,
       size = "md",
+      modal,
       onOpenAutoFocus,
       onCloseAutoFocus,
     },
     ref,
   ) => {
+    const [contentNode, setContentNode] = React.useState<HTMLDivElement | null>(
+      null,
+    );
+
+    const setContentRef = React.useCallback(
+      (node: HTMLDivElement | null) => {
+        setContentNode(node);
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      },
+      [ref],
+    );
+
     return (
-      <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
+      <DialogPrimitive.Root
+        open={open}
+        onOpenChange={onOpenChange}
+        modal={modal}
+      >
         <DialogPrimitive.Portal>
           <DialogPrimitive.Overlay
             className={cn(
@@ -239,7 +271,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
             )}
           />
           <DialogPrimitive.Content
-            ref={ref}
+            ref={setContentRef}
             onOpenAutoFocus={onOpenAutoFocus}
             onCloseAutoFocus={onCloseAutoFocus}
             className={cn(
@@ -260,53 +292,57 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               className,
             )}
           >
-            {showCloseButton && (
-              <DialogPrimitive.Close asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute top-3 right-3 size-7"
-                >
-                  <CloseIcon className="size-4" />
-                  <span className="sr-only">Close</span>
-                </Button>
-              </DialogPrimitive.Close>
-            )}
-            {(icon || title) && (
-              <div className="flex items-center gap-2.5 px-6 pt-[22px] pb-1.5">
-                {icon && <div className="flex shrink-0">{icon}</div>}
-                {title && (
-                  <DialogPrimitive.Title
-                    className={cn(
-                      "text-[17px] font-bold text-cms-gray-900",
-                      "leading-tight tracking-tight",
-                    )}
+            <PortalContainerContext.Provider value={contentNode}>
+              {showCloseButton && (
+                <DialogPrimitive.Close asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute top-3 right-3 size-7"
                   >
-                    {title}
-                  </DialogPrimitive.Title>
-                )}
-              </div>
-            )}
-            {children && (
-              <DialogPrimitive.Description
-                className={cn(
-                  "px-6 pt-1 pb-5 text-sm/relaxed text-cms-gray-700",
-                )}
-              >
-                {children}
-              </DialogPrimitive.Description>
-            )}
-            {footer && (
-              <div
-                className={cn(
-                  "flex justify-end gap-2",
-                  "px-6 pt-3.5 pb-[18px]",
-                  "border-t border-cms-gray-150 bg-cms-gray-50",
-                )}
-              >
-                {footer}
-              </div>
-            )}
+                    <CloseIcon className="size-4" />
+                    <span className="sr-only">Close</span>
+                  </Button>
+                </DialogPrimitive.Close>
+              )}
+              {(icon || title) && (
+                <div
+                  className="flex items-center gap-2.5 px-6 pt-[22px] pb-1.5"
+                >
+                  {icon && <div className="flex shrink-0">{icon}</div>}
+                  {title && (
+                    <DialogPrimitive.Title
+                      className={cn(
+                        "text-[17px] font-bold text-cms-gray-900",
+                        "leading-tight tracking-tight",
+                      )}
+                    >
+                      {title}
+                    </DialogPrimitive.Title>
+                  )}
+                </div>
+              )}
+              {children && (
+                <DialogPrimitive.Description
+                  className={cn(
+                    "px-6 pt-1 pb-5 text-sm/relaxed text-cms-gray-700",
+                  )}
+                >
+                  {children}
+                </DialogPrimitive.Description>
+              )}
+              {footer && (
+                <div
+                  className={cn(
+                    "flex justify-end gap-2",
+                    "px-6 pt-3.5 pb-[18px]",
+                    "border-t border-cms-gray-150 bg-cms-gray-50",
+                  )}
+                >
+                  {footer}
+                </div>
+              )}
+            </PortalContainerContext.Provider>
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>
       </DialogPrimitive.Root>
