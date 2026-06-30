@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { DatePicker } from "./DatePicker";
+import { Modal } from "../Modal";
+import { Button } from "../Button";
 
 const meta: Meta<typeof DatePicker> = {
   title: "Forms/DatePicker",
@@ -90,6 +92,23 @@ export const WithMinMax: Story = {
       helperText="2026년 5월만 선택할 수 있어요"
     />
   ),
+};
+
+const InModalDemo = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>모달 열기</Button>
+      <Modal open={open} onOpenChange={setOpen} title="발송 일자 설정">
+        <Controlled label="발송 일자" placeholder="YYYY-MM-DD" />
+      </Modal>
+    </>
+  );
+};
+
+export const InModal: Story = {
+  name: "모달 내부",
+  render: () => <InModalDemo />,
 };
 
 export const ForJsdoc: Story = Showcase;
