@@ -2,6 +2,7 @@
 
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { cn } from "@/utils/cn";
+import { usePortalContainer } from "@/utils/portalContainer";
 import type { ComponentPropsWithoutRef } from "react";
 import { forwardRef } from "react";
 
@@ -13,7 +14,14 @@ export type PopoverTriggerProps = ComponentPropsWithoutRef<
 >;
 export type PopoverContentProps = ComponentPropsWithoutRef<
   typeof PopoverPrimitive.Content
->;
+> & {
+  /**
+   * 팝오버가 렌더될 portal container를 직접 지정합니다. 지정하지 않으면
+   * 상위 Modal 내부에서는 자동으로 모달 콘텐츠에, 그 밖에서는 `body`에
+   * 렌더됩니다. 일반적으로 지정할 필요가 없습니다.
+   */
+  container?: HTMLElement | null;
+};
 
 /**
  * 특정 요소 근처에 부가적인 정보나 컨트롤을 표시하는 플로팅 컴포넌트입니다.
@@ -94,9 +102,9 @@ const PopoverTrigger = PopoverPrimitive.Trigger;
 
 const PopoverContent = forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
->(({ className, align = "end", sideOffset = 8, ...props }, ref) => (
-  <PopoverPrimitive.Portal>
+  PopoverContentProps
+>(({ className, align = "end", sideOffset = 8, container, ...props }, ref) => (
+  <PopoverPrimitive.Portal container={usePortalContainer(container)}>
     <PopoverPrimitive.Content
       ref={ref}
       align={align}

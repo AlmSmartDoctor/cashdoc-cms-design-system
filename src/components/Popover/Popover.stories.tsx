@@ -1,13 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import {
-  Copy,
-  Edit,
-  Heart,
-  MoreVertical,
-  Share2,
-  Trash2,
-} from "lucide-react";
+import { useState } from "react";
+import { Copy, Edit, Heart, MoreVertical, Share2, Trash2 } from "lucide-react";
 import { Button } from "../Button";
+import { Modal } from "../Modal";
 import { Popover, PopoverContent, PopoverMenuItem, PopoverTrigger } from "./";
 
 const meta: Meta<typeof Popover> = {
@@ -112,6 +107,41 @@ export const Showcase: Story = {
       </Cell>
     </div>
   ),
+};
+
+const InModalDemo = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>모달 열기</Button>
+      <Modal open={open} onOpenChange={setOpen} title="더보기 메뉴">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline">메뉴 열기</Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverMenuItem icon={<Edit className="size-4" />}>
+              수정하기
+            </PopoverMenuItem>
+            <PopoverMenuItem icon={<Copy className="size-4" />}>
+              복사하기
+            </PopoverMenuItem>
+            <PopoverMenuItem
+              variant="destructive"
+              icon={<Trash2 className="size-4" />}
+            >
+              삭제하기
+            </PopoverMenuItem>
+          </PopoverContent>
+        </Popover>
+      </Modal>
+    </>
+  );
+};
+
+export const InModal: Story = {
+  name: "모달 내부",
+  render: () => <InModalDemo />,
 };
 
 export const ForJsdoc: Story = Showcase;

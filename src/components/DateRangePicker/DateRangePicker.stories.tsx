@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { DateRangePicker, type DateRange } from "./DateRangePicker";
+import { Modal } from "../Modal";
+import { Button } from "../Button";
 
 const meta: Meta<typeof DateRangePicker> = {
   title: "Forms/DateRangePicker",
@@ -68,6 +70,28 @@ export const SundayStart: Story = {
 export const WithMinMax: Story = {
   name: "min / max 제한 (이번 달)",
   render: () => <Controlled min="2026-05-01" max="2026-05-31" />,
+};
+
+const InModalDemo = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>모달 열기</Button>
+      <Modal
+        open={open}
+        onOpenChange={setOpen}
+        title="조회 기간 설정"
+        size="lg"
+      >
+        <Controlled />
+      </Modal>
+    </>
+  );
+};
+
+export const InModal: Story = {
+  name: "모달 내부",
+  render: () => <InModalDemo />,
 };
 
 export const ForJsdoc: Story = Showcase;

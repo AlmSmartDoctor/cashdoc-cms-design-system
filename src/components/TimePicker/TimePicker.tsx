@@ -2,6 +2,7 @@ import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { Clock } from "lucide-react";
 import { cn } from "@/utils/cn";
+import { usePortalContainer } from "@/utils/portalContainer";
 import { useDisclosure } from "@/hooks/useDisclosure";
 
 type TimePeriod = "AM" | "PM";
@@ -325,10 +326,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          "flex w-full max-w-[200px] flex-col gap-1",
-          className,
-        )}
+        className={cn("flex w-full max-w-[200px] flex-col gap-1", className)}
       >
         {label && (
           <label
@@ -390,16 +388,14 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
             </div>
           </PopoverPrimitive.Trigger>
 
-          <PopoverPrimitive.Portal>
+          <PopoverPrimitive.Portal container={usePortalContainer()}>
             <PopoverPrimitive.Content
               align="start"
               sideOffset={5}
               className={cn(
                 "z-cms-overlay rounded-cms-lg bg-cms-white",
                 "border border-cms-gray-200",
-                `
-                  shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]
-                `,
+                `shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]`,
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",
                 "data-[state=closed]:fade-out-0",
