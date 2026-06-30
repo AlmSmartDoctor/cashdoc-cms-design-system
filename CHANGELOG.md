@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.6.2](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.6.1...v2.6.2) (2026-06-30)
+
+
+### Bug Fixes
+
+* **Modal:** portal popovers into dialog content (CSD-8027) ([947b4e4](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/947b4e4feb9725b80b8aff447d8bf7a9e4e8730b))
+* **Modal:** prevent portaled popover from being clipped (CSD-8027) ([96e9408](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/96e9408bb6a03fd008039ef78507ecbcbe3b5e5c))
+
 ### [2.6.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.6.0...v2.6.1) (2026-06-25)
 
 
