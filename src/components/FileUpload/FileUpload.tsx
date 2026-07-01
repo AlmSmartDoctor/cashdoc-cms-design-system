@@ -1,5 +1,5 @@
 import { cn } from "@/utils/cn";
-import { useCallback, useMemo, useState } from "react";
+import { forwardRef, useCallback, useMemo, useState } from "react";
 import type { Accept, FileRejection } from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 import { FileUploadIcon, FileIcon, XIcon as CloseIcon } from "../icons";
@@ -72,16 +72,20 @@ export type FileUploadProps = {
  * ## 참고사진
  * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/FileUpload/For%20Jsdoc.png?raw=true)
  */
-export const FileUpload = ({
-  value = [],
-  onChange,
-  maxFiles = 5,
-  maxSize = 10 * 1024 * 1024, // 10MB
-  accept,
-  disabled = false,
-  className,
-  onError,
-}: FileUploadProps) => {
+export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
+  function FileUpload(
+    {
+      value = [],
+      onChange,
+      maxFiles = 5,
+      maxSize = 10 * 1024 * 1024, // 10MB
+      accept,
+      disabled = false,
+      className,
+      onError,
+    },
+    ref,
+  ) {
   const [files, setFiles] = useState<File[]>(value);
 
   const onDrop = useCallback(
@@ -139,7 +143,7 @@ export const FileUpload = ({
     : `최대 ${maxFiles}개 파일, 최대 ${maxSizeMB}MB`;
 
   return (
-    <div className={cn("w-full", className)}>
+    <div ref={ref} className={cn("w-full", className)}>
       {!isMaxReached && (
         <div
           {...getRootProps()}
@@ -250,6 +254,7 @@ export const FileUpload = ({
       )}
     </div>
   );
-};
+  },
+);
 
 FileUpload.displayName = "FileUpload";
