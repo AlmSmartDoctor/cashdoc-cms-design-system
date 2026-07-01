@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import * as ToggleGroup from "@radix-ui/react-toggle-group";
 import { cn } from "@/utils/cn";
 
@@ -12,6 +13,8 @@ export type SegmentedControlsProps<T extends string | number> = {
   onChange: (value: T) => void;
   className?: string;
 };
+
+type SegmentedControlsRef = React.ElementRef<typeof ToggleGroup.Root>;
 
 /**
  * 상호 배타적인 적은 수의 옵션 중 하나를 선택하거나 뷰(View)를 전환할 때 사용하는 컴포넌트입니다.
@@ -56,12 +59,12 @@ export type SegmentedControlsProps<T extends string | number> = {
  * ## 참고사진
  * ![](<https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/SegmentedControls/For%20Jsdoc.png?raw=true>)
  */
-export const SegmentedControls = <T extends string | number>({
-  options,
-  value,
-  onChange,
-  className = "",
-}: SegmentedControlsProps<T>) => {
+const SegmentedControlsBase = forwardRef(function SegmentedControls<
+  T extends string | number,
+>(
+  { options, value, onChange, className = "" }: SegmentedControlsProps<T>,
+  ref: React.ForwardedRef<SegmentedControlsRef>,
+) {
   // Radix ToggleGroup은 string value를 기본으로 사용하므로,
   // string | number 타입 대응을 위해 핸들러를 래핑합니다.
   const handleValueChange = (newValue: string) => {
@@ -78,6 +81,7 @@ export const SegmentedControls = <T extends string | number>({
 
   return (
     <ToggleGroup.Root
+      ref={ref}
       type="single"
       value={String(value)}
       onValueChange={handleValueChange}
@@ -117,6 +121,13 @@ export const SegmentedControls = <T extends string | number>({
       ))}
     </ToggleGroup.Root>
   );
-};
+});
 
-SegmentedControls.displayName = "SegmentedControls";
+SegmentedControlsBase.displayName = "SegmentedControls";
+
+export const SegmentedControls = SegmentedControlsBase as <
+  T extends string | number,
+>(
+  props: SegmentedControlsProps<T> &
+    React.RefAttributes<SegmentedControlsRef>,
+) => React.ReactElement;

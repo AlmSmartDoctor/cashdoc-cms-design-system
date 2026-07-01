@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
+import { expect, within } from "@storybook/test";
+import { useEffect, useRef, useState } from "react";
 import { FileUpload } from "./FileUpload";
 
 const meta: Meta<typeof FileUpload> = {
@@ -73,3 +74,23 @@ export const Showcase: Story = {
 };
 
 export const ForJsdoc: Story = Showcase;
+
+export const RefForwarding: Story = {
+  render: () => {
+    const ref = useRef<HTMLDivElement>(null);
+    const [tag, setTag] = useState("");
+    useEffect(() => setTag(ref.current?.tagName ?? "null"), []);
+    return (
+      <div className="flex flex-col gap-2">
+        <FileUpload ref={ref} />
+        <span data-testid="ref-tag" className="text-xs">
+          {tag}
+        </span>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByTestId("ref-tag")).toHaveTextContent("DIV");
+  },
+};
