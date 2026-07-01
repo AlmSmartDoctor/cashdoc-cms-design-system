@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.7.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.6.2...v2.7.0) (2026-07-01)
+
+
+### Bug Fixes
+
+* **Modal:** restore DS font in portaled dialog + host block children ([#40](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/40)) ([00eb9ed](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/00eb9ed74ee1ee2ab932e6fd8ec95790bb8ff697))
+* **Popover:** default align to start so content aligns to trigger left ([#40](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/40)) ([eebc860](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/eebc86025fffac47f0ecb30789c615d9463ebbee))
+* **TimePicker:** apply right padding only when icon is shown ([#40](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/40)) ([5e8ea91](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/5e8ea915a1e9d5dd22b6085590366b54f70a17e4))
+
 ### [2.6.2](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.6.1...v2.6.2) (2026-06-30)
 
 
