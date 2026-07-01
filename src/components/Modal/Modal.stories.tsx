@@ -24,6 +24,7 @@ const meta: Meta<typeof Modal> = {
   argTypes: {
     open: { control: "boolean" },
     title: { control: "text" },
+    description: { control: "text" },
     size: {
       control: "select",
       options: ["sm", "md", "lg"],
@@ -142,6 +143,57 @@ export const Showcase: Story = {
           />
         </Frame>
       </div>
+    );
+  },
+};
+
+/**
+ * `children`은 `<div>` 컨테이너에 렌더되므로 block 요소(입력 폼, 픽커 등)를
+ * 안전하게 담을 수 있습니다. 스크린리더용 설명이 필요하면 `description`
+ * prop으로 전달하면 시각적으로 숨긴 채 `aria-describedby`에 연결됩니다.
+ */
+const fieldClass =
+  "h-9 rounded-cms-md border border-cms-gray-250 px-3 text-sm";
+
+export const WithBlockContent: Story = {
+  render: () => {
+    const [open, setOpen] = useState(false);
+    const close = () => setOpen(false);
+    return (
+      <Frame label="Block children + description">
+        <Trigger label="폼 모달" onClick={() => setOpen(true)} />
+        <Modal
+          open={open}
+          onOpenChange={setOpen}
+          title="새 사용자 추가"
+          description="이름과 이메일을 입력해 사용자를 추가합니다."
+          footer={
+            <div className="flex gap-2">
+              <Button variant="ghost" onClick={close}>
+                취소
+              </Button>
+              <Button onClick={close}>추가</Button>
+            </div>
+          }
+        >
+          <div className="flex flex-col gap-3">
+            <label className="flex flex-col gap-1">
+              <span className="text-xs text-cms-gray-550">이름</span>
+              <input
+                className={fieldClass}
+                placeholder="홍길동"
+              />
+            </label>
+            <label className="flex flex-col gap-1">
+              <span className="text-xs text-cms-gray-550">이메일</span>
+              <input
+                className={fieldClass}
+                placeholder="user@example.com"
+              />
+            </label>
+          </div>
+        </Modal>
+      </Frame>
     );
   },
 };

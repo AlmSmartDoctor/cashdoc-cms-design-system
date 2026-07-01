@@ -20,6 +20,15 @@ export type ModalProps = {
   modal?: boolean;
   icon?: React.ReactNode;
   title?: React.ReactNode;
+  /**
+   * 스크린리더에 전달할 모달 설명 텍스트입니다. 지정하면 시각적으로는
+   * 숨겨진 채 `aria-describedby`로 연결됩니다.
+   *
+   * `children`은 `<div>` 컨테이너에 렌더되어 block 요소(픽커, 폼 등)를
+   * 안전하게 담을 수 있으므로, 접근성 설명이 필요하면 이 prop을 사용하세요.
+   * 지정하지 않으면 Radix의 설명 연결이 생략됩니다(시각/동작 영향 없음).
+   */
+  description?: React.ReactNode;
   children: React.ReactNode;
   footer?: React.ReactNode;
   className?: string;
@@ -119,7 +128,8 @@ const sizeClasses = {
  * - **스크린 리더**:
  *   - `role="dialog"`: 대화상자임을 인식
  *   - `aria-labelledby`: title이 모달의 레이블로 연결됨
- *   - `aria-describedby`: children 콘텐츠가 설명으로 연결됨
+ *   - `aria-describedby`: `description` prop이 있으면 시각적으로 숨긴 설명으로
+ *     연결됨. `children`은 `<div>` 컨테이너에 렌더되어 block 요소도 안전함.
  *
  * - **포커스 트랩**: 모달이 열려있는 동안 포커스가 모달 내부에서만 순환합니다
  * - **배경 스크롤 방지**: 모달이 열리면 body 스크롤이 자동으로 비활성화됩니다
@@ -226,6 +236,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
       onOpenChange,
       icon,
       title,
+      description,
       children,
       footer,
       className,
@@ -274,7 +285,13 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
             ref={setContentRef}
             onOpenAutoFocus={onOpenAutoFocus}
             onCloseAutoFocus={onCloseAutoFocus}
+            {...(description ? {} : { "aria-describedby": undefined })}
             className={cn(
+              // Radix Dialog는 body로 portal되어 .cms-cashdoc-ds inherit
+              // 체인 밖에 놓인다. 루트 클래스를 직접 부여해 Pretendard/
+              // font-weight 등 DS 타이포를 복원한다. (없으면 OS serif로
+              // fallback되어 라벨 폭이 넓어져 픽커 라벨↔값 간격이 깨짐)
+              "cms-cashdoc-ds",
               "fixed top-[50%] left-[50%] z-cms-modal",
               "translate-x-[-50%] translate-y-[-50%]",
               "w-full",
@@ -319,14 +336,19 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                     )}
                   </div>
                 )}
+                {description && (
+                  <DialogPrimitive.Description className="sr-only">
+                    {description}
+                  </DialogPrimitive.Description>
+                )}
                 {children && (
-                  <DialogPrimitive.Description
+                  <div
                     className={cn(
                       "px-6 pt-1 pb-5 text-sm/relaxed text-cms-gray-700",
                     )}
                   >
                     {children}
-                  </DialogPrimitive.Description>
+                  </div>
                 )}
                 {footer && (
                   <div

@@ -55,7 +55,7 @@ export type PopoverContentProps = ComponentPropsWithoutRef<
  * ### ✅ Do (권장 사항)
  *
  * - **명확한 트리거**: 사용자가 무엇을 클릭하면 팝오버가 열릴지 명확히 인지할 수 있는 버튼이나 아이콘을 사용하세요.
- * - **적절한 배치**: `align` 속성을 조절하여 팝오버가 화면 밖으로 나가지 않도록 관리하세요. (기본값: 'end')
+ * - **적절한 배치**: `align` 속성을 조절하여 팝오버가 화면 밖으로 나가지 않도록 관리하세요. (기본값: 'start' — 팝오버 왼쪽 보더가 트리거 왼쪽 선에 정렬)
  *
  * ### 🚫 Don't (주의/금지 사항)
  *
@@ -103,7 +103,11 @@ const PopoverTrigger = PopoverPrimitive.Trigger;
 const PopoverContent = forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   PopoverContentProps
->(({ className, align = "end", sideOffset = 8, container, ...props }, ref) => (
+>(
+  (
+    { className, align = "start", sideOffset = 8, container, ...props },
+    ref,
+  ) => (
   <PopoverPrimitive.Portal container={usePortalContainer(container)}>
     <PopoverPrimitive.Content
       ref={ref}
