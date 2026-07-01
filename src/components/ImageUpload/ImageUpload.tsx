@@ -1,5 +1,11 @@
 import { cn } from "@/utils/cn";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import type { Accept, FileRejection } from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 import { ImageUploadIcon, XIcon as CloseIcon } from "../icons";
@@ -201,22 +207,28 @@ export type ImageUploadProps = {
  * ## 참고사진
  * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/ImageUpload/For%20Jsdoc.png?raw=true)
  */
-export const ImageUpload = ({
-  value = [],
-  onChange,
-  maxFiles = 1,
-  maxSize = 5 * 1024 * 1024, // 5MB
-  accept = DEFAULT_IMAGE_ACCEPT,
-  disabled = false,
-  className,
-  showPreview = true,
-  showAcceptedFileTypes = false,
-  error = false,
-  onError,
-  validateImage,
-  placeholder = "파일을 끌어다 놓거나 클릭해서 업로드",
-  placeholderActive = "파일을 여기에 놓으세요",
-}: ImageUploadProps) => {
+export const ImageUpload = forwardRef<
+  HTMLDivElement,
+  ImageUploadProps
+>(function ImageUpload(
+  {
+    value = [],
+    onChange,
+    maxFiles = 1,
+    maxSize = 5 * 1024 * 1024, // 5MB
+    accept = DEFAULT_IMAGE_ACCEPT,
+    disabled = false,
+    className,
+    showPreview = true,
+    showAcceptedFileTypes = false,
+    error = false,
+    onError,
+    validateImage,
+    placeholder = "파일을 끌어다 놓거나 클릭해서 업로드",
+    placeholderActive = "파일을 여기에 놓으세요",
+  },
+  ref,
+) {
   const [files, setFiles] = useState<File[]>(value);
 
   const fileUrls = useMemo(() => {
@@ -343,7 +355,7 @@ export const ImageUpload = ({
   const isMaxReached = files.length >= maxFiles;
 
   return (
-    <div className={cn("w-full", className)}>
+    <div ref={ref} className={cn("w-full", className)}>
       {!(!isSingleMode && isMaxReached) && (
         <div
           {...getRootProps()}
@@ -499,6 +511,7 @@ export const ImageUpload = ({
       )}
     </div>
   );
-};
+},
+);
 
 ImageUpload.displayName = "ImageUpload";
