@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
+import { expect, within } from "@storybook/test";
+import { useEffect, useRef, useState } from "react";
 import { SegmentedControls } from "./SegmentedControls";
 
 const meta: Meta<typeof SegmentedControls> = {
@@ -84,3 +85,32 @@ export const Showcase: Story = {
 };
 
 export const ForJsdoc: Story = Showcase;
+
+export const RefForwarding: Story = {
+  render: () => {
+    const ref = useRef<HTMLDivElement>(null);
+    const [tag, setTag] = useState("");
+    const [view, setView] = useState<"map" | "list">("map");
+    useEffect(() => setTag(ref.current?.tagName ?? "null"), []);
+    return (
+      <div className="flex flex-col gap-2">
+        <SegmentedControls
+          ref={ref}
+          value={view}
+          onChange={setView}
+          options={[
+            { label: "지도", value: "map" },
+            { label: "목록", value: "list" },
+          ]}
+        />
+        <span data-testid="ref-tag" className="text-xs">
+          {tag}
+        </span>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByTestId("ref-tag")).toHaveTextContent("DIV");
+  },
+};
