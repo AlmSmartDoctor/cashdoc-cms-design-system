@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.8.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.7.0...v2.8.0) (2026-07-01)
+
+
+### Features
+
+* **FileUpload:** forward ref to root container ([#22](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/22)) ([9efd371](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/9efd3712152f852cfe2882fde08bf064df3a3c2e))
+* **FilterToggleGroup:** forward ref to ToggleGroup root ([#22](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/22)) ([b294222](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/b294222191e40d5f595cc4a629948966968a58b7))
+* **ImageUpload:** forward ref to root container ([#22](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/22)) ([7504e26](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/7504e26461ca5a09d3bd67a3c21007bde7671959))
+* **LoadingCircle:** forward ref to wrapper div ([#22](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/22)) ([cbfe253](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/cbfe253833c4c18c2cf459676209dc1ac350c3ad))
+* **SegmentedControls:** forward ref to ToggleGroup root ([#22](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/22)) ([a56a3fb](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/a56a3fbfd7a231006bbd740a60cf8cc6e791ba47))
+
 ## [2.7.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.6.2...v2.7.0) (2026-07-01)
 
 
