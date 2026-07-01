@@ -30,28 +30,39 @@ CSD-8027(portal 동작)과 별개로 순수 스타일/레이아웃 5건. portal 
 
 ### 3·4·5. 모달 내부 라벨↔값 간격 사라짐 (DateRange/MonthRange/YearRangePicker)
 
-- 증상: 모달 안에서 라벨과 `YYYY-MM-DD` 값 사이 간격이 사라짐.
-- 근본 원인: Modal이 `children`을 `<DialogPrimitive.Description>`(=`<p>`)에
-  렌더(`Modal.tsx:322-329`). block 픽커(`<div>`)를 `<p>` 안에 넣으면
-  브라우저가 무효 HTML로 판단해 `<p>`를 강제 종료하고 픽커를 밖으로 hoist →
-  width/layout 컨텍스트가 깨져 픽커 내부 절대배치 라벨 정렬이 무너짐.
-- 결정 (Modal API 개선, non-breaking):
-  - `children` 컨테이너를 `<p>` → `<div>`로 변경. 클래스
-    (`px-6 pt-1 pb-5 text-sm/relaxed text-cms-gray-700`)는 그대로 유지해
-    시각적 동일성 보장.
-  - 접근성용 `description?: React.ReactNode` optional prop 신설. 값이 있으면
-    시각 숨김(`sr-only`) `<DialogPrimitive.Description>`에 렌더해
-    `aria-describedby` 자동 배선 유지.
-  - `description` 없으면 `<Content>`에 `aria-describedby={undefined}`를
-    명시해 Radix "Missing Description" 콘솔 워닝 억제.
+- 증상: 모달 안에서 라벨과 `YYYY-MM-DD` 값 사이 간격이 사라짐(붙음).
+- **실측으로 확정한 근본 원인 (이슈의 초기 가설과 다름):** Modal은 Radix
+  `DialogPrimitive.Portal`로 콘텐츠를 `document.body`에 portal한다. 앱 폰트
+  `Pretendard`는 `.cms-cashdoc-ds` 루트 + descendant에만 적용되므로
+  (`globals.css:252-286`), portal된 모달 콘텐츠는 그 inherit 체인 밖으로
+  나가 OS serif(Times)로 fallback한다. `globals.css:288-301`이 Popover/
+  Dropdown/Tooltip poppers와 픽커 캘린더 wrapper에는 Pretendard를 재선언하나
+  **Radix Dialog(Modal) 콘텐츠는 그 셀렉터 목록에 없다.** serif로 렌더된
+  라벨 "시작일자"가 sans보다 넓어져(48px vs 42px) 고정 `pl-14-75`(59px) 값
+  패딩을 침범 → 라벨↔값이 붙는다.
+- **실측 증거 (Storybook chrome-devtools):**
+  - 단독: `labelFont=Pretendard`, `labelWidth=42px`, gap `+5px`.
+  - 모달(수정 전): `labelFont=Times`, `labelWidth=48px`, gap `-1px`(붙음).
+  - 모달 `[role=dialog]`에 `cms-cashdoc-ds` 주입 시: `Pretendard`, `42px`,
+    gap `+5px` → 단독과 완전 일치.
+- **결정 (핵심 fix):** `Modal.tsx`의 `DialogPrimitive.Content`에
+  `cms-cashdoc-ds` 클래스를 부여해 portal된 모달을 DS 폰트 루트로 만든다.
+  Pretendard/font-weight 등 DS 타이포 전체를 복원 → 3·4·5 균일 해결.
+- **보조 개선 (별개 정합성):** `children` 컨테이너를 `<p>` → `<div>`로 변경.
+  블록 픽커(`<div>`)를 `<p>`(Description)에 넣으면 무효 HTML이라 브라우저가
+  픽커를 `<p>` 밖으로 hoist → `px-6` 패딩 컨테이너를 잃는다. `<div>`로
+  바꾸면 픽커가 패딩 컨테이너 안에 정상 유지된다. 시맨틱 변경 보완용으로
+  접근성 `description?: React.ReactNode` optional prop을 신설(시각 숨김
+  `<Description>`으로 `aria-describedby` 배선), 없으면 `<Content>`에
+  `aria-describedby={undefined}`로 Radix 워닝 억제.
 
 #### 소비처 영향
 
-- **필수 변경 소비처: 0건.** 기존 모달은 `children`만 넘기던 대로 동작하며
-  시각적으로 동일. `description`은 additive optional prop → 빌드 안 깨짐.
-- 트레이드오프: 기존 텍스트 설명 모달은 `<p>`→`<div>` 이동으로 Radix 자동
-  `aria-describedby` 배선이 사라짐. 스크린리더 설명 연결이 필요한 모달만
-  `description` prop을 추가해 점진 복원(선택).
+- **필수 변경 소비처: 0건.** 폰트 fix는 내부 클래스 추가. `description`은
+  additive optional prop. 기존 모달은 그대로 동작.
+- 트레이드오프: `<p>`→`<div>` 이동으로 Radix 자동 `aria-describedby` 배선이
+  사라짐. 스크린리더 설명 연결이 필요한 모달만 `description`을 추가해 점진
+  복원(선택).
 
 ## 검증 계획
 
