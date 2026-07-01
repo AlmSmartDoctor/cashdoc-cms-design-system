@@ -352,7 +352,8 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                 aria-invalid={error || undefined}
                 aria-describedby={describedBy}
                 className={cn(
-                  "h-9 w-full rounded-cms-md border bg-cms-white px-3 pr-8",
+                  "h-9 w-full rounded-cms-md border bg-cms-white px-3",
+                  showIcon && "pr-8",
                   "text-sm text-cms-gray-900",
                   "placeholder:text-cms-gray-450",
                   "hover:border-cms-gray-350",
