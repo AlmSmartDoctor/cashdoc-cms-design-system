@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { cn } from "@/utils/cn";
 
 export type LoadingCircleProps = {
@@ -84,9 +85,12 @@ const sizeClasses = {
  * ## 참고사진
  * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Loading/LoadingCircle/For%20Jsdoc.png?raw=true)
  */
-export function LoadingCircle({ size = "lg", className }: LoadingCircleProps) {
+export const LoadingCircle = forwardRef<
+  HTMLDivElement,
+  LoadingCircleProps
+>(function LoadingCircle({ size = "lg", className }, ref) {
   return (
-    <div className="flex items-center justify-center">
+    <div ref={ref} className="flex items-center justify-center">
       <div
         className={cn(
           sizeClasses[size],
@@ -98,4 +102,6 @@ export function LoadingCircle({ size = "lg", className }: LoadingCircleProps) {
       />
     </div>
   );
-}
+});
+
+LoadingCircle.displayName = "LoadingCircle";
