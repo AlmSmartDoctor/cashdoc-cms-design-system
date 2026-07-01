@@ -1,4 +1,5 @@
 import * as ToggleGroup from "@radix-ui/react-toggle-group";
+import { forwardRef } from "react";
 import type { ReactNode } from "react";
 import { cn } from "@/utils/cn";
 
@@ -108,6 +109,8 @@ export type FilterToggleGroupProps<T extends string | number> = {
   ariaLabel?: string;
 };
 
+type FilterToggleGroupRef = React.ElementRef<typeof ToggleGroup.Root>;
+
 /**
  * 상태별 집계 카드와 단일 선택 필터를 결합한 카드형 토글 컴포넌트입니다.
  *
@@ -164,17 +167,22 @@ export type FilterToggleGroupProps<T extends string | number> = {
  * ## 참고사진
  * ![](<https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/FilterToggleGroup/For%20Jsdoc.png?raw=true>)
  */
-export const FilterToggleGroup = <T extends string | number>({
-  items,
-  value,
-  onValueChange,
-  className,
-  itemClassName,
-  size = "md",
-  align = "right",
-  showIcon = true,
-  ariaLabel = "Status filter",
-}: FilterToggleGroupProps<T>) => {
+const FilterToggleGroupBase = forwardRef(function FilterToggleGroup<
+  T extends string | number,
+>(
+  {
+    items,
+    value,
+    onValueChange,
+    className,
+    itemClassName,
+    size = "md",
+    align = "right",
+    showIcon = true,
+    ariaLabel = "Status filter",
+  }: FilterToggleGroupProps<T>,
+  ref: React.ForwardedRef<FilterToggleGroupRef>,
+) {
   const handleValueChange = (newValue: string) => {
     if (!newValue) return;
 
@@ -189,6 +197,7 @@ export const FilterToggleGroup = <T extends string | number>({
 
   return (
     <ToggleGroup.Root
+      ref={ref}
       type="single"
       value={String(value)}
       onValueChange={handleValueChange}
@@ -295,6 +304,13 @@ export const FilterToggleGroup = <T extends string | number>({
       })}
     </ToggleGroup.Root>
   );
-};
+});
 
-FilterToggleGroup.displayName = "FilterToggleGroup";
+FilterToggleGroupBase.displayName = "FilterToggleGroup";
+
+export const FilterToggleGroup = FilterToggleGroupBase as <
+  T extends string | number,
+>(
+  props: FilterToggleGroupProps<T> &
+    React.RefAttributes<FilterToggleGroupRef>,
+) => React.ReactElement;
