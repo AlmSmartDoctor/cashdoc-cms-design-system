@@ -198,4 +198,49 @@ export const WithBlockContent: Story = {
   },
 };
 
+/**
+ * `ConfirmModal` 단독 시나리오입니다. 체크 아이콘(36px 원)과 `title`
+ * 텍스트의 세로 정렬을 확인할 수 있습니다.
+ */
+export const Confirm: Story = {
+  render: () => {
+    const [open, setOpen] = useState(false);
+    return (
+      <Frame label="ConfirmModal">
+        <Trigger label="확인 모달" onClick={() => setOpen(true)} />
+        <ConfirmModal
+          open={open}
+          onOpenChange={setOpen}
+          title="안내"
+          message="본문 메시지입니다. 아이콘과 타이틀의 세로 정렬을 확인하세요."
+          onConfirm={() => setOpen(false)}
+        />
+      </Frame>
+    );
+  },
+};
+
+/**
+ * `WarningModal` 단독 시나리오입니다. 주황색 경고 아이콘(36px 원)과
+ * 기본 `title`("경고") 텍스트의 세로 정렬을 확인할 수 있습니다.
+ */
+export const Warning: Story = {
+  render: () => {
+    const [open, setOpen] = useState(false);
+    const close = () => setOpen(false);
+    return (
+      <Frame label="WarningModal">
+        <Trigger label="경고 모달" onClick={() => setOpen(true)} />
+        <WarningModal
+          open={open}
+          onOpenChange={setOpen}
+          message="본문 메시지입니다. 아이콘과 타이틀의 세로 정렬을 확인하세요."
+          onConfirm={close}
+          onCancel={close}
+        />
+      </Frame>
+    );
+  },
+};
+
 export const ForJsdoc: Story = Showcase;

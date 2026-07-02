@@ -328,7 +328,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                       <DialogPrimitive.Title
                         className={cn(
                           "text-[17px] font-bold text-cms-gray-900",
-                          "leading-tight tracking-tight",
+                          "my-0 leading-tight tracking-tight",
                         )}
                       >
                         {title}
