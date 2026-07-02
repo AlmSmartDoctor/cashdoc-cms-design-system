@@ -326,7 +326,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     return (
       <div
         ref={ref}
-        className={cn("flex w-full max-w-[200px] flex-col gap-1", className)}
+        className={cn("flex w-full max-w-[176px] flex-col gap-2", className)}
       >
         {label && (
           <label
@@ -352,7 +352,8 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                 aria-invalid={error || undefined}
                 aria-describedby={describedBy}
                 className={cn(
-                  "h-9 w-full rounded-cms-md border bg-cms-white px-3",
+                  "box-border h-9 w-full rounded-cms-md border bg-cms-white",
+                  "px-3",
                   showIcon && "pr-8",
                   "text-sm text-cms-gray-900",
                   "placeholder:text-cms-gray-450",
@@ -395,6 +396,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
               sideOffset={5}
               className={cn(
                 "z-cms-overlay rounded-cms-lg bg-cms-white",
+                "w-[var(--radix-popover-trigger-width)] min-w-[156px]",
                 "border border-cms-gray-200",
                 `shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]`,
                 "data-[state=open]:animate-in",
@@ -411,7 +413,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                 {/* Time Picker Columns */}
                 <div className="flex gap-2">
                   {/* Hour Column */}
-                  <div className="flex flex-col">
+                  <div className="flex flex-1 flex-col">
                     <div
                       className={cn(
                         "text-center text-xs text-cms-gray-500",
@@ -424,8 +426,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     <div
                       ref={hourScrollRef}
                       className={cn(
-                        "h-44 w-14 overflow-y-auto p-0.5",
-                        "border border-cms-gray-200",
+                        "h-44 w-full overflow-y-auto",
                         "cms-no-scrollbar rounded-cms-sm",
                       )}
                     >
@@ -455,7 +456,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                   </div>
 
                   {/* Minute Column */}
-                  <div className="flex flex-col">
+                  <div className="flex flex-1 flex-col">
                     <div
                       className={cn(
                         "mb-2",
@@ -467,8 +468,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     <div
                       ref={minuteScrollRef}
                       className={cn(
-                        "h-44 w-14 overflow-y-auto p-0.5",
-                        "border border-cms-gray-200",
+                        "h-44 w-full overflow-y-auto",
                         "cms-no-scrollbar rounded-cms-sm",
                       )}
                     >
@@ -497,7 +497,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
 
                   {/* AM/PM Column for 12h format */}
                   {format === "12h" && (
-                    <div className="flex flex-col">
+                    <div className="flex flex-1 flex-col">
                       <div
                         className={cn(
                           "text-center text-xs text-cms-gray-500",
@@ -507,7 +507,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                       >
                         Period
                       </div>
-                      <div className="flex w-16 flex-col gap-1">
+                      <div className="flex w-full flex-col gap-1">
                         <button
                           type="button"
                           onClick={() => setSelectedPeriod("AM")}
@@ -549,16 +549,16 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
               {/* Footer */}
               <div
                 className={cn(
-                  "flex items-end justify-end px-3.5 pb-3.5",
-                  "border-t border-cms-gray-150 pt-2.5",
+                  "flex items-end justify-end px-4 pb-4",
+                  "border-t border-cms-gray-150 pt-3",
                 )}
               >
-                <div className="flex gap-1.5">
+                <div className="flex gap-2">
                   <button
                     type="button"
                     onClick={handleCancel}
                     className={cn(
-                      "h-7 cursor-pointer rounded-cms-sm px-2.5",
+                      "h-8 cursor-pointer rounded-cms-sm px-3.5",
                       "text-[12px] font-semibold text-cms-gray-850",
                       "border border-cms-gray-250 bg-cms-white",
                       "transition-colors duration-150",
@@ -573,7 +573,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
                     disabled={selectedHour === null || selectedMinute === null}
                     className={cn(
                       "cursor-pointer border-0",
-                      "h-7 rounded-cms-sm bg-cms-gray-850 px-2.5",
+                      "h-8 rounded-cms-sm bg-cms-gray-850 px-3.5",
                       "text-[12px] font-semibold text-cms-white",
                       "hover:bg-cms-gray-750",
                       "disabled:opacity-45",
