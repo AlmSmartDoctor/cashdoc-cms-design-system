@@ -312,6 +312,33 @@
   font-weight: 400;
 }
 
+/* box-sizing / heading margin baseline (preflight-독립).
+   globals.css 는 tailwindcss/preflight 를 import 하지 않으므로 DS 스코프
+   안에 UA 기본값(content-box, heading margin)이 잔존한다. 컴포넌트들은
+   Tailwind 관례대로 border-box + margin:0 을 전제로 작성돼 있어, 이 baseline
+   이 없으면 소비 앱/host 환경에서 정렬·크기가 어긋난다(#43, #44).
+   커버 범위는 font-family fix 와 동일: DS 스코프 + portal/picker 스코프
+   (portal content 는 .cms-cashdoc-ds inherit chain 밖). */
+.cms-cashdoc-ds,
+.cms-cashdoc-ds *,
+.cms-cashdoc-ds *::before,
+.cms-cashdoc-ds *::after,
+[data-radix-popper-content-wrapper],
+[data-radix-popper-content-wrapper] *,
+[data-radix-popper-content-wrapper] *::before,
+[data-radix-popper-content-wrapper] *::after,
+.date-picker-calendar *,
+.date-range-picker-calendar *,
+.month-range-picker-calendar *,
+.year-range-picker-calendar * {
+  box-sizing: border-box;
+}
+
+.cms-cashdoc-ds :is(h1, h2, h3, h4, h5, h6),
+[data-radix-popper-content-wrapper] :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+}
+
 /* Utility classes */
 @layer utilities {
   .cms-animated-width {
