@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.2](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.1...v2.8.2) (2026-07-06)
+
+
+### Bug Fixes
+
+* **globals:** add preflight-independent box-sizing baseline ([2e45051](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/2e45051ccfa7da98fc0e7f12bf8eb80604b1f9d7)), closes [#43](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/43) [#44](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/44) [#44](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/44)
+
 ### [2.8.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.0...v2.8.1) (2026-07-06)
 
 
