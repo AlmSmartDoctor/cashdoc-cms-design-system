@@ -16,7 +16,7 @@ import { cn } from "@/utils/cn";
  * @size default - 기본 (h-9, 36px)
  * @size sm - 작은 (h-7, 30px)
  * @size lg - 큰 (h-11, 44px)
- * @size icon - 아이콘 정사각형 (36x36)
+ * @size icon - 아이콘 정사각형 (26x26)
  */
 export const buttonVariants = cva(
   cn(
@@ -83,7 +83,7 @@ export const buttonVariants = cva(
         default: "h-9 px-3.5",
         sm: "h-7 rounded-cms-sm px-2.5 text-[13px]",
         lg: "h-11 px-5 text-[15px]",
-        icon: "size-9 px-0",
+        icon: "size-6-5 px-0",
       },
     },
     defaultVariants: {
