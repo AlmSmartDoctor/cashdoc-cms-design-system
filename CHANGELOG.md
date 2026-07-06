@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.4](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.3...v2.8.4) (2026-07-06)
+
+
+### Bug Fixes
+
+* **Dropdown:** align submenu with option regardless of scroll ([ef29dec](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/ef29dec17b8fcd52c452366ceb69e3870750bf97)), closes [#34](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/34) [#34](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/34)
+
 ### [2.8.3](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.2...v2.8.3) (2026-07-06)
 
 
