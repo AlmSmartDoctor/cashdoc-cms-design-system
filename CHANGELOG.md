@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.3](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.2...v2.8.3) (2026-07-06)
+
+
+### Bug Fixes
+
+* **Modal,TimePicker:** defend layout against missing CSS preflight ([f8f81bf](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/f8f81bfb098d16b5e6d4f286a2978fa796ff993f)), closes [#43](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/43) [#44](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/44)
+
 ### [2.8.2](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.1...v2.8.2) (2026-07-06)
 
 
