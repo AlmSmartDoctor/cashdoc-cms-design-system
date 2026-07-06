@@ -218,3 +218,46 @@ export const GroupSubmenu: Story = {
     </div>
   ),
 };
+
+/* ── 스크롤된 리스트에서 서브메뉴 위치 (#34 regression) ── */
+
+const scrollGroupOptions: DropdownItem[] = Array.from(
+  { length: 10 },
+  (_, i) => ({
+    label: `그룹 ${i + 1}`,
+    group: [
+      { label: `그룹 ${i + 1} · 옵션 A`, value: `g${i}-a` },
+      { label: `그룹 ${i + 1} · 옵션 B`, value: `g${i}-b` },
+    ],
+  }),
+);
+
+const ScrollGroupCtrl = () => {
+  const [v, setV] = useState("");
+  return (
+    <Dropdown
+      options={scrollGroupOptions}
+      value={v}
+      onValueChange={setV}
+      placeholder="그룹 선택"
+    />
+  );
+};
+
+/**
+ * 옵션이 많아 목록이 스크롤되는 상태에서 그룹에 hover 했을 때 서브메뉴가
+ * 스크롤량만큼 아래로 밀리지 않고 해당 그룹 옆에 정확히 붙어야 합니다(#34).
+ *
+ * 확인 방법: 드롭다운을 연 뒤 목록을 아래로 스크롤하고 임의의 그룹에
+ * hover하세요.
+ */
+export const GroupSubmenuScroll: Story = {
+  render: () => (
+    <div className="flex max-w-xs flex-col gap-2">
+      <p className="text-[12px] text-cms-gray-550">
+        목록을 스크롤한 뒤 그룹에 hover — 서브메뉴가 그룹 옆에 붙어야 합니다.
+      </p>
+      <ScrollGroupCtrl />
+    </div>
+  ),
+};
