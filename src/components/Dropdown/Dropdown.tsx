@@ -421,10 +421,11 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
         if (el && optionsListRef.current) {
           const optionRect = el.getBoundingClientRect();
           const listRect = optionsListRef.current.getBoundingClientRect();
+          // 서브메뉴는 스크롤 컨테이너 바깥(.relative 부모, 스크롤 안 됨) 기준
+          // absolute이므로 scrollTop을 더하면 그만큼 아래로 밀린다.
           setHoveredSubmenu({
             value: option.value,
-            top:
-              optionRect.top - listRect.top + optionsListRef.current.scrollTop,
+            top: optionRect.top - listRect.top,
           });
         }
       },
