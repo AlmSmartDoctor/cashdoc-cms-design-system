@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.0...v2.8.1) (2026-07-06)
+
+
+### Bug Fixes
+
+* **Dropdown:** contain scroll to options list ([959b76a](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/959b76a8840f74cd800fa008990f5a5c72493ab1)), closes [#47](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/47)
+
 ## [2.8.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.7.0...v2.8.0) (2026-07-01)
 
 
