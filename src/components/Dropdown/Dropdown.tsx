@@ -473,7 +473,10 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       if (value === undefined) {
         setInternalSelectedValues(merged);
       }
-      onValueChange?.(merged.join(","));
+      // 일반 옵션 클릭(handleOptionClick)과 동일하게 onValuesChange 우선,
+      // 없으면 onValueChange(join) fallback. selectAll 경로만 onValueChange를
+      // 직접 호출해 multiple public API와 어긋나던 것을 통일한다(#18).
+      emitMultipleChange(merged);
     };
 
     const handleClear = (e: React.MouseEvent) => {

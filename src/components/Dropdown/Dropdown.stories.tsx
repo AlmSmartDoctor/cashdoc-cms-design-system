@@ -218,3 +218,39 @@ export const GroupSubmenu: Story = {
     </div>
   ),
 };
+
+/* ── multiple + selectAll 콜백 계약 (#18) ── */
+
+const SelectAllCtrl = () => {
+  const [vs, setVs] = useState<string[]>([]);
+  return (
+    <div className="flex flex-col gap-2">
+      <Dropdown
+        options={sampleOptions}
+        multiple
+        selectAll
+        value={vs.join(",")}
+        onValuesChange={setVs}
+        placeholder="여러 개 선택"
+      />
+      <p className="text-[12px] text-cms-gray-550">
+        onValuesChange 값: [{vs.join(", ")}]
+      </p>
+    </div>
+  );
+};
+
+/**
+ * `multiple` + `selectAll`에서 "모두 선택"을 누르면 일반 옵션 클릭과
+ * 동일하게 `onValuesChange`가 배열로 발화해야 합니다(#18). 아래 텍스트에
+ * 선택된 값 배열이 즉시 반영되면 정상입니다. 수정 전에는 selectAll 경로가
+ * `onValueChange`만 호출해, `onValuesChange`만 넘긴 소비자에서는 아무 값도
+ * 갱신되지 않았습니다.
+ */
+export const MultipleSelectAll: Story = {
+  render: () => (
+    <div className="max-w-xs">
+      <SelectAllCtrl />
+    </div>
+  ),
+};
