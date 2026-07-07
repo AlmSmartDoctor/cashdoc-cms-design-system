@@ -16,11 +16,12 @@ export default defineConfig({
   // CI에서 실패 시 재시도 안함
   forbidOnly: !!process.env.CI,
 
-  // 재시도 설정
-  retries: process.env.CI ? 2 : 0,
+  // 현재 실패는 flaky가 아니라 stale story id(#23)로 인한 확정 실패라
+  // 재시도해도 통과하지 않음 — 재시도는 대기시간만 늘림.
+  retries: 0,
 
-  // 병렬 실행 워커 수
-  workers: process.env.CI ? 1 : undefined,
+  // 병렬 실행 워커 수. GitHub Actions ubuntu-latest는 2 vCPU라 2로 고정.
+  workers: process.env.CI ? 2 : undefined,
 
   // 리포터
   reporter: "html",
@@ -39,18 +40,12 @@ export default defineConfig({
     trace: "on-first-retry",
   },
 
+  // firefox/webkit은 CI 시간 절감을 위해 제외. 크로스 브라우저 검증이
+  // 필요해지면 이 배열에 다시 추가.
   projects: [
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
-    },
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
-    },
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
     },
   ],
 
