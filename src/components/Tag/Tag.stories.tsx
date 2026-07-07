@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { CheckIcon, RefreshIcon, SearchIcon } from "../icons";
 import { Tag, type TagColor } from "./Tag";
