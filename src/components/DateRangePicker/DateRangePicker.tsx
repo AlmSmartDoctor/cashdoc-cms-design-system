@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useId, useState, useMemo, useRef, useEffect } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import type { DateRange as DayPickerDateRange } from "react-day-picker";
 import { DayPicker } from "react-day-picker";
@@ -163,7 +163,7 @@ export const DateRangePicker = React.forwardRef<
     },
     ref,
   ) => {
-    const id = React.useId();
+    const reactId = useId();
     const { isOpen, onOpenChange: setIsOpen } = useDisclosure();
     const [draftRange, setDraftRange] = useState<
       [Dayjs | undefined, Dayjs | undefined]
@@ -402,7 +402,7 @@ export const DateRangePicker = React.forwardRef<
           >
             {inputError && (
               <div
-                id={`${id}-error`}
+                id={`${reactId}-error`}
                 role="alert"
                 className="mb-1 text-xs text-cms-red-500"
               >
@@ -433,11 +433,11 @@ export const DateRangePicker = React.forwardRef<
                     "pointer-events-none",
                   )}
                 >
-                  <label htmlFor={`${id}-start`}>{startLabel}</label>
+                  <label htmlFor={`${reactId}-start`}>{startLabel}</label>
                 </div>
                 <input
                   ref={startInputRef}
-                  id={`${id}-start`}
+                  id={`${reactId}-start`}
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
@@ -455,7 +455,7 @@ export const DateRangePicker = React.forwardRef<
                   placeholder="YYYY-MM-DD"
                   aria-label={startLabel}
                   aria-invalid={inputError ? true : undefined}
-                  aria-describedby={inputError ? `${id}-error` : undefined}
+                  aria-describedby={inputError ? `${reactId}-error` : undefined}
                   className={cn(
                     "box-border h-9 w-full border-0",
                     "rounded-l-cms-md bg-transparent pr-3 pl-14-75",
@@ -477,11 +477,11 @@ export const DateRangePicker = React.forwardRef<
                     "pointer-events-none",
                   )}
                 >
-                  <label htmlFor={`${id}-end`}>{endLabel}</label>
+                  <label htmlFor={`${reactId}-end`}>{endLabel}</label>
                 </div>
                 <input
                   ref={endInputRef}
-                  id={`${id}-end`}
+                  id={`${reactId}-end`}
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
@@ -499,7 +499,7 @@ export const DateRangePicker = React.forwardRef<
                   placeholder="YYYY-MM-DD"
                   aria-label={endLabel}
                   aria-invalid={inputError ? true : undefined}
-                  aria-describedby={inputError ? `${id}-error` : undefined}
+                  aria-describedby={inputError ? `${reactId}-error` : undefined}
                   className={cn(
                     "box-border h-9 w-full border-0",
                     "rounded-r-cms-md bg-transparent pr-3 pl-14-75",

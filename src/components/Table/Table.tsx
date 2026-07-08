@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
 import { useScrollIndicator } from "@/hooks/useScrollIndicator";
@@ -145,7 +145,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
       showStart: showLeftScroll,
       showEnd: showRightScroll,
     } = useScrollIndicator<HTMLDivElement>("x");
-    const tableState = React.useMemo(
+    const tableState = useMemo(
       () => ({
         striped: Boolean(striped),
         hoverable: Boolean(hoverable),
@@ -296,7 +296,7 @@ export type TableRowProps = {
  */
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   ({ className, selected, ...props }, ref) => {
-    const { hoverable, striped } = React.useContext(TableContext);
+    const { hoverable, striped } = useContext(TableContext);
 
     return (
       <tr
@@ -432,7 +432,7 @@ export type TableCellProps = {
  */
 export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({ className, align, ...props }, ref) => {
-    const { compact } = React.useContext(TableContext);
+    const { compact } = useContext(TableContext);
 
     return (
       <td
@@ -539,11 +539,11 @@ export const TableExpandableRow = React.forwardRef<
     ref,
   ) => {
     const [internalExpanded, setInternalExpanded] =
-      React.useState(defaultExpanded);
+      useState(defaultExpanded);
     const isControlled = expandedProp !== undefined;
     const expanded = isControlled ? expandedProp : internalExpanded;
 
-    const handleToggle = React.useCallback(() => {
+    const handleToggle = useCallback(() => {
       const next = !expanded;
       if (!isControlled) setInternalExpanded(next);
       onExpandedChange?.(next);
