@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useId, useState, useMemo, useRef, useEffect } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
@@ -183,7 +183,7 @@ export const MonthRangePicker = React.forwardRef<
     },
     ref,
   ) => {
-    const id = React.useId();
+    const reactId = useId();
     const { isOpen, onOpenChange: setIsOpen } = useDisclosure();
     const [baseYear, setBaseYear] = useState(() => {
       if (value?.start) return dayjs(value.start).year();
@@ -560,11 +560,11 @@ export const MonthRangePicker = React.forwardRef<
                     "pointer-events-none",
                   )}
                 >
-                  <label htmlFor={`${id}-start`}>{startLabel}</label>
+                  <label htmlFor={`${reactId}-start`}>{startLabel}</label>
                 </div>
                 <input
                   ref={startInputRef}
-                  id={`${id}-start`}
+                  id={`${reactId}-start`}
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
@@ -602,11 +602,11 @@ export const MonthRangePicker = React.forwardRef<
                     "pointer-events-none",
                   )}
                 >
-                  <label htmlFor={`${id}-end`}>{endLabel}</label>
+                  <label htmlFor={`${reactId}-end`}>{endLabel}</label>
                 </div>
                 <input
                   ref={endInputRef}
-                  id={`${id}-end`}
+                  id={`${reactId}-end`}
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
