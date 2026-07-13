@@ -32,7 +32,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # 릴리즈는 버전 bump 커밋을 main 에 직접 push 한다(아래 "Push changes").
+          # 기본 GITHUB_TOKEN 은 관리자가 아니라서 main 브랜치 보호(PR 필수 / required status checks)에
+          # 막힌다 — 보호를 켠 채로는 자동 릴리즈가 구조적으로 불가능하다.
+          # 그래서 브랜치 보호를 우회할 수 있는 관리자 PAT(RELEASE_TOKEN)로 checkout 한다.
+          # 이후 git push 는 checkout 이 심어둔 자격증명을 그대로 쓰므로 push 스텝은 손대지 않는다.
+          # RELEASE_TOKEN 이 없으면 기존 동작(GITHUB_TOKEN)으로 폴백한다.
+          token: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Evaluate release gate
         id: release_gate
