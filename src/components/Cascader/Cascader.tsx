@@ -3,7 +3,14 @@
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import type { VariantProps } from "class-variance-authority";
 import type { ReactNode } from "react";
-import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { cn } from "@/utils/cn";
 import { usePortalContainer } from "@/utils/portalContainer";
 import { ChevronDownIcon, ChevronRightFillIcon } from "../icons";
@@ -216,6 +223,17 @@ export const Cascader = forwardRef<HTMLButtonElement, CascaderProps>(
         : labels.join(" / ")
       : placeholder;
 
+    // 스크린리더 연계: label↔trigger를 htmlFor/id로 잇고, error/helper를
+    // aria-describedby로 트리거에 연결한다(TextInput과 동일한 배선).
+    const reactId = useId();
+    const triggerId = reactId;
+    const errorId = `${reactId}-error`;
+    const helperId = `${reactId}-helper`;
+    const describedBy =
+      error ? errorId
+      : helperText ? helperId
+      : undefined;
+
     const commit = (path: string[]) => {
       if (value === undefined) setInternalValue(path);
       onChange?.(path, getOptionsByPath(options, path));
@@ -249,7 +267,10 @@ export const Cascader = forwardRef<HTMLButtonElement, CascaderProps>(
     return (
       <div className={cn("space-y-1", className)}>
         {label && (
-          <label className="block text-sm font-medium text-cms-black">
+          <label
+            htmlFor={triggerId}
+            className="block text-sm font-medium text-cms-black"
+          >
             {label}
             {required && <span className="ml-1 text-cms-red-500">*</span>}
           </label>
@@ -258,9 +279,11 @@ export const Cascader = forwardRef<HTMLButtonElement, CascaderProps>(
         <PopoverPrimitive.Root open={open} onOpenChange={handleOpenChange}>
           <PopoverPrimitive.Trigger
             ref={ref}
+            id={triggerId}
             type="button"
             disabled={disabled}
             aria-invalid={error ? true : undefined}
+            aria-describedby={describedBy}
             className={cn(
               dropdownTriggerVariants({ variant, size }),
               error && "border-cms-red-500 focus-visible:ring-cms-red-500/20",
@@ -361,6 +384,7 @@ export const Cascader = forwardRef<HTMLButtonElement, CascaderProps>(
 
         {(helperText || error) && (
           <p
+            id={error ? errorId : helperId}
             className={cn(
               "text-xs",
               error ? "text-cms-red-500" : "text-cms-gray-400",
