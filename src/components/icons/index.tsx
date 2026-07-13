@@ -639,3 +639,41 @@ export const NewBadgeIcon = React.forwardRef<SVGSVGElement, IconProps>(
     </svg>
   ),
 );
+
+// --- Communication & Reward ---
+export const PhoneIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </IconWrapper>
+  ),
+);
+
+export const LightbulbIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+      <path d="M9 18h6" />
+      <path d="M10 22h4" />
+    </IconWrapper>
+  ),
+);
+
+export const BoltIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+    </IconWrapper>
+  ),
+);
+
+export const GiftIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <rect x="3" y="8" width="18" height="4" rx="1" />
+      <path d="M12 8v13" />
+      <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7" />
+      <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5" />
+    </IconWrapper>
+  ),
+);
