@@ -82,7 +82,20 @@ const categories: Record<string, IconEntry[]> = {
   Brand: iconEntries.filter(
     ([n]) => n.includes("Medicash") || n.includes("Badge"),
   ),
+  "Communication & Reward": iconEntries.filter(([n]) =>
+    ["PhoneIcon", "LightbulbIcon", "BoltIcon", "GiftIcon"].includes(n),
+  ),
 };
+
+// 어떤 name-match 버킷에도 걸리지 않는 아이콘이 Showcase에서 누락되지 않도록
+// catch-all 버킷을 둔다. (신규 아이콘 추가 시 시각 게이트 노출 보장)
+const categorizedNames = new Set(
+  Object.values(categories).flatMap((entries) => entries.map(([n]) => n)),
+);
+const uncategorized = iconEntries.filter(([n]) => !categorizedNames.has(n));
+if (uncategorized.length > 0) {
+  categories["기타"] = uncategorized;
+}
 
 const Section = ({
   title,
@@ -104,10 +117,7 @@ const IconCell = ({ name, Icon }: { name: string; Icon: IconComponent }) => (
     className={cn(
       "flex flex-col items-center gap-1.5 rounded-cms-md p-3",
       "border border-cms-gray-200",
-      `
-        transition-colors
-        hover:bg-cms-gray-50
-      `,
+      `transition-colors hover:bg-cms-gray-50`,
     )}
   >
     <Icon className="text-cms-gray-900" size={20} />
