@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
-    branches: [main]
+    branches: [main, develop]
 
 jobs:
   lint-and-typecheck:
@@ -34,6 +34,12 @@ jobs:
 
   e2e-tests:
     name: E2E Tests
+    # develop 머지마다 돌리기엔 너무 느림(stale story id #23로 다수 실패 +
+    # 순차 실행). release 경계(main)에서만 게이트로 사용.
+    if: >
+      (github.event_name == 'pull_request' &&
+        github.event.pull_request.base.ref == 'main') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:

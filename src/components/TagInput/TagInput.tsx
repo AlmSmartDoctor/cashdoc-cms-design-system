@@ -1,4 +1,4 @@
-import React, { useId, useState } from "react";
+import React, { useId, useRef, useState } from "react";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
 import { XIcon } from "@/components/icons";
@@ -186,10 +186,10 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
 
     const [inputValue, setInputValue] = useState("");
     const [isComposing, setIsComposing] = useState(false);
-    const inputRef = React.useRef<HTMLInputElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    const generatedInputId = useId();
-    const inputId = id || generatedInputId;
+    const reactId = useId();
+    const inputId = id || reactId;
     const helperTextId = `${inputId}-helper`;
     const errorMessageId = `${inputId}-error`;
     const describedBy =

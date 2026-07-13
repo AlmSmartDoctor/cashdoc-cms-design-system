@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { CloseIcon } from "@/components/icons";
 import { cn } from "@/utils/cn";
@@ -248,11 +248,11 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
     },
     ref,
   ) => {
-    const [contentNode, setContentNode] = React.useState<HTMLDivElement | null>(
+    const [contentNode, setContentNode] = useState<HTMLDivElement | null>(
       null,
     );
 
-    const setContentRef = React.useCallback(
+    const setContentRef = useCallback(
       (node: HTMLDivElement | null) => {
         setContentNode(node);
         if (typeof ref === "function") {

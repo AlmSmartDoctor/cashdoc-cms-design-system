@@ -1,4 +1,4 @@
-import type { Preview } from "@storybook/react";
+import type { Preview } from "@storybook/react-vite";
 import React from "react";
 import "../src/styles/globals.css";
 
@@ -15,23 +15,25 @@ const preview: Preview = {
       toc: true,
     },
     backgrounds: {
-      default: "cashdoc-light",
-      values: [
-        {
+      options: {
+        "cashdoc-light": {
           name: "cashdoc-light",
           value: "#f6f6f9",
         },
-        {
+
+        "cashdoc-dark": {
           name: "cashdoc-dark",
           value: "#1a1a1a",
         },
-        {
+
+        white: {
           name: "white",
           value: "#ffffff",
-        },
-      ],
+        }
+      }
     },
   },
+
   decorators: [
     (Story) =>
       React.createElement(
@@ -40,6 +42,7 @@ const preview: Preview = {
         React.createElement(Story),
       ),
   ],
+
   globalTypes: {
     theme: {
       description: "Global theme for components",
@@ -52,6 +55,12 @@ const preview: Preview = {
       },
     },
   },
+
+  initialGlobals: {
+    backgrounds: {
+      value: "cashdoc-light"
+    }
+  }
 };
 
 export default preview;
