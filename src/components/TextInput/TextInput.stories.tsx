@@ -25,6 +25,7 @@ const meta: Meta<typeof TextInput> = {
     helperText: { control: "text" },
     errorMessage: { control: "text" },
     required: { control: "boolean" },
+    requiredClassName: { control: "text" },
     disabled: { control: "boolean" },
     error: { control: "boolean" },
     showCharCount: { control: "boolean" },
@@ -73,6 +74,14 @@ export const Showcase: Story = {
           required
           type="password"
           placeholder="8자 이상"
+        />
+      </Section>
+      <Section label="필수 · 표시 색상 덮어쓰기">
+        <TextInput
+          label="병원명"
+          required
+          requiredClassName="text-cms-blue-600"
+          placeholder="병원 이름을 입력하세요"
         />
       </Section>
       <Section label="에러">
