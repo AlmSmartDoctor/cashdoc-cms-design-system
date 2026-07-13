@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.5](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.4...v2.8.5) (2026-07-13)
+
+
+### Features
+
+* **Cascader:** add Radix-based cascading select ([6ab2c8f](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/6ab2c8f6c6cb28869754e4543361a4e4d5602449)), closes [#48](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/48) [#59](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/59)
+
+
+### Bug Fixes
+
+* **Cascader:** wire a11y ids; drop dead storybook eslint import ([25d6cff](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/25d6cff84b282246dd84f01dde50e9193abc3c70)), closes [#63](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/63)
+* **ci:** trigger CI workflow on develop branch too ([4d3dce6](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/4d3dce6dec11c82220d2ab35756b5ef372a11f11)), closes [#53](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/53)
+
 ### [2.8.4](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.3...v2.8.4) (2026-07-06)
 
 
