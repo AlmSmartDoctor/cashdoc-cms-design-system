@@ -117,7 +117,10 @@ const IconCell = ({ name, Icon }: { name: string; Icon: IconComponent }) => (
     className={cn(
       "flex flex-col items-center gap-1.5 rounded-cms-md p-3",
       "border border-cms-gray-200",
-      `transition-colors hover:bg-cms-gray-50`,
+      `
+        transition-colors
+        hover:bg-cms-gray-50
+      `,
     )}
   >
     <Icon className="text-cms-gray-900" size={20} />
