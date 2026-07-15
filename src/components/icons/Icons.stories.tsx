@@ -47,7 +47,8 @@ const categories: Record<string, IconEntry[]> = {
       n.includes("Info") ||
       n.includes("Error") ||
       n.includes("Warning") ||
-      n.includes("Help"),
+      n.includes("Help") ||
+      n.includes("Flag"),
   ),
   Actions: iconEntries.filter(([n]) =>
     [
