@@ -271,6 +271,15 @@ export const HelpIcon = React.forwardRef<SVGSVGElement, IconProps>(
   ),
 );
 
+export const FlagIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props, ref) => (
+    <IconWrapper ref={ref} {...props}>
+      <path d="M5 3v18" />
+      <path d="M5 4h11l-2 4 2 4H5" />
+    </IconWrapper>
+  ),
+);
+
 // --- Actions ---
 export const CloseIcon = React.forwardRef<SVGSVGElement, IconProps>(
   (props, ref) => (
