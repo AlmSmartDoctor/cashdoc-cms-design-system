@@ -54,6 +54,12 @@ export type CascaderProps = {
   error?: string;
   helperText?: string;
   required?: boolean;
+  /**
+   * 트리거 `button`에 적용됩니다(`Dropdown`과 동일 규약). 예를 들어
+   * `w-[128px]`로 고정 너비를 넘기면 트리거가 그 값을 그대로 지킵니다.
+   * base의 `w-full`은 tailwind-merge로 덮어써집니다. flex 행에서 다른
+   * 트리거(예: `Dropdown`)와 나란히 둘 때 너비 정렬이 어긋나지 않습니다.
+   */
   className?: string;
   /** 팝오버 portal container 직접 지정(보통 불필요, Modal 자동 처리). */
   container?: HTMLElement | null;
@@ -265,7 +271,7 @@ export const Cascader = forwardRef<HTMLButtonElement, CascaderProps>(
     };
 
     return (
-      <div className={cn("space-y-1", className)}>
+      <div className="space-y-1">
         {label && (
           <label
             htmlFor={triggerId}
@@ -287,6 +293,7 @@ export const Cascader = forwardRef<HTMLButtonElement, CascaderProps>(
             className={cn(
               dropdownTriggerVariants({ variant, size }),
               error && "border-cms-red-500 focus-visible:ring-cms-red-500/20",
+              className,
             )}
           >
             <span

@@ -4,6 +4,7 @@ import { Cascader } from "./";
 import type { CascaderOption } from "./";
 import { Modal } from "../Modal";
 import { Button } from "../Button";
+import { Dropdown } from "../Dropdown";
 
 const meta: Meta<typeof Cascader> = {
   title: "Forms/Cascader",
@@ -327,6 +328,79 @@ export const Deep: Story = {
       <DeepCtrl />
     </div>
   ),
+};
+
+/* ── 고정 너비 + 옆 요소 정렬 ── */
+
+const dbOptions = [
+  { value: "all", label: "전체" },
+  { value: "a", label: "A DB" },
+  { value: "b", label: "B DB" },
+];
+
+const assignOptions = [
+  { value: "all", label: "전체" },
+  { value: "mine", label: "내 배정" },
+  { value: "none", label: "미배정" },
+];
+
+const FixedWidthRowDemo = () => {
+  const [status, setStatus] = useState<string[]>([]);
+  const [db, setDb] = useState("all");
+  const [assign, setAssign] = useState("all");
+  return (
+    <div className="flex items-center gap-1">
+      {/*
+        Dropdown은 chevron이 바깥 wrapper에 absolute 배치라, 고정폭을
+        트리거 button에 직접 주면 chevron이 박스 밖으로 분리됨. 그래서
+        폭은 감싸는 div로 준다(Dropdown outer가 w-full로 채움). Cascader는
+        chevron이 트리거 in-flow라 className으로 폭을 직접 줘도 정렬 유지.
+      */}
+      <div className="w-21">
+        <Dropdown
+          options={dbOptions}
+          value={db}
+          onValueChange={setDb}
+          multiple={false}
+          variant="outline"
+          size="sm"
+        />
+      </div>
+      <Cascader
+        options={regionOptions}
+        value={status}
+        onChange={(next) => setStatus(next)}
+        variant="outline"
+        size="sm"
+        className="w-32"
+        placeholder="상담 상태"
+      />
+      <div className="w-33">
+        <Dropdown
+          options={assignOptions}
+          value={assign}
+          onValueChange={setAssign}
+          multiple={false}
+          variant="outline"
+          size="sm"
+        />
+      </div>
+    </div>
+  );
+};
+
+/**
+ * `className`으로 넘긴 `width`가 트리거에 그대로 반영됩니다. 짧은 값(예:
+ * "대기")을 선택해도 트리거가 `w-32`(128px)를 지키며, 옆의 `Dropdown`들과
+ * 너비·정렬이 어긋나지 않습니다.
+ *
+ * 회귀 방지: 이전에는 `className`이 바깥 wrapper에만 붙어 트리거 button이
+ * flex-shrink로 `128px` 밑으로 눌렸습니다. 이제 트리거 button에 직접
+ * 적용되어 shrink 대상에서 제외됩니다.
+ */
+export const FixedWidthWithSiblings: Story = {
+  name: "고정 너비 + 옆 Dropdown 정렬",
+  render: () => <FixedWidthRowDemo />,
 };
 
 /* ── 모달 내부 ── */
