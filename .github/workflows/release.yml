@@ -15,9 +15,13 @@ on:
   push:
     branches:
       - main
+    # package.json은 제외하지 않는다: 버전 bump 커밋(`chore(release):`)이
+    # release_gate 정규식(^chore()에 걸려 스킵되므로 자기 트리거 루프는 이미
+    # 막혀 있고(대가는 게이트서 조기종료되는 no-op run 1개), 제외하면
+    # exports/peerDependencies/files 등 배포물에 영향 가는 package.json 단독
+    # 변경이 토큰이 있어도 릴리즈되지 못하는 구멍이 생긴다.
     paths-ignore:
       - 'CHANGELOG.md'
-      - 'package.json'
       - '.github/**'
 
 permissions:
