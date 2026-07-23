@@ -349,21 +349,22 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
     // disabled 가드는 열기만 막고, 열린 상태에서의 close (ESC / 바깥 클릭 /
     // 프로그램적 종료) 는 통과시켜 소비 앱이 폼 제출 중 disabled 로 전환해도
     // 팝오버가 고착되지 않게 한다.
-    const handleOpenChange = useCallback(
-      (open: boolean) => {
-        if (disabled && open) return;
-        setIsOpen(open);
-        if (!open) {
-          setHoveredSubmenu(null);
-          clearSubmenuCloseTimeout();
-          if (searchTerm) {
-            setSearchTerm("");
-            onSearchChange?.("");
-          }
+    // useCallback 을 감싸지 않는다 — 메모된 자식이나 effect deps 에 넘기지
+    // 않아 안정 identity 가 필요없고, 감싸면 clearSubmenuCloseTimeout 같은
+    // 로컬 함수 의존성을 채우기 어려워 React Compiler 가 컴포넌트 전체
+    // 최적화를 포기한다.
+    const handleOpenChange = (open: boolean) => {
+      if (disabled && open) return;
+      setIsOpen(open);
+      if (!open) {
+        setHoveredSubmenu(null);
+        clearSubmenuCloseTimeout();
+        if (searchTerm) {
+          setSearchTerm("");
+          onSearchChange?.("");
         }
-      },
-      [disabled, searchTerm, onSearchChange],
-    );
+      }
+    };
 
     const handleOptionMouseEnter = useCallback(
       (option: DropdownOption, hasSubmenu: boolean) => {
