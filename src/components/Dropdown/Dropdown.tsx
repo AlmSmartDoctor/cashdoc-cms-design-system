@@ -559,6 +559,11 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                 }}
                 style={{
                   width: "var(--radix-popover-trigger-width)",
+                  // maxHeight prop 의 의미가 "옵션 리스트 높이" 뿐 아니라
+                  // "팝오버 전체 상한" 인 base 시맨틱을 유지한다. searchable
+                  // 시 검색창 (~40px) + 스크롤 리스트 합계가 소비 앱 상한을
+                  // 넘지 않도록.
+                  maxHeight: `${maxHeight}px`,
                 }}
                 className={cn(
                   "z-cms-overlay min-w-0 py-1",
