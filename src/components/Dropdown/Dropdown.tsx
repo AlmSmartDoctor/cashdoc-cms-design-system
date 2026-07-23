@@ -413,7 +413,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
         emitMultipleChange(newSelectedValues);
       } else {
         onValueChange?.(option.value);
-        setIsOpen(false);
+        handleOpenChange(false);
       }
     };
 
