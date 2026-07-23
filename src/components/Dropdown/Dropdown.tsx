@@ -454,6 +454,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                 type="button"
                 onClick={handleSelectAll}
                 disabled={disabled}
+                data-cms-dropdown-persist=""
               >
                 모두 선택
               </Button>
@@ -462,6 +463,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                 type="button"
                 onClick={handleClear}
                 disabled={disabled}
+                data-cms-dropdown-persist=""
               >
                 해제
               </Button>
@@ -503,7 +505,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
               {clearable && (value || selectedValues.length > 0) && (
                 <button
                   type="button"
-                  data-cms-dropdown-clear=""
+                  data-cms-dropdown-persist=""
                   className={cn(
                     "pointer-events-auto border-0 bg-transparent",
                     "rounded-cms-md p-1 text-cms-gray-400 transition-colors",
@@ -539,11 +541,19 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                     searchInputRef.current?.focus();
                   }
                 }}
-                onPointerDownOutside={(event) => {
-                  // 트리거 옆 clear 아이콘 버튼은 popover 바깥이지만 여기서 닫히면
-                  // 사용자가 "값 지우기"와 "닫기" 두 액션을 한 번에 하게 되어 UX가 튄다.
-                  const target = event.target as HTMLElement | null;
-                  if (target?.closest("[data-cms-dropdown-clear]")) {
+                onInteractOutside={(event) => {
+                  // popover Content 바깥이지만 popover 를 닫으면 안 되는 요소들
+                  // (트리거 옆 clear 아이콘, selectAll 행의 "모두 선택"/"해제")
+                  // 은 [data-cms-dropdown-persist] 마커를 달아 예외 처리한다.
+                  // pointer + focus 양쪽 경로를 모두 커버해야 하므로
+                  // onPointerDownOutside 가 아닌 onInteractOutside 를 사용한다.
+                  // (클릭 시 버튼에 포커스를 주는 플랫폼에서 focusin 경로로
+                  // 닫히는 것 방지)
+                  // Radix CustomEvent 의 .target 은 레이어 노드이므로 실제 클릭
+                  // 요소는 originalEvent.target 으로 가져와야 한다.
+                  const target = event.detail.originalEvent
+                    .target as HTMLElement | null;
+                  if (target?.closest("[data-cms-dropdown-persist]")) {
                     event.preventDefault();
                   }
                 }}
