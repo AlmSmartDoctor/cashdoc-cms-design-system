@@ -346,9 +346,12 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
 
     // Radix가 open 상태 전이를 소유한다. 닫힘 시 검색어/서브메뉴 hover 상태를
     // 초기화해 다음 오픈에 이전 상태가 새어나가지 않게 한다.
+    // disabled 가드는 열기만 막고, 열린 상태에서의 close (ESC / 바깥 클릭 /
+    // 프로그램적 종료) 는 통과시켜 소비 앱이 폼 제출 중 disabled 로 전환해도
+    // 팝오버가 고착되지 않게 한다.
     const handleOpenChange = useCallback(
       (open: boolean) => {
-        if (disabled) return;
+        if (disabled && open) return;
         setIsOpen(open);
         if (!open) {
           setHoveredSubmenu(null);
