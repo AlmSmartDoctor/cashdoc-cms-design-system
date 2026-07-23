@@ -755,6 +755,11 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                             `absolute left-full z-cms-overlay ml-1 min-w-40 py-1`,
                             "rounded-cms-xl border border-cms-gray-300",
                             "bg-cms-white shadow-lg",
+                            // base 의 cms-dropdown-show 대체.
+                            // 서브메뉴는 hover 시 React state 로 mount 되므로
+                            // Radix data-state 가 없음 — mount-only 애니메이션
+                            // (tailwindcss-animate 유틸) 로 등장만 표현.
+                            "animate-in fade-in-0 zoom-in-95",
                           )}
                           style={{ top: hoveredSubmenu.top }}
                           onMouseEnter={() => {
