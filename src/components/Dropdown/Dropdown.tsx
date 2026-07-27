@@ -847,11 +847,11 @@ DropdownInternal.displayName = "Dropdown";
 type DropdownComponent = {
   // 합치면 union 검사 방식으로 인해 `selectAll={true}` + `multiple={false}` 조합이 허용되므로
   // 분리된 오버로드를 유지한다.
-  /* eslint-disable @typescript-eslint/unified-signatures */
+
   (
     props: DropdownPropsSingle & RefAttributes<HTMLButtonElement>,
   ): ReturnType<typeof DropdownInternal>;
-
+  /* eslint-disable @typescript-eslint/unified-signatures */
   (
     props: DropdownPropsMultiple & RefAttributes<HTMLButtonElement>,
   ): ReturnType<typeof DropdownInternal>;
