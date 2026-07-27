@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.9.2](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.9.1...v2.9.2) (2026-07-27)
+
+
+### Features
+
+* **Dropdown:** restore submenu enter animation ([8be2e3d](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/8be2e3d981e4f0d814f6ea90d3f3cc022e74a107))
+
+
+### Bug Fixes
+
+* **Dropdown:** allow programmatic close when disabled ([5c581ff](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/5c581fff92d9ebfe04b8d8f18299e04c0051c3f1))
+* **Dropdown:** keep popover open on selectAll/clear via onInteractOutside ([6599931](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/6599931af6013e30346588d81e404cb1366c64a5))
+* **Dropdown:** restore Content maxHeight upper bound ([bf0fb8c](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/bf0fb8c6ba0e7c446d53a4c181b9023ed43dc42d))
+* **Dropdown:** route single-select close through handleOpenChange ([f82e82d](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/f82e82d17e44ffc181ef178b1b93d04b1af5d7f9))
+* Modal 내 Dropdown의 스크롤/클릭 이벤트 동작 수정 ([0ffdd5c](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/0ffdd5c93548e3b377b33d58b241437d8978f56f))
+
 ### [2.9.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.9.0...v2.9.1) (2026-07-15)
 
 
