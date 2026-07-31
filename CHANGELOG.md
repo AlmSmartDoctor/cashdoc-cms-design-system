@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.9.3](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.9.2...v2.9.3) (2026-07-31)
+
+
+### Bug Fixes
+
+* **ImageUpload, Popover:** 배럴에서 누락된 공개 타입 재export ([f2d1ebb](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/f2d1ebbfb67f30bdb1279fc5538c1ff4b15468a2))
+
 ### [2.9.2](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.9.1...v2.9.2) (2026-07-27)
 
 
