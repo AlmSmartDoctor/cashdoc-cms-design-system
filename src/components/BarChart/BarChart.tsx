@@ -264,7 +264,12 @@ const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         {(title || unitLabel) && (
           <div className="mb-3 flex items-center justify-between gap-2">
             {title && (
-              <p className="text-[17px] font-bold tracking-tight text-cms-gray-900">
+              <p
+                className={cn(
+                  "text-[17px] font-bold tracking-tight",
+                  "text-cms-gray-900",
+                )}
+              >
                 {title}
               </p>
             )}

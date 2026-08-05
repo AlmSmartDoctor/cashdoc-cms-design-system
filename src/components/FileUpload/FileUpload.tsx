@@ -154,7 +154,10 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
             "px-6 py-8",
             isDragActive
               ? "border-cms-gray-900 bg-cms-white"
-              : "border-cms-gray-300 bg-cms-gray-50 hover:border-cms-gray-900 hover:bg-cms-white",
+              : `
+                  border-cms-gray-300 bg-cms-gray-50
+                  hover:border-cms-gray-900 hover:bg-cms-white
+                `,
             disabled && "pointer-events-none cursor-not-allowed opacity-50",
           )}
         >
@@ -164,7 +167,12 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
             className="text-cms-gray-500"
             strokeWidth={1.8}
           />
-          <p className="mt-2 text-center text-sm font-semibold text-cms-gray-900">
+          <p
+            className={cn(
+              "mt-2 text-center text-sm",
+              "font-semibold text-cms-gray-900",
+            )}
+          >
             {isDragActive ?
               "파일을 여기에 놓으세요"
             : "파일을 끌어다 놓거나 클릭해서 업로드"}

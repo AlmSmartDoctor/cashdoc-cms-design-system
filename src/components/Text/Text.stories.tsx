@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Text } from "./Text";
+import { cn } from "@/utils/cn";
 
 const meta: Meta<typeof Text> = {
   title: "Data Display/Text",
@@ -68,7 +69,12 @@ const Row = ({
   children: React.ReactNode;
 }) => (
   <div className="grid grid-cols-[140px_1fr] items-baseline gap-4">
-    <span className="text-[11px] font-medium tracking-wide text-cms-gray-550 uppercase">
+    <span
+      className={cn(
+        "text-[11px] font-medium tracking-wide",
+        "text-cms-gray-550 uppercase",
+      )}
+    >
       {label}
     </span>
     <div>{children}</div>

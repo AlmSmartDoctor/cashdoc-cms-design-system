@@ -106,7 +106,12 @@ const Section = ({
   children: React.ReactNode;
 }) => (
   <div className="flex flex-col gap-2">
-    <h3 className="text-[12px] font-semibold tracking-wide text-cms-gray-550 uppercase">
+    <h3
+      className={cn(
+        "text-[12px] font-semibold tracking-wide",
+        "text-cms-gray-550 uppercase",
+      )}
+    >
       {title}
     </h3>
     {children}
@@ -125,7 +130,12 @@ const IconCell = ({ name, Icon }: { name: string; Icon: IconComponent }) => (
     )}
   >
     <Icon className="text-cms-gray-900" size={20} />
-    <p className="text-center font-mono text-[10px] leading-tight text-cms-gray-550">
+    <p
+      className={cn(
+        "text-center font-mono text-[10px]",
+        "leading-tight text-cms-gray-550",
+      )}
+    >
       {name}
     </p>
   </div>
@@ -169,7 +179,15 @@ export const Showcase: Story = {
         ([title, icons]) =>
           icons.length > 0 && (
             <Section key={title} title={title}>
-              <div className="grid grid-cols-4 gap-2 md:grid-cols-6 lg:grid-cols-8">
+              <div
+                className={cn(
+                  "grid grid-cols-4 gap-2",
+                  `
+                    md:grid-cols-6
+                    lg:grid-cols-8
+                  `,
+                )}
+              >
                 {icons.map(([name, Icon]) => (
                   <IconCell key={name} name={name} Icon={Icon} />
                 ))}

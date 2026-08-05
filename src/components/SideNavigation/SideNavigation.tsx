@@ -63,7 +63,7 @@ const NavigationMenuItem = ({
             "cursor-pointer transition-colors duration-150",
             isMenuActive ?
               "bg-cms-primary-200 text-cms-surface-onyx"
-            : "bg-transparent text-white hover:bg-cms-surface-slate",
+            : "bg-transparent text-cms-white hover:bg-cms-surface-slate",
           )}
         >
           {menu.icon && (
@@ -73,7 +73,7 @@ const NavigationMenuItem = ({
                   flex items-center
                   [&>svg]:size-6
                 `,
-                isMenuActive ? "text-cms-surface-onyx" : "text-white",
+                isMenuActive ? "text-cms-surface-onyx" : "text-cms-white",
               )}
             >
               {menu.icon}
@@ -84,7 +84,7 @@ const NavigationMenuItem = ({
             <ChevronDown
               className={cn(
                 "shrink-0 transition-transform",
-                isMenuActive ? "text-cms-surface-onyx" : "text-white",
+                isMenuActive ? "text-cms-surface-onyx" : "text-cms-white",
                 isOpen && "rotate-180",
               )}
               size={20}
@@ -119,13 +119,13 @@ const NavigationMenuItem = ({
                 <span
                   className={cn(
                     "size-2.5 shrink-0 rounded-full border",
-                    subSelected ? "border-cms-primary-200" : "border-white",
+                    subSelected ? "border-cms-primary-200" : "border-cms-white",
                   )}
                 />
                 <span
                   className={cn(
                     "text-[16px] leading-[22px] font-medium",
-                    subSelected ? "text-cms-primary-200" : "text-white",
+                    subSelected ? "text-cms-primary-200" : "text-cms-white",
                   )}
                 >
                   {subItem.title}
@@ -245,7 +245,7 @@ export const SideNavigation = React.forwardRef<
           "flex flex-col",
           "h-full w-[272px] max-w-[272px] min-w-[272px]",
           "bg-cms-surface-onyx text-cms-gray-200",
-          "border-r border-white/6",
+          "border-r border-cms-white/6",
           className,
         )}
         {...props}
@@ -255,8 +255,8 @@ export const SideNavigation = React.forwardRef<
 
         {/* Title */}
         {title && !headerSlot && (
-          <div className="border-b border-white/6 px-[18px] py-5">
-            <h2 className="text-[18px] font-bold tracking-tight text-white">
+          <div className="border-b border-cms-white/6 px-[18px] py-5">
+            <h2 className="text-[18px] font-bold tracking-tight text-cms-white">
               {title}
             </h2>
           </div>
@@ -266,9 +266,6 @@ export const SideNavigation = React.forwardRef<
         <div
           className={cn(
             "flex-1 overflow-y-auto px-4 py-1",
-            "scrollbar-thin",
-            "scrollbar-thumb-[#3a3b3e]",
-            "scrollbar-track-transparent",
           )}
         >
           <Accordion.Root
