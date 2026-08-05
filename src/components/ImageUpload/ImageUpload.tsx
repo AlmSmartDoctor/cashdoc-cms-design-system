@@ -239,6 +239,9 @@ export const ImageUpload = forwardRef<
     return getAcceptedFileTypesLabel(accept);
   }, [accept]);
 
+  const maxSizeMB = maxSize / 1024 / 1024;
+  const maxFilesLabel = maxFiles > 1 ? `최대 ${maxFiles}개` : "1개";
+
   useEffect(() => {
     return () => {
       fileUrls.forEach((url) => URL.revokeObjectURL(url));
@@ -368,7 +371,10 @@ export const ImageUpload = forwardRef<
               ? "border-cms-red-500 bg-cms-red-50"
               : isDragActive
                 ? "border-cms-gray-900 bg-cms-white"
-                : "border-cms-gray-300 bg-cms-gray-50 hover:border-cms-gray-900 hover:bg-cms-white",
+                : `
+                    border-cms-gray-300 bg-cms-gray-50
+                    hover:border-cms-gray-900 hover:bg-cms-white
+                  `,
             disabled && "pointer-events-none cursor-not-allowed opacity-50",
             isSingleMode && hasFile && "border-solid border-cms-gray-200 p-0",
           )}
@@ -399,7 +405,7 @@ export const ImageUpload = forwardRef<
                   "absolute top-2 right-2",
                   "h-8 w-8 rounded-full",
                   "flex items-center justify-center",
-                  "bg-white shadow-md",
+                  "bg-cms-white shadow-md",
                   "hover:bg-cms-gray-100",
                   "cursor-pointer",
                   "border-none",
@@ -428,9 +434,8 @@ export const ImageUpload = forwardRef<
                 className="mt-1 text-cms-gray-550"
               >
                 {showAcceptedFileTypes && acceptedFileTypesLabel ?
-                  `${acceptedFileTypesLabel} · 최대 ${maxSize / 1024 / 1024}MB / 파일`
-                : `${maxFiles > 1 ? `최대 ${maxFiles}개` : "1개"} 파일, 최대 ${maxSize / 1024 / 1024}MB`
-                }
+                  `${acceptedFileTypesLabel} · 최대 ${maxSizeMB}MB / 파일`
+                : `${maxFilesLabel} 파일, 최대 ${maxSizeMB}MB`}
               </Text>
               <span
                 aria-hidden="true"

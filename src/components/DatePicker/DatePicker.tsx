@@ -276,7 +276,9 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
               className={cn(
                 "z-cms-overlay rounded-cms-lg bg-cms-white p-3.5",
                 "border border-cms-gray-200",
-                `shadow-[0_4px_8px_rgba(15,20,25,0.06),0_2px_4px_rgba(15,20,25,0.04)]`,
+                `
+                  shadow-[0_4px_8px_rgba(15,20,25,0.06),0_2px_4px_rgba(15,20,25,0.04)]
+                `,
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",
                 "data-[state=closed]:fade-out-0",
@@ -314,7 +316,12 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
               >
                 <div className="flex min-h-7 flex-col justify-center">
                   {draftDate ?
-                    <span className="text-[12px] text-cms-gray-800 tabular-nums">
+                    <span
+                      className={cn(
+                        "text-[12px] text-cms-gray-800",
+                        "tabular-nums",
+                      )}
+                    >
                       {draftDate.format("YYYY-MM-DD")}
                     </span>
                   : <span className="text-[12px] text-cms-gray-550">

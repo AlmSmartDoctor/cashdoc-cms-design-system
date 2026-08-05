@@ -396,9 +396,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
               sideOffset={5}
               className={cn(
                 "z-cms-overlay rounded-cms-lg bg-cms-white",
-                "w-[var(--radix-popover-trigger-width)] min-w-[156px]",
+                "w-(--radix-popover-trigger-width) min-w-[156px]",
                 "border border-cms-gray-200",
-                `shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]`,
+                `
+                  shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]
+                `,
                 "data-[state=open]:animate-in",
                 "data-[state=closed]:animate-out",
                 "data-[state=closed]:fade-out-0",

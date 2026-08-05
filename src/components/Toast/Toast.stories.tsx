@@ -54,7 +54,7 @@ export const Showcase: Story = {
             theme="dark"
             title="캠페인이 발행되었습니다"
             description="4분 전 · 12,481명에게 알림 전송"
-            onClose={() => {}}
+            onClose={() => undefined}
           />
           <Toast
             intent="info"
@@ -66,14 +66,14 @@ export const Showcase: Story = {
             intent="warning"
             title="발송 시간이 야간(22:00 이후)입니다"
             description="예약 시간을 다시 확인해 주세요."
-            onClose={() => {}}
+            onClose={() => undefined}
           />
           <Toast
             intent="error"
             theme="dark"
             title="발송에 실패했어요"
             description="잠시 후 다시 시도해 주세요. (에러 코드 · 5023)"
-            onClose={() => {}}
+            onClose={() => undefined}
           />
         </div>
       </div>
