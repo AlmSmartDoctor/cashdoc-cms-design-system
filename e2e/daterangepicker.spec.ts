@@ -3,11 +3,12 @@ import { test, expect } from "@playwright/test";
 // 빠른선택 + 2개월 캘린더 + 푸터 팝오버 전체가 화면 내에 들어오도록 viewport 높이 확보
 test.use({ viewport: { width: 1280, height: 900 } });
 
+const SHOWCASE =
+  "/iframe.html?id=forms-daterangepicker--showcase&viewMode=story";
+
 test.describe("DateRangePicker 컴포넌트", () => {
   test("기본 DateRangePicker 렌더링 및 기간 선택", async ({ page }) => {
-    await page.goto(
-      "/iframe.html?id=forms-daterangepicker--default&viewMode=story",
-    );
+    await page.goto(SHOWCASE);
 
     // 시작일 입력창 클릭
     await page.getByLabel("시작일자").click();
@@ -33,9 +34,7 @@ test.describe("DateRangePicker 컴포넌트", () => {
   });
 
   test("빠른 선택 기능 작동", async ({ page }) => {
-    await page.goto(
-      "/iframe.html?id=forms-daterangepicker--default&viewMode=story",
-    );
+    await page.goto(SHOWCASE);
 
     await page.getByLabel("시작일자").click();
 

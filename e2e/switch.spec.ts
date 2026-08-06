@@ -1,60 +1,47 @@
 import { test, expect } from "@playwright/test";
 
+const SHOWCASE = "/iframe.html?id=forms-switch--showcase&viewMode=story";
+
 test.describe("Switch 컴포넌트", () => {
   test("기본 스위치 렌더링", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-switch--default");
+    await page.goto(SHOWCASE);
 
-    const switchButton = page.getByRole("switch");
-    await expect(switchButton).toBeVisible();
-  });
-
-  test("스위치 토글", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-switch--default");
-
-    const switchButton = page.getByRole("switch");
-
-    // 초기 상태 확인 (unchecked)
-    await expect(switchButton).not.toBeChecked();
-
-    // 클릭해서 체크
-    await switchButton.click();
-    await expect(switchButton).toBeChecked();
-
-    // 다시 클릭해서 체크 해제
-    await switchButton.click();
-    await expect(switchButton).not.toBeChecked();
+    const switches = page.getByRole("switch");
+    await expect(switches.first()).toBeVisible();
+    // Variant 6 + State 4 + With label 2
+    await expect(switches).toHaveCount(12);
   });
 
   test("체크된 상태로 렌더링", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-switch--green");
+    await page.goto(SHOWCASE);
 
-    const switchButton = page.getByRole("switch");
-    await expect(switchButton).toBeChecked();
+    // Variant · ON 줄의 첫 스위치는 checked
+    await expect(page.getByRole("switch").first()).toBeChecked();
   });
 
   test("disabled 상태 확인", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-switch--disabled");
+    await page.goto(SHOWCASE);
 
-    const switchButton = page.getByRole("switch");
-    await expect(switchButton).toBeDisabled();
+    // State 줄의 off/on disabled 2개
+    await expect(page.locator('[role="switch"][disabled]')).toHaveCount(2);
   });
 
   test("내부 라벨 표시 및 토글", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-switch--with-inner-labels");
+    await page.goto(SHOWCASE);
 
-    const switchButton = page.getByRole("switch");
-    const checkedLabel = page.getByText("노출", { exact: true });
-    const uncheckedLabel = page.getByText("미노출", { exact: true });
+    // uncontrolled 스위치 (checkedLabel=공개 / uncheckedLabel=비공개)
+    // 두 라벨 모두 DOM에 상주하고 상태에 따라 visibility만 바뀐다.
+    const switchButton = page.getByRole("switch").filter({ hasText: "비공개" });
 
-    // 초기 상태(Off): 우측 라벨만 노출
+    // 초기 상태(Off): 미체크 + 비공개 라벨만 노출
     await expect(switchButton).not.toBeChecked();
-    await expect(uncheckedLabel).toBeVisible();
-    await expect(checkedLabel).toBeHidden();
+    await expect(page.getByText("비공개", { exact: true })).toBeVisible();
+    await expect(page.getByText("공개", { exact: true })).toBeHidden();
 
-    // 토글 후(On): 좌측 라벨로 전환
+    // 토글 후(On): 체크 + 공개 라벨로 전환
     await switchButton.click();
     await expect(switchButton).toBeChecked();
-    await expect(checkedLabel).toBeVisible();
-    await expect(uncheckedLabel).toBeHidden();
+    await expect(page.getByText("공개", { exact: true })).toBeVisible();
+    await expect(page.getByText("비공개", { exact: true })).toBeHidden();
   });
 });

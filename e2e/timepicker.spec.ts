@@ -2,7 +2,9 @@ import { test, expect } from "@playwright/test";
 
 test.describe("TimePicker 컴포넌트", () => {
   test("시간 선택 및 적용", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-timepicker--default&viewMode=story");
+    await page.goto(
+      "/iframe.html?id=forms-timepicker--showcase&viewMode=story",
+    );
 
     // Input 클릭
     await page.getByRole("textbox").click();
@@ -25,9 +27,8 @@ test.describe("TimePicker 컴포넌트", () => {
   });
 
   test("12시간제 모드 확인", async ({ page }) => {
-    // Format12Hour 스토리 사용
     await page.goto(
-      "/iframe.html?id=forms-timepicker--format-12-hour&viewMode=story",
+      "/iframe.html?id=forms-timepicker--twelve-hour-format&viewMode=story",
     );
 
     await page.getByRole("textbox").click();
@@ -58,7 +59,9 @@ test.describe("TimePicker 컴포넌트", () => {
 
   // CSD-8027: Modal(Dialog) 내부에서 TimePicker 팝오버 클릭이 죽지 않는지 검증.
   test("모달 내부에서 시/분 선택 동작", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-timepicker--in-modal&viewMode=story");
+    await page.goto(
+      "/iframe.html?id=forms-timepicker--in-modal&viewMode=story",
+    );
 
     // 모달 열기
     await page.getByRole("button", { name: "모달 열기" }).click();

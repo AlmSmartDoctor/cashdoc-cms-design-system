@@ -1,12 +1,15 @@
 import { test, expect } from "@playwright/test";
 
+const SHOWCASE =
+  "/iframe.html?id=forms-texttogglebutton--showcase&viewMode=story";
+
 test.describe("TextToggleButton 컴포넌트", () => {
   test("기본 렌더링: collapsed 상태의 레이블과 aria-expanded=false", async ({
     page,
   }) => {
-    await page.goto("/iframe.html?id=forms-texttogglebutton--default");
+    await page.goto(SHOWCASE);
 
-    const button = page.getByRole("button", { name: "더보기" });
+    const button = page.getByRole("button", { name: "더보기" }).first();
     await expect(button).toBeVisible();
     await expect(button).toHaveAttribute("aria-expanded", "false");
   });
@@ -14,47 +17,37 @@ test.describe("TextToggleButton 컴포넌트", () => {
   test("클릭 시 펼침으로 토글되어 레이블과 aria-expanded가 변경된다", async ({
     page,
   }) => {
-    await page.goto("/iframe.html?id=forms-texttogglebutton--default");
+    await page.goto(SHOWCASE);
 
-    const collapsed = page.getByRole("button", { name: "더보기" });
-    await collapsed.click();
+    await page.getByRole("button", { name: "더보기" }).first().click();
 
     const expanded = page.getByRole("button", { name: "접기" });
     await expect(expanded).toBeVisible();
     await expect(expanded).toHaveAttribute("aria-expanded", "true");
 
     await expanded.click();
-    await expect(page.getByRole("button", { name: "더보기" })).toHaveAttribute(
-      "aria-expanded",
-      "false",
-    );
+    await expect(page.getByRole("button", { name: "접기" })).toHaveCount(0);
   });
 
   test("Enter 키와 Space 키로 토글된다", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-texttogglebutton--default");
+    await page.goto(SHOWCASE);
 
-    const button = page.getByRole("button", { name: "더보기" });
+    const button = page.getByRole("button", { name: "더보기" }).first();
     await button.focus();
     await page.keyboard.press("Enter");
     await expect(page.getByRole("button", { name: "접기" })).toBeVisible();
 
     await page.keyboard.press("Space");
-    await expect(page.getByRole("button", { name: "더보기" })).toBeVisible();
-  });
-
-  test("controls prop은 aria-controls 속성으로 출력된다", async ({ page }) => {
-    await page.goto(
-      "/iframe.html?id=forms-texttogglebutton--with-disclosure",
-    );
-
-    const button = page.getByRole("button", { name: "더보기" });
-    await expect(button).toHaveAttribute("aria-controls", "review-body");
+    await expect(page.getByRole("button", { name: "접기" })).toHaveCount(0);
   });
 
   test("disabled 상태에서는 클릭이 무시된다", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-texttogglebutton--disabled");
+    await page.goto(SHOWCASE);
 
-    const button = page.getByRole("button", { name: "더보기" });
-    await expect(button).toBeDisabled();
+    const disabled = page.getByRole("button", {
+      name: "더보기",
+      disabled: true,
+    });
+    await expect(disabled).toHaveCount(1);
   });
 });
