@@ -1,11 +1,5 @@
 import { cn } from "@/utils/cn";
-import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { forwardRef, useCallback, useEffect, useMemo, useState } from "react";
 import type { Accept, FileRejection } from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 import { ImageUploadIcon, XIcon as CloseIcon } from "../icons";
@@ -207,316 +201,315 @@ export type ImageUploadProps = {
  * ## 참고사진
  * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Forms/ImageUpload/For%20Jsdoc.png?raw=true)
  */
-export const ImageUpload = forwardRef<
-  HTMLDivElement,
-  ImageUploadProps
->(function ImageUpload(
-  {
-    value = [],
-    onChange,
-    maxFiles = 1,
-    maxSize = 5 * 1024 * 1024, // 5MB
-    accept = DEFAULT_IMAGE_ACCEPT,
-    disabled = false,
-    className,
-    showPreview = true,
-    showAcceptedFileTypes = false,
-    error = false,
-    onError,
-    validateImage,
-    placeholder = "파일을 끌어다 놓거나 클릭해서 업로드",
-    placeholderActive = "파일을 여기에 놓으세요",
-  },
-  ref,
-) {
-  const [files, setFiles] = useState<File[]>(value);
-
-  const fileUrls = useMemo(() => {
-    return files.map((file) => URL.createObjectURL(file));
-  }, [files]);
-
-  const acceptedFileTypesLabel = useMemo(() => {
-    return getAcceptedFileTypesLabel(accept);
-  }, [accept]);
-
-  const maxSizeMB = maxSize / 1024 / 1024;
-  const maxFilesLabel = maxFiles > 1 ? `최대 ${maxFiles}개` : "1개";
-
-  useEffect(() => {
-    return () => {
-      fileUrls.forEach((url) => URL.revokeObjectURL(url));
-    };
-  }, [fileUrls]);
-
-  const loadImageMetadata = (file: File): Promise<ImageMetadata> => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      const url = URL.createObjectURL(file);
-
-      img.onload = () => {
-        URL.revokeObjectURL(url);
-        resolve({
-          width: img.width,
-          height: img.height,
-          aspectRatio: img.width / img.height,
-          size: file.size,
-        });
-      };
-
-      img.onerror = () => {
-        URL.revokeObjectURL(url);
-        reject(new Error("이미지를 로드할 수 없습니다."));
-      };
-
-      img.src = url;
-    });
-  };
-
-  const onDrop = useCallback(
-    (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-      const processDrop = async (): Promise<void> => {
-        if (rejectedFiles.length > 0) {
-          const error = rejectedFiles[0].errors[0];
-          if (error.code === "file-too-large") {
-            onError?.(
-              `파일 크기는 ${maxSize / 1024 / 1024}MB를 초과할 수 없습니다.`,
-            );
-          } else if (error.code === "file-invalid-type") {
-            onError?.("지원하지 않는 파일 형식입니다.");
-          } else if (error.code === "too-many-files") {
-            onError?.(`최대 ${maxFiles}개의 파일만 업로드할 수 있습니다.`);
-          }
-          return;
-        }
-
-        // 커스텀 검증 로직 실행
-        if (validateImage) {
-          const validatedFiles: File[] = [];
-
-          for (const file of acceptedFiles) {
-            try {
-              const metadata = await loadImageMetadata(file);
-              const validationError = await validateImage(file, metadata);
-
-              if (validationError) {
-                onError?.(validationError);
-                continue;
-              }
-
-              validatedFiles.push(file);
-            } catch (error) {
-              onError?.((error as Error).message);
-            }
-          }
-
-          if (validatedFiles.length === 0) return;
-
-          setFiles((prev) => {
-            const newFiles =
-              maxFiles === 1 ? validatedFiles : (
-                [...prev, ...validatedFiles].slice(0, maxFiles)
-              );
-            onChange?.(newFiles);
-            return newFiles;
-          });
-        } else {
-          setFiles((prev) => {
-            const newFiles =
-              maxFiles === 1 ? acceptedFiles : (
-                [...prev, ...acceptedFiles].slice(0, maxFiles)
-              );
-            onChange?.(newFiles);
-            return newFiles;
-          });
-        }
-      };
-
-      void processDrop();
+export const ImageUpload = forwardRef<HTMLDivElement, ImageUploadProps>(
+  function ImageUpload(
+    {
+      value = [],
+      onChange,
+      maxFiles = 1,
+      maxSize = 5 * 1024 * 1024, // 5MB
+      accept = DEFAULT_IMAGE_ACCEPT,
+      disabled = false,
+      className,
+      showPreview = true,
+      showAcceptedFileTypes = false,
+      error = false,
+      onError,
+      validateImage,
+      placeholder = "파일을 끌어다 놓거나 클릭해서 업로드",
+      placeholderActive = "파일을 여기에 놓으세요",
     },
-    [maxFiles, maxSize, onChange, onError, validateImage],
-  );
+    ref,
+  ) {
+    const [files, setFiles] = useState<File[]>(value);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept,
-    maxSize,
-    maxFiles,
-    disabled,
-    multiple: maxFiles > 1,
-  });
+    const fileUrls = useMemo(() => {
+      return files.map((file) => URL.createObjectURL(file));
+    }, [files]);
 
-  const removeFile = (index: number) => {
-    setFiles((prev) => {
-      const newFiles = prev.filter((_, i) => i !== index);
-      onChange?.(newFiles);
-      return newFiles;
+    const acceptedFileTypesLabel = useMemo(() => {
+      return getAcceptedFileTypesLabel(accept);
+    }, [accept]);
+
+    const maxSizeMB = maxSize / 1024 / 1024;
+    const maxFilesLabel = maxFiles > 1 ? `최대 ${maxFiles}개` : "1개";
+
+    useEffect(() => {
+      return () => {
+        fileUrls.forEach((url) => URL.revokeObjectURL(url));
+      };
+    }, [fileUrls]);
+
+    const loadImageMetadata = (file: File): Promise<ImageMetadata> => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          resolve({
+            width: img.width,
+            height: img.height,
+            aspectRatio: img.width / img.height,
+            size: file.size,
+          });
+        };
+
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          reject(new Error("이미지를 로드할 수 없습니다."));
+        };
+
+        img.src = url;
+      });
+    };
+
+    const onDrop = useCallback(
+      (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+        const processDrop = async (): Promise<void> => {
+          if (rejectedFiles.length > 0) {
+            const error = rejectedFiles[0].errors[0];
+            if (error.code === "file-too-large") {
+              onError?.(
+                `파일 크기는 ${maxSize / 1024 / 1024}MB를 초과할 수 없습니다.`,
+              );
+            } else if (error.code === "file-invalid-type") {
+              onError?.("지원하지 않는 파일 형식입니다.");
+            } else if (error.code === "too-many-files") {
+              onError?.(`최대 ${maxFiles}개의 파일만 업로드할 수 있습니다.`);
+            }
+            return;
+          }
+
+          // 커스텀 검증 로직 실행
+          if (validateImage) {
+            const validatedFiles: File[] = [];
+
+            for (const file of acceptedFiles) {
+              try {
+                const metadata = await loadImageMetadata(file);
+                const validationError = await validateImage(file, metadata);
+
+                if (validationError) {
+                  onError?.(validationError);
+                  continue;
+                }
+
+                validatedFiles.push(file);
+              } catch (error) {
+                onError?.((error as Error).message);
+              }
+            }
+
+            if (validatedFiles.length === 0) return;
+
+            setFiles((prev) => {
+              const newFiles =
+                maxFiles === 1 ? validatedFiles : (
+                  [...prev, ...validatedFiles].slice(0, maxFiles)
+                );
+              onChange?.(newFiles);
+              return newFiles;
+            });
+          } else {
+            setFiles((prev) => {
+              const newFiles =
+                maxFiles === 1 ? acceptedFiles : (
+                  [...prev, ...acceptedFiles].slice(0, maxFiles)
+                );
+              onChange?.(newFiles);
+              return newFiles;
+            });
+          }
+        };
+
+        void processDrop();
+      },
+      [maxFiles, maxSize, onChange, onError, validateImage],
+    );
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+      onDrop,
+      accept,
+      maxSize,
+      maxFiles,
+      disabled,
+      multiple: maxFiles > 1,
     });
-  };
 
-  const isSingleMode = maxFiles === 1;
-  const hasFile = files.length > 0;
-  const isMaxReached = files.length >= maxFiles;
+    const removeFile = (index: number) => {
+      setFiles((prev) => {
+        const newFiles = prev.filter((_, i) => i !== index);
+        onChange?.(newFiles);
+        return newFiles;
+      });
+    };
 
-  return (
-    <div ref={ref} className={cn("w-full", className)}>
-      {!(!isSingleMode && isMaxReached) && (
-        <div
-          {...getRootProps()}
-          className={cn(
-            "relative rounded-cms-lg border-[1.5px] border-dashed",
-            "cursor-pointer transition-colors",
-            "flex flex-col items-center justify-center",
-            "min-h-40",
-            error
-              ? "border-cms-red-500 bg-cms-red-50"
-              : isDragActive
-                ? "border-cms-gray-900 bg-cms-white"
-                : `
+    const isSingleMode = maxFiles === 1;
+    const hasFile = files.length > 0;
+    const isMaxReached = files.length >= maxFiles;
+
+    return (
+      <div ref={ref} className={cn("w-full", className)}>
+        {!(!isSingleMode && isMaxReached) && (
+          <div
+            {...getRootProps()}
+            className={cn(
+              "relative rounded-cms-lg border-[1.5px] border-dashed",
+              "cursor-pointer transition-colors",
+              "flex flex-col items-center justify-center",
+              "min-h-40",
+              error ? "border-cms-red-500 bg-cms-red-50"
+              : isDragActive ? "border-cms-gray-900 bg-cms-white"
+              : `
                     border-cms-gray-300 bg-cms-gray-50
                     hover:border-cms-gray-900 hover:bg-cms-white
                   `,
-            disabled && "pointer-events-none cursor-not-allowed opacity-50",
-            isSingleMode && hasFile && "border-solid border-cms-gray-200 p-0",
-          )}
-        >
-          <input {...getInputProps()} />
+              disabled && "pointer-events-none cursor-not-allowed opacity-50",
+              isSingleMode && hasFile && "border-solid border-cms-gray-200 p-0",
+            )}
+          >
+            <input {...getInputProps()} />
 
-          {isSingleMode && hasFile && showPreview ?
-            <div
-              className={cn(
-                "group flex items-center justify-center",
-                "relative h-full min-h-50 w-full",
-                "overflow-hidden rounded-cms-lg",
-                "bg-cms-gray-100",
-              )}
-            >
-              <img
-                src={fileUrls[0]}
-                alt={files[0].name}
-                className="max-h-full max-w-full object-contain"
-              />
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeFile(0);
-                }}
-                className={cn(
-                  "absolute top-2 right-2",
-                  "h-8 w-8 rounded-full",
-                  "flex items-center justify-center",
-                  "bg-cms-white shadow-md",
-                  "hover:bg-cms-gray-100",
-                  "cursor-pointer",
-                  "border-none",
-                )}
-                aria-label="파일 제거"
-              >
-                <CloseIcon className="size-4" />
-              </button>
-            </div>
-          : <div className="flex flex-col items-center px-6 py-8">
-              <ImageUploadIcon
-                size={28}
-                className="text-cms-gray-500"
-                strokeWidth={1.8}
-              />
-              <Text
-                variant="emphasis"
-                align="center"
-                className="mt-2 text-cms-gray-900"
-              >
-                {isDragActive ? placeholderActive : placeholder}
-              </Text>
-              <Text
-                variant="caption"
-                align="center"
-                className="mt-1 text-cms-gray-550"
-              >
-                {showAcceptedFileTypes && acceptedFileTypesLabel ?
-                  `${acceptedFileTypesLabel} · 최대 ${maxSizeMB}MB / 파일`
-                : `${maxFilesLabel} 파일, 최대 ${maxSizeMB}MB`}
-              </Text>
-              <span
-                aria-hidden="true"
-                className={cn(
-                  "mt-3 inline-flex items-center justify-center",
-                  "h-7 rounded-cms-sm border border-cms-gray-250",
-                  "bg-cms-white px-2.5",
-                  "text-[12px] font-semibold text-cms-gray-850",
-                )}
-              >
-                파일 선택
-              </span>
-            </div>
-          }
-        </div>
-      )}
-
-      {!isSingleMode && showPreview && files.length > 0 && (
-        <div
-          className={cn(
-            "mt-4 gap-4",
-            "grid grid-cols-2",
-            "sm:grid-cols-3",
-            "md:grid-cols-4",
-            "justify-items-center",
-          )}
-        >
-          {files.map((file, index) => (
-            <div
-              key={index}
-              className={cn(
-                "group relative overflow-hidden rounded-cms-md",
-                "border border-cms-gray-200",
-              )}
-            >
-              <div className="aspect-square bg-cms-gray-100">
-                <img
-                  src={fileUrls[index]}
-                  alt={file.name}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeFile(index);
-                }}
-                className={cn(
-                  "absolute top-1.5 right-1.5",
-                  "h-6 w-6 rounded-full",
-                  "flex items-center justify-center",
-                  "bg-cms-gray-900/70 text-cms-white backdrop-blur-sm",
-                  "hover:bg-cms-gray-900/85",
-                  "cursor-pointer",
-                  "border-none",
-                )}
-                aria-label="파일 제거"
-              >
-                <CloseIcon className="size-3" />
-              </button>
+            {isSingleMode && hasFile && showPreview ?
               <div
                 className={cn(
-                  "bg-cms-white px-2 py-1.5",
-                  "border-t border-cms-gray-200",
+                  "group flex items-center justify-center",
+                  "relative h-full min-h-50 w-full",
+                  "overflow-hidden rounded-cms-lg",
+                  "bg-cms-gray-100",
                 )}
               >
-                <Text variant="caption" className="truncate text-cms-gray-800">
-                  {file.name}
-                </Text>
-                <Text variant="caption" className="text-cms-gray-550">
-                  {(file.size / 1024).toFixed(1)} KB
-                </Text>
+                <img
+                  src={fileUrls[0]}
+                  alt={files[0].name}
+                  className="max-h-full max-w-full object-contain"
+                />
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile(0);
+                  }}
+                  className={cn(
+                    "absolute top-2 right-2",
+                    "h-8 w-8 rounded-full",
+                    "flex items-center justify-center",
+                    "bg-cms-white shadow-md",
+                    "hover:bg-cms-gray-100",
+                    "cursor-pointer",
+                    "border-none",
+                  )}
+                  aria-label="파일 제거"
+                >
+                  <CloseIcon className="size-4" />
+                </button>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-},
+            : <div className="flex flex-col items-center px-6 py-8">
+                <ImageUploadIcon
+                  size={28}
+                  className="text-cms-gray-500"
+                  strokeWidth={1.8}
+                />
+                <Text
+                  variant="emphasis"
+                  align="center"
+                  className="mt-2 text-cms-gray-900"
+                >
+                  {isDragActive ? placeholderActive : placeholder}
+                </Text>
+                <Text
+                  variant="caption"
+                  align="center"
+                  className="mt-1 text-cms-gray-550"
+                >
+                  {showAcceptedFileTypes && acceptedFileTypesLabel ?
+                    `${acceptedFileTypesLabel} · 최대 ${maxSizeMB}MB / 파일`
+                  : `${maxFilesLabel} 파일, 최대 ${maxSizeMB}MB`}
+                </Text>
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "mt-3 inline-flex items-center justify-center",
+                    "h-7 rounded-cms-sm border border-cms-gray-250",
+                    "bg-cms-white px-2.5",
+                    "text-[12px] font-semibold text-cms-gray-850",
+                  )}
+                >
+                  파일 선택
+                </span>
+              </div>
+            }
+          </div>
+        )}
+
+        {!isSingleMode && showPreview && files.length > 0 && (
+          <div
+            className={cn(
+              "mt-4 gap-4",
+              "grid grid-cols-2",
+              "sm:grid-cols-3",
+              "md:grid-cols-4",
+              "justify-items-center",
+            )}
+          >
+            {files.map((file, index) => (
+              <div
+                key={index}
+                className={cn(
+                  "group relative overflow-hidden rounded-cms-md",
+                  "border border-cms-gray-200",
+                )}
+              >
+                <div className="aspect-square bg-cms-gray-100">
+                  <img
+                    src={fileUrls[index]}
+                    alt={file.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile(index);
+                  }}
+                  className={cn(
+                    "absolute top-1.5 right-1.5",
+                    "h-6 w-6 rounded-full",
+                    "flex items-center justify-center",
+                    "bg-cms-gray-900/70 text-cms-white backdrop-blur-sm",
+                    "hover:bg-cms-gray-900/85",
+                    "cursor-pointer",
+                    "border-none",
+                  )}
+                  aria-label="파일 제거"
+                >
+                  <CloseIcon className="size-3" />
+                </button>
+                <div
+                  className={cn(
+                    "bg-cms-white px-2 py-1.5",
+                    "border-t border-cms-gray-200",
+                  )}
+                >
+                  <Text
+                    variant="caption"
+                    className="truncate text-cms-gray-800"
+                  >
+                    {file.name}
+                  </Text>
+                  <Text variant="caption" className="text-cms-gray-550">
+                    {(file.size / 1024).toFixed(1)} KB
+                  </Text>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  },
 );
 
 ImageUpload.displayName = "ImageUpload";

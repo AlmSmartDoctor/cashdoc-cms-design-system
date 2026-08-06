@@ -263,11 +263,7 @@ export const SideNavigation = React.forwardRef<
         )}
 
         {/* Menu Body */}
-        <div
-          className={cn(
-            "flex-1 overflow-y-auto px-4 py-1",
-          )}
-        >
+        <div className={cn("flex-1 overflow-y-auto px-4 py-1")}>
           <Accordion.Root
             type="multiple"
             value={openedMenus}

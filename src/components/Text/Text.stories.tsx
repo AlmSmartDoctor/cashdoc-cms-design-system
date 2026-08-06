@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { cn } from "@/utils/cn";
 import { Text } from "./Text";
-import { cn } from "@/utils/cn";
 
 const meta: Meta<typeof Text> = {
   title: "Data Display/Text",

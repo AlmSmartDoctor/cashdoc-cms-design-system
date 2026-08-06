@@ -3,14 +3,7 @@
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import type { VariantProps } from "class-variance-authority";
 import type { ReactNode } from "react";
-import {
-  forwardRef,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { forwardRef, useEffect, useId, useMemo, useRef, useState } from "react";
 import { cn } from "@/utils/cn";
 import { usePortalContainer } from "@/utils/portalContainer";
 import { ChevronDownIcon, ChevronRightFillIcon } from "../icons";

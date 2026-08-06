@@ -141,6 +141,5 @@ CountFilterChipsBase.displayName = "CountFilterChips";
 export const CountFilterChips = CountFilterChipsBase as <
   T extends string | number,
 >(
-  props: CountFilterChipsProps<T> &
-    React.RefAttributes<CountFilterChipsRef>,
+  props: CountFilterChipsProps<T> & React.RefAttributes<CountFilterChipsRef>,
 ) => React.ReactElement;

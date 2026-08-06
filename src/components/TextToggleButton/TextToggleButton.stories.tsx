@@ -103,14 +103,14 @@ export const Showcase: Story = {
           <p
             className="text-[13.5px] leading-relaxed text-cms-gray-800"
             style={
-              expanded
-                ? undefined
-                : {
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 2,
-                    overflow: "hidden",
-                  }
+              expanded ? undefined : (
+                {
+                  display: "-webkit-box",
+                  WebkitBoxOrient: "vertical",
+                  WebkitLineClamp: 2,
+                  overflow: "hidden",
+                }
+              )
             }
           >
             {SAMPLE_TEXT}

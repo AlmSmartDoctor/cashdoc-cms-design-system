@@ -55,9 +55,7 @@ test.describe("Dropdown PR #71 회귀 방지", () => {
     // Modal 안의 Dropdown 트리거를 열고 검색 필터 검증
     const dialog = page.getByRole("dialog");
     await expect(dialog).toBeVisible();
-    await dialog
-      .getByRole("button", { name: /옵션을 선택하세요/ })
-      .click();
+    await dialog.getByRole("button", { name: /옵션을 선택하세요/ }).click();
 
     const searchInput = page.getByPlaceholder("검색...");
     await expect(searchInput).toBeFocused();
@@ -72,14 +70,10 @@ test.describe("Dropdown PR #71 회귀 방지", () => {
     await page.getByRole("button", { name: "모달 열기" }).click();
 
     const dialog = page.getByRole("dialog");
-    await dialog
-      .getByRole("button", { name: /옵션을 선택하세요/ })
-      .click();
+    await dialog.getByRole("button", { name: /옵션을 선택하세요/ }).click();
 
     // 옵션 리스트 스크롤 컨테이너를 찾아 wheel 로 스크롤 이동
-    const scrollContainer = page.locator(
-      '[role="listbox"] .overflow-y-auto',
-    );
+    const scrollContainer = page.locator('[role="listbox"] .overflow-y-auto');
     await expect(scrollContainer).toBeVisible();
 
     const before = await scrollContainer.evaluate((el) => el.scrollTop);
@@ -99,9 +93,7 @@ test.describe("Dropdown PR #71 회귀 방지", () => {
     await page.getByRole("button", { name: "모달 열기" }).click();
 
     const dialog = page.getByRole("dialog");
-    await dialog
-      .getByRole("button", { name: /옵션을 선택하세요/ })
-      .click();
+    await dialog.getByRole("button", { name: /옵션을 선택하세요/ }).click();
     await expect(page.getByRole("listbox").first()).toBeVisible();
 
     // Modal 안, Dropdown 팝오버 바깥 영역을 클릭
