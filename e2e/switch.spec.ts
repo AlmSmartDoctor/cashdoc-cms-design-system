@@ -15,8 +15,13 @@ test.describe("Switch 컴포넌트", () => {
   test("체크된 상태로 렌더링", async ({ page }) => {
     await page.goto(SHOWCASE);
 
-    // Variant · ON 줄의 첫 스위치는 checked
-    await expect(page.getByRole("switch").first()).toBeChecked();
+    // "Variant · ON" 줄의 스위치 6개는 전부 checked
+    const row = page.getByText("Variant · ON", { exact: true }).locator("..");
+    const switches = row.getByRole("switch");
+    await expect(switches).toHaveCount(6);
+    for (const sw of await switches.all()) {
+      await expect(sw).toBeChecked();
+    }
   });
 
   test("disabled 상태 확인", async ({ page }) => {

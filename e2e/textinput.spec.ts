@@ -19,7 +19,7 @@ test.describe("TextInput 컴포넌트", () => {
   test("텍스트 입력", async ({ page }) => {
     await page.goto(SHOWCASE);
 
-    const input = page.getByPlaceholder("example@cashdoc.io");
+    const input = page.getByLabel("이메일", { exact: true });
     await input.fill("test@cashdoc.io");
 
     await expect(input).toHaveValue("test@cashdoc.io");
@@ -50,7 +50,8 @@ test.describe("TextInput 컴포넌트", () => {
   test("disabled 상태 확인", async ({ page }) => {
     await page.goto(SHOWCASE);
 
-    const input = page.locator("input[disabled]").first();
+    const input = page.getByLabel("SSO 도메인", { exact: true });
+    await expect(input).toBeDisabled();
     await expect(input).toHaveValue("cashdoc.io");
   });
 

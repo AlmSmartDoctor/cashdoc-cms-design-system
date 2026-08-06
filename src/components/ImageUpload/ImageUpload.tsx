@@ -375,7 +375,7 @@ export const ImageUpload = forwardRef<HTMLDivElement, ImageUploadProps>(
               <div
                 className={cn(
                   "group flex items-center justify-center",
-                  "relative h-full min-h-50 w-full",
+                  "relative size-full min-h-50",
                   "overflow-hidden rounded-cms-lg",
                   "bg-cms-gray-100",
                 )}
@@ -393,7 +393,7 @@ export const ImageUpload = forwardRef<HTMLDivElement, ImageUploadProps>(
                   }}
                   className={cn(
                     "absolute top-2 right-2",
-                    "h-8 w-8 rounded-full",
+                    "size-8 rounded-full",
                     "flex items-center justify-center",
                     "bg-cms-white shadow-md",
                     "hover:bg-cms-gray-100",
@@ -465,7 +465,7 @@ export const ImageUpload = forwardRef<HTMLDivElement, ImageUploadProps>(
                   <img
                     src={fileUrls[index]}
                     alt={file.name}
-                    className="h-full w-full object-cover"
+                    className="size-full object-cover"
                   />
                 </div>
                 <button
@@ -476,7 +476,7 @@ export const ImageUpload = forwardRef<HTMLDivElement, ImageUploadProps>(
                   }}
                   className={cn(
                     "absolute top-1.5 right-1.5",
-                    "h-6 w-6 rounded-full",
+                    "size-6 rounded-full",
                     "flex items-center justify-center",
                     "bg-cms-gray-900/70 text-cms-white backdrop-blur-sm",
                     "hover:bg-cms-gray-900/85",
