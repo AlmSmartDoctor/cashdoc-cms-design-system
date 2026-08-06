@@ -1,37 +1,39 @@
 import { test, expect } from "@playwright/test";
 
+const SHOWCASE = "/iframe.html?id=forms-radiobutton--showcase&viewMode=story";
+
 test.describe("RadioButton 컴포넌트", () => {
   test("기본 라디오 버튼 렌더링", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-radiobutton--default");
+    await page.goto(SHOWCASE);
 
-    const radio = page.getByRole("radio");
-    await expect(radio).toBeVisible();
+    await expect(page.getByRole("radio", { name: "즉시 발송" })).toBeVisible();
   });
 
   test("라디오 버튼 선택", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-radiobutton--default");
+    await page.goto(SHOWCASE);
 
-    const radio = page.getByRole("radio");
-    await radio.click();
+    const target = page.getByRole("radio", { name: "예약 발송" });
+    await expect(target).not.toBeChecked();
 
-    await expect(radio).toBeChecked();
+    await target.click();
+
+    await expect(target).toBeChecked();
+    await expect(
+      page.getByRole("radio", { name: "즉시 발송" }),
+    ).not.toBeChecked();
   });
 
   test("disabled 상태 확인", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-radiobutton--disabled");
+    await page.goto(SHOWCASE);
 
-    const radio = page.getByRole("radio");
-    await expect(radio).toBeDisabled();
+    await expect(page.getByRole("radio", { name: "비활성" })).toBeDisabled();
   });
 
   test("다양한 크기 렌더링", async ({ page }) => {
-    await page.goto(
-      "/iframe.html?id=forms-radiobutton--all-variants-and-sizes",
-    );
+    await page.goto(SHOWCASE);
 
-    // Small, Medium, Large 섹션이 있는지 확인
-    await expect(page.getByText("Small")).toBeVisible();
-    await expect(page.getByText("Medium")).toBeVisible();
-    await expect(page.getByText("Large")).toBeVisible();
+    for (const name of ["sm", "md", "lg"]) {
+      await expect(page.getByRole("radio", { name })).toBeVisible();
+    }
   });
 });

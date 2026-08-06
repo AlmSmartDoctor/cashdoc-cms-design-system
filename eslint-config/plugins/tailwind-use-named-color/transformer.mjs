@@ -27,14 +27,14 @@ export function transformStringLiteral(text) {
     const isWithAlpha = hexColor.length === 5 || hexColor.length === 9;
     if (!isWithAlpha) {
       const candidates =
-        hexColor.length === 4
-          ? [
-              hexColor,
-              `#${Array.from(hexColor.slice(1))
-                .map((c) => c + c)
-                .join("")}`,
-            ]
-          : [hexColor];
+        hexColor.length === 4 ?
+          [
+            hexColor,
+            `#${Array.from(hexColor.slice(1))
+              .map((c) => c + c)
+              .join("")}`,
+          ]
+        : [hexColor];
 
       for (const candidate of candidates) {
         if (colorNames[candidate]) {
@@ -55,14 +55,14 @@ export function transformStringLiteral(text) {
       );
 
       const candidates =
-        hexColor.length === 5
-          ? [
-              hexColor.slice(0, 4),
-              `#${Array.from(hexColor.slice(1, 4))
-                .map((c) => c + c)
-                .join("")}`,
-            ]
-          : [hexColor.slice(0, 7)];
+        hexColor.length === 5 ?
+          [
+            hexColor.slice(0, 4),
+            `#${Array.from(hexColor.slice(1, 4))
+              .map((c) => c + c)
+              .join("")}`,
+          ]
+        : [hexColor.slice(0, 7)];
 
       for (const candidate of candidates) {
         if (colorNames[candidate]) {

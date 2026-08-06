@@ -85,23 +85,22 @@ const sizeClasses = {
  * ## 참고사진
  * ![](https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screenshots/Loading/LoadingCircle/For%20Jsdoc.png?raw=true)
  */
-export const LoadingCircle = forwardRef<
-  HTMLDivElement,
-  LoadingCircleProps
->(function LoadingCircle({ size = "lg", className }, ref) {
-  return (
-    <div ref={ref} className="flex items-center justify-center">
-      <div
-        className={cn(
-          sizeClasses[size],
-          "animate-spin rounded-full",
-          "border-cms-gray-200 border-t-cms-gray-850",
-          "animation-duration-[0.8s]",
-          className,
-        )}
-      />
-    </div>
-  );
-});
+export const LoadingCircle = forwardRef<HTMLDivElement, LoadingCircleProps>(
+  function LoadingCircle({ size = "lg", className }, ref) {
+    return (
+      <div ref={ref} className="flex items-center justify-center">
+        <div
+          className={cn(
+            sizeClasses[size],
+            "animate-spin rounded-full",
+            "border-cms-gray-200 border-t-cms-gray-850",
+            "animation-duration-[0.8s]",
+            className,
+          )}
+        />
+      </div>
+    );
+  },
+);
 
 LoadingCircle.displayName = "LoadingCircle";

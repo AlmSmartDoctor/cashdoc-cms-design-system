@@ -117,9 +117,7 @@ export const Showcase: Story = {
       </Section>
       <Section label="Suffix (단위)">
         <TextInput
-          suffix={
-            <span className="text-sm text-cms-gray-500">원</span>
-          }
+          suffix={<span className="text-sm text-cms-gray-500">원</span>}
           placeholder="0"
           type="number"
         />
@@ -127,12 +125,8 @@ export const Showcase: Story = {
       <Section label="Prefix + Suffix">
         <TextInput
           label="환율"
-          prefix={
-            <span className="text-sm text-cms-gray-500">$</span>
-          }
-          suffix={
-            <span className="text-sm text-cms-gray-500">KRW</span>
-          }
+          prefix={<span className="text-sm text-cms-gray-500">$</span>}
+          suffix={<span className="text-sm text-cms-gray-500">KRW</span>}
           defaultValue="1380"
         />
       </Section>

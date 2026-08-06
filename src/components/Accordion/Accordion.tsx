@@ -11,10 +11,7 @@ import {
 } from "react";
 import { cn } from "@/utils/cn";
 import { ChevronDownIcon } from "../icons";
-import {
-  accordionRootVariants,
-  accordionItemVariants,
-} from "./variants";
+import { accordionRootVariants, accordionItemVariants } from "./variants";
 
 type AccordionVariant = "bordered" | "separated";
 

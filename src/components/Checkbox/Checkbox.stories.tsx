@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
-import { Checkbox } from "./Checkbox";
 import { cn } from "@/utils/cn";
+import { Checkbox } from "./Checkbox";
 
 const meta: Meta<typeof Checkbox> = {
   title: "Forms/Checkbox",

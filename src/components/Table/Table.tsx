@@ -12,11 +12,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { Button } from "../Button";
-import {
-  tableVariants,
-  tableRowVariants,
-  tableCellVariants,
-} from "./variants";
+import { tableVariants, tableRowVariants, tableCellVariants } from "./variants";
 
 type TableContextValue = {
   striped?: boolean;
@@ -538,8 +534,7 @@ export const TableExpandableRow = React.forwardRef<
     },
     ref,
   ) => {
-    const [internalExpanded, setInternalExpanded] =
-      useState(defaultExpanded);
+    const [internalExpanded, setInternalExpanded] = useState(defaultExpanded);
     const isControlled = expandedProp !== undefined;
     const expanded = isControlled ? expandedProp : internalExpanded;
 

@@ -7,12 +7,12 @@
 **정상**입니다. 릴리즈 빈도를 브랜치로 억제하기보다, 수정을 빠르게
 소비 앱에 흘려보내는 **trunk-based**를 따릅니다.
 
-| 브랜치      | 역할                                                              |
-| ----------- | ----------------------------------------------------------------- |
-| `main`      | **트렁크(기본 브랜치).** 항상 릴리즈 가능한 상태. src 변경 머지 = 릴리즈 1개(버전 태그). docs/chore·설정 전용 변경은 스킵(§3·§5). |
-| `feature/*` | 기능 추가. `main`에서 분기 → `main`으로 PR.                        |
-| `fix/*`     | 버그 수정. `main`에서 분기 → `main`으로 PR.                        |
-| `chore/*` · `docs/*` | 설정/문서. `main`으로 PR(릴리즈 스킵 토큰).              |
+| 브랜치               | 역할                                                                                                   |
+| -------------------- | ------------------------------------------------------------------------------------------------------ |
+| `main`               | **트렁크(기본 브랜치).** 항상 릴리즈 가능한 상태. 머지가 릴리즈를 자동 트리거하지는 않습니다(§3 참고). |
+| `feature/*`          | 기능 추가. `main`에서 분기 → `main`으로 PR.                                                            |
+| `fix/*`              | 버그 수정. `main`에서 분기 → `main`으로 PR.                                                            |
+| `chore/*` · `docs/*` | 설정/문서. `main`으로 PR.                                                                              |
 
 - **모든 PR은 `main`을 대상**으로 합니다. 통합 브랜치(`develop`)는 두지
   않습니다 — 별도 QA/freeze 환경이 없어 통합 브랜치가 실질 게이트 없이
@@ -33,13 +33,15 @@
 
 - PR을 통해서만 병합(직접 push 금지, force push/삭제 금지)
 - 리뷰 승인 **1개 이상** 필수(릴리즈 이벤트이므로)
-- 필수 status check: **Build**, **Lint & Type Check**, **Validate PR title token**
-  (branch protection에 required로 등록됨, `strict: false` — main 최신 강제 안 함)
-  - E2E Tests는 인프라 timeout 이슈로 **필수에서 제외**(필수로 걸면 병합 불가)
+- 필수 status check: **Build**, **Lint & Type Check**, **E2E Tests**,
+  **Validate PR title token**
+  (branch protection에 required로 등록, `strict: false` — main 최신 강제 안 함)
+  - E2E Tests는 stale story id 복구(#23) 이후 모든 PR에서 실행되며
+    필수 체크에 포함합니다.
 
 > 브랜치 보호와 기본 브랜치 변경은 **repo admin 권한**이 필요합니다.
 
-### ⚠️ 브랜치 보호와 자동 릴리즈의 충돌 — `RELEASE_TOKEN` 필수
+### ⚠️ 브랜치 보호와 릴리즈 워크플로우의 충돌 — `RELEASE_TOKEN` 필수
 
 release workflow는 버전 bump 커밋을 `git push --follow-tags origin main`으로 **`main`에 직접
 push**한다(§3). 그런데 위 보호 룰은 직접 push를 막으므로, 둘을 그대로 두면 릴리즈가 항상 실패한다.
@@ -58,37 +60,24 @@ variables → Actions → New repository secret` (이름 `RELEASE_TOKEN`, 값 = 
 > (`git push --follow-tags`는 원자적이지 않다). 재시도 전에 해당 태그를 지워야 한다:
 > `git push origin --delete vX.Y.Z && git tag -d vX.Y.Z`
 
-## 3. 릴리즈 흐름
+## 3. 릴리즈 흐름 (수동 dispatch 전용, #53)
+
+`main` push는 릴리즈를 **트리거하지 않습니다**. 릴리즈는 사람이 명시적으로
+실행합니다.
 
 1. `feature/*` · `fix/*` → **`main` PR**. 제목에 영향도 토큰(§4)을 답니다.
-2. 리뷰 승인 + status check 통과 후 병합하면 `main` push가 발생 →
-   **release workflow 자동 실행**: 병합 커밋의 토큰으로 버전 타입 결정 →
-   버전 bump → `CHANGELOG.md` 생성 → 태그 → npm publish → GitHub Release.
-3. `docs`/`chore` 토큰 PR은 버전 bump 없이 병합됩니다(릴리즈 스킵, §5).
+2. 리뷰 승인 + status check 통과 후 병합합니다. 여러 PR을 묶어 한 번에
+   릴리즈해도 됩니다(버전 churn 억제).
+3. 릴리즈 시점에 **Actions → Release → Run workflow**로 dispatch하고,
+   release-type(`patch`/`minor`/`major`)을 선택합니다. 머지된 PR 토큰 중
+   **최고 영향도**를 기준으로 고릅니다.
+4. workflow가 lint/type-check/build 게이트 통과 후 버전 bump →
+   `CHANGELOG.md` 생성 → 태그 → npm publish → GitHub Release를 수행합니다.
 
-### 릴리즈가 트리거되지 않는 경로/조건
-
-"머지 = 릴리즈"는 **src 변경**에 한합니다. 아래는 `main`에 머지돼도 릴리즈가
-발생하지 않습니다(`release.yml`의 `paths-ignore` + 커밋 게이트).
-
-| 경로/조건 | 이유 |
-| --- | --- |
-| `.github/**` 만 변경 | 워크플로/CI 설정 — 배포물 무관 |
-| `CHANGELOG.md` 만 변경 | 릴리즈가 생성하는 파일(자기 재트리거 방지) |
-| 커밋이 `^chore(`·`^docs(` 또는 `[chore]`·`[docs]` | `release.yml` 게이트가 스킵 |
-
-> `package.json`은 **paths-ignore에서 제외**했습니다 — 버전 bump 커밋
-> (`chore(release):`)은 위 커밋 게이트가 막아 자기 트리거 루프가 없고, 제외하면
-> `exports`/`peerDependencies`/`files` 등 배포 영향 변경이 릴리즈되지 못하기
-> 때문입니다.
-
-- 배포 이력은 각 PR + `CHANGELOG.md` + 태그 + GitHub Release에 남습니다
-  (무엇이/누가/언제 배포됐는지).
-- 릴리즈 cadence를 배치로 묶고 싶어지면(버전 churn이 거슬리면) `develop`
-  브랜치 대신 **changesets/release-please** 방식(누적 release PR)을 도입합니다.
-
-CLI/UI 수동 dispatch(`workflow_dispatch`)는 배포 이력이 레포 밖에 흩어져
-추적이 어려우므로, 자동 릴리즈가 실패했을 때의 **복구용**으로만 씁니다.
+- 배포 이력은 각 PR + `CHANGELOG.md` + 태그 + GitHub Release + Actions
+  실행 이력에 남습니다(무엇이/누가/언제 배포했는지).
+- 릴리즈 cadence를 더 구조화하고 싶어지면 **changesets/release-please**
+  방식(누적 release PR)을 도입합니다.
 
 ## 4. PR 타이틀 규칙
 
@@ -96,13 +85,13 @@ CLI/UI 수동 dispatch(`workflow_dispatch`)는 배포 이력이 레포 밖에 �
 
 - `[major]` / `[minor]` / `[patch]` / `[docs]` / `[chore]`
 
-- 각 PR의 토큰이 **그 머지로 발생할 릴리즈의 버전 타입**을 결정합니다.
-  release workflow가 병합 커밋 메시지에서 이 토큰을 읽습니다.
+- 토큰은 **변경의 영향도를 리뷰어와 릴리즈 담당자에게 전달**하는 용도입니다.
+  릴리즈 버전 타입은 dispatch 시 사람이 선택하며(§3), 머지된 PR들의 토큰 중
+  최고 영향도가 그 선택의 근거가 됩니다.
 - 한 PR에 여러 성격이 섞이면 **최고 영향도**를 토큰으로 답니다.
 - **squash 머지 시에도 토큰이 유지되도록** 레포 설정
-  `squash_merge_commit_title = PR_TITLE`을 사용합니다. 기본값
-  `COMMIT_OR_PR_TITLE`은 커밋 1개짜리 PR을 squash할 때 머지 커밋 제목이 그
-  커밋 제목으로 바뀌어 토큰이 유실될 수 있습니다(→ patch 오릴리즈/스킵).
+  `squash_merge_commit_title = PR_TITLE`을 사용합니다(머지 커밋/이력에서
+  영향도를 추적할 수 있게).
 
 ## 5. 버전 기준
 
@@ -115,5 +104,5 @@ CLI/UI 수동 dispatch(`workflow_dispatch`)는 배포 이력이 레포 밖에 �
 
 - PR 토큰/영향도가 실제 변경 내용과 일치하는지 확인
 - breaking 변경이면 마이그레이션 가이드를 남김
-- `main`은 머지 즉시 배포되므로, 병합 전 status check(Build/Lint/Type)
-  통과를 반드시 확인
+- 병합 전 status check(Build / Lint & Type Check / E2E Tests) 통과를
+  반드시 확인 — 릴리즈 dispatch 시점의 `main`이 곧 배포물이 됩니다

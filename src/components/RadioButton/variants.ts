@@ -34,10 +34,7 @@ export const radioGroupItemVariants = cva(
           "text-cms-blue-600",
           "data-[state=checked]:border-cms-blue-600",
         ),
-        red: cn(
-          "text-cms-red-500",
-          "data-[state=checked]:border-cms-red-500",
-        ),
+        red: cn("text-cms-red-500", "data-[state=checked]:border-cms-red-500"),
       },
       size: {
         sm: "size-4",

@@ -248,9 +248,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
     },
     ref,
   ) => {
-    const [contentNode, setContentNode] = useState<HTMLDivElement | null>(
-      null,
-    );
+    const [contentNode, setContentNode] = useState<HTMLDivElement | null>(null);
 
     const setContentRef = useCallback(
       (node: HTMLDivElement | null) => {

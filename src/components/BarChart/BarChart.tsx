@@ -341,14 +341,13 @@ const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
                       {...shapeProps}
                       radius={[3, 3, 0, 0]}
                       fill={
-                        shapeProps.value === 0
-                          ? "transparent"
-                          : CMS_COLORS.gray900
+                        shapeProps.value === 0 ?
+                          "transparent"
+                        : CMS_COLORS.gray900
                       }
                     />
                   )}
                 >
-
                   {/* 값 레이블 — 막대 높이에 따라 내부/외부 자동 전환 */}
                   <LabelList
                     dataKey="value"

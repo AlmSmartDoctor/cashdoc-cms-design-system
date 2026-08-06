@@ -6,7 +6,7 @@ const config: StorybookConfig = {
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-onboarding",
-    "@storybook/addon-docs"
+    "@storybook/addon-docs",
   ],
 
   framework: {
@@ -24,6 +24,6 @@ const config: StorybookConfig = {
     },
   },
 
-  staticDirs: ["../public"]
+  staticDirs: ["../public"],
 };
 export default config;

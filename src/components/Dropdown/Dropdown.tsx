@@ -5,13 +5,7 @@ import { cn } from "@/utils/cn";
 import { usePortalContainer } from "@/utils/portalContainer";
 import type { VariantProps } from "class-variance-authority";
 import type { RefAttributes, ReactNode } from "react";
-import {
-  useState,
-  useRef,
-  useEffect,
-  useMemo,
-  forwardRef,
-} from "react";
+import { useState, useRef, useEffect, useMemo, forwardRef } from "react";
 import { useScrollIndicator } from "@/hooks/useScrollIndicator";
 import {
   ChevronDownIcon,

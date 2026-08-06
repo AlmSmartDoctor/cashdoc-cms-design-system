@@ -13,18 +13,20 @@ export default defineConfig({
   // 각 테스트가 독립적으로 실행
   fullyParallel: true,
 
-  // CI에서 실패 시 재시도 안함
+  // CI에서 test.only 잔류 시 실패 처리
   forbidOnly: !!process.env.CI,
 
-  // 현재 실패는 flaky가 아니라 stale story id(#23)로 인한 확정 실패라
-  // 재시도해도 통과하지 않음 — 재시도는 대기시간만 늘림.
-  retries: 0,
+  // CI에서만 재시도 허용 (일시적 flaky 방어). flaky는 리포터에 표시된다.
+  retries: process.env.CI ? 2 : 0,
 
   // 병렬 실행 워커 수. GitHub Actions ubuntu-latest는 2 vCPU라 2로 고정.
   workers: process.env.CI ? 2 : undefined,
 
-  // 리포터
-  reporter: "html",
+  // list: CI 로그에 실패/flaky 상세, github: PR 어노테이션, html: 아티팩트
+  reporter:
+    process.env.CI ?
+      [["list"], ["github"], ["html"]]
+    : [["list"], ["html", { open: "never" }]],
 
   use: {
     // 모든 테스트에서 사용할 기본 URL

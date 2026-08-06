@@ -105,15 +105,15 @@ export const Combobox = forwardRef<HTMLButtonElement, ComboboxProps>(
     // 검색어가 있고 createable이며 정확히 일치하는 옵션이 없을 때 생성 옵션 추가
     const optionsWithCreate = [
       ...filteredOptions,
-      ...(createable && searchTerm && !hasExactMatch
-        ? [
-            {
-              value: `__create__${searchTerm}`,
-              label: `"${searchTerm}" 생성`,
-              disabled: false,
-            },
-          ]
-        : []),
+      ...(createable && searchTerm && !hasExactMatch ?
+        [
+          {
+            value: `__create__${searchTerm}`,
+            label: `"${searchTerm}" 생성`,
+            disabled: false,
+          },
+        ]
+      : []),
     ];
 
     const handleChange = (value: string) => {
