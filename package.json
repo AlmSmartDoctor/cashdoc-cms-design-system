@@ -108,7 +108,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-storybook": "10.4.6",
-    "globals": "^15.15.0",
+    "globals": "^17.9.0",
     "jiti": "^2.6.1",
     "postcss-rem-to-pixel": "^4.1.2",
     "prettier": "^3.7.1",
