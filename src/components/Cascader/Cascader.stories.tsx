@@ -344,6 +344,25 @@ const assignOptions = [
   { value: "none", label: "미배정" },
 ];
 
+const statusOptions = [
+  {
+    value: "open",
+    label: "접수",
+    children: [
+      { value: "waiting", label: "대기" },
+      { value: "hold", label: "보류" },
+    ],
+  },
+  {
+    value: "closed",
+    label: "완료",
+    children: [
+      { value: "done", label: "정상" },
+      { value: "cancel", label: "취소" },
+    ],
+  },
+];
+
 const FixedWidthRowDemo = () => {
   const [status, setStatus] = useState<string[]>([]);
   const [db, setDb] = useState("all");
@@ -356,7 +375,7 @@ const FixedWidthRowDemo = () => {
         폭은 감싸는 div로 준다(Dropdown outer가 w-full로 채움). Cascader는
         chevron이 트리거 in-flow라 className으로 폭을 직접 줘도 정렬 유지.
       */}
-      <div className="w-21">
+      <div className="w-32">
         <Dropdown
           options={dbOptions}
           value={db}
@@ -367,7 +386,7 @@ const FixedWidthRowDemo = () => {
         />
       </div>
       <Cascader
-        options={regionOptions}
+        options={statusOptions}
         value={status}
         onChange={(next) => setStatus(next)}
         variant="outline"
@@ -375,7 +394,7 @@ const FixedWidthRowDemo = () => {
         className="w-32"
         placeholder="상담 상태"
       />
-      <div className="w-33">
+      <div className="w-32">
         <Dropdown
           options={assignOptions}
           value={assign}

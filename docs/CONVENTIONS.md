@@ -19,6 +19,10 @@
 - `className` 조합은 `cn(...)` 사용
 - Tailwind 클래스는 의미 단위로 줄바꿈
 - 하드코딩 색상보다 `cms-*` 토큰 우선
+- form 트리거형 컴포넌트(`Dropdown`, `Cascader`)의 `className`은
+  트리거 요소에 적용. 단, `error` 등 상태 스타일은 `className`보다
+  뒤에 병합해 소비자 override가 상태 표시를 지우지 못하게 함
+  (`Select`는 wrapper 적용 — 레거시 규약, 통일은 기술 부채)
 
 ## 4. 문서화 규칙
 
