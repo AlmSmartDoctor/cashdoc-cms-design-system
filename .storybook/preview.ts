@@ -29,8 +29,8 @@ const preview: Preview = {
         white: {
           name: "white",
           value: "#ffffff",
-        }
-      }
+        },
+      },
     },
   },
 
@@ -58,9 +58,9 @@ const preview: Preview = {
 
   initialGlobals: {
     backgrounds: {
-      value: "cashdoc-light"
-    }
-  }
+      value: "cashdoc-light",
+    },
+  },
 };
 
 export default preview;

@@ -2,8 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
+    branches: [main, develop]
 
 jobs:
   lint-and-typecheck:
@@ -31,13 +32,11 @@ jobs:
       - name: Run type check
         run: pnpm run type-check
 
+      - name: Check formatting
+        run: pnpm exec prettier --check .
+
   e2e-tests:
     name: E2E Tests
-    # e2e는 느리고 stale story id(#23)로 현재 항상 실패한다. 매 PR서 돌리면
-    # CI가 늘 ❌라 신호가 죽으므로, main push(릴리즈 경계)에서만 스모크로
-    # 실행한다. PR은 아래 build / lint·type-check가 커버한다(pull_request에
-    # branches 필터가 없어 모든 PR에서 실행).
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
