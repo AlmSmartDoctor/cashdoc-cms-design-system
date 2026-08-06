@@ -452,3 +452,24 @@ export const InModal: Story = {
   name: "모달 내부",
   render: () => <InModalDemo />,
 };
+
+/* ── error + 소비자 border className 우선순위 (회귀 가드) ── */
+
+/**
+ * `error`와 border 색상 계열 `className`이 함께 있으면 에러 테두리가
+ * 우선해야 합니다. 트리거의 `cn` 병합에서 `error` 상태 스타일이
+ * `className`보다 뒤에 오는 순서를 e2e(`e2e/cascader.spec.ts`)가
+ * 검증합니다.
+ */
+export const ErrorClassNamePriority: Story = {
+  name: "error + border className 우선순위",
+  render: () => (
+    <Cascader
+      label="지역"
+      options={regionOptions}
+      error="지역을 선택하는 것은 필수입니다"
+      className="w-40 border-cms-gray-300"
+      placeholder="지역을 선택하세요"
+    />
+  ),
+};

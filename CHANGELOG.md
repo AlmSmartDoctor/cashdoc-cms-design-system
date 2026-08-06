@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## Unreleased
+
+> 다음 릴리즈의 자동 생성 섹션에 아래 항목을 병합할 것.
+
+### ⚠️ 동작 변경
+
+* **Cascader:** `className` 적용 대상이 바깥 wrapper → 트리거 `button`으로 변경 ([#73](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/pull/73)). 기존에 `className`으로 바깥 여백/레이아웃(`mb-4`, `flex-1` 등)을 주던 코드는 해당 클래스가 트리거로 이동합니다. 마이그레이션: 레이아웃 클래스는 감싸는 요소로 옮기고, 트리거 자체 스타일(고정 너비 등)만 `className`으로 전달하세요.
+
 ### [2.9.4](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.9.3...v2.9.4) (2026-08-06)
 
 

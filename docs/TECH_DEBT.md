@@ -118,6 +118,14 @@
   - owner: TBD
   - target: TBD
 
+- [P2] `className` 적용 대상이 컴포넌트마다 다름 (트리거 vs wrapper)
+  - 위치: `src/components/Dropdown/Select.tsx:98`
+  - 증상: `Dropdown`/`Cascader`는 `className`을 트리거 button에 적용하는데, 동류 폼 컴포넌트인 `Select`는 `cn("space-y-1", className)`으로 wrapper에 적용합니다.
+  - 영향: 소비 앱이 컴포넌트별로 `className`의 적용 대상을 외워야 하고, 고정 너비/레이아웃 클래스가 컴포넌트에 따라 다르게 동작합니다.
+  - 제안: `Select`도 트리거 적용으로 통일하고(major 릴리즈), wrapper 레이아웃이 필요하면 별도 prop으로 분리합니다. 규약은 `docs/CONVENTIONS.md` 3절에 명문화되어 있습니다.
+  - owner: TBD
+  - target: TBD
+
 ### 6.4 Export & 공개 API 표면
 
 - [P2] `DropdownOption` / `DropdownProps` 타입이 배럴에 없음
