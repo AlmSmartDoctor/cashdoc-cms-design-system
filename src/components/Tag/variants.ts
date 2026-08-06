@@ -29,27 +29,17 @@ export const tagVariants = cva(
   {
     variants: {
       color: {
-        gray: cn(
-          "border-cms-gray-200 bg-cms-gray-100 text-cms-gray-700",
-        ),
-        blue: cn(
-          "border-cms-blue-100 bg-cms-blue-50 text-cms-blue-700",
-        ),
-        green: cn(
-          "border-cms-green-100 bg-cms-green-50 text-cms-green-600",
-        ),
-        red: cn(
-          "border-cms-red-100 bg-cms-red-50 text-cms-red-600",
-        ),
+        gray: cn("border-cms-gray-200 bg-cms-gray-100 text-cms-gray-700"),
+        blue: cn("border-cms-blue-100 bg-cms-blue-50 text-cms-blue-700"),
+        green: cn("border-cms-green-100 bg-cms-green-50 text-cms-green-600"),
+        red: cn("border-cms-red-100 bg-cms-red-50 text-cms-red-600"),
         orange: cn(
           "border-cms-orange-100 bg-cms-orange-50 text-cms-orange-500",
         ),
         yellow: cn(
           "border-cms-primary-100 bg-cms-primary-50 text-cms-primary-500",
         ),
-        pink: cn(
-          "border-cms-pink-100 bg-cms-pink-50 text-cms-pink-700",
-        ),
+        pink: cn("border-cms-pink-100 bg-cms-pink-50 text-cms-pink-700"),
       },
       size: {
         sm: "h-5 px-2 text-[11px]",

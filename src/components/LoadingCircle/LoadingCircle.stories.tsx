@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { expect, within } from "@storybook/test";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect, within } from "storybook/test";
 import { useEffect, useRef, useState } from "react";
 import { LoadingCircle } from "./LoadingCircle";
 
@@ -28,13 +28,7 @@ const meta: Meta<typeof LoadingCircle> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const Cell = ({
-  size,
-  label,
-}: {
-  size: "sm" | "md" | "lg";
-  label: string;
-}) => (
+const Cell = ({ size, label }: { size: "sm" | "md" | "lg"; label: string }) => (
   <div className="flex flex-col items-center gap-2">
     <LoadingCircle size={size} />
     <span className="text-[12px] text-cms-gray-550">{label}</span>

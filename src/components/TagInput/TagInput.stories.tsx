@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { TagInput } from "./TagInput";
 
@@ -73,7 +73,8 @@ export const Showcase: Story = {
           maxTags={10}
           placeholder="이메일 입력 후 Enter"
           validateTag={(tag) =>
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(tag) || "올바른 이메일 형식이 아니에요"
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(tag) ||
+            "올바른 이메일 형식이 아니에요"
           }
         />
       </Section>
@@ -82,7 +83,7 @@ export const Showcase: Story = {
         <TagInput
           label="고정 태그"
           value={["VIP", "신규"]}
-          onChange={() => {}}
+          onChange={() => undefined}
           readOnly
         />
       </Section>

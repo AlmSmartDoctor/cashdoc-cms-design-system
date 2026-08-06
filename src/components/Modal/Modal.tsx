@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { CloseIcon } from "@/components/icons";
 import { cn } from "@/utils/cn";
@@ -248,11 +248,9 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
     },
     ref,
   ) => {
-    const [contentNode, setContentNode] = React.useState<HTMLDivElement | null>(
-      null,
-    );
+    const [contentNode, setContentNode] = useState<HTMLDivElement | null>(null);
 
-    const setContentRef = React.useCallback(
+    const setContentRef = useCallback(
       (node: HTMLDivElement | null) => {
         setContentNode(node);
         if (typeof ref === "function") {
@@ -297,7 +295,9 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               "w-full",
               sizeClasses[size],
               "rounded-cms-xl",
-              `shadow-[0_24px_48px_rgba(15,20,25,0.12),0_8px_16px_rgba(15,20,25,0.06)]`,
+              `
+                shadow-[0_24px_48px_rgba(15,20,25,0.12),0_8px_16px_rgba(15,20,25,0.06)]
+              `,
               "data-[state=closed]:animate-out",
               "data-[state=open]:animate-in",
               "data-[state=closed]:fade-out-0",
@@ -322,13 +322,18 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                   </DialogPrimitive.Close>
                 )}
                 {(icon || title) && (
-                  <div className="flex items-center gap-2.5 px-6 pt-[22px] pb-1.5">
+                  <div
+                    className={cn(
+                      "flex items-center gap-2.5",
+                      "px-6 pt-[22px] pb-1.5",
+                    )}
+                  >
                     {icon && <div className="flex shrink-0">{icon}</div>}
                     {title && (
                       <DialogPrimitive.Title
                         className={cn(
                           "text-[17px] font-bold text-cms-gray-900",
-                          "leading-tight tracking-tight",
+                          "my-0 leading-tight tracking-tight",
                         )}
                       >
                         {title}

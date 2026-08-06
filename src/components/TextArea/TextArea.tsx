@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId, useState } from "react";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
 import {
@@ -94,14 +94,14 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     },
     ref,
   ) => {
-    const generatedInputId = React.useId();
+    const reactId = useId();
     const isControlled = value !== undefined;
     const toDisplayString = (inputValue: typeof value): string =>
       inputValue == null ? "" : String(inputValue);
-    const [internalValue, setInternalValue] = React.useState<string>(
+    const [internalValue, setInternalValue] = useState<string>(
       toDisplayString(defaultValue),
     );
-    const inputId = id || generatedInputId;
+    const inputId = id || reactId;
     const errorMessageId = `${inputId}-error`;
     const helperTextId = `${inputId}-helper`;
     const finalVariant = error ? "error" : variant;

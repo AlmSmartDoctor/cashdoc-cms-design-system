@@ -1,0 +1,7 @@
+dist
+storybook-static
+playwright-report
+test-results
+__screenshots__
+pnpm-lock.yaml
+CHANGELOG.md

@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { expect, within } from "@storybook/test";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect, within } from "storybook/test";
 import { useEffect, useRef, useState } from "react";
 import {
   CheckCircleIcon,
@@ -25,7 +25,12 @@ type ReviewStatus =
 const iconProps = { size: 12, strokeWidth: 2.2 };
 
 const reviewStatusItems: FilterToggleGroupOption<ReviewStatus>[] = [
-  { value: "all", label: "전체", count: 120, icon: <UserIcon {...iconProps} /> },
+  {
+    value: "all",
+    label: "전체",
+    count: 120,
+    icon: <UserIcon {...iconProps} />,
+  },
   {
     value: "pointRequested",
     label: "포인트 신청",

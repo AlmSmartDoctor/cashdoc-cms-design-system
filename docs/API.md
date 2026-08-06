@@ -9,6 +9,7 @@
 - 내부 경로(`src/components/...`) deep import는 지원하지 않습니다.
 
 코드 기준 경계:
+
 - `src/index.ts`
 - `src/components/index.ts`
 
@@ -39,6 +40,7 @@
 - Patch: 버그 수정/내부 구현 개선
 
 PR에서 API 변경이 있으면 아래를 동기화합니다.
+
 - 컴포넌트 JSDoc
 - `.stories.tsx` 예시
 - 필요 시 `README.md`

@@ -128,6 +128,5 @@ SegmentedControlsBase.displayName = "SegmentedControls";
 export const SegmentedControls = SegmentedControlsBase as <
   T extends string | number,
 >(
-  props: SegmentedControlsProps<T> &
-    React.RefAttributes<SegmentedControlsRef>,
+  props: SegmentedControlsProps<T> & React.RefAttributes<SegmentedControlsRef>,
 ) => React.ReactElement;

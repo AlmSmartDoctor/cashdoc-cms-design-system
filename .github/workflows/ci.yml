@@ -3,8 +3,8 @@ name: CI
 on:
   push:
     branches: [main]
+  # base 필터 없음 — 모든 PR(스택 PR 포함)이 CI를 탄다
   pull_request:
-    branches: [main]
 
 jobs:
   lint-and-typecheck:
@@ -31,6 +31,9 @@ jobs:
 
       - name: Run type check
         run: pnpm run type-check
+
+      - name: Check formatting
+        run: pnpm exec prettier --check .
 
   e2e-tests:
     name: E2E Tests

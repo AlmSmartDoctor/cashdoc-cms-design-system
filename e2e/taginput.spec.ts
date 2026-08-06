@@ -1,52 +1,47 @@
 import { test, expect } from "@playwright/test";
 
+const SHOWCASE = "/iframe.html?id=forms-taginput--showcase&viewMode=story";
+
 test.describe("TagInput 컴포넌트", () => {
   test("태그 추가 및 삭제", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-taginput--default&viewMode=story");
+    await page.goto(SHOWCASE);
 
-    const input = page.getByRole("textbox");
+    // "빈 상태" 섹션 (담당자) — 태그가 있으면 placeholder가 사라지므로
+    // label 연결(htmlFor)로 입력을 찾는다.
+    const input = page.getByLabel("담당자");
 
-    // 태그 입력
-    await input.fill("React");
-    await page.keyboard.press("Enter");
-
-    // 태그가 추가되었는지 확인
-    await expect(page.getByText("React")).toBeVisible();
-
-    // 두 번째 태그 입력
     await input.fill("Playwright");
     await page.keyboard.press("Enter");
     await expect(page.getByText("Playwright")).toBeVisible();
 
-    // 태그 삭제 (React 태그의 삭제 버튼)
-    // aria-label을 사용하여 삭제 버튼 직접 찾기
-    await page.getByRole("button", { name: "React 제거" }).click();
-
-    // React 태그가 사라졌는지 확인
-    await expect(page.getByText("React")).not.toBeVisible();
+    // "기본" 섹션의 기존 태그 삭제
+    await page.getByRole("button", { name: "보험 제거" }).click();
+    await expect(page.getByRole("button", { name: "보험 제거" })).toHaveCount(
+      0,
+    );
     await expect(page.getByText("Playwright")).toBeVisible();
   });
 
   test("중복 태그 방지", async ({ page }) => {
-    await page.goto("/iframe.html?id=forms-taginput--default&viewMode=story");
-    const input = page.getByRole("textbox");
+    await page.goto(SHOWCASE);
 
-    await input.fill("Duplicate");
+    const input = page.getByLabel("담당자");
+
+    await input.fill("중복태그");
+    await page.keyboard.press("Enter");
+    await input.fill("중복태그");
     await page.keyboard.press("Enter");
 
-    await input.fill("Duplicate");
-    await page.keyboard.press("Enter");
+    // 동일 태그는 1개만 유지
+    await expect(
+      page.getByRole("button", { name: "중복태그 제거" }),
+    ).toHaveCount(1);
+  });
 
-    // 태그가 하나만 있어야 함 (또는 에러 표시)
-    // 여기서는 개수 확인
-    const tags = page.locator("span").filter({ hasText: "Duplicate" });
-    // Text container itself + tag text might double count if locator is loose,
-    // but assuming standard implementation:
-    // We expect input to be cleared but tag added once.
-    // If logic prevents duplicate, count should be 1.
-    // If logic allows, count should be 2.
-    // CCDS TagInput logic: prevents duplicates usually.
-    // Assuming prevention:
-    await expect(tags).toHaveCount(1);
+  test("readOnly 태그는 삭제 버튼이 없다", async ({ page }) => {
+    await page.goto(SHOWCASE);
+
+    await expect(page.getByText("VIP")).toBeVisible();
+    await expect(page.getByRole("button", { name: "VIP 제거" })).toHaveCount(0);
   });
 });

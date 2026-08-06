@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { cn } from "@/utils/cn";
 import { Text } from "./Text";
 
 const meta: Meta<typeof Text> = {
@@ -68,7 +69,12 @@ const Row = ({
   children: React.ReactNode;
 }) => (
   <div className="grid grid-cols-[140px_1fr] items-baseline gap-4">
-    <span className="text-[11px] font-medium tracking-wide text-cms-gray-550 uppercase">
+    <span
+      className={cn(
+        "text-[11px] font-medium tracking-wide",
+        "text-cms-gray-550 uppercase",
+      )}
+    >
       {label}
     </span>
     <div>{children}</div>
@@ -91,9 +97,7 @@ export const Showcase: Story = {
         <Text variant="subtitle">필터 설정</Text>
       </Row>
       <Row label="body">
-        <Text variant="body">
-          정기 결제 사용자에게 알림을 발송합니다.
-        </Text>
+        <Text variant="body">정기 결제 사용자에게 알림을 발송합니다.</Text>
       </Row>
       <Row label="emphasis">
         <Text variant="emphasis">강조된 본문 텍스트</Text>

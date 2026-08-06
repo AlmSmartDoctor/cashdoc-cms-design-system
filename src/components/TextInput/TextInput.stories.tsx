@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { SearchIcon } from "../icons";
 import { TextInput } from "./TextInput";
 
@@ -25,6 +25,7 @@ const meta: Meta<typeof TextInput> = {
     helperText: { control: "text" },
     errorMessage: { control: "text" },
     required: { control: "boolean" },
+    requiredClassName: { control: "text" },
     disabled: { control: "boolean" },
     error: { control: "boolean" },
     showCharCount: { control: "boolean" },
@@ -75,6 +76,14 @@ export const Showcase: Story = {
           placeholder="8자 이상"
         />
       </Section>
+      <Section label="필수 · 표시 색상 덮어쓰기">
+        <TextInput
+          label="병원명"
+          required
+          requiredClassName="text-cms-blue-600"
+          placeholder="병원 이름을 입력하세요"
+        />
+      </Section>
       <Section label="에러">
         <TextInput
           label="비밀번호"
@@ -108,9 +117,7 @@ export const Showcase: Story = {
       </Section>
       <Section label="Suffix (단위)">
         <TextInput
-          suffix={
-            <span className="text-sm text-cms-gray-500">원</span>
-          }
+          suffix={<span className="text-sm text-cms-gray-500">원</span>}
           placeholder="0"
           type="number"
         />
@@ -118,12 +125,8 @@ export const Showcase: Story = {
       <Section label="Prefix + Suffix">
         <TextInput
           label="환율"
-          prefix={
-            <span className="text-sm text-cms-gray-500">$</span>
-          }
-          suffix={
-            <span className="text-sm text-cms-gray-500">KRW</span>
-          }
+          prefix={<span className="text-sm text-cms-gray-500">$</span>}
+          suffix={<span className="text-sm text-cms-gray-500">KRW</span>}
           defaultValue="1380"
         />
       </Section>

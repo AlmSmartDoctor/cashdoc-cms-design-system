@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { TextToggleButton } from "./TextToggleButton";
+import { cn } from "@/utils/cn";
 
 const SAMPLE_TEXT =
   "병원이 정말 깔끔하고 친절했어요. 시술 전후 안내가 꼼꼼해서 처음 방문하는 입장에서도 편안했고, 결과도 기대 이상이라 주변에 추천하고 싶을 정도였습니다.";
@@ -93,18 +94,23 @@ export const Showcase: Story = {
         <Row label="Disabled">
           <Controlled disabled />
         </Row>
-        <div className="max-w-md rounded-cms-md border border-cms-gray-150 bg-cms-gray-50 p-4">
+        <div
+          className={cn(
+            "max-w-md rounded-cms-md p-4",
+            "border border-cms-gray-150 bg-cms-gray-50",
+          )}
+        >
           <p
             className="text-[13.5px] leading-relaxed text-cms-gray-800"
             style={
-              expanded
-                ? undefined
-                : {
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 2,
-                    overflow: "hidden",
-                  }
+              expanded ? undefined : (
+                {
+                  display: "-webkit-box",
+                  WebkitBoxOrient: "vertical",
+                  WebkitLineClamp: 2,
+                  overflow: "hidden",
+                }
+              )
             }
           >
             {SAMPLE_TEXT}

@@ -1,20 +1,11 @@
+"use client";
+
+import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { cn } from "@/utils/cn";
+import { usePortalContainer } from "@/utils/portalContainer";
 import type { VariantProps } from "class-variance-authority";
-import type {
-  AnimationEvent,
-  KeyboardEvent,
-  RefAttributes,
-  ReactNode,
-} from "react";
-import {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  useMemo,
-  forwardRef,
-} from "react";
-import { createPortal } from "react-dom";
+import type { RefAttributes, ReactNode } from "react";
+import { useState, useRef, useEffect, useMemo, forwardRef } from "react";
 import { useScrollIndicator } from "@/hooks/useScrollIndicator";
 import {
   ChevronDownIcon,
@@ -47,9 +38,7 @@ export type DropdownGroupOption = {
  */
 export type DropdownItem = DropdownOption | DropdownGroupOption;
 
-function isGroupOption(
-  item: DropdownItem,
-): item is DropdownGroupOption {
+function isGroupOption(item: DropdownItem): item is DropdownGroupOption {
   return "group" in item;
 }
 
@@ -59,9 +48,7 @@ function isGroupOption(
  * `children` 기반 구조로 변환됩니다.
  * 그룹의 합성 value는 label 기반으로 생성하여 렌더링 간 안정적입니다.
  */
-function normalizeOptions(
-  items: DropdownItem[],
-): DropdownOption[] {
+function normalizeOptions(items: DropdownItem[]): DropdownOption[] {
   return items.map((item, index) => {
     if (isGroupOption(item)) {
       return {
@@ -156,6 +143,8 @@ type DropdownPropsInternal = DropdownPropsBase & {
  * - **Popover Menu**: 클릭 시 버튼 아래(또는 위)에 옵션 목록이 나타나며, 다른 요소들 위에 오버레이됩니다.
  * - **Flexible Width**: 부모 컨테이너의 너비에 맞춰지거나, `className`을 통해 고정 너비를 가질 수 있습니다.
  * - **Scrolling**: 옵션이 많아지면 `maxHeight` 설정에 따라 목록 내부에 스크롤이 발생합니다.
+ * - **Modal 호환**: 상위 `Modal` 내부에서 사용될 때는 모달 콘텐츠에 자동 portal되어 검색 입력 포커스,
+ *   휠 스크롤, layer 스택이 정상 동작합니다.
  *
  * ## Usage guidelines
  *
@@ -270,14 +259,6 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
     );
 
     const [isOpen, setIsOpen] = useState(defaultOpen);
-    const [isClosing, setIsClosing] = useState(false);
-    const [openUpward, setOpenUpward] = useState(false);
-    const [position, setPosition] = useState<{
-      topAnchor: number;
-      bottomAnchor: number;
-      left: number;
-      width: number;
-    } | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [internalSelectedValues, setInternalSelectedValues] = useState<
       string[]
@@ -305,10 +286,8 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       refresh: refreshScrollIndicator,
     } = useScrollIndicator<HTMLDivElement>("y");
 
-    const dropdownRef = useRef<HTMLDivElement>(null);
-    const triggerWrapperRef = useRef<HTMLDivElement>(null);
-    const listboxRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
+    const portalContainer = usePortalContainer();
 
     // 서브메뉴 포함하여 옵션 찾기
     const findOption = (
@@ -331,9 +310,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
         selectedValues.length > 0 ?
           `${selectedValues.length}개 선택됨`
         : placeholder
-      : selectedOption?.displayLabel ||
-          selectedOption?.label ||
-          placeholder;
+      : selectedOption?.displayLabel || selectedOption?.label || placeholder;
 
     const filteredOptions = normalizedOptions.filter((option) => {
       const term = searchTerm.toLowerCase();
@@ -345,56 +322,6 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       }
       return false;
     });
-
-    // 닫힐 때 exit 애니메이션을 위해 즉시 unmount 하지 않는다.
-    // onAnimationEnd 에서 실제로 isOpen=false 로 전환한다.
-    const closeDropdown = useCallback(() => {
-      setIsClosing(true);
-    }, []);
-
-    const handleToggle = () => {
-      if (disabled) return;
-      // 이미 열려 있고 닫히는 중이 아니면 close 애니메이션을 트리거한다.
-      if (isOpen && !isClosing) {
-        closeDropdown();
-        return;
-      }
-      const triggerEl = triggerWrapperRef.current;
-      if (triggerEl) {
-        const rect = triggerEl.getBoundingClientRect();
-        const spaceBelow = window.innerHeight - rect.bottom;
-        const spaceAbove = rect.top;
-        const estimatedHeight = (searchable ? 40 : 0) + maxHeight + 16;
-        const upward = spaceBelow < estimatedHeight && spaceAbove > spaceBelow;
-        setOpenUpward(upward);
-        setPosition({
-          topAnchor: rect.bottom + 4,
-          bottomAnchor: window.innerHeight - rect.top + 4,
-          left: rect.left,
-          width: rect.width,
-        });
-      }
-      // 닫히는 중이었다면 close 를 취소하고 다시 연다.
-      setIsClosing(false);
-      setIsOpen(true);
-      if (searchTerm) {
-        setSearchTerm("");
-        onSearchChange?.("");
-      }
-    };
-
-    const handleListboxAnimationEnd = (
-      e: AnimationEvent<HTMLDivElement>,
-    ) => {
-      if (e.animationName !== "dropdownHide") return;
-      if (e.currentTarget !== e.target) return;
-      setIsOpen(false);
-      setIsClosing(false);
-      if (searchTerm) {
-        setSearchTerm("");
-        onSearchChange?.("");
-      }
-    };
 
     const clearSubmenuCloseTimeout = () => {
       if (closeSubmenuTimeoutRef.current !== null) {
@@ -410,26 +337,51 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       }, 300);
     };
 
-    const handleOptionMouseEnter = useCallback(
-      (option: DropdownOption, hasSubmenu: boolean) => {
+    // Radix가 open 상태 전이를 소유한다. 닫힘 시 검색어/서브메뉴 hover 상태를
+    // 초기화해 다음 오픈에 이전 상태가 새어나가지 않게 한다.
+    // disabled 가드는 열기만 막고, 열린 상태에서의 close (ESC / 바깥 클릭 /
+    // 프로그램적 종료) 는 통과시켜 소비 앱이 폼 제출 중 disabled 로 전환해도
+    // 팝오버가 고착되지 않게 한다.
+    // useCallback 을 감싸지 않는다 — 메모된 자식이나 effect deps 에 넘기지
+    // 않아 안정 identity 가 필요없고, 감싸면 clearSubmenuCloseTimeout 같은
+    // 로컬 함수 의존성을 채우기 어려워 React Compiler 가 컴포넌트 전체
+    // 최적화를 포기한다.
+    const handleOpenChange = (open: boolean) => {
+      if (disabled && open) return;
+      setIsOpen(open);
+      if (!open) {
+        setHoveredSubmenu(null);
         clearSubmenuCloseTimeout();
-        if (!hasSubmenu) {
-          setHoveredSubmenu(null);
-          return;
+        if (searchTerm) {
+          setSearchTerm("");
+          onSearchChange?.("");
         }
-        const el = optionRefs.current.get(option.value);
-        if (el && optionsListRef.current) {
-          const optionRect = el.getBoundingClientRect();
-          const listRect = optionsListRef.current.getBoundingClientRect();
-          setHoveredSubmenu({
-            value: option.value,
-            top:
-              optionRect.top - listRect.top + optionsListRef.current.scrollTop,
-          });
-        }
-      },
-      [optionsListRef],
-    );
+      }
+    };
+
+    // useCallback 제거: React Compiler가 자동 메모이제이션한다.
+    // (handleOpenChange와 동일 — 수동 memo가 컴파일을 막던 지점)
+    const handleOptionMouseEnter = (
+      option: DropdownOption,
+      hasSubmenu: boolean,
+    ) => {
+      clearSubmenuCloseTimeout();
+      if (!hasSubmenu) {
+        setHoveredSubmenu(null);
+        return;
+      }
+      const el = optionRefs.current.get(option.value);
+      if (el && optionsListRef.current) {
+        const optionRect = el.getBoundingClientRect();
+        const listRect = optionsListRef.current.getBoundingClientRect();
+        // 서브메뉴는 스크롤 컨테이너 바깥(.relative 부모, 스크롤 안 됨) 기준
+        // absolute이므로 scrollTop을 더하면 그만큼 아래로 밀린다.
+        setHoveredSubmenu({
+          value: option.value,
+          top: optionRect.top - listRect.top,
+        });
+      }
+    };
 
     useEffect(() => {
       return () => {
@@ -460,7 +412,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
         emitMultipleChange(newSelectedValues);
       } else {
         onValueChange?.(option.value);
-        closeDropdown();
+        handleOpenChange(false);
       }
     };
 
@@ -491,158 +443,141 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       }
     };
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        closeDropdown();
-      } else if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        handleToggle();
-      }
-    };
-
-    // 외부 클릭 감지 — 열린 상태에서만 listener 부착.
-    // listbox는 portal로 body에 렌더되므로 dropdownRef에 포함되지 않아 별도 체크가 필요하다.
-    useEffect(() => {
-      if (!isOpen) return;
-      const handleClickOutside = (event: MouseEvent) => {
-        const target = event.target as Node;
-        if (dropdownRef.current?.contains(target)) return;
-        if (listboxRef.current?.contains(target)) return;
-        closeDropdown();
-      };
-
-      document.addEventListener("mousedown", handleClickOutside);
-      return () =>
-        document.removeEventListener("mousedown", handleClickOutside);
-    }, [isOpen, closeDropdown]);
-
-    // 외곽 스크롤/리사이즈 시 위치가 어긋나므로 닫는다.
-    // listbox 내부 옵션 스크롤은 무시한다.
-    useEffect(() => {
-      if (!isOpen) return;
-      const handleScroll = (event: Event) => {
-        const target = event.target as Node | null;
-        if (target && listboxRef.current?.contains(target)) return;
-        closeDropdown();
-      };
-      const handleResize = () => closeDropdown();
-      window.addEventListener("scroll", handleScroll, true);
-      window.addEventListener("resize", handleResize);
-      return () => {
-        window.removeEventListener("scroll", handleScroll, true);
-        window.removeEventListener("resize", handleResize);
-      };
-    }, [isOpen, closeDropdown]);
-
-    // 드롭다운이 열릴 때 검색 입력창에 포커스
-    useEffect(() => {
-      if (isOpen && searchable && searchInputRef.current) {
-        searchInputRef.current.focus();
-      }
-    }, [isOpen, searchable]);
-
     return (
-      <div ref={dropdownRef} className="relative w-full">
-        {selectAll && (
-          <div className="mb-1 flex justify-start -space-x-4">
-            <Button
-              variant="underline"
-              type="button"
-              onClick={handleSelectAll}
-              disabled={disabled}
-            >
-              모두 선택
-            </Button>
-            <Button
-              variant="underline"
-              type="button"
-              onClick={handleClear}
-              disabled={disabled}
-            >
-              해제
-            </Button>
-          </div>
-        )}
-        <div ref={triggerWrapperRef} className="relative">
-          <button
-            ref={ref}
-            type="button"
-            className={cn(
-              dropdownTriggerVariants({ variant, size }),
-              "pr-8",
-              className,
-            )}
-            onClick={handleToggle}
-            onKeyDown={handleKeyDown}
-            disabled={disabled}
-            aria-expanded={isOpen}
-            aria-haspopup="listbox"
-            {...props}
-          >
-            <span
-              className={cn(
-                "flex-1 truncate text-left",
-                !selectedOption && !multiple && "text-cms-gray-400",
-              )}
-            >
-              {selectedLabel}
-            </span>
-          </button>
-
-          <div
-            className={cn(
-              "absolute top-1/2 right-3 -translate-y-1/2",
-              "flex items-center gap-2",
-              "pointer-events-none",
-              disabled && "text-cms-gray-400",
-            )}
-          >
-            {clearable && (value || selectedValues.length > 0) && (
+      <PopoverPrimitive.Root open={isOpen} onOpenChange={handleOpenChange}>
+        <div className="relative w-full">
+          {selectAll && (
+            <div className="mb-1 flex justify-start -space-x-4">
+              <Button
+                variant="underline"
+                type="button"
+                onClick={handleSelectAll}
+                disabled={disabled}
+                data-cms-dropdown-persist=""
+              >
+                모두 선택
+              </Button>
+              <Button
+                variant="underline"
+                type="button"
+                onClick={handleClear}
+                disabled={disabled}
+                data-cms-dropdown-persist=""
+              >
+                해제
+              </Button>
+            </div>
+          )}
+          <div className="relative">
+            <PopoverPrimitive.Trigger asChild>
               <button
+                ref={ref}
                 type="button"
                 className={cn(
-                  "pointer-events-auto border-0 bg-transparent",
-                  "rounded-cms-md p-1 text-cms-gray-400 transition-colors",
-                  "hover:text-cms-black",
+                  dropdownTriggerVariants({ variant, size }),
+                  "pr-8",
+                  className,
                 )}
-                onClick={handleClear}
-                aria-label="선택 취소"
+                disabled={disabled}
+                aria-haspopup="listbox"
+                {...props}
               >
-                <ClearIcon className="size-3" />
+                <span
+                  className={cn(
+                    "flex-1 truncate text-left",
+                    !selectedOption && !multiple && "text-cms-gray-400",
+                  )}
+                >
+                  {selectedLabel}
+                </span>
               </button>
-            )}
-            <ChevronDownIcon
-              size={14}
-              strokeWidth={2}
-              className={cn(
-                "transition-transform duration-200",
-                isOpen && "rotate-180",
-              )}
-            />
-          </div>
+            </PopoverPrimitive.Trigger>
 
-          {isOpen &&
-            position &&
-            createPortal(
-              <div
-                ref={listboxRef}
+            <div
+              className={cn(
+                "absolute top-1/2 right-3 -translate-y-1/2",
+                "flex items-center gap-2",
+                "pointer-events-none",
+                disabled && "text-cms-gray-400",
+              )}
+            >
+              {clearable && (value || selectedValues.length > 0) && (
+                <button
+                  type="button"
+                  data-cms-dropdown-persist=""
+                  className={cn(
+                    "pointer-events-auto border-0 bg-transparent",
+                    "rounded-cms-md p-1 text-cms-gray-400 transition-colors",
+                    "hover:text-cms-black",
+                  )}
+                  onClick={handleClear}
+                  aria-label="선택 취소"
+                >
+                  <ClearIcon className="size-3" />
+                </button>
+              )}
+              <ChevronDownIcon
+                size={14}
+                strokeWidth={2}
+                className={cn(
+                  "transition-transform duration-200",
+                  isOpen && "rotate-180",
+                )}
+              />
+            </div>
+
+            <PopoverPrimitive.Portal container={portalContainer}>
+              <PopoverPrimitive.Content
                 role="listbox"
                 aria-multiselectable={multiple || undefined}
-                className={cn(
-                  "fixed z-cms-overlay min-w-0 py-1",
-                  "rounded-cms-xl border border-cms-gray-300",
-                  "bg-cms-white shadow-lg",
-                  isClosing ? "cms-dropdown-hide" : "cms-dropdown-show",
-                  dropdownClassName,
-                )}
+                align="start"
+                sideOffset={4}
+                collisionPadding={8}
+                onOpenAutoFocus={(event) => {
+                  if (searchable) {
+                    // Radix 기본 focus(content root) 대신 검색창으로 포커스 이동
+                    event.preventDefault();
+                    searchInputRef.current?.focus();
+                  }
+                }}
+                onInteractOutside={(event) => {
+                  // popover Content 바깥이지만 popover 를 닫으면 안 되는 요소들
+                  // (트리거 옆 clear 아이콘, selectAll 행의 "모두 선택"/"해제")
+                  // 은 [data-cms-dropdown-persist] 마커를 달아 예외 처리한다.
+                  // pointer + focus 양쪽 경로를 모두 커버해야 하므로
+                  // onPointerDownOutside 가 아닌 onInteractOutside 를 사용한다.
+                  // (클릭 시 버튼에 포커스를 주는 플랫폼에서 focusin 경로로
+                  // 닫히는 것 방지)
+                  // Radix CustomEvent 의 .target 은 레이어 노드이므로 실제 클릭
+                  // 요소는 originalEvent.target 으로 가져와야 한다.
+                  const target = event.detail.originalEvent
+                    .target as HTMLElement | null;
+                  if (target?.closest("[data-cms-dropdown-persist]")) {
+                    event.preventDefault();
+                  }
+                }}
                 style={{
-                  top: openUpward ? "auto" : position.topAnchor,
-                  bottom: openUpward ? position.bottomAnchor : "auto",
-                  left: position.left,
-                  width: position.width,
+                  width: "var(--radix-popover-trigger-width)",
+                  // maxHeight prop 의 의미가 "옵션 리스트 높이" 뿐 아니라
+                  // "팝오버 전체 상한" 인 base 시맨틱을 유지한다. searchable
+                  // 시 검색창 (~40px) + 스크롤 리스트 합계가 소비 앱 상한을
+                  // 넘지 않도록.
                   maxHeight: `${maxHeight}px`,
                 }}
-                onAnimationEnd={handleListboxAnimationEnd}
+                className={cn(
+                  "z-cms-overlay min-w-0 py-1",
+                  "rounded-cms-xl border border-cms-gray-300",
+                  "bg-cms-white shadow-lg",
+                  "data-[state=open]:animate-in",
+                  "data-[state=closed]:animate-out",
+                  "data-[state=closed]:fade-out-0",
+                  "data-[state=open]:fade-in-0",
+                  "data-[state=closed]:zoom-out-95",
+                  "data-[state=open]:zoom-in-95",
+                  "data-[side=bottom]:slide-in-from-top-2",
+                  "data-[side=top]:slide-in-from-bottom-2",
+                  dropdownClassName,
+                )}
               >
                 {searchable && (
                   <div className="border-b border-cms-gray-200 p-2">
@@ -669,7 +604,7 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                   >
                     <div
                       ref={setOptionsListNode}
-                      className="overflow-y-auto"
+                      className="overflow-y-auto overscroll-contain"
                       style={{ maxHeight: `${maxHeight}px` }}
                       onMouseEnter={clearSubmenuCloseTimeout}
                       onMouseLeave={scheduleSubmenuClose}
@@ -821,7 +756,11 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                             `,
                             "rounded-cms-xl border border-cms-gray-300",
                             "bg-cms-white shadow-lg",
-                            "cms-dropdown-show",
+                            // base 의 cms-dropdown-show 대체.
+                            // 서브메뉴는 hover 시 React state 로 mount 되므로
+                            // Radix data-state 가 없음 — mount-only 애니메이션
+                            // (tailwindcss-animate 유틸) 로 등장만 표현.
+                            "animate-in fade-in-0 zoom-in-95",
                           )}
                           style={{ top: hoveredSubmenu.top }}
                           onMouseEnter={() => {
@@ -892,11 +831,11 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                       );
                     })()}
                 </div>
-              </div>,
-              document.body,
-            )}
+              </PopoverPrimitive.Content>
+            </PopoverPrimitive.Portal>
+          </div>
         </div>
-      </div>
+      </PopoverPrimitive.Root>
     );
   },
 );

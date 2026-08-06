@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
+import { cn } from "@/utils/cn";
 import { Checkbox } from "./Checkbox";
 
 const meta: Meta<typeof Checkbox> = {
@@ -33,7 +34,12 @@ const Row = ({
   children: React.ReactNode;
 }) => (
   <div className="flex items-start gap-4">
-    <span className="w-24 shrink-0 pt-0.5 text-[12px] font-medium text-cms-gray-550">
+    <span
+      className={cn(
+        "w-24 shrink-0 pt-0.5 text-[12px]",
+        "font-medium text-cms-gray-550",
+      )}
+    >
       {label}
     </span>
     <div className="flex flex-wrap items-center gap-5">{children}</div>

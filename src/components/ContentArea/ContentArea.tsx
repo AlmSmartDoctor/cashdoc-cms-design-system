@@ -110,11 +110,7 @@ const ContentAreaHeader = forwardRef<HTMLElement, ContentAreaHeaderProps>(
   ({ className, ...props }, ref) => (
     <header
       ref={ref}
-      className={cn(
-        "px-5 py-3.5",
-        "border-b border-cms-gray-200",
-        className,
-      )}
+      className={cn("px-5 py-3.5", "border-b border-cms-gray-200", className)}
       {...props}
     />
   ),
@@ -140,11 +136,7 @@ const ContentAreaFooter = forwardRef<HTMLElement, ContentAreaFooterProps>(
   ({ className, ...props }, ref) => (
     <footer
       ref={ref}
-      className={cn(
-        "px-5 py-3.5",
-        "border-t border-cms-gray-200",
-        className,
-      )}
+      className={cn("px-5 py-3.5", "border-t border-cms-gray-200", className)}
       {...props}
     />
   ),

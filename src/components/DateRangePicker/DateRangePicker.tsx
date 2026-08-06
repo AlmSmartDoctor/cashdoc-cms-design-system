@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useId, useState, useMemo, useRef, useEffect } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import type { DateRange as DayPickerDateRange } from "react-day-picker";
 import { DayPicker } from "react-day-picker";
@@ -163,7 +163,7 @@ export const DateRangePicker = React.forwardRef<
     },
     ref,
   ) => {
-    const id = React.useId();
+    const reactId = useId();
     const { isOpen, onOpenChange: setIsOpen } = useDisclosure();
     const [draftRange, setDraftRange] = useState<
       [Dayjs | undefined, Dayjs | undefined]
@@ -402,7 +402,7 @@ export const DateRangePicker = React.forwardRef<
           >
             {inputError && (
               <div
-                id={`${id}-error`}
+                id={`${reactId}-error`}
                 role="alert"
                 className="mb-1 text-xs text-cms-red-500"
               >
@@ -419,7 +419,10 @@ export const DateRangePicker = React.forwardRef<
                 "focus-within:shadow-[0_0_0_3px_rgba(15,20,25,0.08)]",
                 inputError &&
                   cn(
-                    `border-cms-red-500 hover:border-cms-red-500`,
+                    `
+                      border-cms-red-500
+                      hover:border-cms-red-500
+                    `,
                     "focus-within:border-cms-red-500",
                     "focus-within:shadow-[0_0_0_3px_rgba(229,56,74,0.22)]",
                   ),
@@ -433,11 +436,11 @@ export const DateRangePicker = React.forwardRef<
                     "pointer-events-none",
                   )}
                 >
-                  <label htmlFor={`${id}-start`}>{startLabel}</label>
+                  <label htmlFor={`${reactId}-start`}>{startLabel}</label>
                 </div>
                 <input
                   ref={startInputRef}
-                  id={`${id}-start`}
+                  id={`${reactId}-start`}
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
@@ -455,7 +458,7 @@ export const DateRangePicker = React.forwardRef<
                   placeholder="YYYY-MM-DD"
                   aria-label={startLabel}
                   aria-invalid={inputError ? true : undefined}
-                  aria-describedby={inputError ? `${id}-error` : undefined}
+                  aria-describedby={inputError ? `${reactId}-error` : undefined}
                   className={cn(
                     "box-border h-9 w-full border-0",
                     "rounded-l-cms-md bg-transparent pr-3 pl-14-75",
@@ -477,11 +480,11 @@ export const DateRangePicker = React.forwardRef<
                     "pointer-events-none",
                   )}
                 >
-                  <label htmlFor={`${id}-end`}>{endLabel}</label>
+                  <label htmlFor={`${reactId}-end`}>{endLabel}</label>
                 </div>
                 <input
                   ref={endInputRef}
-                  id={`${id}-end`}
+                  id={`${reactId}-end`}
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
@@ -499,7 +502,7 @@ export const DateRangePicker = React.forwardRef<
                   placeholder="YYYY-MM-DD"
                   aria-label={endLabel}
                   aria-invalid={inputError ? true : undefined}
-                  aria-describedby={inputError ? `${id}-error` : undefined}
+                  aria-describedby={inputError ? `${reactId}-error` : undefined}
                   className={cn(
                     "box-border h-9 w-full border-0",
                     "rounded-r-cms-md bg-transparent pr-3 pl-14-75",
@@ -535,7 +538,9 @@ export const DateRangePicker = React.forwardRef<
             className={cn(
               "z-cms-overlay rounded-cms-lg bg-cms-white p-3.5",
               "border border-cms-gray-200",
-              `shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]`,
+              `
+                shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]
+              `,
               "data-[state=open]:animate-in",
               "data-[state=closed]:animate-out",
               "data-[state=closed]:fade-out-0",
@@ -621,7 +626,12 @@ export const DateRangePicker = React.forwardRef<
                     종료일자를 선택해 주세요.
                   </span>
                 : <>
-                    <span className="text-[12px] text-cms-gray-800 tabular-nums">
+                    <span
+                      className={cn(
+                        "text-[12px] text-cms-gray-800",
+                        "tabular-nums",
+                      )}
+                    >
                       {fromDay.format("YYYY-MM-DD")} ~{" "}
                       {toDay.format("YYYY-MM-DD")}
                     </span>

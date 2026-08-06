@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { CheckIcon, RefreshIcon, SearchIcon } from "../icons";
 import { Tag, type TagColor } from "./Tag";
@@ -93,10 +93,7 @@ export const Showcase: Story = {
         <RemovableDemo />
       </Section>
       <Section label="Clickable">
-        <Tag
-          color="blue"
-          onClick={() => alert("clicked")}
-        >
+        <Tag color="blue" onClick={() => alert("clicked")}>
           클릭 가능
         </Tag>
       </Section>

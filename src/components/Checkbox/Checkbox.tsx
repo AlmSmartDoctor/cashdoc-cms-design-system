@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { CheckIcon } from "@/components/icons";
 import { cn } from "@/utils/cn";
@@ -94,8 +94,8 @@ export const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   CheckboxProps
 >(({ className, label, id, disabled, ...props }, ref) => {
-  const generatedId = React.useId();
-  const checkboxId = id ?? `checkbox-${generatedId.replace(/:/g, "")}`;
+  const reactId = useId();
+  const checkboxId = id ?? `checkbox-${reactId.replace(/:/g, "")}`;
 
   return (
     <div className="flex items-center">

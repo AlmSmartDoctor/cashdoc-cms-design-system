@@ -1,6 +1,5 @@
 import js from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
-import onlyWarn from "eslint-plugin-only-warn";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import tseslint from "typescript-eslint";
@@ -71,7 +70,11 @@ export const config = [
           ignoreRegExpLiterals: true,
           ignorePattern: [
             "^\\s*import\\s.+",
-            "^\\s*(?:\"[^\"]*\"|'[^']*'|`[^`]*`)\\s*,?\\s*$",
+            "^\\s*(?:\"[^\"]*\"|'[^']*'|`[^`]*`)\\s*[,;]?\\s*$",
+            // 템플릿 리터럴 내부의 단일 클래스 토큰 라인.
+            // better-tailwindcss 의 canonical wrapping 결과물이며,
+            // 토큰 하나는 어떤 형식으로도 더 줄일 수 없다.
+            "^\\s*\\S+,?$",
             "^\\s*(?:const|let|var)\\s+[A-Za-z_$][\\w$]*\\s*(?::\\s*[^=]+)?=\\s*(?:\"[^\"]*\"|'[^']*'|`[^`]*`|true|false|null|undefined|[-+]?\\d+(?:\\.\\d+)?)\\s*[;,]?\\s*$",
             "^\\s*[A-Za-z_$][\\w$]*\\s*:\\s*(?:\"[^\"]*\"|'[^']*'|`[^`]*`|true|false|null|undefined|[-+]?\\d+(?:\\.\\d+)?)\\s*,?\\s*$",
             "^\\s*(?!className=)[A-Za-z_$][\\w$-]*\\s*=\\s*(?:\"[^\"]*\"|'[^']*'|\\{(?:true|false|null|undefined|[-+]?\\d+(?:\\.\\d+)?)\\})\\s*$",
@@ -86,11 +89,6 @@ export const config = [
         projectService: true,
         tsconfigRootDir: projectRoot,
       },
-    },
-  },
-  {
-    plugins: {
-      onlyWarn,
     },
   },
 ];

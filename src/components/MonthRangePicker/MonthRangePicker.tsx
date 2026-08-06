@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useId, useState, useMemo, useRef, useEffect } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
@@ -183,7 +183,7 @@ export const MonthRangePicker = React.forwardRef<
     },
     ref,
   ) => {
-    const id = React.useId();
+    const reactId = useId();
     const { isOpen, onOpenChange: setIsOpen } = useDisclosure();
     const [baseYear, setBaseYear] = useState(() => {
       if (value?.start) return dayjs(value.start).year();
@@ -546,7 +546,10 @@ export const MonthRangePicker = React.forwardRef<
                 "focus-within:shadow-[0_0_0_3px_rgba(15,20,25,0.08)]",
                 inputError &&
                   cn(
-                    `border-cms-red-500 hover:border-cms-red-500`,
+                    `
+                      border-cms-red-500
+                      hover:border-cms-red-500
+                    `,
                     "focus-within:border-cms-red-500",
                     "focus-within:shadow-[0_0_0_3px_rgba(229,56,74,0.22)]",
                   ),
@@ -560,11 +563,11 @@ export const MonthRangePicker = React.forwardRef<
                     "pointer-events-none",
                   )}
                 >
-                  <label htmlFor={`${id}-start`}>{startLabel}</label>
+                  <label htmlFor={`${reactId}-start`}>{startLabel}</label>
                 </div>
                 <input
                   ref={startInputRef}
-                  id={`${id}-start`}
+                  id={`${reactId}-start`}
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
@@ -602,11 +605,11 @@ export const MonthRangePicker = React.forwardRef<
                     "pointer-events-none",
                   )}
                 >
-                  <label htmlFor={`${id}-end`}>{endLabel}</label>
+                  <label htmlFor={`${reactId}-end`}>{endLabel}</label>
                 </div>
                 <input
                   ref={endInputRef}
-                  id={`${id}-end`}
+                  id={`${reactId}-end`}
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
@@ -658,7 +661,9 @@ export const MonthRangePicker = React.forwardRef<
             className={cn(
               "z-cms-overlay rounded-cms-lg bg-cms-white p-3.5",
               "border border-cms-gray-200",
-              `shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]`,
+              `
+                shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]
+              `,
               "data-[state=open]:animate-in",
               "data-[state=closed]:animate-out",
               "data-[state=closed]:fade-out-0",
@@ -669,7 +674,12 @@ export const MonthRangePicker = React.forwardRef<
               "data-[side=top]:slide-in-from-bottom-2",
             )}
           >
-            <div className="date-range-picker-calendar month-range-picker-calendar">
+            <div
+              className={cn(
+                "date-range-picker-calendar",
+                "month-range-picker-calendar",
+              )}
+            >
               {}
               <div className="rdp rdp-root">
                 {/* Full-width nav bar: prev at left, years in center, next at right */}
@@ -740,7 +750,12 @@ export const MonthRangePicker = React.forwardRef<
                   </span>
                 : clampedRange ?
                   <>
-                    <span className="text-[12px] text-cms-gray-800 tabular-nums">
+                    <span
+                      className={cn(
+                        "text-[12px] text-cms-gray-800",
+                        "tabular-nums",
+                      )}
+                    >
                       {clampedRange.start.format("YYYY-MM-DD")} ~{" "}
                       {clampedRange.end.format("YYYY-MM-DD")}
                     </span>

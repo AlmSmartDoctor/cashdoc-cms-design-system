@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Info, Settings, Trash2 } from "lucide-react";
 import { Button } from "../Button";
 import { Tooltip } from "./Tooltip";
@@ -28,7 +28,10 @@ const meta: Meta<typeof Tooltip> = {
       options: ["start", "center", "end"],
       table: { defaultValue: { summary: "center" } },
     },
-    showArrow: { control: "boolean", table: { defaultValue: { summary: "true" } } },
+    showArrow: {
+      control: "boolean",
+      table: { defaultValue: { summary: "true" } },
+    },
   },
 };
 

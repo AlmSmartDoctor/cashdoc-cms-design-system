@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { cn } from "@/utils/cn";
 import * as Icons from "./index";
 
@@ -47,7 +47,8 @@ const categories: Record<string, IconEntry[]> = {
       n.includes("Info") ||
       n.includes("Error") ||
       n.includes("Warning") ||
-      n.includes("Help"),
+      n.includes("Help") ||
+      n.includes("Flag"),
   ),
   Actions: iconEntries.filter(([n]) =>
     [
@@ -82,7 +83,20 @@ const categories: Record<string, IconEntry[]> = {
   Brand: iconEntries.filter(
     ([n]) => n.includes("Medicash") || n.includes("Badge"),
   ),
+  "Communication & Reward": iconEntries.filter(([n]) =>
+    ["PhoneIcon", "LightbulbIcon", "BoltIcon", "GiftIcon"].includes(n),
+  ),
 };
+
+// 어떤 name-match 버킷에도 걸리지 않는 아이콘이 Showcase에서 누락되지 않도록
+// catch-all 버킷을 둔다. (신규 아이콘 추가 시 시각 게이트 노출 보장)
+const categorizedNames = new Set(
+  Object.values(categories).flatMap((entries) => entries.map(([n]) => n)),
+);
+const uncategorized = iconEntries.filter(([n]) => !categorizedNames.has(n));
+if (uncategorized.length > 0) {
+  categories["기타"] = uncategorized;
+}
 
 const Section = ({
   title,
@@ -92,7 +106,12 @@ const Section = ({
   children: React.ReactNode;
 }) => (
   <div className="flex flex-col gap-2">
-    <h3 className="text-[12px] font-semibold tracking-wide text-cms-gray-550 uppercase">
+    <h3
+      className={cn(
+        "text-[12px] font-semibold tracking-wide",
+        "text-cms-gray-550 uppercase",
+      )}
+    >
       {title}
     </h3>
     {children}
@@ -111,7 +130,12 @@ const IconCell = ({ name, Icon }: { name: string; Icon: IconComponent }) => (
     )}
   >
     <Icon className="text-cms-gray-900" size={20} />
-    <p className="text-center font-mono text-[10px] leading-tight text-cms-gray-550">
+    <p
+      className={cn(
+        "text-center font-mono text-[10px]",
+        "leading-tight text-cms-gray-550",
+      )}
+    >
       {name}
     </p>
   </div>
@@ -155,7 +179,15 @@ export const Showcase: Story = {
         ([title, icons]) =>
           icons.length > 0 && (
             <Section key={title} title={title}>
-              <div className="grid grid-cols-4 gap-2 md:grid-cols-6 lg:grid-cols-8">
+              <div
+                className={cn(
+                  "grid grid-cols-4 gap-2",
+                  `
+                    md:grid-cols-6
+                    lg:grid-cols-8
+                  `,
+                )}
+              >
                 {icons.map(([name, Icon]) => (
                   <IconCell key={name} name={name} Icon={Icon} />
                 ))}

@@ -45,6 +45,8 @@ export const config = [
     files: ["**/*.stories.tsx"],
     rules: {
       "react-hooks/rules-of-hooks": "off",
+      // 스토리 no-op 핸들러(() => {})는 관용 패턴
+      "@typescript-eslint/no-empty-function": "off",
     },
   },
   {

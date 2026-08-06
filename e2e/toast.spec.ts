@@ -1,24 +1,24 @@
 import { test, expect } from "@playwright/test";
 
+const SHOWCASE = "/iframe.html?id=feedback-toast--showcase&viewMode=story";
+
 test.describe("Toast 컴포넌트", () => {
-  // Toast는 Toaster 컴포넌트를 통해 렌더링되므로, 별도의 Story가 있어야 테스트 가능.
-  // 보통 'Feedback/Toast' 같은 경로.
-  // 여기서는 'feedback-toast--default'로 가정.
+  test("정적 Toast 렌더링", async ({ page }) => {
+    await page.goto(SHOWCASE);
 
-  test("토스트 표시 및 닫기", async ({ page }) => {
-    await page.goto("/iframe.html?id=feedback-toast--default&viewMode=story");
+    await expect(page.getByText("캠페인이 발행되었습니다")).toBeVisible();
+    await expect(page.getByText("발송에 실패했어요")).toBeVisible();
+  });
 
-    // 토스트를 발생시키는 버튼 찾기
-    // Storybook 예제에 버튼이 있다고 가정
-    await page.getByRole("button", { name: /Show Toast|토스트/i }).first().click();
+  test("런타임 토스트 표시 (sonner)", async ({ page }) => {
+    await page.goto(SHOWCASE);
 
-    // 토스트 메시지 확인 (role='status' or 'alert')
-    // Sonner uses listitem usually inside a list
+    // 런타임 섹션의 트리거 버튼 클릭
+    await page.getByRole("button", { name: "기본", exact: true }).click();
+
+    // sonner 토스트가 표시되는지 확인
     const toast = page.locator("li[data-sonner-toast]");
     await expect(toast).toBeVisible();
-
-    // 닫기 버튼이 있다면 클릭 (옵션)
-    // await toast.getByRole('button').click();
-    // await expect(toast).not.toBeVisible();
+    await expect(toast.getByText("초안이 자동저장되었어요")).toBeVisible();
   });
 });

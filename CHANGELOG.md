@@ -2,6 +2,86 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.9.4](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.9.3...v2.9.4) (2026-08-06)
+
+
+### Bug Fixes
+
+* **CountFilterChips:** forwardRef 적용으로 루트 ref 전달 지원 ([bc1832f](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/bc1832f45745671552bc319643b6e832f187aef8))
+
+### [2.9.3](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.9.2...v2.9.3) (2026-07-31)
+
+
+### Bug Fixes
+
+* **ImageUpload, Popover:** 배럴에서 누락된 공개 타입 재export ([f2d1ebb](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/f2d1ebbfb67f30bdb1279fc5538c1ff4b15468a2))
+
+### [2.9.2](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.9.1...v2.9.2) (2026-07-27)
+
+
+### Features
+
+* **Dropdown:** restore submenu enter animation ([8be2e3d](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/8be2e3d981e4f0d814f6ea90d3f3cc022e74a107))
+
+
+### Bug Fixes
+
+* **Dropdown:** allow programmatic close when disabled ([5c581ff](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/5c581fff92d9ebfe04b8d8f18299e04c0051c3f1))
+* **Dropdown:** keep popover open on selectAll/clear via onInteractOutside ([6599931](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/6599931af6013e30346588d81e404cb1366c64a5))
+* **Dropdown:** restore Content maxHeight upper bound ([bf0fb8c](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/bf0fb8c6ba0e7c446d53a4c181b9023ed43dc42d))
+* **Dropdown:** route single-select close through handleOpenChange ([f82e82d](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/f82e82d17e44ffc181ef178b1b93d04b1af5d7f9))
+* Modal 내 Dropdown의 스크롤/클릭 이벤트 동작 수정 ([0ffdd5c](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/0ffdd5c93548e3b377b33d58b241437d8978f56f))
+
+### [2.9.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.9.0...v2.9.1) (2026-07-15)
+
+
+### Features
+
+* add FlagIcon ([eaf4b0e](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/eaf4b0e0a4514640aef279f5bad661245210f727))
+
+## [2.9.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.5...v2.9.0) (2026-07-13)
+
+### [2.8.5](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.4...v2.8.5) (2026-07-13)
+
+
+### Features
+
+* **Cascader:** add Radix-based cascading select ([6ab2c8f](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/6ab2c8f6c6cb28869754e4543361a4e4d5602449)), closes [#48](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/48) [#59](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/59)
+
+
+### Bug Fixes
+
+* **Cascader:** wire a11y ids; drop dead storybook eslint import ([25d6cff](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/25d6cff84b282246dd84f01dde50e9193abc3c70)), closes [#63](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/63)
+* **ci:** trigger CI workflow on develop branch too ([4d3dce6](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/4d3dce6dec11c82220d2ab35756b5ef372a11f11)), closes [#53](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/53)
+
+### [2.8.4](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.3...v2.8.4) (2026-07-06)
+
+
+### Bug Fixes
+
+* **Dropdown:** align submenu with option regardless of scroll ([ef29dec](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/ef29dec17b8fcd52c452366ceb69e3870750bf97)), closes [#34](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/34) [#34](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/34)
+
+### [2.8.3](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.2...v2.8.3) (2026-07-06)
+
+
+### Bug Fixes
+
+* **Modal,TimePicker:** defend layout against missing CSS preflight ([f8f81bf](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/f8f81bfb098d16b5e6d4f286a2978fa796ff993f)), closes [#43](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/43) [#44](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/44)
+
+### [2.8.2](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.1...v2.8.2) (2026-07-06)
+
+
+### Bug Fixes
+
+* **globals:** add preflight-independent box-sizing baseline ([2e45051](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/2e45051ccfa7da98fc0e7f12bf8eb80604b1f9d7)), closes [#43](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/43) [#44](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/44) [#44](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/44)
+
+### [2.8.1](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.8.0...v2.8.1) (2026-07-06)
+
+
+### Bug Fixes
+
+* **Dropdown:** contain scroll to options list ([959b76a](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/959b76a8840f74cd800fa008990f5a5c72493ab1)), closes [#47](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/issues/47)
+
 ## [2.8.0](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.7.0...v2.8.0) (2026-07-01)
 
 

@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { cn } from "@/utils/cn";
 import { RadioGroup, RadioGroupItem } from "./RadioButton";
 
 const meta: Meta<typeof RadioGroupItem> = {
@@ -39,7 +40,12 @@ const Row = ({
   children: React.ReactNode;
 }) => (
   <div className="flex items-start gap-4">
-    <span className="w-24 shrink-0 pt-0.5 text-[12px] font-medium text-cms-gray-550">
+    <span
+      className={cn(
+        "w-24 shrink-0 pt-0.5 text-[12px]",
+        "font-medium text-cms-gray-550",
+      )}
+    >
       {label}
     </span>
     <div className="flex flex-wrap items-center gap-4">{children}</div>
@@ -51,7 +57,12 @@ const Item = ({
   label,
   ...rest
 }: React.ComponentProps<typeof RadioGroupItem> & { label: string }) => (
-  <label className="flex cursor-pointer items-center gap-2 text-sm text-cms-gray-900">
+  <label
+    className={cn(
+      "flex cursor-pointer items-center gap-2",
+      "text-sm text-cms-gray-900",
+    )}
+  >
     <RadioGroupItem value={value} {...rest} />
     {label}
   </label>

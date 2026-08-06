@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { Button } from "../Button";
 import { ConfirmModal } from "./ConfirmModal";
@@ -152,8 +152,7 @@ export const Showcase: Story = {
  * 안전하게 담을 수 있습니다. 스크린리더용 설명이 필요하면 `description`
  * prop으로 전달하면 시각적으로 숨긴 채 `aria-describedby`에 연결됩니다.
  */
-const fieldClass =
-  "h-9 rounded-cms-md border border-cms-gray-250 px-3 text-sm";
+const fieldClass = "h-9 rounded-cms-md border border-cms-gray-250 px-3 text-sm";
 
 export const WithBlockContent: Story = {
   render: () => {
@@ -179,20 +178,59 @@ export const WithBlockContent: Story = {
           <div className="flex flex-col gap-3">
             <label className="flex flex-col gap-1">
               <span className="text-xs text-cms-gray-550">이름</span>
-              <input
-                className={fieldClass}
-                placeholder="홍길동"
-              />
+              <input className={fieldClass} placeholder="홍길동" />
             </label>
             <label className="flex flex-col gap-1">
               <span className="text-xs text-cms-gray-550">이메일</span>
-              <input
-                className={fieldClass}
-                placeholder="user@example.com"
-              />
+              <input className={fieldClass} placeholder="user@example.com" />
             </label>
           </div>
         </Modal>
+      </Frame>
+    );
+  },
+};
+
+/**
+ * `ConfirmModal` 단독 시나리오입니다. 체크 아이콘(36px 원)과 `title`
+ * 텍스트의 세로 정렬을 확인할 수 있습니다.
+ */
+export const Confirm: Story = {
+  render: () => {
+    const [open, setOpen] = useState(false);
+    return (
+      <Frame label="ConfirmModal">
+        <Trigger label="확인 모달" onClick={() => setOpen(true)} />
+        <ConfirmModal
+          open={open}
+          onOpenChange={setOpen}
+          title="안내"
+          message="본문 메시지입니다. 아이콘과 타이틀의 세로 정렬을 확인하세요."
+          onConfirm={() => setOpen(false)}
+        />
+      </Frame>
+    );
+  },
+};
+
+/**
+ * `WarningModal` 단독 시나리오입니다. 주황색 경고 아이콘(36px 원)과
+ * 기본 `title`("경고") 텍스트의 세로 정렬을 확인할 수 있습니다.
+ */
+export const Warning: Story = {
+  render: () => {
+    const [open, setOpen] = useState(false);
+    const close = () => setOpen(false);
+    return (
+      <Frame label="WarningModal">
+        <Trigger label="경고 모달" onClick={() => setOpen(true)} />
+        <WarningModal
+          open={open}
+          onOpenChange={setOpen}
+          message="본문 메시지입니다. 아이콘과 타이틀의 세로 정렬을 확인하세요."
+          onConfirm={close}
+          onCancel={close}
+        />
       </Frame>
     );
   },

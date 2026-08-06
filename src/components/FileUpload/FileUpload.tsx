@@ -86,174 +86,183 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
     },
     ref,
   ) {
-  const [files, setFiles] = useState<File[]>(value);
+    const [files, setFiles] = useState<File[]>(value);
 
-  const onDrop = useCallback(
-    (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-      if (rejectedFiles.length > 0) {
-        const error = rejectedFiles[0].errors[0];
-        if (error.code === "file-too-large") {
-          onError?.(
-            `파일 크기는 ${maxSize / 1024 / 1024}MB를 초과할 수 없습니다.`,
-          );
-        } else if (error.code === "file-invalid-type") {
-          onError?.("지원하지 않는 파일 형식입니다.");
-        } else if (error.code === "too-many-files") {
-          onError?.(`최대 ${maxFiles}개의 파일만 업로드할 수 있습니다.`);
+    const onDrop = useCallback(
+      (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+        if (rejectedFiles.length > 0) {
+          const error = rejectedFiles[0].errors[0];
+          if (error.code === "file-too-large") {
+            onError?.(
+              `파일 크기는 ${maxSize / 1024 / 1024}MB를 초과할 수 없습니다.`,
+            );
+          } else if (error.code === "file-invalid-type") {
+            onError?.("지원하지 않는 파일 형식입니다.");
+          } else if (error.code === "too-many-files") {
+            onError?.(`최대 ${maxFiles}개의 파일만 업로드할 수 있습니다.`);
+          }
+          return;
         }
-        return;
-      }
 
-      const newFiles = [...files, ...acceptedFiles].slice(0, maxFiles);
+        const newFiles = [...files, ...acceptedFiles].slice(0, maxFiles);
+        setFiles(newFiles);
+        onChange?.(newFiles);
+      },
+      [files, maxFiles, maxSize, onChange, onError],
+    );
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+      onDrop,
+      accept,
+      maxSize,
+      maxFiles,
+      disabled,
+      multiple: maxFiles > 1,
+    });
+
+    const removeFile = (index: number) => {
+      const newFiles = files.filter((_, i) => i !== index);
       setFiles(newFiles);
       onChange?.(newFiles);
-    },
-    [files, maxFiles, maxSize, onChange, onError],
-  );
+    };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept,
-    maxSize,
-    maxFiles,
-    disabled,
-    multiple: maxFiles > 1,
-  });
+    const formatFileSize = (bytes: number): string => {
+      if (bytes < 1024) return `${bytes} B`;
+      if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+      return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+    };
 
-  const removeFile = (index: number) => {
-    const newFiles = files.filter((_, i) => i !== index);
-    setFiles(newFiles);
-    onChange?.(newFiles);
-  };
+    const isMaxReached = files.length >= maxFiles;
+    const acceptedTypesLabel = useMemo(
+      () => formatAcceptToLabel(accept),
+      [accept],
+    );
+    const maxSizeMB = maxSize / 1024 / 1024;
+    const hintText =
+      acceptedTypesLabel ?
+        `${acceptedTypesLabel} · 최대 ${maxSizeMB}MB / 파일`
+      : `최대 ${maxFiles}개 파일, 최대 ${maxSizeMB}MB`;
 
-  const formatFileSize = (bytes: number): string => {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
-  };
-
-  const isMaxReached = files.length >= maxFiles;
-  const acceptedTypesLabel = useMemo(
-    () => formatAcceptToLabel(accept),
-    [accept],
-  );
-  const maxSizeMB = maxSize / 1024 / 1024;
-  const hintText = acceptedTypesLabel
-    ? `${acceptedTypesLabel} · 최대 ${maxSizeMB}MB / 파일`
-    : `최대 ${maxFiles}개 파일, 최대 ${maxSizeMB}MB`;
-
-  return (
-    <div ref={ref} className={cn("w-full", className)}>
-      {!isMaxReached && (
-        <div
-          {...getRootProps()}
-          className={cn(
-            "relative rounded-cms-lg border-[1.5px] border-dashed",
-            "cursor-pointer transition-colors",
-            "flex flex-col items-center justify-center",
-            "px-6 py-8",
-            isDragActive
-              ? "border-cms-gray-900 bg-cms-white"
-              : "border-cms-gray-300 bg-cms-gray-50 hover:border-cms-gray-900 hover:bg-cms-white",
-            disabled && "pointer-events-none cursor-not-allowed opacity-50",
-          )}
-        >
-          <input {...getInputProps()} />
-          <FileUploadIcon
-            size={28}
-            className="text-cms-gray-500"
-            strokeWidth={1.8}
-          />
-          <p className="mt-2 text-center text-sm font-semibold text-cms-gray-900">
-            {isDragActive ?
-              "파일을 여기에 놓으세요"
-            : "파일을 끌어다 놓거나 클릭해서 업로드"}
-          </p>
-          <p className="mt-1 text-center text-[12px] text-cms-gray-550">
-            {hintText}
-          </p>
-          <span
-            aria-hidden="true"
+    return (
+      <div ref={ref} className={cn("w-full", className)}>
+        {!isMaxReached && (
+          <div
+            {...getRootProps()}
             className={cn(
-              "mt-3 inline-flex items-center justify-center",
-              "h-7 rounded-cms-sm border border-cms-gray-250",
-              "bg-cms-white px-2.5",
-              "text-[12px] font-semibold text-cms-gray-850",
+              "relative rounded-cms-lg border-[1.5px] border-dashed",
+              "cursor-pointer transition-colors",
+              "flex flex-col items-center justify-center",
+              "px-6 py-8",
+              isDragActive ?
+                "border-cms-gray-900 bg-cms-white"
+              : `
+                  border-cms-gray-300 bg-cms-gray-50
+                  hover:border-cms-gray-900 hover:bg-cms-white
+                `,
+              disabled && "pointer-events-none cursor-not-allowed opacity-50",
             )}
           >
-            파일 선택
-          </span>
-        </div>
-      )}
-
-      {files.length > 0 && (
-        <div
-          className={cn(
-            "overflow-hidden rounded-cms-md border border-cms-gray-200",
-            "bg-cms-white",
-            isMaxReached ? "" : "mt-3",
-          )}
-        >
-          {files.map((file, index) => (
-            <div
-              key={index}
+            <input {...getInputProps()} />
+            <FileUploadIcon
+              size={28}
+              className="text-cms-gray-500"
+              strokeWidth={1.8}
+            />
+            <p
               className={cn(
-                "grid items-center gap-3 px-3.5 py-3",
-                "grid-cols-[32px_1fr_28px]",
-                "border-cms-gray-150",
-                index < files.length - 1 && "border-b",
-                `
-                  transition-colors
-                  hover:bg-cms-gray-50
-                `,
+                "mt-2 text-center text-sm",
+                "font-semibold text-cms-gray-900",
               )}
             >
+              {isDragActive ?
+                "파일을 여기에 놓으세요"
+              : "파일을 끌어다 놓거나 클릭해서 업로드"}
+            </p>
+            <p className="mt-1 text-center text-[12px] text-cms-gray-550">
+              {hintText}
+            </p>
+            <span
+              aria-hidden="true"
+              className={cn(
+                "mt-3 inline-flex items-center justify-center",
+                "h-7 rounded-cms-sm border border-cms-gray-250",
+                "bg-cms-white px-2.5",
+                "text-[12px] font-semibold text-cms-gray-850",
+              )}
+            >
+              파일 선택
+            </span>
+          </div>
+        )}
+
+        {files.length > 0 && (
+          <div
+            className={cn(
+              "overflow-hidden rounded-cms-md border border-cms-gray-200",
+              "bg-cms-white",
+              isMaxReached ? "" : "mt-3",
+            )}
+          >
+            {files.map((file, index) => (
               <div
+                key={index}
                 className={cn(
-                  "flex size-8 items-center justify-center",
-                  "rounded-cms-sm bg-cms-gray-100 text-cms-gray-650",
+                  "grid items-center gap-3 px-3.5 py-3",
+                  "grid-cols-[32px_1fr_28px]",
+                  "border-cms-gray-150",
+                  index < files.length - 1 && "border-b",
+                  `
+                    transition-colors
+                    hover:bg-cms-gray-50
+                  `,
                 )}
               >
-                <FileIcon size={16} />
-              </div>
-              <div className="min-w-0">
-                <p
+                <div
                   className={cn(
-                    "truncate text-[13px] leading-tight",
-                    "font-medium text-cms-gray-900",
+                    "flex size-8 items-center justify-center",
+                    "rounded-cms-sm bg-cms-gray-100 text-cms-gray-650",
                   )}
                 >
-                  {file.name}
-                </p>
-                <p
+                  <FileIcon size={16} />
+                </div>
+                <div className="min-w-0">
+                  <p
+                    className={cn(
+                      "truncate text-[13px] leading-tight",
+                      "font-medium text-cms-gray-900",
+                    )}
+                  >
+                    {file.name}
+                  </p>
+                  <p
+                    className={cn(
+                      "mt-0.5 text-[11px] leading-tight",
+                      "text-cms-gray-550",
+                    )}
+                  >
+                    {formatFileSize(file.size)}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeFile(index)}
                   className={cn(
-                    "mt-0.5 text-[11px] leading-tight",
-                    "text-cms-gray-550",
+                    "size-7 shrink-0 rounded-cms-sm",
+                    "flex items-center justify-center",
+                    "border-none bg-transparent text-cms-gray-450",
+                    "hover:bg-cms-gray-100 hover:text-cms-gray-900",
+                    "transition-colors",
                   )}
+                  aria-label="파일 제거"
                 >
-                  {formatFileSize(file.size)}
-                </p>
+                  <CloseIcon size={14} />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => removeFile(index)}
-                className={cn(
-                  "size-7 shrink-0 rounded-cms-sm",
-                  "flex items-center justify-center",
-                  "border-none bg-transparent text-cms-gray-450",
-                  "hover:bg-cms-gray-100 hover:text-cms-gray-900",
-                  "transition-colors",
-                )}
-                aria-label="파일 제거"
-              >
-                <CloseIcon size={14} />
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+            ))}
+          </div>
+        )}
+      </div>
+    );
   },
 );
 

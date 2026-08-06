@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId, useState } from "react";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
 import {
@@ -11,6 +11,8 @@ import {
 export type TextInputProps = {
   label?: string;
   required?: boolean;
+  /** 필수 표시(*)에 병합할 클래스. 기본 색(red-400)을 제품 기획에 맞게 덮어쓸 때 사용한다. */
+  requiredClassName?: string;
   error?: boolean;
   errorMessage?: string;
   helperText?: string;
@@ -77,6 +79,20 @@ export type TextInputProps = {
  * {@end-tool}
  *
  * {@tool snippet}
+ * 필수 표시(*) 색상 덮어쓰기:
+ *
+ * 기본 색은 `red-400` 이다. 제품 기획이 다른 색을 요구하면 `requiredClassName` 으로 덮어쓴다.
+ *
+ * ```tsx
+ * <TextInput
+ *   label="병원명"
+ *   required
+ *   requiredClassName="text-cms-blue-600"
+ * />
+ * ```
+ * {@end-tool}
+ *
+ * {@tool snippet}
  * 가로 배치 레이아웃:
  *
  * ```tsx
@@ -130,6 +146,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       fullWidth,
       label,
       required,
+      requiredClassName,
       error,
       errorMessage,
       helperText,
@@ -148,14 +165,14 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     },
     ref,
   ) => {
-    const generatedInputId = React.useId();
+    const reactId = useId();
     const isControlled = value !== undefined;
     const toDisplayString = (inputValue: typeof value): string =>
       inputValue == null ? "" : String(inputValue);
-    const [internalValue, setInternalValue] = React.useState<string>(
+    const [internalValue, setInternalValue] = useState<string>(
       toDisplayString(defaultValue),
     );
-    const inputId = id || generatedInputId;
+    const inputId = id || reactId;
     const errorMessageId = `${inputId}-error`;
     const helperTextId = `${inputId}-helper`;
     const finalVariant = error ? "error" : variant;
@@ -239,7 +256,13 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
                 style={{ width: labelWidth }}
               >
                 {label}
-                {required && <span className="ml-1 text-cms-red-400">*</span>}
+                {required && (
+                  <span
+                    className={cn("ml-1 text-cms-red-400", requiredClassName)}
+                  >
+                    *
+                  </span>
+                )}
               </label>
             )}
             <div className="flex-1">{renderInput(true)}</div>
@@ -256,7 +279,14 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
                   <label htmlFor={inputId} className={labelVariants()}>
                     {label}
                     {required && (
-                      <span className="ml-1 text-cms-red-400">*</span>
+                      <span
+                        className={cn(
+                          "ml-1 text-cms-red-400",
+                          requiredClassName,
+                        )}
+                      >
+                        *
+                      </span>
                     )}
                   </label>
                 : <div />}

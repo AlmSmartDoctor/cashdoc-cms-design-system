@@ -1,12 +1,7 @@
 import React from "react";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
-import {
-  CheckIcon,
-  CloseIcon,
-  InfoIcon,
-  WarningIcon,
-} from "../icons";
+import { CheckIcon, CloseIcon, InfoIcon, WarningIcon } from "../icons";
 import { toastVariants } from "./variants";
 
 const intentIconColor = {

@@ -1,10 +1,8 @@
+import { forwardRef } from "react";
 import * as ToggleGroup from "@radix-ui/react-toggle-group";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
-import {
-  countFilterChipVariants,
-  countBadgeVariants,
-} from "./variants";
+import { countFilterChipVariants, countBadgeVariants } from "./variants";
 
 export type CountFilterChipsSize = NonNullable<
   VariantProps<typeof countFilterChipVariants>["size"]
@@ -20,6 +18,8 @@ export type CountFilterChipsItem<T extends string | number> = {
   /** 개별 chip 비활성화 */
   disabled?: boolean;
 };
+
+type CountFilterChipsRef = React.ElementRef<typeof ToggleGroup.Root>;
 
 export type CountFilterChipsProps<T extends string | number> = {
   /** 표시할 chip 목록 */
@@ -91,15 +91,20 @@ export type CountFilterChipsProps<T extends string | number> = {
  * />
  * ```
  */
-export const CountFilterChips = <T extends string | number>({
-  items,
-  value,
-  onValueChange,
-  size = "md",
-  className,
-  itemClassName,
-  ariaLabel = "Filter",
-}: CountFilterChipsProps<T>) => {
+const CountFilterChipsBase = forwardRef(function CountFilterChips<
+  T extends string | number,
+>(
+  {
+    items,
+    value,
+    onValueChange,
+    size = "md",
+    className,
+    itemClassName,
+    ariaLabel = "Filter",
+  }: CountFilterChipsProps<T>,
+  ref: React.ForwardedRef<CountFilterChipsRef>,
+) {
   const handleValueChange = (next: string) => {
     if (!next) return;
     const selected = items.find((item) => String(item.value) === next);
@@ -109,6 +114,7 @@ export const CountFilterChips = <T extends string | number>({
 
   return (
     <ToggleGroup.Root
+      ref={ref}
       type="single"
       value={String(value)}
       onValueChange={handleValueChange}
@@ -120,19 +126,20 @@ export const CountFilterChips = <T extends string | number>({
           key={String(item.value)}
           value={String(item.value)}
           disabled={item.disabled}
-          className={cn(
-            countFilterChipVariants({ size }),
-            itemClassName,
-          )}
+          className={cn(countFilterChipVariants({ size }), itemClassName)}
         >
           <span>{item.label}</span>
-          <span className={cn(countBadgeVariants({ size }))}>
-            {item.count}
-          </span>
+          <span className={cn(countBadgeVariants({ size }))}>{item.count}</span>
         </ToggleGroup.Item>
       ))}
     </ToggleGroup.Root>
   );
-};
+});
 
-CountFilterChips.displayName = "CountFilterChips";
+CountFilterChipsBase.displayName = "CountFilterChips";
+
+export const CountFilterChips = CountFilterChipsBase as <
+  T extends string | number,
+>(
+  props: CountFilterChipsProps<T> & React.RefAttributes<CountFilterChipsRef>,
+) => React.ReactElement;

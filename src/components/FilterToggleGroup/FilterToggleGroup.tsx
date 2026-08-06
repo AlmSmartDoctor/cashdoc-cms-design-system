@@ -209,13 +209,13 @@ const FilterToggleGroupBase = forwardRef(function FilterToggleGroup<
         const intent = item.intent ?? "default";
         const showDot = intent !== "default" && intent !== "primary";
         const dotClass =
-          isSelected
-            ? filterToggleGroupIntentSelectedDotClassMap[intent]
-            : filterToggleGroupIntentDotClassMap[intent];
+          isSelected ?
+            filterToggleGroupIntentSelectedDotClassMap[intent]
+          : filterToggleGroupIntentDotClassMap[intent];
         const iconColorClass =
-          isSelected
-            ? "text-cms-white"
-            : filterToggleGroupIntentIconClassMap[intent];
+          isSelected ? "text-cms-white" : (
+            filterToggleGroupIntentIconClassMap[intent]
+          );
 
         return (
           <ToggleGroup.Item
@@ -290,10 +290,7 @@ const FilterToggleGroupBase = forwardRef(function FilterToggleGroup<
             >
               {showDot && (
                 <span
-                  className={cn(
-                    "size-1.5 shrink-0 rounded-full",
-                    dotClass,
-                  )}
+                  className={cn("size-1.5 shrink-0 rounded-full", dotClass)}
                   aria-hidden
                 />
               )}
@@ -311,6 +308,5 @@ FilterToggleGroupBase.displayName = "FilterToggleGroup";
 export const FilterToggleGroup = FilterToggleGroupBase as <
   T extends string | number,
 >(
-  props: FilterToggleGroupProps<T> &
-    React.RefAttributes<FilterToggleGroupRef>,
+  props: FilterToggleGroupProps<T> & React.RefAttributes<FilterToggleGroupRef>,
 ) => React.ReactElement;
