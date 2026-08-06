@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
+  # base 필터 없음 — 모든 PR(스택 PR 포함)이 CI를 탄다
   pull_request:
-    branches: [main, develop]
 
 jobs:
   lint-and-typecheck:

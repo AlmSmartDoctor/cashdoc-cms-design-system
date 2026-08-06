@@ -14,8 +14,10 @@ type StorybookIndex = {
 // 스토리 개편(스토리 id 변경) 시에도 커버리지 공백이 생기지 않는다.
 test.describe("Storybook 스모크", () => {
   test("모든 스토리가 에러 없이 렌더링된다", async ({ page }) => {
-    // 스토리 수에 비례해 오래 걸리므로 테스트 단위로 타임아웃 확장
-    test.setTimeout(10 * 60 * 1000);
+    // 스토리 수에 비례해 오래 걸리므로 테스트 단위로 타임아웃 확장.
+    // 로컬 실측 ~20s. CI 재시도 2회를 감안해도 job timeout(30분)을
+    // 넘지 않도록 5분으로 제한한다.
+    test.setTimeout(5 * 60 * 1000);
 
     const response = await page.request.get("/index.json");
     expect(response.ok()).toBe(true);
