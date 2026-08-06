@@ -202,9 +202,7 @@ export const Showcase: Story = {
             <TableRow>
               <TableCell colSpan={2}>합계</TableCell>
               <TableCell align="right" className="font-bold">
-                {orders
-                  .reduce((s, o) => s + o.amount, 0)
-                  .toLocaleString()}원
+                {orders.reduce((s, o) => s + o.amount, 0).toLocaleString()}원
               </TableCell>
               <TableCell colSpan={2} />
             </TableRow>

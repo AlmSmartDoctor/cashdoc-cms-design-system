@@ -73,7 +73,8 @@ export const Showcase: Story = {
           maxTags={10}
           placeholder="이메일 입력 후 Enter"
           validateTag={(tag) =>
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(tag) || "올바른 이메일 형식이 아니에요"
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(tag) ||
+            "올바른 이메일 형식이 아니에요"
           }
         />
       </Section>

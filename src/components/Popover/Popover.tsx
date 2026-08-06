@@ -108,30 +108,33 @@ const PopoverContent = forwardRef<
     { className, align = "start", sideOffset = 8, container, ...props },
     ref,
   ) => (
-  <PopoverPrimitive.Portal container={usePortalContainer(container)}>
-    <PopoverPrimitive.Content
-      ref={ref}
-      align={align}
-      sideOffset={sideOffset}
-      className={cn(
-        "z-cms-overlay min-w-50 p-1.5",
-        "rounded-cms-lg border border-cms-gray-200",
-        "bg-cms-white",
-        "shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]",
-        "animate-in fade-in-0 zoom-in-95",
-        "data-[state=closed]:animate-out",
-        "data-[state=closed]:fade-out-0",
-        "data-[state=closed]:zoom-out-95",
-        "data-[side=bottom]:slide-in-from-top-2",
-        "data-[side=left]:slide-in-from-right-2",
-        "data-[side=right]:slide-in-from-left-2",
-        "data-[side=top]:slide-in-from-bottom-2",
-        className,
-      )}
-      {...props}
-    />
-  </PopoverPrimitive.Portal>
-));
+    <PopoverPrimitive.Portal container={usePortalContainer(container)}>
+      <PopoverPrimitive.Content
+        ref={ref}
+        align={align}
+        sideOffset={sideOffset}
+        className={cn(
+          "z-cms-overlay min-w-50 p-1.5",
+          "rounded-cms-lg border border-cms-gray-200",
+          "bg-cms-white",
+          `
+            shadow-[0_12px_24px_rgba(15,20,25,0.08),0_4px_8px_rgba(15,20,25,0.04)]
+          `,
+          "animate-in fade-in-0 zoom-in-95",
+          "data-[state=closed]:animate-out",
+          "data-[state=closed]:fade-out-0",
+          "data-[state=closed]:zoom-out-95",
+          "data-[side=bottom]:slide-in-from-top-2",
+          "data-[side=left]:slide-in-from-right-2",
+          "data-[side=right]:slide-in-from-left-2",
+          "data-[side=top]:slide-in-from-bottom-2",
+          className,
+        )}
+        {...props}
+      />
+    </PopoverPrimitive.Portal>
+  ),
+);
 PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 
 export { Popover, PopoverTrigger, PopoverContent };

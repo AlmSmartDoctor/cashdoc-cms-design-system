@@ -71,7 +71,5 @@ className={cn(
 컴포넌트 `className`에 Tailwind arbitrary value를 전달하면 해당 인스턴스만 바뀝니다.
 
 ```tsx
-<Popover className="z-9999">
-  …
-</Popover>
+<Popover className="z-9999">…</Popover>
 ```

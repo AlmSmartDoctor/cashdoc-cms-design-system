@@ -218,8 +218,7 @@ export const Cascader = forwardRef<HTMLButtonElement, CascaderProps>(
     const hasValue = labels.length > 0;
     const display =
       hasValue ?
-        displayRender ?
-          displayRender(labels)
+        displayRender ? displayRender(labels)
         : labels.join(" / ")
       : placeholder;
 
@@ -289,12 +288,7 @@ export const Cascader = forwardRef<HTMLButtonElement, CascaderProps>(
               error && "border-cms-red-500 focus-visible:ring-cms-red-500/20",
             )}
           >
-            <span
-              className={cn(
-                "truncate",
-                !hasValue && "text-cms-gray-450",
-              )}
-            >
+            <span className={cn("truncate", !hasValue && "text-cms-gray-450")}>
               {display}
             </span>
             <ChevronDownIcon
@@ -340,8 +334,7 @@ export const Cascader = forwardRef<HTMLButtonElement, CascaderProps>(
                   {column.map((option) => {
                     const hasChildren = Boolean(option.children?.length);
                     const isActive = activePath[colIndex] === option.value;
-                    const isSelected =
-                      currentValue[colIndex] === option.value;
+                    const isSelected = currentValue[colIndex] === option.value;
                     return (
                       <button
                         key={option.value}
@@ -370,7 +363,10 @@ export const Cascader = forwardRef<HTMLButtonElement, CascaderProps>(
                         <span className="truncate">{option.label}</span>
                         {hasChildren && (
                           <ChevronRightFillIcon
-                            className="size-3 shrink-0 text-cms-gray-400"
+                            className={cn(
+                              "size-3 shrink-0",
+                              "text-cms-gray-400",
+                            )}
                           />
                         )}
                       </button>

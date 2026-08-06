@@ -19,11 +19,13 @@
 ## 3. 리뷰 워크플로우
 
 리뷰 출력 기본 형식:
+
 - Findings (P1/P2/P3)
 - Open Questions
 - Change Summary
 
 리뷰 우선순위:
+
 - 타입 호환성/런타임 오류
 - 접근성 회귀
 - API 일관성
@@ -33,6 +35,7 @@
 ## 4. 머지 게이트
 
 최소 통과 조건:
+
 - lint/type-check 통과
 - build 통과
 - 변경 범위에 맞는 E2E 또는 검증 근거 확보

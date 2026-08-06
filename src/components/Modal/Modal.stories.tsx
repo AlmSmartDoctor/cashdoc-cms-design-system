@@ -152,8 +152,7 @@ export const Showcase: Story = {
  * 안전하게 담을 수 있습니다. 스크린리더용 설명이 필요하면 `description`
  * prop으로 전달하면 시각적으로 숨긴 채 `aria-describedby`에 연결됩니다.
  */
-const fieldClass =
-  "h-9 rounded-cms-md border border-cms-gray-250 px-3 text-sm";
+const fieldClass = "h-9 rounded-cms-md border border-cms-gray-250 px-3 text-sm";
 
 export const WithBlockContent: Story = {
   render: () => {
@@ -179,17 +178,11 @@ export const WithBlockContent: Story = {
           <div className="flex flex-col gap-3">
             <label className="flex flex-col gap-1">
               <span className="text-xs text-cms-gray-550">이름</span>
-              <input
-                className={fieldClass}
-                placeholder="홍길동"
-              />
+              <input className={fieldClass} placeholder="홍길동" />
             </label>
             <label className="flex flex-col gap-1">
               <span className="text-xs text-cms-gray-550">이메일</span>
-              <input
-                className={fieldClass}
-                placeholder="user@example.com"
-              />
+              <input className={fieldClass} placeholder="user@example.com" />
             </label>
           </div>
         </Modal>

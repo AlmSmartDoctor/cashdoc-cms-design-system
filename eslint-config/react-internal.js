@@ -13,7 +13,6 @@ export const config = [
       "playwright-report/**",
       "__screenshots__/**",
       ".storybook/**",
-      "e2e/**",
       "scripts/**",
       "eslint-config/**",
       "**/*.js",

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
+import { cn } from "@/utils/cn";
 import { Checkbox } from "./Checkbox";
 import { cn } from "@/utils/cn";
 

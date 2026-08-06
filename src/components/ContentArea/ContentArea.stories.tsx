@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { cn } from "@/utils/cn";
 import { ContentArea } from "./ContentArea";
 
 const meta: Meta<typeof ContentArea> = {
@@ -85,26 +86,26 @@ export const WithHeaderAndFooter: Story = {
         <ContentArea.Header className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span
-              className={`
-                rounded-cms-sm bg-cms-gray-900 px-2 py-1
-                text-[11px] font-semibold text-cms-white
-              `}
+              className={cn(
+                "rounded-cms-sm bg-cms-gray-900 px-2 py-1",
+                "text-[11px] font-semibold text-cms-white",
+              )}
             >
               전체 47
             </span>
             <span
-              className={`
-                rounded-cms-sm bg-cms-gray-100 px-2 py-1
-                text-[11px] font-medium text-cms-gray-700
-              `}
+              className={cn(
+                "rounded-cms-sm bg-cms-gray-100 px-2 py-1",
+                "text-[11px] font-medium text-cms-gray-700",
+              )}
             >
               노출 중 12
             </span>
             <span
-              className={`
-                rounded-cms-sm bg-cms-gray-100 px-2 py-1
-                text-[11px] font-medium text-cms-gray-700
-              `}
+              className={cn(
+                "rounded-cms-sm bg-cms-gray-100 px-2 py-1",
+                "text-[11px] font-medium text-cms-gray-700",
+              )}
             >
               종료 32
             </span>
@@ -112,10 +113,13 @@ export const WithHeaderAndFooter: Story = {
           <input
             type="search"
             placeholder="검색"
-            className={`
-              h-8 rounded-cms-sm border border-cms-gray-200 px-3 text-sm
-              outline-none placeholder:text-cms-gray-450
-            `}
+            className={cn(
+              "h-8 rounded-cms-sm border border-cms-gray-200 px-3",
+              `
+                text-sm outline-none
+                placeholder:text-cms-gray-450
+              `,
+            )}
           />
         </ContentArea.Header>
         <ContentArea.Body>
@@ -145,9 +149,7 @@ export const WithHeaderAndFooter: Story = {
           <span className="text-[12px] text-cms-gray-550">
             10건 / 전체 47건
           </span>
-          <div className="text-[12px] text-cms-gray-700">
-            1 2 3 4 5
-          </div>
+          <div className="text-[12px] text-cms-gray-700">1 2 3 4 5</div>
         </ContentArea.Footer>
       </ContentArea>
     </div>
@@ -160,17 +162,18 @@ export const HeaderOnly: Story = {
       <ContentArea padding="none">
         <ContentArea.Header className="flex items-center justify-between">
           <h2 className="text-sm font-bold">이벤트 목록</h2>
-          <button className={`
-            h-7 rounded-cms-sm border border-cms-gray-250 px-3 text-[12px]
-            font-semibold text-cms-gray-850 hover:bg-cms-gray-50
-          `}>
+          <button
+            className={cn(
+              "h-7 rounded-cms-sm border border-cms-gray-250 px-3",
+              "text-[12px] font-semibold text-cms-gray-850",
+              "hover:bg-cms-gray-50",
+            )}
+          >
             새로 만들기
           </button>
         </ContentArea.Header>
         <ContentArea.Body>
-          <div className="p-5 text-sm text-cms-gray-700">
-            본문 영역입니다.
-          </div>
+          <div className="p-5 text-sm text-cms-gray-700">본문 영역입니다.</div>
         </ContentArea.Body>
       </ContentArea>
     </div>

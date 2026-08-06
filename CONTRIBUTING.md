@@ -91,11 +91,11 @@ https://raw.githubusercontent.com/AlmSmartDoctor/ccds-screenshots/main/screensho
 
 Storybook과 JSDoc은 대체 관계가 아니라 역할 분담 관계입니다.
 
-| 구분 | Storybook (Stories) | JSDoc (In-Code) |
-| --- | --- | --- |
-| 주요 목적 | 실제 동작 확인, 인터랙션 검증, 온보딩 | IDE 내 즉시 가이드, 오용 방지 |
-| 장점 | props를 바꿔가며 테스트 가능 | 코드 작성 중 즉시 확인 가능 |
-| 운영 원칙 | 동작/상태를 넓게 보여준다 | 의도/제약/사용 기준을 명확히 남긴다 |
+| 구분      | Storybook (Stories)                   | JSDoc (In-Code)                     |
+| --------- | ------------------------------------- | ----------------------------------- |
+| 주요 목적 | 실제 동작 확인, 인터랙션 검증, 온보딩 | IDE 내 즉시 가이드, 오용 방지       |
+| 장점      | props를 바꿔가며 테스트 가능          | 코드 작성 중 즉시 확인 가능         |
+| 운영 원칙 | 동작/상태를 넓게 보여준다             | 의도/제약/사용 기준을 명확히 남긴다 |
 
 ## 5. PR 리뷰 방법
 
@@ -241,7 +241,7 @@ VS Code `User Snippets`에 등록해 사용하면 편리합니다.
 3. `typescriptreact`를 선택합니다.
 4. 아래 JSON을 붙여넣고 저장합니다.
 
-```json
+````json
 {
   "CCDS JSDoc Template": {
     "prefix": "ccdoc",
@@ -280,7 +280,7 @@ VS Code `User Snippets`에 등록해 사용하면 편리합니다.
     "description": "CCDS 디자인 시스템 JSDoc 템플릿"
   }
 }
-```
+````
 
 ### 사용 방법
 

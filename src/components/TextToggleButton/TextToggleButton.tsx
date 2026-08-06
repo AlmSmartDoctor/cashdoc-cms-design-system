@@ -136,10 +136,7 @@ const TextToggleButton = forwardRef<HTMLButtonElement, TextToggleButtonProps>(
         aria-expanded={expanded}
         aria-controls={controls}
         aria-label={ariaLabel ?? label}
-        className={cn(
-          textToggleButtonVariants({ variant, size }),
-          className,
-        )}
+        className={cn(textToggleButtonVariants({ variant, size }), className)}
         onClick={() => onToggle(!expanded)}
         {...props}
       >

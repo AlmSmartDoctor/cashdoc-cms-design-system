@@ -93,10 +93,7 @@ export const Showcase: Story = {
         <RemovableDemo />
       </Section>
       <Section label="Clickable">
-        <Tag
-          color="blue"
-          onClick={() => alert("clicked")}
-        >
+        <Tag color="blue" onClick={() => alert("clicked")}>
           클릭 가능
         </Tag>
       </Section>

@@ -2,10 +2,7 @@ import { forwardRef } from "react";
 import * as ToggleGroup from "@radix-ui/react-toggle-group";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/cn";
-import {
-  countFilterChipVariants,
-  countBadgeVariants,
-} from "./variants";
+import { countFilterChipVariants, countBadgeVariants } from "./variants";
 
 export type CountFilterChipsSize = NonNullable<
   VariantProps<typeof countFilterChipVariants>["size"]
@@ -129,15 +126,10 @@ const CountFilterChipsBase = forwardRef(function CountFilterChips<
           key={String(item.value)}
           value={String(item.value)}
           disabled={item.disabled}
-          className={cn(
-            countFilterChipVariants({ size }),
-            itemClassName,
-          )}
+          className={cn(countFilterChipVariants({ size }), itemClassName)}
         >
           <span>{item.label}</span>
-          <span className={cn(countBadgeVariants({ size }))}>
-            {item.count}
-          </span>
+          <span className={cn(countBadgeVariants({ size }))}>{item.count}</span>
         </ToggleGroup.Item>
       ))}
     </ToggleGroup.Root>

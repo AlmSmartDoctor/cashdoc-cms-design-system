@@ -573,7 +573,9 @@
   }
 
   .date-range-picker-calendar
-    .rdp-day_button:hover:not([disabled]):not(.rdp-selected):not(.rdp-day_selected) {
+    .rdp-day_button:hover:not([disabled]):not(.rdp-selected):not(
+      .rdp-day_selected
+    ) {
     background-color: var(--cashdoc-gray-100);
   }
 
@@ -600,10 +602,14 @@
   .date-range-picker-calendar .rdp-day_range_start .rdp-day_button,
   .date-range-picker-calendar .rdp-day_range_end .rdp-day_button,
   .date-range-picker-calendar
-    .rdp-selected:not(.rdp-range_middle):not(.rdp-range_start):not(.rdp-range_end)
+    .rdp-selected:not(.rdp-range_middle):not(.rdp-range_start):not(
+      .rdp-range_end
+    )
     .rdp-day_button,
   .date-range-picker-calendar
-    .rdp-day_selected:not(.rdp-day_range_middle):not(.rdp-day_range_start):not(.rdp-day_range_end)
+    .rdp-day_selected:not(.rdp-day_range_middle):not(.rdp-day_range_start):not(
+      .rdp-day_range_end
+    )
     .rdp-day_button {
     position: relative;
     z-index: 0;
@@ -618,10 +624,14 @@
   .date-range-picker-calendar .rdp-day_range_start .rdp-day_button::before,
   .date-range-picker-calendar .rdp-day_range_end .rdp-day_button::before,
   .date-range-picker-calendar
-    .rdp-selected:not(.rdp-range_middle):not(.rdp-range_start):not(.rdp-range_end)
+    .rdp-selected:not(.rdp-range_middle):not(.rdp-range_start):not(
+      .rdp-range_end
+    )
     .rdp-day_button::before,
   .date-range-picker-calendar
-    .rdp-day_selected:not(.rdp-day_range_middle):not(.rdp-day_range_start):not(.rdp-day_range_end)
+    .rdp-day_selected:not(.rdp-day_range_middle):not(.rdp-day_range_start):not(
+      .rdp-day_range_end
+    )
     .rdp-day_button::before {
     content: "";
     position: absolute;
@@ -680,17 +690,13 @@
   .year-range-picker-calendar .rdp-day_range_end {
     background-color: var(--cashdoc-blue-50) !important;
   }
-  .month-range-picker-calendar
-    .rdp-day_range_start:not(.rdp-day_range_end),
-  .year-range-picker-calendar
-    .rdp-day_range_start:not(.rdp-day_range_end) {
+  .month-range-picker-calendar .rdp-day_range_start:not(.rdp-day_range_end),
+  .year-range-picker-calendar .rdp-day_range_start:not(.rdp-day_range_end) {
     border-top-left-radius: var(--radius-cms-sm);
     border-bottom-left-radius: var(--radius-cms-sm);
   }
-  .month-range-picker-calendar
-    .rdp-day_range_end:not(.rdp-day_range_start),
-  .year-range-picker-calendar
-    .rdp-day_range_end:not(.rdp-day_range_start) {
+  .month-range-picker-calendar .rdp-day_range_end:not(.rdp-day_range_start),
+  .year-range-picker-calendar .rdp-day_range_end:not(.rdp-day_range_start) {
     border-top-right-radius: var(--radius-cms-sm);
     border-bottom-right-radius: var(--radius-cms-sm);
   }
@@ -779,10 +785,14 @@
 
   /* Hover (선택되지 않은 셀만) */
   .month-range-picker-calendar
-    .rdp-day:not(.rdp-day_selected):not(.rdp-day_range_middle):not(.rdp-day_range_start):not(.rdp-day_range_end)
+    .rdp-day:not(.rdp-day_selected):not(.rdp-day_range_middle):not(
+      .rdp-day_range_start
+    ):not(.rdp-day_range_end)
     .rdp-day_button:hover:not([disabled]),
   .year-range-picker-calendar
-    .rdp-day:not(.rdp-day_selected):not(.rdp-day_range_middle):not(.rdp-day_range_start):not(.rdp-day_range_end)
+    .rdp-day:not(.rdp-day_selected):not(.rdp-day_range_middle):not(
+      .rdp-day_range_start
+    ):not(.rdp-day_range_end)
     .rdp-day_button:hover:not([disabled]) {
     background-color: var(--cashdoc-gray-100) !important;
   }
@@ -866,8 +876,10 @@
     pointer-events: none;
   }
 
-  .date-range-picker-calendar .rdp-today:not(.rdp-selected):not(.rdp-day_selected),
-  .date-range-picker-calendar .rdp-day_today:not(.rdp-day_selected):not(.rdp-selected) {
+  .date-range-picker-calendar
+    .rdp-today:not(.rdp-selected):not(.rdp-day_selected),
+  .date-range-picker-calendar
+    .rdp-day_today:not(.rdp-day_selected):not(.rdp-selected) {
     font-weight: 700;
     color: var(--cashdoc-blue-600);
   }
@@ -973,7 +985,9 @@
   }
 
   .date-picker-calendar
-    .rdp-day_button:hover:not([disabled]):not(.rdp-selected):not(.rdp-day_selected) {
+    .rdp-day_button:hover:not([disabled]):not(.rdp-selected):not(
+      .rdp-day_selected
+    ) {
     background-color: var(--cashdoc-gray-100);
   }
 
@@ -1043,7 +1057,8 @@
   }
 
   .date-picker-calendar .rdp-today:not(.rdp-selected):not(.rdp-day_selected),
-  .date-picker-calendar .rdp-day_today:not(.rdp-day_selected):not(.rdp-selected) {
+  .date-picker-calendar
+    .rdp-day_today:not(.rdp-day_selected):not(.rdp-selected) {
     font-weight: 700;
     color: var(--cashdoc-blue-600);
   }

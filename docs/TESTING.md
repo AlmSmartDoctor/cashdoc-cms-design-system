@@ -30,6 +30,7 @@ pnpm exec playwright test e2e/button.spec.ts
 ## 4. 회귀 테스트 기준
 
 아래 변경에는 테스트 추가/수정이 필요합니다.
+
 - props 동작 변경
 - variant 상태 변경
 - 접근성 속성 변경
@@ -44,6 +45,7 @@ pnpm exec playwright test e2e/button.spec.ts
 ## 6. CI 연계
 
 CI는 아래를 기본 실행합니다.
+
 - `pnpm lint`
 - `pnpm type-check`
 - `pnpm test:e2e`
