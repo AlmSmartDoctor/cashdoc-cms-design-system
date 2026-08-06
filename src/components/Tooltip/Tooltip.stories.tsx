@@ -28,7 +28,10 @@ const meta: Meta<typeof Tooltip> = {
       options: ["start", "center", "end"],
       table: { defaultValue: { summary: "center" } },
     },
-    showArrow: { control: "boolean", table: { defaultValue: { summary: "true" } } },
+    showArrow: {
+      control: "boolean",
+      table: { defaultValue: { summary: "true" } },
+    },
   },
 };
 

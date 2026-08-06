@@ -154,7 +154,7 @@ function CustomBarLabel({
  * - **막대 너비**: 컨테이너 너비에 맞게 균등 분배하되, 최소 32px(w-8)를 보장합니다.
  * - **가로 스크롤**: 막대가 최소 너비보다 좁아지면 차트 영역이 가로 스크롤됩니다.
  * - **차트 높이**: `chartHeight` prop으로 지정하며 기본값은 400px입니다.
- * - **막대 색상**: value=0이면 투명(막대 미표시), 그 외엔 CMS blue(#358fff)입니다.
+ * - **막대 색상**: value=0이면 투명(막대 미표시), 그 외엔 CMS gray900(#0f1419)입니다.
  * - **값 레이블**: 막대 높이가 차트 높이의 5% 미만이면 막대 외부(상단)에 표시합니다.
  * - **x축 레이블**: -45° 기울임으로 긴 레이블도 잘리지 않게 표시합니다.
  * - **너비**: 부모 컨테이너 전체 너비를 채웁니다 (`w-full`).
@@ -264,7 +264,12 @@ const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         {(title || unitLabel) && (
           <div className="mb-3 flex items-center justify-between gap-2">
             {title && (
-              <p className="text-[17px] font-bold tracking-tight text-cms-gray-900">
+              <p
+                className={cn(
+                  "text-[17px] font-bold tracking-tight",
+                  "text-cms-gray-900",
+                )}
+              >
                 {title}
               </p>
             )}

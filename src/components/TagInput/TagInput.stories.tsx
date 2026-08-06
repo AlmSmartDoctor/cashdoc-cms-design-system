@@ -82,7 +82,7 @@ export const Showcase: Story = {
         <TagInput
           label="고정 태그"
           value={["VIP", "신규"]}
-          onChange={() => {}}
+          onChange={() => undefined}
           readOnly
         />
       </Section>

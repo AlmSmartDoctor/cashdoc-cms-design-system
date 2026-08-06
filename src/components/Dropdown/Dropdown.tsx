@@ -9,7 +9,6 @@ import {
   useState,
   useRef,
   useEffect,
-  useCallback,
   useMemo,
   forwardRef,
 } from "react";
@@ -366,27 +365,29 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
       }
     };
 
-    const handleOptionMouseEnter = useCallback(
-      (option: DropdownOption, hasSubmenu: boolean) => {
-        clearSubmenuCloseTimeout();
-        if (!hasSubmenu) {
-          setHoveredSubmenu(null);
-          return;
-        }
-        const el = optionRefs.current.get(option.value);
-        if (el && optionsListRef.current) {
-          const optionRect = el.getBoundingClientRect();
-          const listRect = optionsListRef.current.getBoundingClientRect();
-          // 서브메뉴는 스크롤 컨테이너 바깥(.relative 부모, 스크롤 안 됨) 기준
-          // absolute이므로 scrollTop을 더하면 그만큼 아래로 밀린다.
-          setHoveredSubmenu({
-            value: option.value,
-            top: optionRect.top - listRect.top,
-          });
-        }
-      },
-      [optionsListRef],
-    );
+    // useCallback 제거: React Compiler가 자동 메모이제이션한다.
+    // (handleOpenChange와 동일 — 수동 memo가 컴파일을 막던 지점)
+    const handleOptionMouseEnter = (
+      option: DropdownOption,
+      hasSubmenu: boolean,
+    ) => {
+      clearSubmenuCloseTimeout();
+      if (!hasSubmenu) {
+        setHoveredSubmenu(null);
+        return;
+      }
+      const el = optionRefs.current.get(option.value);
+      if (el && optionsListRef.current) {
+        const optionRect = el.getBoundingClientRect();
+        const listRect = optionsListRef.current.getBoundingClientRect();
+        // 서브메뉴는 스크롤 컨테이너 바깥(.relative 부모, 스크롤 안 됨) 기준
+        // absolute이므로 scrollTop을 더하면 그만큼 아래로 밀린다.
+        setHoveredSubmenu({
+          value: option.value,
+          top: optionRect.top - listRect.top,
+        });
+      }
+    };
 
     useEffect(() => {
       return () => {
@@ -752,7 +753,10 @@ const DropdownInternal = forwardRef<HTMLButtonElement, DropdownPropsInternal>(
                         <div
                           role="menu"
                           className={cn(
-                            `absolute left-full z-cms-overlay ml-1 min-w-40 py-1`,
+                            `
+                              absolute left-full z-cms-overlay ml-1 min-w-40
+                              py-1
+                            `,
                             "rounded-cms-xl border border-cms-gray-300",
                             "bg-cms-white shadow-lg",
                             // base 의 cms-dropdown-show 대체.
