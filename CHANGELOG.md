@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.9.4](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.9.3...v2.9.4) (2026-08-06)
+
+
+### Bug Fixes
+
+* **CountFilterChips:** forwardRef 적용으로 루트 ref 전달 지원 ([bc1832f](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/commit/bc1832f45745671552bc319643b6e832f187aef8))
+
 ### [2.9.3](https://github.com/AlmSmartDoctor/cashdoc-cms-design-system/compare/v2.9.2...v2.9.3) (2026-07-31)
 
 
