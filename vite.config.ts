@@ -31,14 +31,14 @@ const isExternal = (id: string) => {
 export default defineConfig({
   plugins: [
     react(),
-    ...(UMD_BUILD
-      ? []
-      : [
-          dts({
-            insertTypesEntry: true,
-            exclude: ["**/*.stories.tsx", "**/*.test.tsx"],
-          }),
-        ]),
+    ...(UMD_BUILD ?
+      []
+    : [
+        dts({
+          insertTypesEntry: true,
+          exclude: ["**/*.stories.tsx", "**/*.test.tsx"],
+        }),
+      ]),
   ],
   resolve: {
     alias: {
@@ -56,8 +56,9 @@ export default defineConfig({
       /* dependencies 도 external 로 둡니다. preserveModules 는 번들에 흡수하지 않은
          의존성을 dist/node_modules 아래로 복사해버려, 소비자 쪽에 중복 사본이 생깁니다. */
       external: isExternal,
-      output: UMD_BUILD
-        ? {
+      output:
+        UMD_BUILD ?
+          {
             globals: {
               react: "React",
               "react-dom": "ReactDOM",
